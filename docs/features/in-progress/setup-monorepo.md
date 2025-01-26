@@ -13,6 +13,9 @@
     - [Structure obligatoire des dossiers](#structure-obligatoire-des-dossiers)
   - [🏗️ Installation Monorepo](#️-installation-monorepo)
     - [1. Configuration Turborepo](#1-configuration-turborepo)
+      - [Example of package.json](#example-of-packagejson)
+      - [Example of turbo.json](#example-of-turbojson)
+      - [Example of gitignore](#example-of-gitignore)
     - [2. Installation Backend (NestJS)](#2-installation-backend-nestjs)
     - [3. Installation Frontend (Remix)](#3-installation-frontend-remix)
   - [🐳 Docker Setup](#-docker-setup)
@@ -75,12 +78,72 @@ le-journal/ # répertoire racine du projet (courant)
  3. Vérifier la création des dossiers
 
 ```bash
-cd le-journal
-pnpm create turbo@latest monorepo --package-manager pnpm
-# Déplacer le contenu du monorepo dans le dossier courant
-mv monorepo/* .
-rm -rf monorepo
+pnpm init
+pnpm add -D turbo
+mkdir apps packages
 ```
+
+#### Example of package.json
+
+```json
+{
+  "name": "le-journal",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "latest"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "packageManager": "pnpm@8.x"
+}
+```
+
+#### Example of turbo.json
+
+```json
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "lint": {},
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}
+```
+
+#### Example of gitignore
+
+````
+# dependencies
+node_modules
+.pnp
+.pnp.js
+
+# turbo
+.turbo
+
+# build outputs
+dist
+
+# misc
+.DS_Store
+*.pem
+.env*
+!.env.example
+````
 
 ### 2. Installation Backend (NestJS)
 
@@ -113,7 +176,7 @@ pnpm exec @nestjs/cli new backend --language typescript --packageManager pnpm --
  3. Supprimer le .git généré
 
 ```bash
-npx create-react-router@latest --template remix-run/react-router-templates/default frontend
+npx create-react-router@latest --template remix-run/react-router-templates/default frontend --package-manager pnpm --no-install --no-git-init
 ```
 
 ## 🐳 Docker Setup
