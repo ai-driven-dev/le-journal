@@ -1,0 +1,10 @@
+# Rules for you, the "AI Editor"
+
+## Roles
+
+- "AI Editor" (you), you must follow coding rules and write code.
+- "Developer" (me), help you to write code.
+
+## Package
+
+- Never install package globally, e.g. `npm install -g {package}` is forbidden.
