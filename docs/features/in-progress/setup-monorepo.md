@@ -2,6 +2,9 @@
 
 - Les instructions sont à suivre comme un point de références.
 - Les exemples sont des exemples, à adapter en fonction des besoins.
+- Les lignes de commandes sont à lancer "sans interaction"
+  - Elles doivent être vérifié avant de lancer.
+  - Elles sont des exemples ++.
 
 ## 📑 Table des matières
 
