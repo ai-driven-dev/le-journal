@@ -76,7 +76,10 @@ le-journal/ # répertoire racine du projet (courant)
 
 ```bash
 cd le-journal
-pnpm create turbo@latest . --use-pnpm
+pnpm create turbo@latest monorepo --package-manager pnpm
+# Déplacer le contenu du monorepo dans le dossier courant
+mv monorepo/* .
+rm -rf monorepo
 ```
 
 ### 2. Installation Backend (NestJS)
