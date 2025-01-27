@@ -36,4 +36,4 @@
 
 - **Serveur OVH avec Docker**.
 - **GitHub Actions** pour linting, tests unitaires, et tests fonctionnels.
-- **Pas de Kubernetes pour le moment** (scalabilité manuelle via Docker). 
+- **Pas de Kubernetes pour le moment** (scalabilité manuelle via Docker).

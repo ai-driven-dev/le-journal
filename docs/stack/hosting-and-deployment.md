@@ -31,4 +31,4 @@
 - **Architecture monolithique** sur OVH.
 - **Montée en charge gérée en ajoutant des conteneurs Docker** au besoin.
 - **Gestion des tâches planifiées via OVH Cron Jobs**.
-- **Monitoring** non prévu au MVP, mais possible en V2 (ex: Prometheus/Grafana). 
+- **Monitoring** non prévu au MVP, mais possible en V2 (ex: Prometheus/Grafana).

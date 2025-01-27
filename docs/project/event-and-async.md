@@ -57,4 +57,4 @@
 ## 🌍 Gestion des Webhooks & Events Externes
 
 - **Webhooks Google pour détecter les nouveaux emails entrants** (évite du polling).
-- **Possibilité d'envoyer des notifications webhooks à d'autres services**. 
+- **Possibilité d'envoyer des notifications webhooks à d'autres services**.

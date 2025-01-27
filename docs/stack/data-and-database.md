@@ -50,4 +50,4 @@
 - **MeiliSearch pour indexer**
   - **Newsletters** (titre, contenu)
   - **Utilisateurs (optionnel)** pour une future recherche dans l'admin
-- **Synchronisation PostgreSQL → MeiliSearch** via événements Prisma 
+- **Synchronisation PostgreSQL → MeiliSearch** via événements Prisma
