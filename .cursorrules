@@ -1,1 +1,2 @@
-- Never install package globally.
+- Never install package globally, use pnpm -D for development dependencies instead.
+- Always use latest available version of packages.
