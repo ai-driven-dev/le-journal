@@ -20,6 +20,9 @@ le-journal/ # répertoire racine du projet (courant)
 
 ## 🏗️ Installation Monorepo complet
 
+- Si possible, utiliser les commandes fournies en exemple.
+- Ne pas installer de dépendances globales, utiliser pnpm -D.
+
 ### 1. Configuration Turborepo
 
 - **Documentation**: [Turborepo](https://turbo.build/repo/docs/crafting-your-repository)
