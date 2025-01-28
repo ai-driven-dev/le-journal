@@ -1,83 +1,93 @@
-# 🚀 Instructions : Monorepo NestJS/Remix
+# 🚀 Guide: NestJS/Remix Monorepo Setup
 
-## 🎯 Objectifs de l'instruction
+- [🚀 Guide: NestJS/Remix Monorepo Setup](#-guide-nestjsremix-monorepo-setup)
+  - [🎯 Instructions Goal](#-instructions-goal)
+  - [📚 Required Documentation](#-required-documentation)
+    - [Required Folder Structure](#required-folder-structure)
+  - [🏗️ Complete Monorepo Setup](#️-complete-monorepo-setup)
+    - [1. Turborepo Setup](#1-turborepo-setup)
+    - [2. Backend Setup (NestJS)](#2-backend-setup-nestjs)
+    - [3. Frontend Setup (Remix)](#3-frontend-setup-remix)
+  - [✅ Verification](#-verification)
 
-1. Mettre en place un monorepo avec Turborepo pour gérer plusieurs applications
-2. Configurer NestJS pour le backend en utilisant une architecture hexagonale
-3. Configurer Remix pour le frontend avec une architecture modulaire
+## 🎯 Instructions Goal
 
-## 📚 Documentation à suivre
+1. Set up Turborepo monorepo to manage multiple applications
+2. Set up NestJS backend using hexagonal architecture
+3. Set up Remix frontend using modular architecture
 
-### Structure obligatoire des dossiers
+## 📚 Required Documentation
 
-```
-le-journal/ # répertoire racine du projet (courant)
+### Required Folder Structure
+
+```text
+le-journal/ # root directory (current)
 ├── apps/
-│   ├── backend/    # Application NestJS
-│   └── frontend/   # Application Remix
-├── packages/       # Code partagé entre applications
+│   ├── backend/    # NestJS Application
+│   └── frontend/   # Remix Application
+├── packages/       # Shared code between applications
 ```
 
-## 🏗️ Installation Monorepo complet
+## 🏗️ Complete Monorepo Setup
 
-- Si possible, utiliser les commandes fournies en exemple.
-- Ne pas installer de dépendances globales, utiliser pnpm -D.
+- Use provided example commands when possible
+- Use pnpm -D for dependencies, avoid global installations
 
-### 1. Configuration Turborepo
+### 1. Turborepo Setup
 
-- **Documentation**: [Turborepo](https://turbo.build/repo/docs/crafting-your-repository)
-- **Objectif** : Initialiser la structure monorepo
-- **Étapes** :
+- **Docs**: [Turborepo](https://turbo.build/repo/docs/crafting-your-repository)
+- **Goal**: Initialize monorepo structure
+- **Steps**:
 
-1. Initialiser pnpm
-2. Installer Turborepo avec PNPM sans template
-3. Vérifier la création des dossiers
-4. Vérifier la configuration de Turborepo (package.json, turbo.js>on, .gitignore)
+1. Initialize pnpm
+2. Install Turborepo with PNPM (no template)
+3. Verify folder creation
+4. Check Turborepo config (package.json, turbo.json, .gitignore)
 
-### 2. Installation Backend (NestJS)
+### 2. Backend Setup (NestJS)
 
-- **Documentation**: [NestJS](https://docs.nestjs.com/first-steps)
-- **Objectif** : Créer l'application NestJS
-- **Étapes** :
+- **Docs**: [NestJS](https://docs.nestjs.com/first-steps)
+- **Goal**: Create NestJS application
+- **Steps**:
 
- 1. Se placer dans le dossier apps
- 2. Créer l'application NestJS
- 3. Règles :
-    1. TypeScript
-    2. Pas de template
-    3. Pas de .git
+1. Navigate to apps folder
+2. Create NestJS app
+3. Requirements:
+   1. TypeScript
+   2. No template
+   3. No .git
 
-Exemple de commande possible :
+Example command:
 
 ```bash
 cd apps
 pnpm exec @nestjs/cli new backend --language typescript --packageManager pnpm --strict --skipGit
 ```
 
-### 3. Installation Frontend (Remix)
+### 3. Frontend Setup (Remix)
 
-- **Documentation**:
+- **Docs**:
   - [Remix](https://remix.run/docs/en/main/start/quickstart)
   - [React Router](https://reactrouter.com/start/framework/installation)
   - [React Route Template](https://github.com/remix-run/react-router-templates/tree/main/default)
-- **Objectif** : Créer l'application Remix
-- **Étapes** :
+- **Goal**: Create Remix application
+- **Steps**:
 
- 1. Créer l'application Remix
- 2. Règles
-    1. Ne pas utiliser de template
-    2. Supprimer le .git généré
+1. Create Remix app
+2. Requirements:
+   1. No template
+   2. Remove generated .git
 
-Exemple de commande possible :
+Example command:
 
 ```bash
 npx create-react-router@latest --template remix-run/react-router-templates/default frontend --package-manager pnpm --no-install --no-git-init
 ```
 
-## ✅ Vérification
+## ✅ Verification
 
-1. pnpm install doit installer les dépendances dans apps/* également
-2. Lancer pnpm run dev doit lancer les deux applications
-   1. Backend accessible sur <http://localhost:3000>
-   2. Frontend accessible sur <http://localhost:8080>
-3. Lancer pnpm run build doit générer les packages
+1. pnpm install should install dependencies in apps/* too
+2. pnpm run dev should start both apps:
+   1. Backend at <http://localhost:3000>
+   2. Frontend at <http://localhost:8080>
+3. pnpm run build should generate packages
