@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+bash scripts/git-hooks/validate-branch-name.sh
+
 pnpm lint
 pnpm format
 pnpm typecheck
