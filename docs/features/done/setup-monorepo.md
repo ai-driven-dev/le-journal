@@ -86,7 +86,7 @@ npx create-react-router@latest --template remix-run/react-router-templates/defau
 
 ## ✅ Verification
 
-1. pnpm install should install dependencies in apps/* too
+1. pnpm install should install dependencies in apps/\* too
 2. pnpm run dev should start both apps:
    1. Backend at <http://localhost:3000>
    2. Frontend at <http://localhost:8080>

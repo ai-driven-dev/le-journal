@@ -8,12 +8,12 @@
 
 ## 📌 Tâches asynchrones gérées
 
-| 🛠 **Queue** | 📌 **Usage** | 🏆 **Priorité** |
-| --- | --- | --- |
-| `fetchEmails` | 📩 Récupération des emails via Gmail API | 🔥 Haute |
-| `processMails` | 📊 Analyse du contenu des emails avec API Mistral | 🔥 Haute |
-| `indexNews` | 🔍 Indexation des newsletters dans MeiliSearch | 🟡 Moyenne |
-| `sendNotifications` | 📩 Envoi d'alertes aux utilisateurs | 🟡 Moyenne |
+| 🛠 **Queue**        | 📌 **Usage**                                      | 🏆 **Priorité** |
+| ------------------- | ------------------------------------------------- | --------------- |
+| `fetchEmails`       | 📩 Récupération des emails via Gmail API          | 🔥 Haute        |
+| `processMails`      | 📊 Analyse du contenu des emails avec API Mistral | 🔥 Haute        |
+| `indexNews`         | 🔍 Indexation des newsletters dans MeiliSearch    | 🟡 Moyenne      |
+| `sendNotifications` | 📩 Envoi d'alertes aux utilisateurs               | 🟡 Moyenne      |
 
 ## 🔄 Exécution et Priorisation
 
@@ -25,8 +25,8 @@
 ## 🔒 Garantie d'Idempotence (Éviter les Jobs en Double)
 
 1. **Avant d'ajouter un job dans Redis :**
-    - Vérification si **le même job existe déjà dans la queue**.
-    - Vérification si **le job a déjà été traité en base PostgreSQL**.
+   - Vérification si **le même job existe déjà dans la queue**.
+   - Vérification si **le job a déjà été traité en base PostgreSQL**.
 2. **Si le job n'existe pas, il est ajouté à la queue** avec un `jobId` unique.
 3. **Après exécution réussie, le statut du job est mis à jour en PostgreSQL**.
 4. **En cas d'échec, un retry automatique de 3 fois est appliqué**.

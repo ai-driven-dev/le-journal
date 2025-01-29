@@ -25,15 +25,15 @@
 
 ### **Index créés pour optimiser les requêtes fréquentes**
 
-| 📂 **Table** | 🏷️ **Champ Indexé** | ⚡ **Pourquoi ?** |
-| --- | --- | --- |
-| **users** | `email` (UNIQUE) | 🔥 Recherche rapide par email |
-| **users** | `google_id` (UNIQUE) | 🔐 Authentification rapide via Google |
-| **tokens** | `user_id` | ⚡ Association rapide utilisateur/token |
-| **tokens** | `expires_at` | ⏳ Nettoyage rapide des tokens expirés |
-| **projects** | `id` (PRIMARY) | 📂 Accès rapide aux projets |
-| **projects** | `user_id` | 🔍 Recherche des projets d'un utilisateur |
-| **newsletters** | `project_id` | 🔎 Recherche rapide des newsletters par projet |
+| 📂 **Table**    | 🏷️ **Champ Indexé**  | ⚡ **Pourquoi ?**                              |
+| --------------- | -------------------- | ---------------------------------------------- |
+| **users**       | `email` (UNIQUE)     | 🔥 Recherche rapide par email                  |
+| **users**       | `google_id` (UNIQUE) | 🔐 Authentification rapide via Google          |
+| **tokens**      | `user_id`            | ⚡ Association rapide utilisateur/token        |
+| **tokens**      | `expires_at`         | ⏳ Nettoyage rapide des tokens expirés         |
+| **projects**    | `id` (PRIMARY)       | 📂 Accès rapide aux projets                    |
+| **projects**    | `user_id`            | 🔍 Recherche des projets d'un utilisateur      |
+| **newsletters** | `project_id`         | 🔎 Recherche rapide des newsletters par projet |
 
 ## 🚀 Caching et Authentification
 

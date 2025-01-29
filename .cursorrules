@@ -1,2 +1,4 @@
 - Never install package globally, use pnpm -D for development dependencies instead.
 - Always use latest available version of packages.
+- Use PNPM instead of NPM.
+- Focus only on changes you mentioned, do NOT over-interpret.

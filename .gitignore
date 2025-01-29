@@ -2,3 +2,8 @@ node_modules
 .turbo
 **/.DS_Store
 **/.env
+**/dist
+**/build
+**/node_modules
+**/out
+**/coverage

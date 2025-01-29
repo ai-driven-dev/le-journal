@@ -12,7 +12,7 @@ root/
 │   │   │   │   │   │   │   ├── create-user.ts
 │   │   │   │   │   │   │   ├── update-user.ts
 │   │   │   │   │   │   │   ├── delete-user.ts
-│   │   │   │   │   │   ├── users.facade.ts 
+│   │   │   │   │   │   ├── users.facade.ts
 │   │   │   │   │   ├── domain/
 │   │   │   │   │   │   ├── entities/
 │   │   │   │   │   │   │   ├── user.ts
