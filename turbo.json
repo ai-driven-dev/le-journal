@@ -18,8 +18,18 @@
       "outputs": []
     },
     "test": {
-      "dependsOn": ["build"],
-      "outputs": ["coverage/**"]
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"],
+      "inputs": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "test/**/*.ts",
+        "test/**/*.tsx"
+      ]
+    },
+    "test:watch": {
+      "cache": false,
+      "persistent": true
     },
     "dev": {
       "cache": false,

@@ -1,5 +1,13 @@
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  isRouteErrorResponse,
+  useRouteError,
+} from '@remix-run/react';
 
 import stylesheet from './app.css?url';
 
@@ -38,33 +46,37 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({ error }: any): React.ReactElement {
-  let message = 'Oops!';
-  let details = 'An unexpected error occurred.';
-  let stack: string | undefined;
-
-  if (error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
-  }
+export function ErrorBoundary() {
+  const error = useRouteError();
+  
+  const message = 'Oops!';
+  const details = isRouteErrorResponse(error)
+    ? error.data
+    : error instanceof Error
+    ? error.message
+    : 'An unexpected error occurred.';
+  const stack = error instanceof Error ? error.stack : undefined;
 
   return (
-    <html>
+    <html lang="fr">
       <head>
-        <title>Oops!</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{message}</title>
         <Meta />
         <Links />
       </head>
       <body>
         <main className="pt-16 p-4 container mx-auto">
-          <h1>{message}</h1>
-          <p>{details}</p>
+          <h1 className="text-2xl font-bold mb-4">{message}</h1>
+          <p className="mb-4">{details}</p>
           {stack && (
-            <pre className="w-full p-4 overflow-x-auto">
+            <pre className="w-full p-4 overflow-x-auto bg-gray-100 rounded">
               <code>{stack}</code>
             </pre>
           )}
         </main>
+        <ScrollRestoration />
         <Scripts />
       </body>
     </html>

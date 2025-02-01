@@ -6,3 +6,4 @@ bash scripts/git-hooks/validate-branch-name.sh
 pnpm lint
 pnpm format
 pnpm typecheck
+pnpm test
