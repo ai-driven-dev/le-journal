@@ -71,4 +71,3 @@ export function renderWithRemixStub(Component: React.ComponentType) {
 
 export * from '@testing-library/react';
 export { userEvent } from '@testing-library/user-event';
-
