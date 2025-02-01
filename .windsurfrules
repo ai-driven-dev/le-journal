@@ -2,3 +2,4 @@
 - Always use latest available version of packages.
 - Use PNPM instead of NPM.
 - Focus only on changes you mentioned, do NOT over-interpret.
+- Never auto-install packages without my confirmation.
