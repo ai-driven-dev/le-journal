@@ -1,40 +1,28 @@
-import {
-  isRouteErrorResponse,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from 'react-router';
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
-import type { Route } from './+types/root';
 import stylesheet from './app.css?url';
 
-export function meta({}: Route.MetaArgs): Route.MetaDescriptors {
-  return [];
-}
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Le Journal' },
+    { name: 'description', content: 'Le Journal - Votre journal personnel' },
+  ];
+};
 
-export const links: Route.LinksFunction = () => [
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: stylesheet },
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  {
-    rel: 'preconnect',
-    href: 'https://fonts.gstatic.com',
-    crossOrigin: 'anonymous',
-  },
+  { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
   {
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
   },
-  { rel: 'stylesheet', href: stylesheet },
 ];
 
-export function loader({}: Route.LoaderArgs): Object {
-  return {};
-}
-
-export function Layout({ children }: { children: React.ReactNode }): React.ReactElement {
+export default function App() {
   return (
-    <html lang="en">
+    <html lang="fr">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,7 +30,7 @@ export function Layout({ children }: { children: React.ReactNode }): React.React
         <Links />
       </head>
       <body>
-        {children}
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -50,33 +38,35 @@ export function Layout({ children }: { children: React.ReactNode }): React.React
   );
 }
 
-export default function App(): React.ReactElement {
-  return <Outlet />;
-}
-
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps): React.ReactElement {
+export function ErrorBoundary({ error }: any): React.ReactElement {
   let message = 'Oops!';
   let details = 'An unexpected error occurred.';
   let stack: string | undefined;
 
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? '404' : 'Error';
-    details =
-      error.status === 404 ? 'The requested page could not be found.' : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
+  if (error && error instanceof Error) {
     details = error.message;
     stack = error.stack;
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
+    <html>
+      <head>
+        <title>Oops!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <main className="pt-16 p-4 container mx-auto">
+          <h1>{message}</h1>
+          <p>{details}</p>
+          {stack && (
+            <pre className="w-full p-4 overflow-x-auto">
+              <code>{stack}</code>
+            </pre>
+          )}
+        </main>
+        <Scripts />
+      </body>
+    </html>
   );
 }
