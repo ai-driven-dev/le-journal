@@ -1,0 +1,20 @@
+{
+  "extends": ["config:base"],
+  "prCreation": "not-pending",
+  "requiredStatusChecks": ["CI"],
+  "stabilityDays": 3,
+  "packageRules": [
+    {
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "Dev Dependencies",
+      "updateTypes": ["patch", "minor", "major"],
+      "automerge": true
+    },
+    {
+      "matchDepTypes": ["dependencies"],
+      "groupName": "Main Dependencies",
+      "updateTypes": ["patch", "minor", "major"],
+      "automerge": true
+    }
+  ]
+}
