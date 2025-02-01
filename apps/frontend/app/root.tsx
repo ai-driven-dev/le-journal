@@ -48,13 +48,13 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  
+
   const message = 'Oops!';
   const details = isRouteErrorResponse(error)
     ? error.data
     : error instanceof Error
-    ? error.message
-    : 'An unexpected error occurred.';
+      ? error.message
+      : 'An unexpected error occurred.';
   const stack = error instanceof Error ? error.stack : undefined;
 
   return (

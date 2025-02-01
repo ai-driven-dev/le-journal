@@ -12,7 +12,7 @@ beforeAll(() => {
     if (args[0]?.includes('Warning: ')) return;
     originalError.call(console, ...args);
   };
-  
+
   console.warn = (...args: any[]) => {
     if (args[0]?.includes('React Router Future Flag Warning:')) return;
     originalWarn.call(console, ...args);
