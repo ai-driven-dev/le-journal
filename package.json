@@ -23,6 +23,9 @@
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@nestjs/cli": "^11.0.2",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^12.0.1",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
     "eslint": "^9.19.0",
@@ -37,6 +40,7 @@
     "globals": "^15.14.0",
     "husky": "^8.0.0",
     "prettier": "^3.4.2",
+    "semantic-release": "^24.2.1",
     "turbo": "^2.3.4"
   }
 }
