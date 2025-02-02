@@ -15,3 +15,8 @@
 # Coding rules
 
 - Never generic anemic models.
+- Before proposing code change, please take a look at the version used!
+
+## Frontend rules
+
+- Do not use "Jest", we choose to use "Vitest" instead.

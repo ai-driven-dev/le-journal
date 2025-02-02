@@ -1,6 +1,6 @@
 # Diagramme de Classe de l'application
 
-````mermaid
+```mermaid
 classDiagram
     class User {
         +UUID id
@@ -100,4 +100,4 @@ classDiagram
     Email "1" -- "MANY" News : generates
     Email "1" -- "1" NewsletterSubscription : originates_from
     User "1" -- "MANY" Transaction : makes
-````
+```
