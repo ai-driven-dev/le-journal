@@ -83,6 +83,9 @@ importers:
 
   apps/backend:
     dependencies:
+      '@le-journal/shared-types':
+        specifier: workspace:*
+        version: link:../../packages/shared-types
       '@nestjs/common':
         specifier: ^11.0.7
         version: 11.0.7(reflect-metadata@0.2.2)(rxjs@7.8.1)
@@ -201,6 +204,9 @@ importers:
 
   apps/frontend:
     dependencies:
+      '@le-journal/shared-types':
+        specifier: workspace:*
+        version: link:../../packages/shared-types
       '@remix-run/node':
         specifier: ^2.5.1
         version: 2.15.3(typescript@5.7.3)
@@ -283,6 +289,12 @@ importers:
       vitest:
         specifier: ^1.2.2
         version: 1.6.0(@types/node@20.17.16)(happy-dom@13.10.1)
+
+  packages/shared-types:
+    devDependencies:
+      typescript:
+        specifier: ^5.3.3
+        version: 5.7.3
 
 packages:
 

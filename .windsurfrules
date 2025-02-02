@@ -1,22 +1,57 @@
+# Project rules
+
+## Versions
+
+- Frontend: Remix 2.5+, React v19
+  - Vitest: 1.2+
+  - Vite: 5.1+
+- Backend: NestJS v11+ with Node LTS 22
+  - Prisma :6.3+
+  - Jest: 29+ with @nestjs/testing
+
+## Package
+
 - Never install package globally, use pnpm -D for development dependencies instead.
 - Always use latest available version of packages.
 - Use PNPM instead of NPM.
-- Focus only on changes you mentioned, do NOT over-interpret.
 - Never auto-install packages without my confirmation.
+
+## Global rules
+
+- Focus only on changes you mentioned, do NOT over-interpret.
+
+## Coding
+
+- Never generic anemic models.
+
+### Before coding
+
+- Before proposing code change, please take a look at the version used!
 - When creating a feature, always:
   - Generate a plan overview of what you are going to do.
   - Print the lib versions explicitly to make sure you are on the right one.
   - Check officiel documentation.
+
+### After coding
+
+- Always check if the code follows best practices.
+- Assert there is no duplicate code or dead code.
 - When finishing a feature, always:
   - Check what you did according to best practices
   - Check in the online documentation that you did it correctly
   - Check if everything is working as expected but running check commands
 
-# Coding rules
+### Comments
 
-- Never generic anemic models.
-- Before proposing code change, please take a look at the version used!
+- Never comment code, except when needed for:
+  - Complexe logic
+  - Interfaces
+  - Configuration
 
 ## Frontend rules
 
 - Do not use "Jest", we choose to use "Vitest" instead.
+
+## Backend rules
+
+- Use types generated from Prisma when looking for database typing.
