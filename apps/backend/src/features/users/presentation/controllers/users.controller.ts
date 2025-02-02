@@ -12,10 +12,7 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
-    const user = await this.createUserUseCase.execute(
-      createUserDto.email,
-      createUserDto.name,
-    );
+    const user = await this.createUserUseCase.execute(createUserDto.email, createUserDto.name);
     const response = user.toJSON();
     if (!response.id) {
       throw new NotFoundException('User was not created properly');
