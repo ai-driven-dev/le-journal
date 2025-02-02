@@ -18,7 +18,7 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "prepare": "husky && husky install",
-    "check": "pnpm typecheck && pnpm build && pnpm test",
+    "check": "pnpm run lint && pnpm run format && pnpm typecheck && pnpm build && pnpm test",
     "renovate": "dotenv -- renovate --dry-run"
   },
   "devDependencies": {
