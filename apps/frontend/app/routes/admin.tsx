@@ -1,34 +1,16 @@
 import type { ApiUser } from '@le-journal/shared-types';
-import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import { apiFetch } from '~/utils/api/fetcher';
 
 type LoaderData = {
   users: ApiUser[];
 };
 
-export async function loader(): Promise<LoaderData> {
-  try {
-    const apiUrl = process.env.API_URL;
-    if (!apiUrl) {
-      throw new Error('API_URL environment variable is not set');
-    }
+export const loader = async (): Promise<LoaderData> => {
+  const users = await apiFetch<ApiUser[]>({ endpoint: 'users' });
 
-    const response = await fetch(`${apiUrl}/users`);
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch users: ${response.statusText}`);
-    }
-
-    const users: ApiUser[] = await response.json();
-    return { users };
-  } catch (error) {
-    console.error('Error in admin loader:', error);
-    throw json(
-      { message: error instanceof Error ? error.message : 'Unknown error occurred' },
-      { status: 500 },
-    );
-  }
-}
+  return { users };
+};
 
 export default function AdminIndex() {
   const { users } = useLoaderData<typeof loader>();
