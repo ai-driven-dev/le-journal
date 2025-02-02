@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 
 export const USER_REPOSITORY = 'USER_REPOSITORY';
 

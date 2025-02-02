@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
+import { Redis } from 'ioredis';
+
 import { ConfigModule } from './config/config.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './features/users/users.module';
-import { CacheModule } from '@nestjs/cache-manager';
-import { Redis } from 'ioredis';
 
 @Module({
   imports: [
