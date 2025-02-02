@@ -17,6 +17,7 @@
     "format:fix": "prettier --write \"**/*.{ts,tsx,json,md}\"",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
+    "update:deps": "pnpm up -r --latest && pnpm install && pnpm run check && pnpm outdated -r ",
     "prepare": "husky && husky install",
     "check": "pnpm run lint && pnpm run format && pnpm typecheck && pnpm build && pnpm test",
     "renovate": "dotenv -- renovate --dry-run"
@@ -41,7 +42,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-security": "^3.0.1",
     "globals": "^15.14.0",
-    "husky": "^8.0.3",
+    "husky": "^9.1.7",
     "prettier": "^3.4.2",
     "renovate": "^39.156.0",
     "semantic-release": "^24.2.1",
