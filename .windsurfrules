@@ -23,6 +23,7 @@
 ## Coding
 
 - Never generic anemic models.
+- Always be type-safe.
 
 ### Before coding
 
@@ -50,8 +51,11 @@
 
 ## Frontend rules
 
-- Do not use "Jest", we choose to use "Vitest" instead.
+- Test with Vitest.
+- Use "Vite" instead of "Webpack".
+- Always use "Remix" instead of "NextJS".
 
 ## Backend rules
 
+- Never user "Express".
 - Use types generated from Prisma when looking for database typing.

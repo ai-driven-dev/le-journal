@@ -29,6 +29,7 @@ const config: Config = {
       statements: 80,
     },
   },
+  coveragePathIgnorePatterns: ['src/prisma/prisma.types.ts'],
   rootDir: 'src',
   preset: 'ts-jest',
 };
