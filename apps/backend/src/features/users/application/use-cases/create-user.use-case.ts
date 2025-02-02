@@ -1,11 +1,9 @@
-import { Injectable, Inject, ConflictException } from '@nestjs/common';
-import { User } from '../../domain/entities/user.entity';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 import {
   IUserRepository,
   USER_REPOSITORY,
 } from '../../domain/repositories/user.repository.interface';
-import { Email } from '../../domain/value-objects/email.value-object';
-import { UserName } from '../../domain/value-objects/user-name.value-object';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -14,18 +12,16 @@ export class CreateUserUseCase {
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(emailStr: string, nameStr?: string): Promise<User> {
-    const email = Email.create(emailStr);
-
+  async execute(email: string, name?: string): Promise<User> {
     // Check if user already exists
-    const existingUser = await this.userRepository.findByEmail(emailStr);
+    const existingUser = await this.userRepository.findByEmail(email);
     if (existingUser) {
-      throw new ConflictException('User with this email already exists');
+      throw new ConflictException('User already exists');
     }
 
-    const name = nameStr ? UserName.create(nameStr) : undefined;
-    const user = User.create(email, name);
-
-    return this.userRepository.create(user);
+    return this.userRepository.create({
+      email,
+      name,
+    });
   }
 }
