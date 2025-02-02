@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { generateMetaArgs, render } from '../../test/test-utils';
-import Index, { meta } from './_index';
+import Index, { meta } from '../routes/_index';
 
 describe('Index Route', () => {
   it('renders index page correctly', () => {
