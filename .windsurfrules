@@ -3,3 +3,15 @@
 - Use PNPM instead of NPM.
 - Focus only on changes you mentioned, do NOT over-interpret.
 - Never auto-install packages without my confirmation.
+- When creating a feature, always:
+  - Generate a plan overview of what you are going to do.
+  - Print the lib versions explicitly to make sure you are on the right one.
+  - Check officiel documentation.
+- When finishing a feature, always:
+  - Check what you did according to best practices
+  - Check in the online documentation that you did it correctly
+  - Check if everything is working as expected but running check commands
+
+# Coding rules
+
+- Never generic anemic models.

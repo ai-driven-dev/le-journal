@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "docker-compose up --build -d && turbo run dev",
     "lint": "eslint \"**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
