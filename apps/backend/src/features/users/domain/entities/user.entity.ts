@@ -19,11 +19,7 @@ export class User {
   }
 
   static create(email: Email, name?: UserName): User {
-    return new User(
-      undefined,
-      email,
-      name,
-    );
+    return new User(undefined, email, name);
   }
 
   static reconstitute(

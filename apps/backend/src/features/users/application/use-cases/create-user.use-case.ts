@@ -1,6 +1,9 @@
 import { Injectable, Inject, ConflictException } from '@nestjs/common';
 import { User } from '../../domain/entities/user.entity';
-import { IUserRepository, USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
+import {
+  IUserRepository,
+  USER_REPOSITORY,
+} from '../../domain/repositories/user.repository.interface';
 import { Email } from '../../domain/value-objects/email.value-object';
 import { UserName } from '../../domain/value-objects/user-name.value-object';
 
@@ -13,7 +16,7 @@ export class CreateUserUseCase {
 
   async execute(emailStr: string, nameStr?: string): Promise<User> {
     const email = Email.create(emailStr);
-    
+
     // Check if user already exists
     const existingUser = await this.userRepository.findByEmail(emailStr);
     if (existingUser) {
@@ -22,7 +25,7 @@ export class CreateUserUseCase {
 
     const name = nameStr ? UserName.create(nameStr) : undefined;
     const user = User.create(email, name);
-    
+
     return this.userRepository.create(user);
   }
 }
