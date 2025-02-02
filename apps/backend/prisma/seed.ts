@@ -1,8 +1,9 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function main(): Promise<void> {
   const defaultUsers: Prisma.UserCreateInput[] = [
     {
       id: 'admin',

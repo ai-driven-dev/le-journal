@@ -1,5 +1,5 @@
-import { ApiUser, CreateApiUser } from '@le-journal/shared-types';
-import { Prisma, User } from '@prisma/client';
+import type { ApiUser, CreateApiUser } from '@le-journal/shared-types';
+import type { Prisma, User } from '@prisma/client';
 
 /**
  * Type validation pour s'assurer que ApiUser correspond au type Prisma User
@@ -12,6 +12,8 @@ export type ValidateApiUser = ApiUser extends User ? true : never;
 export type ValidateCreateApiUser = CreateApiUser extends Prisma.UserCreateInput ? true : never;
 
 // Force TypeScript à évaluer les types
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _typeValidation: {
   apiUser: ValidateApiUser;
   createApiUser: ValidateCreateApiUser;

@@ -9,6 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
+
 import { CreateUserUseCase } from '../../application/use-cases/create-user.use-case';
 import { GetAllUsersUseCase } from '../../application/use-cases/get-all-users.use-case';
 

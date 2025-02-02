@@ -1,5 +1,6 @@
 import type { ApiUser } from '@le-journal/shared-types';
 import { useLoaderData } from '@remix-run/react';
+
 import { apiFetch } from '~/utils/api/fetcher';
 
 type LoaderData = {
@@ -12,7 +13,7 @@ export const loader = async (): Promise<LoaderData> => {
   return { users };
 };
 
-export default function AdminIndex() {
+export default function AdminIndex(): React.ReactElement {
   const { users } = useLoaderData<typeof loader>();
 
   return (
