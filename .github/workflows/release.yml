@@ -4,6 +4,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -32,4 +37,4 @@ jobs:
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: pnpm semantic-release
