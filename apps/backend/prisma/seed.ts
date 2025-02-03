@@ -1,45 +1,32 @@
-import type { Prisma } from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
+import {
+  seedEmails,
+  seedNews,
+  seedNewsletterSubscriptions,
+  seedProjects,
+  seedTransactions,
+  seedUsers,
+} from './seeds';
 
 const prisma = new PrismaClient();
 
 async function main(): Promise<void> {
-  const defaultUsers: Prisma.UserCreateInput[] = [
-    {
-      id: 'admin',
-      email: 'admin@example.com',
-      name: 'Admin User',
-    },
-    {
-      id: 'moderator',
-      email: 'moderator@example.com',
-      name: 'Moderator User',
-    },
-    {
-      id: 'user',
-      email: 'user@example.com',
-      name: 'Regular User',
-    },
-  ];
+  console.log('🌱 Starting database seeding...');
 
-  console.log('Starting to seed default users...');
+  try {
+    // Create entities in the correct order to respect relationships
+    await seedUsers();
+    await seedProjects();
+    await seedNewsletterSubscriptions();
+    await seedEmails();
+    await seedNews();
+    await seedTransactions();
 
-  for (const user of defaultUsers) {
-    const existingUser = await prisma.user.findUnique({
-      where: { email: user.email },
-    });
-
-    if (!existingUser) {
-      await prisma.user.create({
-        data: user,
-      });
-      console.log(`Created user: ${user.email}`);
-    } else {
-      console.log(`User ${user.email} already exists, skipping...`);
-    }
+    console.log('✅ Database seeding completed successfully');
+  } catch (error) {
+    console.error('❌ Error while seeding:', error);
+    throw error;
   }
-
-  console.log('Seeding finished.');
 }
 
 main()
