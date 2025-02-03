@@ -57,6 +57,8 @@ model User {
   projects               Project[]
   newsletterSubscriptions NewsletterSubscription[]
   transactions           Transaction[]
+
+  @@index([email])
 }
 
 model Project {
