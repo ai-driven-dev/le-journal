@@ -1,5 +1,7 @@
 import { vitePlugin as remix } from '@remix-run/dev';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 // Add type declaration for future flags
 declare module '@remix-run/node' {
@@ -23,5 +25,25 @@ export default defineConfig({
         v3_throwAbortReason: true,
       },
     }),
+    react(),
+    tsconfigPaths(),
   ],
+  resolve: {
+    alias: {
+      // Polyfills pour les modules Node
+      'node:crypto': 'crypto-browserify',
+      'node:buffer': 'buffer',
+      'node:zlib': 'browserify-zlib',
+      'node:assert': 'assert',
+    },
+  },
+  optimizeDeps: {
+    exclude: ['vitest'],
+    include: ['buffer', 'crypto-browserify', 'browserify-zlib', 'assert'],
+  },
+  build: {
+    rollupOptions: {
+      external: ['vitest'],
+    },
+  },
 });

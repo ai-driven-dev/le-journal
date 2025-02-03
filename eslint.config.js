@@ -28,7 +28,7 @@ export default [
   },
   // Configuration pour les fichiers source (non-configuration)
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ['**/*.ts', '**/*.tsx', '**/*.test.ts', '**/*.test.tsx', '**/prisma/*.ts'],
     ignores: [
       '**/vite.config.ts',
       '**/tailwind.config.ts',
@@ -38,7 +38,11 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: ['./apps/*/tsconfig.json'],
+        project: [
+          './apps/*/tsconfig.json',
+          './apps/*/tsconfig.build.json',
+          './packages/*/tsconfig.json',
+        ],
         tsconfigRootDir: '.',
       },
       globals: {
@@ -82,4 +86,4 @@ export default [
       'nestjs/use-validation-pipe': 'warn',
     },
   },
-]
+];

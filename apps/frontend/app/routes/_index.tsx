@@ -1,13 +1,13 @@
-import { type MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
   return [
     { title: 'Le Journal - Accueil' },
     { name: 'description', content: 'Bienvenue sur Le Journal - Votre journal personnel' },
   ];
 };
 
-export default function Index() {
+export default function Index(): JSX.Element {
   return (
     <main className="container mx-auto p-4">
       <h1 className="text-4xl font-bold mb-4">Bienvenue sur Le Journal</h1>

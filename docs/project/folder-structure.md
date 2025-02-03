@@ -1,6 +1,6 @@
 # 📁 Full Folder Structure – Feature-Based, Tests Added & Clarifications
 
-```
+```text
 root/
 ├── apps/
 │   ├── backend/
@@ -25,14 +25,15 @@ root/
 │   │   │   │   │   │   ├── exceptions/
 │   │   │   │   │   │   │   ├── user-not-found.exception.ts
 │   │   │   │   │   │   │   ├── invalid-password.exception.ts
-│   │   │   │   │   ├── repositories/
-│   │   │   │   │   │   ├── user.repository.ts
-│   │   │   │   │   ├── adapters/
-│   │   │   │   │   │   ├── external-auth.adapter.ts
-│   │   │   │   │   ├── emails/
-│   │   │   │   │   │   ├── user-notification.mail.ts
-│   │   │   │   │   ├── config/
-│   │   │   │   │   │   ├── users.config.ts
+│   │   │   │   │   ├── infrastructure/
+│   │   │   │   │   │   ├── repositories/
+│   │   │   │   │   │   │   ├── user.repository.ts
+│   │   │   │   │   │   ├── adapters/
+│   │   │   │   │   │   │   ├── external-auth.adapter.ts
+│   │   │   │   │   │   ├── emails/
+│   │   │   │   │   │   │   ├── user-notification.mail.ts
+│   │   │   │   │   │   ├── config/
+│   │   │   │   │   │   │   ├── users.config.ts
 │   │   │   │   ├── users.module.ts
 │   │   │   ├── tests/
 │   │   │   │   ├── unit/
