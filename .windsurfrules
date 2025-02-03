@@ -59,3 +59,5 @@
 
 - Never user "Express".
 - Use types generated from Prisma when looking for database typing.
+- DDD and clean architecture for backend.
+- Prisma types are used for entities.
