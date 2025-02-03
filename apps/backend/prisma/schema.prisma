@@ -13,10 +13,141 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum SubscriptionPlan {
+  FREE
+  PREMIUM
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PENDING
+  CANCELLED
+  EXPIRED
+}
+
+enum EmailStatus {
+  RECEIVED
+  PROCESSED
+  FAILED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  PAYPAL
+  BANK_TRANSFER
+}
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relations
+  profile                 UserProfile?
+  projects               Project[]
+  newsletterSubscriptions NewsletterSubscription[]
+  transactions           Transaction[]
+}
+
+model Project {
+  id             String   @id @default(uuid())
+  user_id        String
+  project_number Int      @unique
+  name           String   @unique
+  slug           String   @unique
+  created_at     DateTime @default(now())
+
+  user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  emails Email[]
+
+  @@index([user_id])
+}
+
+model UserProfile {
+  id                      String           @id @default(uuid())
+  user_id                 String           @unique
+  subscription_plan       SubscriptionPlan
+  newsletter_email_alias  String
+  prompt_instruction      String           @db.Text
+  gmail_alias_folder_url  String
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+}
+
+model NewsletterSubscription {
+  id                  String             @id @default(uuid())
+  user_id             String
+  newsletter_name     String
+  newsletter_email    String
+  newsletter_url      String
+  status              SubscriptionStatus
+  subscribed_at       DateTime           @default(now())
+
+  user   User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  emails Email[]
+
+  @@index([user_id])
+  @@index([newsletter_email])
+}
+
+model Email {
+  id                        String   @id @default(uuid())
+  project_id                String
+  newsletter_subscription_id String
+  subject                   String
+  raw_content               String   @db.Text
+  received_at               DateTime @default(now())
+  status                    EmailStatus
+
+  project                 Project                @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  newsletterSubscription  NewsletterSubscription @relation(fields: [newsletter_subscription_id], references: [id], onDelete: Cascade)
+  news                   News[]
+
+  @@index([project_id])
+  @@index([newsletter_subscription_id])
+  @@index([subject])
+}
+
+model News {
+  id                String   @id @default(uuid())
+  email_id          String
+  title             String
+  description       String   @db.Text
+  url               String
+  content           String   @db.Text
+  relevance_score   Float
+  extracted_at      DateTime @default(now())
+
+  email Email @relation(fields: [email_id], references: [id], onDelete: Cascade)
+
+  @@index([email_id])
+}
+
+model Transaction {
+  id                String        @id @default(uuid())
+  user_id           String
+  stripe_payment_id String
+  amount            Decimal
+  currency          String
+  status            PaymentStatus
+  payment_method    PaymentMethod
+  payment_date      DateTime      @default(now())
+  invoice_url       String
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@index([stripe_payment_id])
 }

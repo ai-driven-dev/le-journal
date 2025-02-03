@@ -18,5 +18,6 @@ export default {
         'chore', // Other changes that don't modify src or test files
       ],
     ],
+    'subject-case': [0, 'never'],
   },
 };
