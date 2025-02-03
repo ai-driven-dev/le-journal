@@ -11,6 +11,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "docker-compose up --build -d && turbo run dev",
+    "dev:docker": "docker-compose up --build -d",
     "beautify": "pnpm run format:fix && pnpm run lint:fix",
     "lint": "eslint \"**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix",
