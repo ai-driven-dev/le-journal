@@ -13,4 +13,3 @@ export {
   seedTransactions,
   seedUsers,
 };
-
