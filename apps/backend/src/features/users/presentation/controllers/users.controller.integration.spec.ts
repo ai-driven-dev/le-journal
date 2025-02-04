@@ -1,12 +1,15 @@
-import { CreateApiUser } from '@le-journal/shared-types';
-import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { User } from '@prisma/client';
+import type { CreateApiUser } from '@le-journal/shared-types';
+import type { INestApplication } from '@nestjs/common';
+import type { TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
+import type { User } from '@prisma/client';
+
 import { PrismaService } from '../../../../prisma/prisma.service';
 import { CreateUserUseCase } from '../../application/use-cases/create-user.use-case';
 import { GetAllUsersUseCase } from '../../application/use-cases/get-all-users.use-case';
 import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
 import { PrismaUserRepository } from '../../infrastructure/repositories/prisma-user.repository';
+
 import { UsersController } from './users.controller';
 
 describe('UsersController (Integration)', () => {

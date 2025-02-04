@@ -1,8 +1,9 @@
+import type { Transaction } from '@prisma/client';
 import { Prisma, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function seedTransactions() {
+export async function seedTransactions(): Promise<Transaction> {
   console.log('🌱 Seeding transactions...');
 
   const premiumUser = await prisma.user.findFirst({

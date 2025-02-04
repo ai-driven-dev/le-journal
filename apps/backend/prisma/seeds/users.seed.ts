@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import type { Prisma, User } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -41,7 +42,7 @@ const premiumUser: Prisma.UserCreateInput = {
   },
 };
 
-export async function seedUsers() {
+export async function seedUsers(): Promise<User[]> {
   console.log('🌱 Seeding users...');
 
   const users = await Promise.all([
