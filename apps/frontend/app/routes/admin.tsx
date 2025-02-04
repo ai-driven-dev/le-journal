@@ -39,7 +39,9 @@ export default function AdminIndex(): React.ReactElement {
                   {users.map((user) => (
                     <tr key={user.id} className="border-t">
                       <td className="px-4 py-2">{user.email}</td>
-                      <td className="px-4 py-2">{user.name || '-'}</td>
+                      <td className="px-4 py-2">
+                        {user.name !== null && user.name !== undefined ? user.name : '-'}
+                      </td>
                       <td className="px-4 py-2">{new Date(user.createdAt).toLocaleDateString()}</td>
                     </tr>
                   ))}

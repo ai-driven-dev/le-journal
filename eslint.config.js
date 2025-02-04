@@ -64,9 +64,19 @@ export default [
             './apps/*/tsconfig.build.json',
             './packages/*/tsconfig.json',
           ],
+          alwaysTryTypes: true
         },
-        node: true,
+        node: {
+          project: [
+            './apps/*/tsconfig.json',
+            './apps/*/tsconfig.build.json',
+            './packages/*/tsconfig.json',
+          ]
+        }
       },
+      'import/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx']
+      }
     },
     plugins: {
       '@typescript-eslint': tsPlugin,

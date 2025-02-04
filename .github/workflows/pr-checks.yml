@@ -46,6 +46,9 @@ jobs:
       - name: Generate Prisma types first
         run: pnpm --filter backend exec prisma generate
 
+      - name: Build shared packages
+        run: pnpm --filter "@le-journal/shared-types" build
+
       - name: Run lint with fix
         run: pnpm lint:fix
 
