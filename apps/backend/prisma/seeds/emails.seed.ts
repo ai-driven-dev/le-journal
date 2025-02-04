@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import type { Email, Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -15,7 +16,7 @@ function createEmailsForSubscription(
   }));
 }
 
-export async function seedEmails() {
+export async function seedEmails(): Promise<Email[]> {
   console.log('🌱 Seeding emails...');
 
   const subscriptions = await prisma.newsletterSubscription.findMany({
@@ -33,7 +34,7 @@ export async function seedEmails() {
     return createEmailsForSubscription(subscription.id, projectId);
   });
 
-  const emails = await Promise.all(
+  const emails: Email[] = await Promise.all(
     emailsToCreate.map((email) => prisma.email.create({ data: email })),
   );
 

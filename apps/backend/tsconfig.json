@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
+    "allowJs": true,
     "moduleResolution": "node",
     "declaration": true,
     "removeComments": true,

@@ -1,8 +1,9 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import type { NewsletterSubscription, Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function seedNewsletterSubscriptions() {
+export async function seedNewsletterSubscriptions(): Promise<NewsletterSubscription[]> {
   console.log('🌱 Seeding newsletter subscriptions...');
 
   const users = await prisma.user.findMany({

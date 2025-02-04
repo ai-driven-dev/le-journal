@@ -21,7 +21,7 @@
     "test": "turbo run test",
     "update:deps": "pnpm up -r --latest && pnpm install && pnpm run check && pnpm outdated -r ",
     "prepare": "husky && husky install",
-    "check": "pnpm run lint && pnpm run format && pnpm typecheck && pnpm build && pnpm test",
+    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm typecheck && pnpm build && pnpm test",
     "renovate": "dotenv -- renovate --dry-run"
   },
   "devDependencies": {

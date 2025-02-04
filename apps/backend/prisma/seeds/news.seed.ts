@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import type { News, Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -13,7 +14,7 @@ function createNewsForEmail(emailId: string): Prisma.NewsCreateInput[] {
   }));
 }
 
-export async function seedNews() {
+export async function seedNews(): Promise<News[]> {
   console.log('🌱 Seeding news...');
 
   const emails = await prisma.email.findMany();
