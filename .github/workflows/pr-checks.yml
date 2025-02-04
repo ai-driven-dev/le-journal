@@ -32,6 +32,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+        
+      - name: Generate Prisma types first
+        run: pnpm --filter backend exec prisma generate
 
       - name: Run lint with fix
         run: pnpm lint:fix
@@ -60,3 +63,19 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git commit -am "style: apply linting and formatting fixes"
           git push
+
+  security-scan:
+    name: OWASP Dependency-Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: '${{ github.repository }}'
+          path: '.'
+          format: 'HTML'
+          out: 'dependency-check-report'
+          args: '--failOnCVSS 7'

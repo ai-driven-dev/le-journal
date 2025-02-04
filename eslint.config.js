@@ -9,7 +9,7 @@ import security from 'eslint-plugin-security'
 import globals from 'globals'
 
 export default [
-  // Ignores globaux
+  // Global ignores
   {
     ignores: [
       '**/node_modules/**',
@@ -19,14 +19,14 @@ export default [
       '**/*.d.ts',
     ],
   },
-  // Configuration pour les composants React
+  // React component configuration
   {
     files: ['**/app/routes/**/*.tsx', '**/app/root.tsx'],
     rules: {
       'import/no-default-export': 'off',
     },
   },
-  // Configuration pour les fichiers source (non-configuration)
+  // Source files configuration (non-config files)
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.test.ts', '**/*.test.tsx', '**/prisma/*.ts'],
     ignores: [
@@ -44,11 +44,28 @@ export default [
           './packages/*/tsconfig.json',
         ],
         tsconfigRootDir: '.',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        ecmaVersion: 2022,
+        sourceType: 'module',
       },
       globals: {
         ...globals.browser,
         ...globals.node,
         ...globals.es2022,
+      },
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: [
+            './apps/*/tsconfig.json',
+            './apps/*/tsconfig.build.json',
+            './packages/*/tsconfig.json',
+          ],
+        },
+        node: true,
       },
     },
     plugins: {
@@ -66,21 +83,45 @@ export default [
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/consistent-type-imports': 'warn',
       '@typescript-eslint/no-floating-promises': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/strict-boolean-expressions': [
+        'error',
+        {
+          allowString: true,
+          allowNullableString: true,
+          allowNumber: true,
+          allowNullableNumber: true,
+          allowNullableObject: true,
+        },
+      ],
       semi: ['error', 'always'],
 
       /* Import Rules */
       'import/order': ['warn', { 'newlines-between': 'always' }],
       'import/no-cycle': 'error',
+      'import/no-unresolved': 'error',
+      'import/no-deprecated': 'warn',
 
       /* Security Rules */
       'security/detect-object-injection': 'warn',
       'security/detect-non-literal-fs-filename': 'warn',
+      'security/detect-unsafe-regex': 'error',
+      'security/detect-buffer-noassert': 'error',
+      'security/detect-child-process': 'error',
+      'security/detect-disable-mustache-escape': 'error',
+      'security/detect-eval-with-expression': 'error',
+      'security/detect-no-csrf-before-method-override': 'error',
+      'security/detect-possible-timing-attacks': 'error',
+      'security/detect-pseudoRandomBytes': 'error',
 
       /* React Rules */
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',
+      'react/jsx-no-target-blank': 'error',
+      'react/jsx-no-script-url': 'error',
+      'react/no-danger': 'error',
 
       /* NestJS Rules */
       'nestjs/use-validation-pipe': 'warn',
