@@ -128,11 +128,11 @@ Les entités doivent être créées **dans cet ordre précis** pour éviter les 
 
 #### **📧 Emails (3 par `NewsletterSubscription`)**
 
-- **Chaque `NewsletterSubscription` reçoit **exactement 3 emails\*\*.
+- **Chaque `NewsletterSubscription` reçoit**exactement 3 emails\*\*.
 
 #### **🗞 News (5 par email)**
 
-- **Chaque `Email` reçoit **exactement 5 news\*\*.
+- **Chaque `Email` reçoit**exactement 5 news\*\*.
 
 #### **💳 Transactions (1 pour l’utilisateur premium)**
 

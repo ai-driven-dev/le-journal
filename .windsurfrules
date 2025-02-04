@@ -54,6 +54,7 @@
 - Test with Vitest.
 - Use "Vite" instead of "Webpack".
 - Always use "Remix" instead of "NextJS".
+- Use "eslint.config.js" with flat config when using Eslint.
 
 ## Backend rules
 
@@ -61,3 +62,9 @@
 - Use types generated from Prisma when looking for database typing.
 - DDD and clean architecture for backend.
 - Prisma types are used for entities.
+
+### Backend tests
+
+- Use Jest.
+- Prisma uses its own migrations in tests-migrations.
+- Prisma uses its own sqlite in tests, migrations are played when starting tests.
