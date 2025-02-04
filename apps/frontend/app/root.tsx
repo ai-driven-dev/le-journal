@@ -25,7 +25,7 @@ export const links: LinksFunction = (): ReturnType<LinksFunction> => [
   },
 ];
 
-export default function App(): JSX.Element {
+export default function App(): React.ReactNode {
   return (
     <html lang="fr">
       <head>
@@ -46,7 +46,7 @@ export default function App(): JSX.Element {
   );
 }
 
-export function ErrorBoundary(): JSX.Element {
+export function ErrorBoundary(): React.ReactNode {
   const error = useRouteError();
 
   let message;

@@ -7,7 +7,7 @@ export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
   ];
 };
 
-export default function Index(): JSX.Element {
+export default function Index(): React.ReactNode {
   return (
     <main className="container mx-auto p-4">
       <h1 className="text-4xl font-bold mb-4">Bienvenue sur Le Journal</h1>

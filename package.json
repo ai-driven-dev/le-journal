@@ -22,18 +22,19 @@
     "update:deps": "pnpm up -r --latest && pnpm install && pnpm run check && pnpm outdated -r ",
     "prepare": "husky && husky install",
     "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm typecheck && pnpm build && pnpm test",
-    "renovate": "dotenv -- renovate --dry-run"
+    "renovate": "dotenv -- renovate --dry-run",
+    "clean": "cd packages/shared-types && pnpm clean && pnpm build"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.6.1",
-    "@commitlint/config-conventional": "^19.6.0",
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
     "@nestjs/cli": "^11.0.2",
     "@rushstack/eslint-plugin-security": "^0.8.3",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^12.0.1",
-    "@typescript-eslint/eslint-plugin": "^8.22.0",
-    "@typescript-eslint/parser": "^8.22.0",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
     "dotenv-cli": "^8.0.0",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
@@ -48,7 +49,7 @@
     "globals": "^15.14.0",
     "husky": "^9.1.7",
     "prettier": "^3.4.2",
-    "renovate": "^39.156.0",
+    "renovate": "^39.160.0",
     "semantic-release": "^24.2.1",
     "turbo": "^2.4.0"
   }

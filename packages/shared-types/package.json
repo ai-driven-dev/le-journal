@@ -3,12 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "sideEffects": false,
+  "type": "module",
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
     "clean": "rm -rf dist",
     "test": "echo 'No tests yet'",
     "lint": "eslint .",
@@ -16,7 +23,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "typescript": "^5.3.3"
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
