@@ -10,12 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'pnpm'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -30,9 +32,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies
-        run: pnpm install
-        
+      - name: Check if lockfile is outdated
+        run: pnpm install --check || echo "PNPM_LOCKFILE_OUTDATED=true" >> $GITHUB_ENV
+
+      - name: Install dependencies (force update if needed)
+        run: |
+          if [ "$PNPM_LOCKFILE_OUTDATED" == "true" ]; then
+            pnpm install --no-frozen-lockfile
+          else
+            pnpm install --frozen-lockfile
+          fi
+
       - name: Generate Prisma types first
         run: pnpm --filter backend exec prisma generate
 
@@ -54,10 +64,14 @@ jobs:
       - name: Check for changes
         id: git-check
         run: |
-          git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
+          if git diff --quiet; then
+            echo "changes=false" >> $GITHUB_ENV
+          else
+            echo "changes=true" >> $GITHUB_ENV
+          fi
 
       - name: Commit linting & formatting changes
-        if: steps.git-check.outputs.changes == 'true'
+        if: env.changes == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
