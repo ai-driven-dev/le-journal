@@ -6,6 +6,8 @@ on:
 
 jobs:
   quality:
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/lejournal
     name: Quality Checks
     runs-on: ubuntu-latest
     services:
