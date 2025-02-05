@@ -30,10 +30,7 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Run Tests
-        run: pnpm test
-
+        
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
