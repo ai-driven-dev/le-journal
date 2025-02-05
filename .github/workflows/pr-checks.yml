@@ -88,6 +88,8 @@ jobs:
         run: pnpm test
 
       - name: Build
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/lejournal"
         run: pnpm build
 
       - name: Check for changes
