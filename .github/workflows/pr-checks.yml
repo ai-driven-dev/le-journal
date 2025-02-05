@@ -107,15 +107,16 @@ jobs:
             echo "changes=false" >> $GITHUB_ENV
           else
             echo "changes=true" >> $GITHUB_ENV
+            git status
           fi
 
-      - name: Commit linting & formatting changes
-        if: env.changes == 'true'
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git commit -am "chore(style): apply linting and formatting fixes" --no-verify
-          git push
+      # - name: Commit linting & formatting changes
+      #   if: env.changes == 'true'
+      #   run: |
+      #     git config --local user.email "github-actions[bot]@users.noreply.github.com"
+      #     git config --local user.name "github-actions[bot]"
+      #     git commit -am "chore(style): apply linting and formatting fixes" --no-verify
+      #     git push
 
   security-scan:
     name: OWASP Dependency-Check
