@@ -5,6 +5,24 @@ on:
     branches: [ main ]
 
 jobs:
+  db-setup:
+    name: Setup PostgreSQL
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U test_user"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
   quality:
     name: Quality Checks
     runs-on: ubuntu-latest
@@ -42,6 +60,9 @@ jobs:
           else
             pnpm install --frozen-lockfile
           fi
+
+      - name: Set DATABASE_URL
+        run: echo "DATABASE_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> $GITHUB_ENV
 
       - name: Generate Prisma types first
         run: pnpm --filter backend exec prisma generate
