@@ -65,10 +65,15 @@ jobs:
             pnpm install --frozen-lockfile
           fi
 
-      - name: Generate Prisma types first
+      - name: Prisma init
         env:
           DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/lejournal"
         run: pnpm --filter backend run prisma:init
+
+      - name: Generate Prisma types first
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/lejournal"
+        run: pnpm --filter backend run prisma
 
       - name: Build shared packages
         run: pnpm --filter "@le-journal/shared-types" build
