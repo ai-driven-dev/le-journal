@@ -12,13 +12,13 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: test_user
-          POSTGRES_PASSWORD: test_password
-          POSTGRES_DB: test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: lejournal
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U test_user"
+          --health-cmd "pg_isready -U postgres"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 5
@@ -39,7 +39,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Set DATABASE_URL
-        run: echo "DATABASE_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> $GITHUB_ENV
+        run: echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/lejournal" >> $GITHUB_ENV
 
       - name: Verify DATABASE_URL
         run: echo "DATABASE_URL=$DATABASE_URL"
@@ -65,7 +65,7 @@ jobs:
 
       - name: Generate Prisma types first
         env:
-          DATABASE_URL: "postgresql://test_user:test_password@localhost:5432/test_db"
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/lejournal"
         run: pnpm --filter backend run prisma:init
 
       - name: Build shared packages
@@ -82,7 +82,7 @@ jobs:
 
       - name: Run tests
         env:
-          DATABASE_URL: "postgresql://test_user:test_password@localhost:5432/test_db"
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/lejournal"
         run: pnpm test
 
       - name: Build
