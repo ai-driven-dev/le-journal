@@ -38,6 +38,12 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
 
+      - name: Set DATABASE_URL
+        run: echo "DATABASE_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> $GITHUB_ENV
+
+      - name: Verify DATABASE_URL
+        run: echo "DATABASE_URL=$DATABASE_URL"
+
       - name: Setup pnpm cache
         uses: actions/cache@v4
         with:
@@ -57,11 +63,10 @@ jobs:
             pnpm install --frozen-lockfile
           fi
 
-      - name: Set DATABASE_URL
-        run: echo "DATABASE_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> $GITHUB_ENV
-
       - name: Generate Prisma types first
-        run: pnpm --filter backend exec prisma generate
+        env:
+          DATABASE_URL: "postgresql://test_user:test_password@localhost:5432/test_db"
+        run: pnpm --filter backend run prisma:init
 
       - name: Build shared packages
         run: pnpm --filter "@le-journal/shared-types" build
