@@ -30,8 +30,11 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-        
+
+      - name: Generate Prisma Client
+        run: pnpm --filter backend exec prisma generate
+
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm semantic-release
+        run: pnpm --filter backend semantic-release
