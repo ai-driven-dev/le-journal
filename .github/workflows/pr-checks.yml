@@ -81,6 +81,8 @@ jobs:
         run: pnpm typecheck
 
       - name: Run tests
+        env:
+          DATABASE_URL: "postgresql://test_user:test_password@localhost:5432/test_db"
         run: pnpm test
 
       - name: Build
