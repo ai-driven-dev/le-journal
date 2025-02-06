@@ -1,11 +1,10 @@
-
 ---
 File: ./components/await.md
 ---
 
 ---
-title: Await
----
+
+## title: Await
 
 # `<Await>`
 
@@ -14,12 +13,10 @@ To get started with streaming data, check out the [Streaming Guide][streaming_gu
 The `<Await>` component is responsible for resolving deferred loader promises accessed from [`useLoaderData`][use_loader_data].
 
 ```tsx
-import { Await } from "@remix-run/react";
+import { Await } from '@remix-run/react';
 
 <Suspense fallback={<div>Loading...</div>}>
-  <Await resolve={somePromise}>
-    {(resolvedValue) => <p>{resolvedValue}</p>}
-  </Await>
+  <Await resolve={somePromise}>{(resolvedValue) => <p>{resolvedValue}</p>}</Await>
 </Suspense>;
 ```
 
@@ -48,9 +45,7 @@ When the promise is resolved, the `children` will be rendered.
 The `children` can be a render callback or a React element.
 
 ```tsx
-<Await resolve={somePromise}>
-  {(resolvedValue) => <p>{resolvedValue}</p>}
-</Await>
+<Await resolve={somePromise}>{(resolvedValue) => <p>{resolvedValue}</p>}</Await>
 ```
 
 If the `children` props is a React element, the resolved value will be accessible through [`useAsyncValue`][use_async_value] in the subtree.
@@ -62,7 +57,7 @@ If the `children` props is a React element, the resolved value will be accessibl
 ```
 
 ```tsx
-import { useAsyncValue } from "@remix-run/react";
+import { useAsyncValue } from '@remix-run/react';
 
 function SomeChild() {
   const value = useAsyncValue();
@@ -85,7 +80,7 @@ The error can be accessed in the subtree with [`useAsyncError`][use_async_error]
 ```
 
 ```tsx
-import { useAsyncError } from "@remix-run/react";
+import { useAsyncError } from '@remix-run/react';
 
 function SomeChild() {
   const error = useAsyncError();
@@ -98,14 +93,13 @@ function SomeChild() {
 [use_async_value]: ../hooks/use-async-value
 [use_async_error]: ../hooks/use-async-error
 
-
----
-File: ./components/form.md
 ---
 
+## File: ./components/form.md
+
 ---
-title: Form
----
+
+## title: Form
 
 # `<Form>`
 
@@ -116,7 +110,7 @@ Because it uses the HTML form API, server rendered pages are interactive at a ba
 Form is most useful for submissions that should also change the URL or otherwise add an entry to the browser history stack. For forms that shouldn't manipulate the browser history stack, use [`<fetcher.Form>`][fetcher_form].
 
 ```tsx
-import { Form } from "@remix-run/react";
+import { Form } from '@remix-run/react';
 
 function NewEvent() {
   return (
@@ -265,31 +259,31 @@ See also:
 [use-view-transition-state]: ../hooks/use-view-transition-state
 [relativesplatpath]: ../hooks/use-resolved-path#splat-paths
 
-
----
-File: ./components/index.md
 ---
 
+## File: ./components/index.md
+
 ---
+
 title: Components
 order: 5
----
 
-
----
-File: ./components/link.md
 ---
 
 ---
-title: Link
+
+## File: ./components/link.md
+
 ---
+
+## title: Link
 
 # `<Link>`
 
 A `<a href>` wrapper to enable navigation with client-side routing.
 
 ```tsx
-import { Link } from "@remix-run/react";
+import { Link } from '@remix-run/react';
 
 <Link to="/dashboard">Dashboard</Link>;
 ```
@@ -313,9 +307,9 @@ You can also pass a `Partial<Path>` value:
 ```tsx
 <Link
   to={{
-    pathname: "/some/path",
-    search: "?query=string",
-    hash: "#hash",
+    pathname: '/some/path',
+    search: '?query=string',
+    hash: '#hash',
   }}
 />
 ```
@@ -453,7 +447,7 @@ A -> C
 Adds persistent client side routing state to the next location.
 
 ```tsx
-<Link to="/somewhere/else" state={{ some: "value" }} />
+<Link to="/somewhere/else" state={{ some: 'value' }} />
 ```
 
 The location state is accessed from the `location`.
@@ -486,9 +480,7 @@ function ImageLink(to) {
     <Link to={to} viewTransition>
       <p
         style={{
-          viewTransitionName: isTransitioning
-            ? "image-title"
-            : "",
+          viewTransitionName: isTransitioning ? 'image-title' : '',
         }}
       >
         Image Number {idx}
@@ -497,9 +489,7 @@ function ImageLink(to) {
         src={src}
         alt={`Img ${idx}`}
         style={{
-          viewTransitionName: isTransitioning
-            ? "image-expand"
-            : "",
+          viewTransitionName: isTransitioning ? 'image-expand' : '',
         }}
       />
     </Link>
@@ -515,14 +505,15 @@ function ImageLink(to) {
 [relativesplatpath]: ../hooks/use-resolved-path#splat-paths
 [lazy-route-discovery]: ../guides/lazy-route-discovery
 
-
----
-File: ./components/links.md
 ---
 
+## File: ./components/links.md
+
 ---
+
 title: Links
 toc: false
+
 ---
 
 # `<Links />`
@@ -530,7 +521,7 @@ toc: false
 The `<Links/>` component renders all of the [`<link>`][link_element] tags created by your route module [`links`][links] export. You should render it inside the [`<head>`][head_element] of your HTML, usually in `app/root.tsx`.
 
 ```tsx filename=app/root.tsx lines=[7]
-import { Links } from "@remix-run/react";
+import { Links } from '@remix-run/react';
 
 export default function Root() {
   return (
@@ -548,14 +539,15 @@ export default function Root() {
 [head_element]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head
 [links]: ../route/links
 
-
----
-File: ./components/live-reload.md
 ---
 
+## File: ./components/live-reload.md
+
 ---
+
 title: LiveReload
 toc: false
+
 ---
 
 # `<LiveReload />`
@@ -563,7 +555,7 @@ toc: false
 This component connects your app to the Remix asset server and automatically reloads the page when files change in development. In production, it renders `null`, so you can safely render it always in your root route.
 
 ```tsx filename=app/root.tsx lines=[8]
-import { LiveReload } from "@remix-run/react";
+import { LiveReload } from '@remix-run/react';
 
 export default function Root() {
   return (
@@ -591,14 +583,15 @@ Specify a custom port for the Live Reload protocol. The default value is the por
 
 The `timeoutMs` prop allows specifying a custom timeout for the Live Reload protocol, in milliseconds. This is the delay before trying to reconnect if the Web Socket connection is lost. The default value is `1000`.
 
-
----
-File: ./components/meta.md
 ---
 
+## File: ./components/meta.md
+
 ---
+
 title: Meta
 toc: false
+
 ---
 
 # `<Meta />`
@@ -606,7 +599,7 @@ toc: false
 This component renders all of the [`<meta>`][meta_element] tags created by your route module [`meta`][meta] export. You should render it inside the [`<head>`][head_element] of your HTML, usually in `app/root.tsx`.
 
 ```tsx filename=app/root.tsx lines=[7]
-import { Meta } from "@remix-run/react";
+import { Meta } from '@remix-run/react';
 
 export default function Root() {
   return (
@@ -624,27 +617,24 @@ export default function Root() {
 [head_element]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head
 [meta]: ../route/meta
 
-
----
-File: ./components/nav-link.md
 ---
 
+## File: ./components/nav-link.md
+
 ---
-title: NavLink
----
+
+## title: NavLink
 
 # `<NavLink>`
 
 Wraps [`<Link>`][link-component] with additional props for styling active and pending states.
 
 ```tsx
-import { NavLink } from "@remix-run/react";
+import { NavLink } from '@remix-run/react';
 
 <NavLink
   to="/messages"
-  className={({ isActive, isPending }) =>
-    isPending ? "pending" : isActive ? "active" : ""
-  }
+  className={({ isActive, isPending }) => (isPending ? 'pending' : isActive ? 'active' : '')}
 >
   Messages
 </NavLink>;
@@ -707,9 +697,7 @@ Calls back with the active and pending states to allow customizing the class nam
 ```tsx
 <NavLink
   to="/messages"
-  className={({ isActive, isPending }) =>
-    isPending ? "pending" : isActive ? "active" : ""
-  }
+  className={({ isActive, isPending }) => (isPending ? 'pending' : isActive ? 'active' : '')}
 >
   Messages
 </NavLink>
@@ -724,8 +712,8 @@ Calls back with the active and pending states to allow customizing the styles ap
   to="/messages"
   style={({ isActive, isPending }) => {
     return {
-      fontWeight: isActive ? "bold" : "",
-      color: isPending ? "red" : "black",
+      fontWeight: isActive ? 'bold' : '',
+      color: isPending ? 'red' : 'black',
     };
   }}
 >
@@ -739,9 +727,7 @@ Calls back with the active and pending states to allow customizing the content o
 
 ```tsx
 <NavLink to="/tasks">
-  {({ isActive, isPending }) => (
-    <span className={isActive ? "active" : ""}>Tasks</span>
-  )}
+  {({ isActive, isPending }) => <span className={isActive ? 'active' : ''}>Tasks</span>}
 </NavLink>
 ```
 
@@ -773,11 +759,11 @@ The `viewTransition` prop enables a [View Transition][view-transitions] for this
 
 ```css
 a.transitioning p {
-  view-transition-name: "image-title";
+  view-transition-name: 'image-title';
 }
 
 a.transitioning img {
-  view-transition-name: "image-expand";
+  view-transition-name: 'image-expand';
 }
 ```
 
@@ -796,9 +782,7 @@ You may also use the [`className`][class-name-prop]/[`style`][style-prop] props 
     <>
       <p
         style={{
-          viewTransitionName: isTransitioning
-            ? "image-title"
-            : "",
+          viewTransitionName: isTransitioning ? 'image-title' : '',
         }}
       >
         Image Number {idx}
@@ -807,9 +791,7 @@ You may also use the [`className`][class-name-prop]/[`style`][style-prop] props 
         src={src}
         alt={`Img ${idx}`}
         style={{
-          viewTransitionName: isTransitioning
-            ? "image-expand"
-            : "",
+          viewTransitionName: isTransitioning ? 'image-expand' : '',
         }}
       />
     </>
@@ -832,21 +814,20 @@ All other props of [`<Link>`][link-component] are supported.
 [style-prop]: #style-callback
 [children-prop]: #children-callback
 
-
----
-File: ./components/outlet.md
 ---
 
+## File: ./components/outlet.md
+
 ---
-title: Outlet
----
+
+## title: Outlet
 
 # `<Outlet>`
 
 Renders the matching child route of a parent route.
 
 ```tsx
-import { Outlet } from "@remix-run/react";
+import { Outlet } from '@remix-run/react';
 
 export default function SomeParent() {
   return (
@@ -873,14 +854,15 @@ See also: [`useOutletContext`][use-outlet-context]
 
 [use-outlet-context]: ../hooks/use-outlet-context
 
-
----
-File: ./components/prefetch-page-links.md
 ---
 
+## File: ./components/prefetch-page-links.md
+
 ---
+
 title: PrefetchPageLinks
 toc: false
+
 ---
 
 # `<PrefetchPageLinks />`
@@ -895,14 +877,15 @@ This component enables prefetching of all assets for a page to enable an instant
 
 **Note:** You need to use an absolute path.
 
-
----
-File: ./components/scripts.md
 ---
 
+## File: ./components/scripts.md
+
 ---
+
 title: Scripts
 toc: false
+
 ---
 
 # `<Scripts />`
@@ -910,7 +893,7 @@ toc: false
 This component renders the client runtime of your app. You should render it inside the [`<body>`][body-element] of your HTML, usually in [`app/root.tsx`][root].
 
 ```tsx filename=app/root.tsx lines=[8]
-import { Scripts } from "@remix-run/react";
+import { Scripts } from '@remix-run/react';
 
 export default function Root() {
   return (
@@ -940,14 +923,13 @@ You cannot pass through attributes such as `async`/`defer`/`src`/`type`/`noModul
 [csp-nonce]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/Sources#sources
 [root]: ../file-conventions/root
 
-
----
-File: ./components/scroll-restoration.md
 ---
 
+## File: ./components/scroll-restoration.md
+
 ---
-title: ScrollRestoration
----
+
+## title: ScrollRestoration
 
 # `<ScrollRestoration>`
 
@@ -956,10 +938,7 @@ This component will emulate the browser's scroll restoration on location changes
 You should only render one of these, right before the [`<Scripts/>`][scripts_component] component.
 
 ```tsx lines=[3,11]
-import {
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { Scripts, ScrollRestoration } from '@remix-run/react';
 
 export default function Root() {
   return (
@@ -1027,7 +1006,7 @@ Or you may want to only use the pathname for some paths, and use the normal beha
 ```tsx
 <ScrollRestoration
   getKey={(location, matches) => {
-    const paths = ["/home", "/notifications"];
+    const paths = ['/home', '/notifications'];
     return paths.includes(location.pathname)
       ? // home and notifications restore by pathname
         location.pathname
@@ -1064,26 +1043,26 @@ See also: [`<Form preventScrollReset>`][form_prevent_scroll_reset], [`<Link prev
 [form_prevent_scroll_reset]: ../components/form#preventscrollreset
 [link_prevent_scroll_reset]: ../components/link#preventscrollreset
 
-
----
-File: ./discussion/component-data.md
 ---
 
+## File: ./discussion/component-data.md
+
 ---
+
 title: Component Data
 hidden: true
+
 ---
 
 # Component Data
 
-
----
-File: ./discussion/concurrency.md
 ---
 
+## File: ./discussion/concurrency.md
+
 ---
-title: Network Concurrency Management
----
+
+## title: Network Concurrency Management
 
 # Network Concurrency Management
 
@@ -1155,14 +1134,12 @@ The user is now looking at different data than what is on the server. Note that 
 In UI components like combo boxes, each keystroke can trigger a network request. Managing such rapid, consecutive requests can be tricky, especially when ensuring that the displayed results match the most recent query. However, with Remix, this challenge is automatically handled, ensuring that users see the correct results without developers having to micromanage the network.
 
 ```tsx filename=app/routes/city-search.tsx
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { searchParams } = new URL(request.url);
-  const cities = await searchCities(searchParams.get("q"));
+  const cities = await searchCities(searchParams.get('q'));
   return json(cities);
 }
 
@@ -1186,10 +1163,7 @@ export function CitySearchCombobox() {
             {fetcher.data.length > 0 ? (
               <ComboboxList>
                 {fetcher.data.map((city) => (
-                  <ComboboxOption
-                    key={city.id}
-                    value={city.name}
-                  />
+                  <ComboboxOption key={city.id} value={city.name} />
                 ))}
               </ComboboxList>
             ) : (
@@ -1212,24 +1186,26 @@ Remix offers developers an intuitive, browser-based approach to managing network
 [fullstack_data_flow]: ./data-flow
 [use_fetcher]: ../hooks/use-fetcher
 
-
----
-File: ./discussion/cookies-and-sessions.md
 ---
 
+## File: ./discussion/cookies-and-sessions.md
+
 ---
+
 title: Cookies and Sessions
 hidden: true
----
 
-
----
-File: ./discussion/data-flow.md
 ---
 
 ---
+
+## File: ./discussion/data-flow.md
+
+---
+
 title: Fullstack Data Flow
 order: 4
+
 ---
 
 # Fullstack Data Flow
@@ -1265,12 +1241,10 @@ export async function action() {
 Route files can export a [`loader`][loader] function that provides data to the route component. When the user navigates to a matching route, the data is first loaded and then the page is rendered.
 
 ```tsx filename=routes/account.tsx lines=[1-2,4-12]
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const user = await getUser(request);
   return json({
     displayName: user.displayName,
@@ -1292,13 +1266,11 @@ export async function action() {
 The default export of the route file is the component that renders. It reads the loader data with [`useLoaderData`][use_loader_data]:
 
 ```tsx lines=[3,15-30]
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData, Form } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData, Form } from '@remix-run/react';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const user = await getUser(request);
   return json({
     displayName: user.displayName,
@@ -1312,10 +1284,7 @@ export default function Component() {
     <Form method="post" action="/account">
       <h1>Settings for {user.displayName}</h1>
 
-      <input
-        name="displayName"
-        defaultValue={user.displayName}
-      />
+      <input name="displayName" defaultValue={user.displayName} />
       <input name="email" defaultValue={user.email} />
 
       <button type="submit">Save</button>
@@ -1333,16 +1302,11 @@ export async function action() {
 Finally, the action on the route matching the form's action attribute is called when the form is submitted. In this example it's the same route. The values in the form fields will be available on the standard [`request.formData()`][request_form_data] API. Note the `name` attribute on the inputs is coupled to the [`formData.get(fieldName)`][form_data_get] getter.
 
 ```tsx lines=[2,35-47]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData, Form } from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData, Form } from '@remix-run/react';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const user = await getUser(request);
   return json({
     displayName: user.displayName,
@@ -1356,10 +1320,7 @@ export default function Component() {
     <Form method="post" action="/account">
       <h1>Settings for {user.displayName}</h1>
 
-      <input
-        name="displayName"
-        defaultValue={user.displayName}
-      />
+      <input name="displayName" defaultValue={user.displayName} />
       <input name="email" defaultValue={user.email} />
 
       <button type="submit">Save</button>
@@ -1367,15 +1328,13 @@ export default function Component() {
   );
 }
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const user = await getUser(request);
 
   await updateUser(user.id, {
-    email: formData.get("email"),
-    displayName: formData.get("displayName"),
+    email: formData.get('email'),
+    displayName: formData.get('displayName'),
   });
 
   return json({ ok: true });
@@ -1409,14 +1368,15 @@ When the user submits the form before JavaScript loads:
 [request_form_data]: https://developer.mozilla.org/en-US/docs/Web/API/Request/formData
 [form_data_get]: https://developer.mozilla.org/en-US/docs/Web/API/FormData/get
 
-
----
-File: ./discussion/error-handling.md
 ---
 
+## File: ./discussion/error-handling.md
+
 ---
+
 title: Error Handling
 hidden: true
+
 ---
 
 # Error Handling
@@ -1431,38 +1391,39 @@ hidden: true
   - 503s
   - can send data!
 
-
----
-File: ./discussion/formdata.md
 ---
 
+## File: ./discussion/formdata.md
+
 ---
+
 title: Working with FormData
 hidden: true
+
 ---
 
 # Working with FormData
 
-
----
-File: ./discussion/form-validation.md
 ---
 
+## File: ./discussion/form-validation.md
+
 ---
+
 title: Form Validation
 hidden: true
+
 ---
 
 # Form Validation
 
-
----
-File: ./discussion/form-vs-fetcher.md
 ---
 
+## File: ./discussion/form-vs-fetcher.md
+
 ---
-title: Form vs. fetcher
----
+
+## title: Form vs. fetcher
 
 # Form vs. fetcher
 
@@ -1530,17 +1491,11 @@ As you can see, the two sets of APIs have a lot of similarities:
 ### Creating a New Record
 
 ```tsx filename=app/routes/recipes/new.tsx lines=[18,22-23,28]
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { redirect } from "@remix-run/node"; // or cloudflare/deno
-import {
-  Form,
-  useActionData,
-  useNavigation,
-} from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { redirect } from '@remix-run/node'; // or cloudflare/deno
+import { Form, useActionData, useNavigation } from '@remix-run/react';
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const errors = await validateRecipeFormData(formData);
   if (errors) {
@@ -1553,8 +1508,7 @@ export async function action({
 export function NewRecipe() {
   const { errors } = useActionData<typeof action>();
   const navigation = useNavigation();
-  const isSubmitting =
-    navigation.formAction === "/recipes/new";
+  const isSubmitting = navigation.formAction === '/recipes/new';
 
   return (
     <Form method="post">
@@ -1564,19 +1518,13 @@ export function NewRecipe() {
       </label>
       <label>
         Ingredients: <textarea name="ingredients" />
-        {errors?.ingredients ? (
-          <span>{errors.ingredients}</span>
-        ) : null}
+        {errors?.ingredients ? <span>{errors.ingredients}</span> : null}
       </label>
       <label>
         Directions: <textarea name="directions" />
-        {errors?.directions ? (
-          <span>{errors.directions}</span>
-        ) : null}
+        {errors?.directions ? <span>{errors.directions}</span> : null}
       </label>
-      <button type="submit">
-        {isSubmitting ? "Saving..." : "Create Recipe"}
-      </button>
+      <button type="submit">{isSubmitting ? 'Saving...' : 'Create Recipe'}</button>
     </Form>
   );
 }
@@ -1599,13 +1547,11 @@ Now consider we're looking at a list of recipes that have delete buttons on each
 First consider the basic route setup to get a list of recipes on the page:
 
 ```tsx filename=app/routes/recipes/_index.tsx
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   return json({
     recipes: await db.recipes.findAll({ limit: 30 }),
   });
@@ -1626,11 +1572,9 @@ export default function Recipes() {
 Now we'll look at the action that deletes a recipe and the component that renders each recipe in the list.
 
 ```tsx filename=app/routes/recipes/_index.tsx lines=[7,13,19]
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const id = formData.get("id");
+  const id = formData.get('id');
   await db.recipes.delete(id);
   return json({ ok: true });
 }
@@ -1639,14 +1583,14 @@ const RecipeListItem: FunctionComponent<{
   recipe: Recipe;
 }> = ({ recipe }) => {
   const fetcher = useFetcher();
-  const isDeleting = fetcher.state !== "idle";
+  const isDeleting = fetcher.state !== 'idle';
 
   return (
     <li>
       <h2>{recipe.title}</h2>
       <fetcher.Form method="post">
         <button disabled={isDeleting} type="submit">
-          {isDeleting ? "Deleting..." : "Delete"}
+          {isDeleting ? 'Deleting...' : 'Delete'}
         </button>
       </fetcher.Form>
     </li>
@@ -1675,8 +1619,8 @@ function useMarkAsRead({ articleId, userId }) {
       { userId },
       {
         action: `/article/${articleId}/mark-as-read`,
-        method: "post",
-      }
+        method: 'post',
+      },
     );
   });
 }
@@ -1687,12 +1631,8 @@ function useMarkAsRead({ articleId, userId }) {
 Anytime you show the user avatar, you could put a hover effect that fetches data from a loader and displays it in a popup.
 
 ```tsx filename=app/routes/users.$id.details.tsx
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
-  return json(
-    await fakeDb.user.find({ where: { id: params.id } })
-  );
+export async function loader({ params }: LoaderFunctionArgs) {
+  return json(await fakeDb.user.find({ where: { id: params.id } }));
 }
 
 function UserAvatar({ partialUser }) {
@@ -1700,23 +1640,16 @@ function UserAvatar({ partialUser }) {
   const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
-    if (
-      showDetails &&
-      userDetails.state === "idle" &&
-      !userDetails.data
-    ) {
+    if (showDetails && userDetails.state === 'idle' && !userDetails.data) {
       userDetails.load(`/users/${user.id}/details`);
     }
   }, [showDetails, userDetails]);
 
   return (
-    <div
-      onMouseEnter={() => setShowDetails(true)}
-      onMouseLeave={() => setShowDetails(false)}
-    >
+    <div onMouseEnter={() => setShowDetails(true)} onMouseLeave={() => setShowDetails(false)}>
       <img src={partialUser.profileImageUrl} />
       {showDetails ? (
-        userDetails.state === "idle" && userDetails.data ? (
+        userDetails.state === 'idle' && userDetails.data ? (
           <UserPopup user={userDetails.data} />
         ) : (
           <UserPopupLoading />
@@ -1737,14 +1670,13 @@ Remix offers a range of tools to cater to varied developmental needs. While some
 [use_navigation]: ../hooks/use-navigation
 [network_concurrency_management]: ./concurrency
 
-
----
-File: ./discussion/hot-module-replacement.md
 ---
 
+## File: ./discussion/hot-module-replacement.md
+
 ---
-title: Hot Module Replacement
----
+
+## title: Hot Module Replacement
 
 # Hot Module Replacement
 
@@ -1804,20 +1736,18 @@ React Fast Refresh can only handle component exports. While Remix manages specia
 ```tsx
 // These exports are handled by the Remix Vite plugin
 // to be HMR-compatible
-export const meta = { title: "Home" }; // ✅
-export const links = [
-  { rel: "stylesheet", href: "style.css" },
-]; // ✅
+export const meta = { title: 'Home' }; // ✅
+export const links = [{ rel: 'stylesheet', href: 'style.css' }]; // ✅
 
 // These exports are removed by the Remix Vite plugin
 // so they never affect HMR
-export const headers = { "Cache-Control": "max-age=3600" }; // ✅
+export const headers = { 'Cache-Control': 'max-age=3600' }; // ✅
 export const loader = async () => {}; // ✅
 export const action = async () => {}; // ✅
 
 // This is not a Remix export, nor a component export,
 // so it will cause a full reload for this route
-export const myValue = "some value"; // ❌
+export const myValue = 'some value'; // ❌
 
 export default function Route() {} // ✅
 ```
@@ -1826,7 +1756,7 @@ export default function Route() {} // ✅
 If you want to reuse values across routes, stick them in their own non-route module:
 
 ```ts filename=my-custom-value.ts
-export const myValue = "some value";
+export const myValue = 'some value';
 ```
 
 ### Changing Hooks
@@ -1838,7 +1768,7 @@ For example:
 
 ```tsx
 export const loader = async () => {
-  return json({ stuff: "some things" });
+  return json({ stuff: 'some things' });
 };
 
 export default function Component() {
@@ -1879,7 +1809,7 @@ As a workaround, you could refrain from destructuring and instead use the hook's
 
 ```tsx
 export const loader = async () => {
-  return json({ stuff: "some things" });
+  return json({ stuff: 'some things' });
 };
 
 export default function Component() {
@@ -1929,36 +1859,39 @@ In some cases, React cannot distinguish between existing components being change
 [use-loader-data]: ../hooks/use-loader-data
 [react-keys]: https://react.dev/learn/rendering-lists#why-does-react-need-keys
 
-
----
-File: ./discussion/html-forms.md
 ---
 
+## File: ./discussion/html-forms.md
+
 ---
+
 title: HTML Form APIs
 hidden: true
+
 ---
 
 # HTML Form APIs
 
-
----
-File: ./discussion/index.md
 ---
 
+## File: ./discussion/index.md
+
 ---
+
 title: Discussion Topics
 order: 2
----
 
-
----
-File: ./discussion/introduction.md
 ---
 
 ---
+
+## File: ./discussion/introduction.md
+
+---
+
 title: Introduction, Technical Explanation
 order: 1
+
 ---
 
 # Introduction, Technical Explanation
@@ -1989,16 +1922,16 @@ It's built on the [Web Fetch API][fetch] instead of Node.js. This enables Remix 
 This is what Remix looks like when running in an express app:
 
 ```ts lines=[2,6-9]
-const remix = require("@remix-run/express");
-const express = require("express");
+const remix = require('@remix-run/express');
+const express = require('express');
 
 const app = express();
 
 app.all(
-  "*",
+  '*',
   remix.createRequestHandler({
-    build: require("./build/server"),
-  })
+    build: require('./build/server'),
+  }),
 );
 ```
 
@@ -2067,9 +2000,7 @@ export default function Projects() {
         <input name="title" />
         <button type="submit">Create New Project</button>
       </Form>
-      {actionData?.errors ? (
-        <ErrorMessages errors={actionData.errors} />
-      ) : null}
+      {actionData?.errors ? <ErrorMessages errors={actionData.errors} /> : null}
 
       {/* outlets render the nested child routes
           that match the URL deeper than this route,
@@ -2083,15 +2014,13 @@ export default function Projects() {
 // Actions only run on the server and handle POST
 // PUT, PATCH, and DELETE. They can also provide data
 // to the component
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const form = await request.formData();
   const errors = validate(form);
   if (errors) {
     return json({ errors });
   }
-  await createProject({ title: form.get("title") });
+  await createProject({ title: form.get('title') });
   return json({ ok: true });
 }
 ```
@@ -2136,7 +2065,7 @@ export default function Projects() {
   const projects = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
   const { state } = useNavigation();
-  const busy = state === "submitting";
+  const busy = state === 'submitting';
   const inputRef = React.useRef();
 
   React.useEffect(() => {
@@ -2156,7 +2085,7 @@ export default function Projects() {
       <Form method="post">
         <input ref={inputRef} name="title" />
         <button type="submit" disabled={busy}>
-          {busy ? "Creating..." : "Create New Project"}
+          {busy ? 'Creating...' : 'Create New Project'}
         </button>
       </Form>
 
@@ -2191,38 +2120,41 @@ We borrowed an old term and called this Progressive Enhancement in Remix. Start 
 [arc]: https://arc.codes
 [react_router]: https://reactrouter.com
 
-
----
-File: ./discussion/multiple-forms.md
 ---
 
+## File: ./discussion/multiple-forms.md
+
 ---
+
 title: Multiple Forms on a Page
 hidden: true
+
 ---
 
 # Multiple Forms on a Page
 
-
----
-File: ./discussion/nested-routes.md
 ---
 
+## File: ./discussion/nested-routes.md
+
 ---
+
 title: Layouts and Nested Routes
 hidden: true
+
 ---
 
 # Layouts and Nested Routes
 
-
----
-File: ./discussion/pending-ui.md
 ---
 
+## File: ./discussion/pending-ui.md
+
 ---
+
 title: Pending UI
 order: 8
+
 ---
 
 # Pending and Optimistic UI
@@ -2265,13 +2197,11 @@ Use Skeleton Fallbacks:
 **Busy Indicator**: You can indicate the user is navigating to a new page with [`useNavigation`][use_navigation]:
 
 ```tsx
-import { useNavigation } from "@remix-run/react";
+import { useNavigation } from '@remix-run/react';
 
 function PendingNavigation() {
   const navigation = useNavigation();
-  return navigation.state === "loading" ? (
-    <div className="spinner" />
-  ) : null;
+  return navigation.state === 'loading' ? <div className="spinner" /> : null;
 }
 ```
 
@@ -2280,7 +2210,7 @@ function PendingNavigation() {
 **Busy Indicator**: You can indicate on the nav link itself that the user is navigating to it with the [`<NavLink className>`][nav_link_component_classname] callback.
 
 ```tsx lines=[10-12]
-import { NavLink } from "@remix-run/react";
+import { NavLink } from '@remix-run/react';
 
 export function ProjectList({ projects }) {
   return (
@@ -2289,9 +2219,7 @@ export function ProjectList({ projects }) {
         <NavLink
           key={project.id}
           to={project.id}
-          className={({ isPending }) =>
-            isPending ? "pending" : null
-          }
+          className={({ isPending }) => (isPending ? 'pending' : null)}
         >
           {project.name}
         </NavLink>
@@ -2304,7 +2232,7 @@ export function ProjectList({ projects }) {
 Or add a spinner next to it by inspecting params:
 
 ```tsx lines=[1,4,10-12]
-import { useParams } from "@remix-run/react";
+import { useParams } from '@remix-run/react';
 
 export function ProjectList({ projects }) {
   const params = useParams();
@@ -2313,9 +2241,7 @@ export function ProjectList({ projects }) {
       {projects.map((project) => (
         <NavLink key={project.id} to={project.id}>
           {project.name}
-          {params.projectId === project.id ? (
-            <Spinner />
-          ) : null}
+          {params.projectId === project.id ? <Spinner /> : null}
         </NavLink>
       ))}
     </nav>
@@ -2330,17 +2256,15 @@ While localized indicators on links are nice, they are incomplete. There are man
 **Busy Indicator**: It's typically best to wait for a record to be created instead of using optimistic UI since things like IDs and other fields are unknown until it completes. Also note this action redirects to the new record from the action.
 
 ```tsx filename=app/routes/create-project.tsx lines=[2,13,21-22,26,35]
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { redirect } from "@remix-run/node"; // or cloudflare/deno
-import { useNavigation } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { redirect } from '@remix-run/node'; // or cloudflare/deno
+import { useNavigation } from '@remix-run/react';
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const project = await createRecord({
-    name: formData.get("name"),
-    owner: formData.get("owner"),
+    name: formData.get('name'),
+    owner: formData.get('owner'),
   });
   return redirect(`/projects/${project.id}`);
 }
@@ -2350,8 +2274,7 @@ export default function CreateProject() {
 
   // important to check you're submitting to the action
   // for the pending UI, not just any action
-  const isSubmitting =
-    navigation.formAction === "/create-project";
+  const isSubmitting = navigation.formAction === '/create-project';
 
   return (
     <Form method="post" action="/create-project">
@@ -2373,11 +2296,11 @@ export default function CreateProject() {
 You can do the same with [`useFetcher`][use_fetcher], which is useful if you aren't changing the URL (maybe adding the record to a list)
 
 ```tsx lines=[5]
-import { useFetcher } from "@remix-run/react";
+import { useFetcher } from '@remix-run/react';
 
 function CreateProject() {
   const fetcher = useFetcher();
-  const isSubmitting = fetcher.state === "submitting";
+  const isSubmitting = fetcher.state === 'submitting';
 
   return (
     <fetcher.Form method="post" action="/create-project">
@@ -2392,14 +2315,14 @@ function CreateProject() {
 **Optimistic UI**: When the UI simply updates a field on a record, optimistic UI is a great choice. Many, if not most user interactions in a web app tend to be updates, so this is a common pattern.
 
 ```tsx lines=[6-8,19,22]
-import { useFetcher } from "@remix-run/react";
+import { useFetcher } from '@remix-run/react';
 
 function ProjectListItem({ project }) {
   const fetcher = useFetcher();
 
   const starred = fetcher.formData
     ? // use optimistic value if submitting
-      fetcher.formData.get("starred") === "1"
+      fetcher.formData.get('starred') === '1'
     : // fall back to the database state
       project.starred;
 
@@ -2411,10 +2334,10 @@ function ProjectListItem({ project }) {
           type="submit"
           name="starred"
           // use optimistic value to allow interruptions
-          value={starred ? "0" : "1"}
+          value={starred ? '0' : '1'}
         >
           {/* 👇 display optimistic value */}
-          {starred ? "★" : "☆"}
+          {starred ? '★' : '☆'}
         </button>
       </fetcher.Form>
     </>
@@ -2427,14 +2350,12 @@ function ProjectListItem({ project }) {
 **Skeleton Fallback**: When data is deferred, you can add fallbacks with [`<Suspense>`][suspense_component]. This allows the UI to render without waiting for the data to load, speeding up the perceived and actual performance of the application.
 
 ```tsx lines=[11-14,24-28]
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { defer } from "@remix-run/node"; // or cloudflare/deno
-import { Await } from "@remix-run/react";
-import { Suspense } from "react";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { defer } from '@remix-run/node'; // or cloudflare/deno
+import { Await } from '@remix-run/react';
+import { Suspense } from 'react';
 
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const reviewsPromise = getReviews(params.productId);
   const product = await getProduct(params.productId);
   return defer({
@@ -2444,16 +2365,13 @@ export async function loader({
 }
 
 export default function ProductRoute() {
-  const { product, reviews } =
-    useLoaderData<typeof loader>();
+  const { product, reviews } = useLoaderData<typeof loader>();
   return (
     <>
       <ProductPage product={product} />
 
       <Suspense fallback={<ReviewsSkeleton />}>
-        <Await resolve={reviews}>
-          {(reviews) => <Reviews reviews={reviews} />}
-        </Await>
+        <Await resolve={reviews}>{(reviews) => <Reviews reviews={reviews} />}</Await>
       </Suspense>
     </>
   );
@@ -2479,14 +2397,15 @@ Creating network-aware UI via busy indicators, optimistic UI, and skeleton fallb
 [first_contentful_paint]: https://web.dev/fcp
 [link-component-prefetch]: ../components/link#prefetch
 
-
----
-File: ./discussion/progressive-enhancement.md
 ---
 
+## File: ./discussion/progressive-enhancement.md
+
 ---
+
 title: Progressive Enhancement
 order: 7
+
 ---
 
 # Progressive Enhancement
@@ -2562,7 +2481,7 @@ When you start to rely on basic features of the web like HTML and URLs, you will
 Consider the button from before, with no fundamental change to the code, we can pepper in some client side behavior:
 
 ```tsx lines=[1,4,7,10-12,14]
-import { useFetcher } from "@remix-run/react";
+import { useFetcher } from '@remix-run/react';
 
 export function AddToCart({ id }) {
   const fetcher = useFetcher();
@@ -2570,11 +2489,7 @@ export function AddToCart({ id }) {
   return (
     <fetcher.Form method="post" action="/add-to-cart">
       <input name="id" value={id} />
-      <button type="submit">
-        {fetcher.state === "submitting"
-          ? "Adding..."
-          : "Add To Cart"}
-      </button>
+      <button type="submit">{fetcher.state === 'submitting' ? 'Adding...' : 'Add To Cart'}</button>
     </fetcher.Form>
   );
 }
@@ -2605,12 +2520,11 @@ export function SearchBox() {
 This component doesn't need any state management. It just renders a form that submits to `/search`. When JavaScript loads, Remix will intercept the form submission and handle it client side. This allows you to add your own pending UI, or other client side behavior. Here's the next iteration:
 
 ```tsx lines=[1,4-6,11]
-import { useNavigation } from "@remix-run/react";
+import { useNavigation } from '@remix-run/react';
 
 export function SearchBox() {
   const navigation = useNavigation();
-  const isSearching =
-    navigation.location.pathname === "/search";
+  const isSearching = navigation.location.pathname === '/search';
 
   return (
     <Form method="get" action="/search">
@@ -2628,14 +2542,15 @@ See also: [State Management][state_management]
 [wikipedia]: https://en.wikipedia.org/wiki/Progressive_enhancement
 [state_management]: ./state-management
 
-
----
-File: ./discussion/react-router.md
 ---
 
+## File: ./discussion/react-router.md
+
 ---
+
 title: React Router
 order: 6
+
 ---
 
 # React Router
@@ -2653,13 +2568,13 @@ Remix re-exports all the components and hooks from React Router DOM, so you don'
 🚫 Don't do this:
 
 ```tsx bad
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 ```
 
 ✅ Do this:
 
 ```tsx good
-import { useLocation } from "@remix-run/react";
+import { useLocation } from '@remix-run/react';
 ```
 
 ## Extended Behavior
@@ -2669,7 +2584,7 @@ Some of the components and hooks have been extended to work with Remix's server-
 🚫 Don't do this:
 
 ```tsx bad
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 // this won't do anything
 <Link prefetch="intent" />;
@@ -2678,7 +2593,7 @@ import { Link } from "react-router-dom";
 ✅ Do this:
 
 ```tsx good
-import { Link } from "@remix-run/react";
+import { Link } from '@remix-run/react';
 
 // this will prefetch data and assets
 <Link prefetch="intent" />;
@@ -2686,14 +2601,13 @@ import { Link } from "@remix-run/react";
 
 [react_router]: https://reactrouter.com
 
-
----
-File: ./discussion/resubmissions.md
 ---
 
+## File: ./discussion/resubmissions.md
+
 ---
-title: Form Resubmissions
----
+
+## title: Form Resubmissions
 
 # Form Resubmissions
 
@@ -2764,14 +2678,15 @@ It's advisable to implement a redirect from the action to avoid unintended resub
 [use_action_data]: ../hooks/use-action-data
 [redirect]: ../utils/redirect
 
-
----
-File: ./discussion/routes.md
 ---
 
+## File: ./discussion/routes.md
+
 ---
+
 title: Route Configuration
 order: 3
+
 ---
 
 # Route Configuration
@@ -2899,20 +2814,20 @@ app/
 To configure this structure into the same URLs as the previous examples, you can use the `routes` function in `vite.config.ts`:
 
 ```ts filename=vite.config.ts
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
     remix({
       routes(defineRoutes) {
         return defineRoutes((route) => {
-          route("/", "home/route.tsx", { index: true });
-          route("about", "about/route.tsx");
-          route("concerts", "concerts/layout.tsx", () => {
-            route("", "concerts/home.tsx", { index: true });
-            route("trending", "concerts/trending.tsx");
-            route(":city", "concerts/city.tsx");
+          route('/', 'home/route.tsx', { index: true });
+          route('about', 'about/route.tsx');
+          route('concerts', 'concerts/layout.tsx', () => {
+            route('', 'concerts/home.tsx', { index: true });
+            route('trending', 'concerts/trending.tsx');
+            route(':city', 'concerts/city.tsx');
           });
         });
       },
@@ -2930,14 +2845,15 @@ Remix's route configuration approach blends convention with flexibility. You can
 [vite-routes]: ../file-conventions/vite-config#routes
 [routes-disclaimer]: ../file-conventions/routes#disclaimer
 
-
----
-File: ./discussion/runtimes.md
 ---
 
+## File: ./discussion/runtimes.md
+
 ---
+
 title: Runtimes, Adapters, Templates, and Deployment
 order: 2
+
 ---
 
 # Runtimes, Adapters, Templates, and Deployment
@@ -2974,16 +2890,16 @@ For example, you might want to store cookies on the file system, or in Cloudflar
 
 ```tsx
 // store sessions in cloudflare KV storage
-import { createWorkersKVSessionStorage } from "@remix-run/cloudflare";
+import { createWorkersKVSessionStorage } from '@remix-run/cloudflare';
 
 // store sessions on the file system in node
-import { createFileSessionStorage } from "@remix-run/node";
+import { createFileSessionStorage } from '@remix-run/node';
 ```
 
 But if you're storing a session in the cookie itself, this is supported in all runtimes:
 
 ```tsx
-import { createCookieSessionStorage } from "@remix-run/node"; // or cloudflare/deno
+import { createCookieSessionStorage } from '@remix-run/node'; // or cloudflare/deno
 ```
 
 ## Adapters
@@ -2996,13 +2912,13 @@ Here's some pseudocode that illustrates the flow.
 
 ```tsx
 // import the app build created by `remix build`
-import build from "./build/index.js";
+import build from './build/index.js';
 
 // an express http server
 const app = express();
 
 // and here your Remix app is "just a request handler"
-app.all("*", createRequestHandler({ build }));
+app.all('*', createRequestHandler({ build }));
 
 // This is pseudo code, but illustrates what adapters do:
 export function createRequestHandler({ build }) {
@@ -3054,14 +2970,15 @@ Once you've picked a template or [set up an app from scratch][quickstart], you'r
 [remix_run_deno]: https://npm.im/@remix-run/deno
 [remix_run_node]: https://npm.im/@remix-run/node
 
-
----
-File: ./discussion/server-vs-client.md
 ---
 
+## File: ./discussion/server-vs-client.md
+
 ---
+
 title: Server vs. Client Code Execution
 order: 5
+
 ---
 
 # Server vs. Client Code Execution
@@ -3079,23 +2996,17 @@ The following route exports and the dependencies used within them are removed fr
 Consider this route module from the last section:
 
 ```tsx filename=routes/settings.tsx
-import type {
-  ActionFunctionArgs,
-  HeadersFunction,
-  LoaderFunctionArgs,
-} from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import type { ActionFunctionArgs, HeadersFunction, LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
-import { getUser, updateUser } from "../user";
+import { getUser, updateUser } from '../user';
 
 export const headers: HeadersFunction = () => ({
-  "Cache-Control": "max-age=300, s-maxage=3600",
+  'Cache-Control': 'max-age=300, s-maxage=3600',
 });
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const user = await getUser(request);
   return json({
     displayName: user.displayName,
@@ -3109,10 +3020,7 @@ export default function Component() {
     <Form action="/account">
       <h1>Settings for {user.displayName}</h1>
 
-      <input
-        name="displayName"
-        defaultValue={user.displayName}
-      />
+      <input name="displayName" defaultValue={user.displayName} />
       <input name="email" defaultValue={user.email} />
 
       <button type="submit">Save</button>
@@ -3120,15 +3028,13 @@ export default function Component() {
   );
 }
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const user = await getUser(request);
 
   await updateUser(user.id, {
-    email: formData.get("email"),
-    displayName: formData.get("displayName"),
+    email: formData.get('email'),
+    displayName: formData.get('displayName'),
   });
 
   return json({ ok: true });
@@ -3138,7 +3044,7 @@ export async function action({
 The server build will contain the entire module in the final bundle. However, the client build will remove the `action`, `headers` and `loader`, along with the dependencies, resulting in this:
 
 ```tsx filename=routes/settings.tsx
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from '@remix-run/react';
 
 export default function Component() {
   const user = useLoaderData();
@@ -3146,10 +3052,7 @@ export default function Component() {
     <Form action="/account">
       <h1>Settings for {user.displayName}</h1>
 
-      <input
-        name="displayName"
-        defaultValue={user.displayName}
-      />
+      <input name="displayName" defaultValue={user.displayName} />
       <input name="email" defaultValue={user.email} />
 
       <button type="submit">Save</button>
@@ -3204,9 +3107,9 @@ replaced with `undefined` in the client.
 For example, once you've added the plugin to your [Vite config][vite-config], you can wrap any server-only exports with `serverOnly$`:
 
 ```tsx
-import { serverOnly$ } from "vite-env-only";
+import { serverOnly$ } from 'vite-env-only';
 
-import { db } from "~/.server/db";
+import { db } from '@/.server/db';
 
 export const getPosts = serverOnly$(async () => {
   return db.posts.findMany();
@@ -3249,14 +3152,15 @@ export const PostPreview = ({ title, description }) => {
 [classic-remix-compiler]: ../guides/vite#classic-remix-compiler-vs-remix-vite
 [remix-vite]: ../guides/vite
 
-
----
-File: ./discussion/state-management.md
 ---
 
+## File: ./discussion/state-management.md
+
 ---
+
 title: State Management
 order: 9
+
 ---
 
 # State Management
@@ -3311,18 +3215,14 @@ Consider a UI that lets the user customize between list view or detail view. You
 
 ```tsx bad lines=[2,6,9]
 export function List() {
-  const [view, setView] = React.useState("list");
+  const [view, setView] = React.useState('list');
   return (
     <div>
       <div>
-        <button onClick={() => setView("list")}>
-          View as List
-        </button>
-        <button onClick={() => setView("details")}>
-          View with Details
-        </button>
+        <button onClick={() => setView('list')}>View as List</button>
+        <button onClick={() => setView('details')}>View with Details</button>
       </div>
-      {view === "list" ? <ListView /> : <DetailView />}
+      {view === 'list' ? <ListView /> : <DetailView />}
     </div>
   );
 }
@@ -3331,24 +3231,19 @@ export function List() {
 Now consider you want the URL to update when the user changes the view. Note the state synchronization:
 
 ```tsx bad lines=[10,19,27]
-import {
-  useNavigate,
-  useSearchParams,
-} from "@remix-run/react";
+import { useNavigate, useSearchParams } from '@remix-run/react';
 
 export function List() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [view, setView] = React.useState(
-    searchParams.get("view") || "list"
-  );
+  const [view, setView] = React.useState(searchParams.get('view') || 'list');
 
   return (
     <div>
       <div>
         <button
           onClick={() => {
-            setView("list");
+            setView('list');
             navigate(`?view=list`);
           }}
         >
@@ -3356,14 +3251,14 @@ export function List() {
         </button>
         <button
           onClick={() => {
-            setView("details");
+            setView('details');
             navigate(`?view=details`);
           }}
         >
           View with Details
         </button>
       </div>
-      {view === "list" ? <ListView /> : <DetailView />}
+      {view === 'list' ? <ListView /> : <DetailView />}
     </div>
   );
 }
@@ -3372,11 +3267,11 @@ export function List() {
 Instead of synchronizing state, you can simply read and set the state in the URL directly with boring old HTML forms.
 
 ```tsx good lines=[5,9-16]
-import { Form, useSearchParams } from "@remix-run/react";
+import { Form, useSearchParams } from '@remix-run/react';
 
 export function List() {
   const [searchParams] = useSearchParams();
-  const view = searchParams.get("view") || "list";
+  const view = searchParams.get('view') || 'list';
 
   return (
     <div>
@@ -3388,7 +3283,7 @@ export function List() {
           View with Details
         </button>
       </Form>
-      {view === "list" ? <ListView /> : <DetailView />}
+      {view === 'list' ? <ListView /> : <DetailView />}
     </div>
   );
 }
@@ -3424,9 +3319,7 @@ function Sidebar({ children }) {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <div>
-      <button onClick={() => setIsOpen((open) => !open)}>
-        {isOpen ? "Close" : "Open"}
-      </button>
+      <button onClick={() => setIsOpen((open) => !open)}>{isOpen ? 'Close' : 'Open'}</button>
       <aside hidden={!isOpen}>{children}</aside>
     </div>
   );
@@ -3456,20 +3349,18 @@ function Sidebar({ children }) {
 
   // synchronize initially
   useLayoutEffect(() => {
-    const isOpen = window.localStorage.getItem("sidebar");
+    const isOpen = window.localStorage.getItem('sidebar');
     setIsOpen(isOpen);
   }, []);
 
   // synchronize on change
   useEffect(() => {
-    window.localStorage.setItem("sidebar", isOpen);
+    window.localStorage.setItem('sidebar', isOpen);
   }, [isOpen]);
 
   return (
     <div>
-      <button onClick={() => setIsOpen((open) => !open)}>
-        {isOpen ? "Close" : "Open"}
-      </button>
+      <button onClick={() => setIsOpen((open) => !open)}>{isOpen ? 'Close' : 'Open'}</button>
       <aside hidden={!isOpen}>{children}</aside>
     </div>
   );
@@ -3482,7 +3373,7 @@ In this approach, state must be initialized within an effect. This is crucial to
 function Sidebar() {
   const [isOpen, setIsOpen] = React.useState(
     // error: window is not defined
-    window.localStorage.getItem("sidebar")
+    window.localStorage.getItem('sidebar'),
   );
 
   // ...
@@ -3512,44 +3403,37 @@ Cookies offer a comprehensive solution for this use case. However, this method i
 First we'll need to create a cookie object:
 
 ```tsx
-import { createCookie } from "@remix-run/node";
-export const prefs = createCookie("prefs");
+import { createCookie } from '@remix-run/node';
+export const prefs = createCookie('prefs');
 ```
 
 Next we set up the server action and loader to read and write the cookie:
 
 ```tsx
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-import { prefs } from "./prefs-cookie";
+import { prefs } from './prefs-cookie';
 
 // read the state from the cookie
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
-  const cookieHeader = request.headers.get("Cookie");
+export async function loader({ request }: LoaderFunctionArgs) {
+  const cookieHeader = request.headers.get('Cookie');
   const cookie = (await prefs.parse(cookieHeader)) || {};
   return json({ sidebarIsOpen: cookie.sidebarIsOpen });
 }
 
 // write the state to the cookie
-export async function action({
-  request,
-}: ActionFunctionArgs) {
-  const cookieHeader = request.headers.get("Cookie");
+export async function action({ request }: ActionFunctionArgs) {
+  const cookieHeader = request.headers.get('Cookie');
   const cookie = (await prefs.parse(cookieHeader)) || {};
   const formData = await request.formData();
 
-  const isOpen = formData.get("sidebar") === "open";
+  const isOpen = formData.get('sidebar') === 'open';
   cookie.sidebarIsOpen = isOpen;
 
   return json(isOpen, {
     headers: {
-      "Set-Cookie": await prefs.serialize(cookie),
+      'Set-Cookie': await prefs.serialize(cookie),
     },
   });
 }
@@ -3563,19 +3447,15 @@ function Sidebar({ children }) {
   let { sidebarIsOpen } = useLoaderData<typeof loader>();
 
   // use optimistic UI to immediately change the UI state
-  if (fetcher.formData?.has("sidebar")) {
-    sidebarIsOpen =
-      fetcher.formData.get("sidebar") === "open";
+  if (fetcher.formData?.has('sidebar')) {
+    sidebarIsOpen = fetcher.formData.get('sidebar') === 'open';
   }
 
   return (
     <div>
       <fetcher.Form method="post">
-        <button
-          name="sidebar"
-          value={sidebarIsOpen ? "closed" : "open"}
-        >
-          {sidebarIsOpen ? "Close" : "Open"}
+        <button name="sidebar" value={sidebarIsOpen ? 'closed' : 'open'}>
+          {sidebarIsOpen ? 'Close' : 'Open'}
         </button>
       </fetcher.Form>
       <aside hidden={!sidebarIsOpen}>{children}</aside>
@@ -3603,16 +3483,13 @@ The following example illustrates the inherent complexities of managing network 
 ```tsx bad lines=[2,14,30,41,66]
 export function Signup() {
   // A multitude of React State declarations
-  const [isSubmitting, setIsSubmitting] =
-    React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-  const [userName, setUserName] = React.useState("");
-  const [userNameError, setUserNameError] =
-    React.useState(null);
+  const [userName, setUserName] = React.useState('');
+  const [userNameError, setUserNameError] = React.useState(null);
 
   const [password, setPassword] = React.useState(null);
-  const [passwordError, setPasswordError] =
-    React.useState("");
+  const [passwordError, setPasswordError] = React.useState('');
 
   // Replicating server-side logic in the client
   function validateForm() {
@@ -3634,7 +3511,7 @@ export function Signup() {
   async function handleSubmit() {
     if (validateForm()) {
       setSubmitting(true);
-      const res = await postJSON("/api/signup", {
+      const res = await postJSON('/api/signup', {
         userName,
         password,
       });
@@ -3711,16 +3588,11 @@ export async function signupHandler(request: Request) {
 Now, let's contrast this with a Remix-based implementation. The action remains consistent, but the component is vastly simplified due to the direct utilization of server state via [`useActionData`][use_action_data], and leveraging the network state that Remix inherently manages.
 
 ```tsx filename=app/routes/signup.tsx good lines=[23-25]
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import {
-  useActionData,
-  useNavigation,
-} from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useActionData, useNavigation } from '@remix-run/react';
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const errors = await validateSignupRequest(request);
   if (errors) {
     return json({ ok: false, errors: errors });
@@ -3735,7 +3607,7 @@ export function Signup() {
 
   const userNameError = actionData?.errors?.userName;
   const passwordError = actionData?.errors?.password;
-  const isSubmitting = navigation.formAction === "/signup";
+  const isSubmitting = navigation.formAction === '/signup';
 
   return (
     <Form method="post">
@@ -3777,26 +3649,28 @@ If you ever find yourself entangled in managing and synchronizing state for netw
 [window_global]: https://developer.mozilla.org/en-US/docs/Web/API/Window/window
 [local_storage_global]: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 
-
----
-File: ./discussion/testing.md
 ---
 
+## File: ./discussion/testing.md
+
 ---
+
 title: Testing
 hidden: true
+
 ---
 
 # Testing
 
-
----
-File: ./file-conventions/asset-imports.md
 ---
 
+## File: ./file-conventions/asset-imports.md
+
 ---
+
 title: Asset Imports
 toc: false
+
 ---
 
 # Asset URL Imports
@@ -3810,14 +3684,12 @@ Any files inside the `app` folder can be imported into your modules. Remix will:
 It's most common for stylesheets, but can be used for any file type with [a defined loader][remix-loaders].
 
 ```tsx
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import banner from "./images/banner.jpg";
-import styles from "./styles/app.css";
+import banner from './images/banner.jpg';
+import styles from './styles/app.css';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export default function Page() {
   return (
@@ -3831,14 +3703,15 @@ export default function Page() {
 
 [remix-loaders]: https://github.com/remix-run/remix/blob/main/packages/remix-dev/compiler/utils/loaders.ts
 
-
----
-File: ./file-conventions/entry.client.md
 ---
 
+## File: ./file-conventions/entry.client.md
+
 ---
+
 title: entry.client
 toc: false
+
 ---
 
 # entry.client
@@ -3850,16 +3723,16 @@ Typically, this module uses `ReactDOM.hydrateRoot` to hydrate the markup that wa
 Here's a basic example:
 
 ```tsx filename=app/entry.client.tsx
-import { RemixBrowser } from "@remix-run/react";
-import { startTransition, StrictMode } from "react";
-import { hydrateRoot } from "react-dom/client";
+import { RemixBrowser } from '@remix-run/react';
+import { startTransition, StrictMode } from 'react';
+import { hydrateRoot } from 'react-dom/client';
 
 startTransition(() => {
   hydrateRoot(
     document,
     <StrictMode>
       <RemixBrowser />
-    </StrictMode>
+    </StrictMode>,
   );
 });
 ```
@@ -3868,14 +3741,15 @@ This is the first piece of code that runs in the browser. You can initialize cli
 
 [server_entry_module]: ./entry.server
 
-
----
-File: ./file-conventions/entry.server.md
 ---
 
+## File: ./file-conventions/entry.server.md
+
 ---
+
 title: entry.server
 toc: false
+
 ---
 
 # entry.server
@@ -3891,13 +3765,9 @@ You can export an optional `handleDataRequest` function that will allow you to m
 ```tsx
 export function handleDataRequest(
   response: Response,
-  {
-    request,
-    params,
-    context,
-  }: LoaderFunctionArgs | ActionFunctionArgs
+  { request, params, context }: LoaderFunctionArgs | ActionFunctionArgs,
 ) {
-  response.headers.set("X-Custom-Header", "value");
+  response.headers.set('X-Custom-Header', 'value');
   return response;
 }
 ```
@@ -3909,11 +3779,7 @@ By default, Remix will log encountered server-side errors to the console. If you
 ```tsx
 export function handleError(
   error: unknown,
-  {
-    request,
-    params,
-    context,
-  }: LoaderFunctionArgs | ActionFunctionArgs
+  { request, params, context }: LoaderFunctionArgs | ActionFunctionArgs,
 ) {
   if (!request.signal.aborted) {
     sendErrorToErrorReportingService(error);
@@ -3943,24 +3809,26 @@ Note that this does not handle thrown `Response` instances from your `loader`/`a
 [node-streaming-entry-server]: https://github.com/remix-run/remix/blob/main/packages/remix-dev/config/defaults/entry.server.node.tsx
 [cloudflare-streaming-entry-server]: https://github.com/remix-run/remix/blob/main/packages/remix-dev/config/defaults/entry.server.cloudflare.tsx
 
-
----
-File: ./file-conventions/index.md
 ---
 
+## File: ./file-conventions/index.md
+
 ---
+
 title: File Conventions
 order: 3
----
 
-
----
-File: ./file-conventions/remix-config.md
 ---
 
 ---
+
+## File: ./file-conventions/remix-config.md
+
+---
+
 title: remix.config.js
 hidden: true
+
 ---
 
 # remix.config.js
@@ -3972,19 +3840,19 @@ This file has a few build and development configuration options, but does not ac
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  appDirectory: "app",
-  assetsBuildDirectory: "public/build",
+  appDirectory: 'app',
+  assetsBuildDirectory: 'public/build',
   future: {
     /* any enabled future flags */
   },
-  ignoredRouteFiles: ["**/*.css"],
-  publicPath: "/build/",
+  ignoredRouteFiles: ['**/*.css'],
+  publicPath: '/build/',
   routes(defineRoutes) {
     return defineRoutes((route) => {
-      route("/somewhere/cool/*", "catchall.tsx");
+      route('/somewhere/cool/*', 'catchall.tsx');
     });
   },
-  serverBuildPath: "build/index.js",
+  serverBuildPath: 'build/index.js',
 };
 ```
 
@@ -3995,10 +3863,10 @@ The path to the `app` directory, relative to remix.config.js. Defaults to
 
 ```js filename=remix.config.js
 // default
-exports.appDirectory = "./app";
+exports.appDirectory = './app';
 
 // custom
-exports.appDirectory = "./elsewhere";
+exports.appDirectory = './elsewhere';
 ```
 
 ## assetsBuildDirectory
@@ -4016,7 +3884,7 @@ module.exports = {
   browserNodeBuiltinsPolyfill: {
     modules: {
       buffer: true, // Provide a JSPM polyfill
-      fs: "empty", // Provide an empty polyfill
+      fs: 'empty', // Provide an empty polyfill
     },
     globals: {
       Buffer: true,
@@ -4051,7 +3919,7 @@ The URL prefix of the browser build with a trailing slash. Defaults to
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  publicPath: "/assets/",
+  publicPath: '/assets/',
 };
 ```
 
@@ -4060,7 +3928,7 @@ If you wish to serve static assets from a separate domain you may also specify a
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  publicPath: "https://static.example.com/assets/",
+  publicPath: 'https://static.example.com/assets/',
 };
 ```
 
@@ -4089,13 +3957,13 @@ exports.routes = async (defineRoutes) => {
     // A common use for this is catchall routes.
     // - The first argument is the React Router path to match against
     // - The second is the relative filename of the route handler
-    route("/some/path/*", "catchall.tsx");
+    route('/some/path/*', 'catchall.tsx');
 
     // if you want to nest routes, use the optional callback argument
-    route("some/:path", "some/route/file.js", () => {
+    route('some/:path', 'some/route/file.js', () => {
       // - path is relative to parent path
       // - filenames are still relative to the app directory
-      route("relative/path", "some/other/file");
+      route('relative/path', 'some/other/file');
     });
   });
 };
@@ -4134,17 +4002,12 @@ imports:
 ```js filename=remix.config.js lines=[8-13]
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  appDirectory: "app",
-  assetsBuildDirectory: "public/build",
-  publicPath: "/build/",
-  serverBuildPath: "build/index.js",
-  ignoredRouteFiles: ["**/*.css"],
-  serverDependenciesToBundle: [
-    /^rehype.*/,
-    /^remark.*/,
-    /^unified.*/,
-    "@sindresorhus/slugify",
-  ],
+  appDirectory: 'app',
+  assetsBuildDirectory: 'public/build',
+  publicPath: '/build/',
+  serverBuildPath: 'build/index.js',
+  ignoredRouteFiles: ['**/*.css'],
+  serverDependenciesToBundle: [/^rehype.*/, /^remark.*/, /^unified.*/, '@sindresorhus/slugify'],
 };
 ```
 
@@ -4176,7 +4039,7 @@ module.exports = {
   serverNodeBuiltinsPolyfill: {
     modules: {
       buffer: true, // Provide a JSPM polyfill
-      fs: "empty", // Provide an empty polyfill
+      fs: 'empty', // Provide an empty polyfill
     },
     globals: {
       Buffer: true,
@@ -4209,11 +4072,11 @@ An array, string, or async function that defines custom directories, relative to
 
 ```js filename=remix.config.js
 exports.watchPaths = async () => {
-  return ["./some/path/*"];
+  return ['./some/path/*'];
 };
 
 // also valid
-exports.watchPaths = ["./some/path/*"];
+exports.watchPaths = ['./some/path/*'];
 ```
 
 ## File Name Conventions
@@ -4240,14 +4103,15 @@ There are a few conventions that Remix uses you should be aware of.
 [remix-vite]: ../guides/vite
 [vite-config]: ./vite-config
 
-
----
-File: ./file-conventions/root.md
 ---
 
+## File: ./file-conventions/root.md
+
 ---
+
 title: root
 toc: false
+
 ---
 
 # Root Route
@@ -4272,20 +4136,13 @@ Beyond that, it's mostly just like any other route and supports all of the stand
 Because the root route manages your document, it is the proper place to render a handful of "document-level" components Remix provides. These components are to be used once inside your root route and they include everything Remix figured out or built in order for your page to render properly.
 
 ```tsx filename=app/root.tsx
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
-import globalStylesheetUrl from "./global-styles.css";
+import globalStylesheetUrl from './global-styles.css';
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: globalStylesheetUrl }];
+  return [{ rel: 'stylesheet', href: globalStylesheetUrl }];
 };
 
 export default function App() {
@@ -4293,10 +4150,7 @@ export default function App() {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* All `meta` exports on all routes will render here */}
         <Meta />
@@ -4334,24 +4188,14 @@ Because the root route manages the document for all routes, it also supports an 
 - Avoids React from re-mounting your app shell elements when switching between the root component/`HydrateFallback`/`ErrorBoundary` which can cause a FOUC if React removes and re-adds `<link rel="stylesheet">` tags from your `<Links>` component.
 
 ```tsx filename=app/root.tsx lines=[10-31]
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
 export function Layout({ children }) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
@@ -4387,7 +4231,7 @@ export function ErrorBoundary() {
   return (
     <>
       <h1>Error!</h1>
-      <p>{error?.message ?? "Unknown error"}</p>
+      <p>{error?.message ?? 'Unknown error'}</p>
     </>
   );
 }
@@ -4402,40 +4246,29 @@ Because your `Layout` component is used in both success and error flows, this sa
 <docs-warn>Because your `<Layout>` component is used for rendering the `ErrorBoundary`, you should be _very defensive_ to ensure that you can render your `ErrorBoundary` without encountering any render errors. If your `Layout` throws another error trying to render the boundary, then it can't be used and your UI will fall back to the very minimal built-in default `ErrorBoundary`.</docs-warn>
 
 ```tsx filename="app/root.tsx" lines=[6-7,19-29,32-34]
-export function Layout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const data = useRouteLoaderData("root");
+export function Layout({ children }: { children: React.ReactNode }) {
+  const data = useRouteLoaderData('root');
   const error = useRouteError();
 
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
         <style
           dangerouslySetInnerHTML={{
             __html: `
               :root {
-                --themeVar: ${
-                  data?.themeVar || defaultThemeVar
-                }
+                --themeVar: ${data?.themeVar || defaultThemeVar}
               }
             `,
           }}
         />
       </head>
       <body>
-        {data ? (
-          <Analytics token={data.analyticsToken} />
-        ) : null}
+        {data ? <Analytics token={data.analyticsToken} /> : null}
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -4474,14 +4307,13 @@ See also:
 [scrollrestoration-component]: ../components/scroll-restoration
 [outlet-component]: ../components/outlet
 
-
----
-File: ./file-conventions/routes.md
 ---
 
+## File: ./file-conventions/routes.md
+
 ---
-title: Route File Naming
----
+
+## title: Route File Naming
 
 # Route File Naming
 
@@ -4518,13 +4350,7 @@ The file in `app/root.tsx` is your root layout, or "root route" (very sorry for 
 The root route typically looks something like this. It serves as the root layout of the entire app, all other routes will render inside the [`<Outlet />`][outlet_component].
 
 ```tsx
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
 export default function Root() {
   return (
@@ -4612,9 +4438,7 @@ Usually your URLs aren't static but data-driven. Dynamic segments allow you to m
 Remix will parse the value from the URL and pass it to various APIs. We call these values "URL Parameters". The most useful places to access the URL params are in [loaders][loader] and [actions][action].
 
 ```tsx
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   return fakeDb.getAllConcertsForCity(params.city);
 }
 ```
@@ -4624,9 +4448,7 @@ You'll note the property name on the `params` object maps directly to the name o
 Routes can have multiple dynamic segments, like `concerts.$city.$date`, both are accessed on the params object by name:
 
 ```tsx
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   return fake.db.getConcerts({
     date: params.date,
     city: params.city,
@@ -4784,10 +4606,8 @@ While [dynamic segments][dynamic_segments] match a single path segment (the stuf
 Similar to dynamic route parameters, you can access the value of the matched path on the splat route's `params` with the `"*"` key.
 
 ```tsx filename=app/routes/files.$.tsx
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
-  const filePath = params["*"];
+export async function loader({ params }: LoaderFunctionArgs) {
+  const filePath = params['*'];
   return fake.getFileInfo(filePath);
 }
 ```
@@ -4899,14 +4719,13 @@ Our general recommendation for scale is to make every route a folder and put the
 [json_routes]: https://github.com/brophdawg11/remix-json-routes
 [manual-route-configuration]: ../discussion/routes#manual-route-configuration
 
-
----
-File: ./file-conventions/vite-config.md
 ---
 
+## File: ./file-conventions/vite-config.md
+
 ---
-title: vite.config.ts
----
+
+## title: vite.config.ts
 
 # vite.config.ts
 
@@ -4915,8 +4734,8 @@ title: vite.config.ts
 Remix uses [Vite] to compile your application. You'll need to provide a Vite config file with the Remix Vite plugin. Here's the minimum configuration you'll need:
 
 ```ts filename=vite.config.ts
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [remix()],
@@ -4928,24 +4747,24 @@ export default defineConfig({
 ## Remix Vite Plugin Config
 
 ```js filename=vite.config.ts
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
     remix({
-      basename: "/",
-      buildDirectory: "build",
+      basename: '/',
+      buildDirectory: 'build',
       future: {
         /* any enabled future flags */
       },
-      ignoredRouteFiles: ["**/*.css"],
+      ignoredRouteFiles: ['**/*.css'],
       routes(defineRoutes) {
         return defineRoutes((route) => {
-          route("/somewhere/cool/*", "catchall.tsx");
+          route('/somewhere/cool/*', 'catchall.tsx');
         });
       },
-      serverBuildFile: "index.js",
+      serverBuildFile: 'index.js',
     }),
   ],
 });
@@ -4973,8 +4792,8 @@ A function for defining custom routes, in addition to those already defined
 using the filesystem convention in `app/routes`. Both sets of routes will be merged.
 
 ```ts filename=vite.config.ts
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
@@ -4987,13 +4806,13 @@ export default defineConfig({
           // A common use for this is catchall routes.
           // - The first argument is the React Router path to match against
           // - The second is the relative filename of the route handler
-          route("/some/path/*", "catchall.tsx");
+          route('/some/path/*', 'catchall.tsx');
 
           // if you want to nest routes, use the optional callback argument
-          route("some/:path", "some/route/file.js", () => {
+          route('some/:path', 'some/route/file.js', () => {
             // - path is relative to parent path
             // - filenames are still relative to the app directory
-            route("relative/path", "some/other/file");
+            route('relative/path', 'some/other/file');
           });
         });
       },
@@ -5050,14 +4869,15 @@ You may also want to enable the `manifest` option since, when server bundles are
 [vite-public-base-path]: https://vitejs.dev/config/shared-options.html#base
 [vite-base]: https://vitejs.dev/config/shared-options.html#base
 
-
----
-File: ./file-conventions/-client.md
 ---
 
+## File: ./file-conventions/-client.md
+
 ---
+
 title: ".client modules"
 toc: false
+
 ---
 
 # `.client` modules
@@ -5066,14 +4886,13 @@ While uncommon, you may have a file or dependency that uses module side effects 
 
 ```ts filename=feature-check.client.ts
 // this would break the server
-export const supportsVibrationAPI =
-  "vibrate" in window.navigator;
+export const supportsVibrationAPI = 'vibrate' in window.navigator;
 ```
 
 Note that values exported from this module will all be `undefined` on the server, so the only places to use them are in [`useEffect`][use_effect] and user events like click handlers.
 
 ```ts
-import { supportsVibrationAPI } from "./feature-check.client.ts";
+import { supportsVibrationAPI } from './feature-check.client.ts';
 
 console.log(supportsVibrationAPI);
 // server: undefined
@@ -5088,14 +4907,15 @@ Refer to the Route Module section in the sidebar for more information.
 [classic-remix-compiler]: ../guides/vite#classic-remix-compiler-vs-remix-vite
 [remix-vite]: ../guides/vite
 
-
----
-File: ./file-conventions/-server.md
 ---
 
+## File: ./file-conventions/-server.md
+
 ---
+
 title: ".server modules"
 toc: false
+
 ---
 
 # `.server` modules
@@ -5125,14 +4945,13 @@ Refer to the Route Module section in the sidebar for more information.
 [classic-remix-compiler]: ../guides/vite#classic-remix-compiler-vs-remix-vite
 [remix-vite]: ../guides/vite
 
-
----
-File: ./guides/accessibility.md
 ---
 
+## File: ./guides/accessibility.md
+
 ---
-title: Accessibility
----
+
+## title: Accessibility
 
 # Accessibility
 
@@ -5165,14 +4984,13 @@ In 2019, [Marcy Sutton led and published findings from user research][marcy-sutt
 [wcag]: https://www.w3.org/WAI/standards-guidelines/wcag/
 [marcy-sutton-led-and-published-findings-from-user-research]: https://www.gatsbyjs.com/blog/2019-07-11-user-testing-accessible-client-routing
 
-
----
-File: ./guides/api-development-strategy.md
 ---
 
+## File: ./guides/api-development-strategy.md
+
 ---
-title: Development Strategy
----
+
+## title: Development Strategy
 
 # Gradual Feature Adoption with Future Flags
 
@@ -5186,8 +5004,8 @@ In our approach to software development, we aim to achieve the following goals f
 We introduce new features into the current release with a future flag that looks something like `unstable_someFeature`. You can specify these flags in the Remix Vite Plugin `future` option in your [`vite.config.ts`][vite-config-future] file:
 
 ```ts filename=vite.config.ts lines=[7-9]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
@@ -5213,8 +5031,8 @@ export default defineConfig({
 When we introduce breaking changes, we do so within the context of the current major version, and we hide them behind future flags. For instance, if we're in `v2`, a breaking change might be placed under a future flag named `v3_somethingDifferent`.
 
 ```ts filename=vite.config.ts lines=[7-9]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
@@ -5239,14 +5057,13 @@ Our development strategy focuses on gradual feature adoption and seamless versio
 [vite-config-future]: ../file-conventions/vite-config#future
 [remix-config-future]: ../file-conventions/remix-config#future
 
-
----
-File: ./guides/api-routes.md
 ---
 
+## File: ./guides/api-routes.md
+
 ---
-title: API Routes
----
+
+## title: API Routes
 
 # API Routes
 
@@ -5264,9 +5081,7 @@ export async function loader() {
 }
 
 export default function Teams() {
-  return (
-    <TeamsView teams={useLoaderData<typeof loader>()} />
-  );
+  return <TeamsView teams={useLoaderData<typeof loader>()} />;
 }
 ```
 
@@ -5281,13 +5096,9 @@ You can `useFetcher` for cases like this. And once again, since Remix in the bro
 For example, you could have a route to handle the search:
 
 ```tsx filename=app/routes/city-search.tsx
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
-  return json(
-    await searchCities(url.searchParams.get("q"))
-  );
+  return json(await searchCities(url.searchParams.get('q')));
 }
 ```
 
@@ -5301,15 +5112,8 @@ function CitySearchCombobox() {
     <cities.Form method="get" action="/city-search">
       <Combobox aria-label="Cities">
         <div>
-          <ComboboxInput
-            name="q"
-            onChange={(event) =>
-              cities.submit(event.target.form)
-            }
-          />
-          {cities.state === "submitting" ? (
-            <Spinner />
-          ) : null}
+          <ComboboxInput name="q" onChange={(event) => cities.submit(event.target.form)} />
+          {cities.state === 'submitting' ? <Spinner /> : null}
         </div>
 
         {cities.data ? (
@@ -5319,10 +5123,7 @@ function CitySearchCombobox() {
             ) : cities.data.length ? (
               <ComboboxList>
                 {cities.data.map((city) => (
-                  <ComboboxOption
-                    key={city.id}
-                    value={city.name}
-                  />
+                  <ComboboxOption key={city.id} value={city.name} />
                 ))}
               </ComboboxList>
             ) : (
@@ -5341,15 +5142,13 @@ function CitySearchCombobox() {
 In other cases, you may need routes that are part of your application, but aren't part of your application's UI. Maybe you want a loader that renders a report as a PDF:
 
 ```tsx
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const report = await getReport(params.id);
   const pdf = await generateReportPDF(report);
   return new Response(pdf, {
     status: 200,
     headers: {
-      "Content-Type": "application/pdf",
+      'Content-Type': 'application/pdf',
     },
   });
 }
@@ -5368,24 +5167,26 @@ You can read more in the [Resource Routes][resource-routes] docs.
 
 [resource-routes]: ./resource-routes
 
-
----
-File: ./guides/authentication.md
 ---
 
+## File: ./guides/authentication.md
+
 ---
+
 title: Authentication
 hidden: true
----
 
-
----
-File: ./guides/bff.md
 ---
 
 ---
+
+## File: ./guides/bff.md
+
+---
+
 title: Backend For Frontend
 toc: false
+
 ---
 
 # Backend For Your Frontend
@@ -5399,14 +5200,12 @@ Mature apps already have a lot of backend application code in Ruby, Elixir, PHP,
 Because Remix polyfills the Web Fetch API, you can use `fetch` right from your loaders and actions to your backend.
 
 ```tsx lines=[11,17,21]
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import escapeHtml from "escape-html";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import escapeHtml from 'escape-html';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
-  const apiUrl = "http://api.example.com/some-data.json";
+export async function loader({ request }: LoaderFunctionArgs) {
+  const apiUrl = 'http://api.example.com/some-data.json';
   const res = await fetch(apiUrl, {
     headers: {
       Authorization: `Bearer ${process.env.API_TOKEN}`,
@@ -5434,14 +5233,13 @@ There are several benefits of this approach vs. fetching directly from the brows
 
 Again, Remix can be used as your only server by talking directly to the database and other services with server-side JavaScript APIs, but it also works perfectly as a backend for your frontend. Go ahead and keep your existing API server for application logic and let Remix connect the UI to it.
 
-
----
-File: ./guides/breadcrumbs.md
 ---
 
+## File: ./guides/breadcrumbs.md
+
 ---
-title: Breadcrumbs Guide
----
+
+## title: Breadcrumbs Guide
 
 # Breadcrumbs Guide
 
@@ -5467,9 +5265,7 @@ Similarly, you can define breadcrumbs for child routes:
 
 ```tsx filename=app/routes/parent.child.tsx
 export const handle = {
-  breadcrumb: () => (
-    <Link to="/parent/child">Child Route</Link>
-  ),
+  breadcrumb: () => <Link to="/parent/child">Child Route</Link>,
 };
 ```
 
@@ -5478,12 +5274,7 @@ export const handle = {
 Now, bring everything together in your root route using `useMatches`:
 
 ```tsx filename=app/root.tsx lines=[5,9,19-28]
-import {
-  Links,
-  Scripts,
-  useLoaderData,
-  useMatches,
-} from "@remix-run/react";
+import { Links, Scripts, useLoaderData, useMatches } from '@remix-run/react';
 
 export default function Root() {
   const matches = useMatches();
@@ -5497,14 +5288,9 @@ export default function Root() {
         <header>
           <ol>
             {matches
-              .filter(
-                (match) =>
-                  match.handle && match.handle.breadcrumb
-              )
+              .filter((match) => match.handle && match.handle.breadcrumb)
               .map((match, index) => (
-                <li key={index}>
-                  {match.handle.breadcrumb(match)}
-                </li>
+                <li key={index}>{match.handle.breadcrumb(match)}</li>
               ))}
           </ol>
         </header>
@@ -5530,14 +5316,13 @@ Using `useMatches` with `handle` offers a robust way for routes to contribute to
 [links-component]: ../components/links
 [scripts-component]: ../components/scripts
 
-
----
-File: ./guides/browser-support.md
 ---
 
+## File: ./guides/browser-support.md
+
 ---
-title: Browser Support
----
+
+## title: Browser Support
 
 # Browser Support
 
@@ -5563,14 +5348,15 @@ Remix cookies are configured to `SameSite=Lax` by default which is a platform bu
 [esm-browsers]: https://caniuse.com/es6-module
 [msie]: https://techcommunity.microsoft.com/t5/microsoft-365-blog/microsoft-365-apps-say-farewell-to-internet-explorer-11-and/ba-p/1591666
 
-
----
-File: ./guides/cache-control.md
 ---
 
+## File: ./guides/cache-control.md
+
 ---
+
 title: Cache-Control
 hidden: true
+
 ---
 
 # Cache Control
@@ -5584,7 +5370,7 @@ Usually, the difficulty with cache headers is configuring them. In Remix we've m
 ```tsx
 export function headers() {
   return {
-    "Cache-Control": "public, max-age=300, s-maxage=3600",
+    'Cache-Control': 'public, max-age=300, s-maxage=3600',
   };
 }
 
@@ -5622,13 +5408,9 @@ First, your data usually knows better what the cache control should be than your
 Open up `app/routes/gists.ts` and update your headers function like so:
 
 ```tsx
-export function headers({
-  loaderHeaders,
-}: {
-  loaderHeaders: Headers;
-}) {
+export function headers({ loaderHeaders }: { loaderHeaders: Headers }) {
   return {
-    "Cache-Control": loaderHeaders.get("Cache-Control"),
+    'Cache-Control': loaderHeaders.get('Cache-Control'),
   };
 }
 ```
@@ -5643,14 +5425,13 @@ The second reason this matters is that Remix calls your loaders via `fetch` in t
 [cdn-caching]: ../guides/caching
 [web-fetch-api-headers-constructor]: https://developer.mozilla.org/en-US/docs/Web/API/Headers
 
-
----
-File: ./guides/client-data.md
 ---
 
+## File: ./guides/client-data.md
+
 ---
-title: Client Data
----
+
+## title: Client Data
 
 # Client Data
 
@@ -5676,20 +5457,16 @@ When using Remix in a [BFF][bff] architecture, it may be advantageous to skip th
 In this scenario, Remix will _not_ call the `clientLoader` on hydration - and will only call it on subsequent navigations.
 
 ```tsx lines=[8,15]
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type { ClientLoaderFunctionArgs } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import type { ClientLoaderFunctionArgs } from '@remix-run/react';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const data = await fetchApiFromServer({ request }); // (1)
   return json(data);
 }
 
-export async function clientLoader({
-  request,
-}: ClientLoaderFunctionArgs) {
+export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const data = await fetchApiFromClient({ request }); // (2)
   return data;
 }
@@ -5705,27 +5482,19 @@ Sometimes, you may want to leverage "Fullstack State" where some of your data co
 4. Combine the server data with the client data in `clientLoader`
 
 ```tsx lines=[8-10,23-24,27,30]
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type { ClientLoaderFunctionArgs } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import type { ClientLoaderFunctionArgs } from '@remix-run/react';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const partialData = await getPartialDataFromDb({
     request,
   }); // (1)
   return json(partialData);
 }
 
-export async function clientLoader({
-  request,
-  serverLoader,
-}: ClientLoaderFunctionArgs) {
-  const [serverData, clientData] = await Promise.all([
-    serverLoader(),
-    getClientData(request),
-  ]);
+export async function clientLoader({ request, serverLoader }: ClientLoaderFunctionArgs) {
+  const [serverData, clientData] = await Promise.all([serverLoader(), getClientData(request)]);
   return {
     ...serverData, // (4)
     ...clientData, // (4)
@@ -5754,12 +5523,10 @@ You may want to mix and match data loading strategies in your application such t
 A route that only depends on a server loader looks like this:
 
 ```tsx filename=app/routes/server-data-route.tsx
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const data = await getServerData(request);
   return json(data);
 }
@@ -5773,11 +5540,9 @@ export default function Component() {
 A route that only depends on a client loader looks like this.
 
 ```tsx filename=app/routes/client-data-route.tsx
-import type { ClientLoaderFunctionArgs } from "@remix-run/react";
+import type { ClientLoaderFunctionArgs } from '@remix-run/react';
 
-export async function clientLoader({
-  request,
-}: ClientLoaderFunctionArgs) {
+export async function clientLoader({ request }: ClientLoaderFunctionArgs) {
   const clientData = await getClientData(request);
   return clientData;
 }
@@ -5807,36 +5572,23 @@ You can leverage a client-side cache (memory, local storage, etc.) to bypass cer
 Note that since we are not exporting a `HydrateFallback` component, we will SSR the route component and then run the `clientLoader` on hydration, so it's important that your `loader` and `clientLoader` return the same data on initial load to avoid hydration errors.
 
 ```tsx lines=[14,36,42,49,56]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type {
-  ClientActionFunctionArgs,
-  ClientLoaderFunctionArgs,
-} from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import type { ClientActionFunctionArgs, ClientLoaderFunctionArgs } from '@remix-run/react';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const data = await getDataFromDb({ request }); // (1)
   return json(data);
 }
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   await saveDataToDb({ request });
   return json({ ok: true });
 }
 
 let isInitialRequest = true;
 
-export async function clientLoader({
-  request,
-  serverLoader,
-}: ClientLoaderFunctionArgs) {
+export async function clientLoader({ request, serverLoader }: ClientLoaderFunctionArgs) {
   const cacheKey = generateKey(request);
 
   if (isInitialRequest) {
@@ -5857,10 +5609,7 @@ export async function clientLoader({
 }
 clientLoader.hydrate = true; // (2)
 
-export async function clientAction({
-  request,
-  serverAction,
-}: ClientActionFunctionArgs) {
+export async function clientAction({ request, serverAction }: ClientActionFunctionArgs) {
   const cacheKey = generateKey(request);
   cache.delete(cacheKey); // (4)
   const serverData = await serverAction();
@@ -5888,24 +5637,24 @@ We expect to write up a separate guide for migrations once [SPA Mode][rfc-spa] l
 [rfc-spa]: https://github.com/remix-run/remix/discussions/7638
 [bff]: ../guides/bff
 
-
----
-File: ./guides/concurrent-submissions.md
 ---
 
+## File: ./guides/concurrent-submissions.md
+
 ---
+
 title: Concurrent Submissions
 hidden: true
----
 
-
----
-File: ./guides/constraints.md
 ---
 
 ---
-title: Module Constraints
+
+## File: ./guides/constraints.md
+
 ---
+
+## title: Module Constraints
 
 # Module Constraints
 
@@ -5924,18 +5673,18 @@ The Remix compiler will automatically remove server code from the browser bundle
 Consider a route module that exports `loader`, `meta`, and a component:
 
 ```tsx
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
-import { prisma } from "../db";
-import PostsView from "../PostsView";
+import { prisma } from '../db';
+import PostsView from '../PostsView';
 
 export async function loader() {
   return json(await prisma.post.findMany());
 }
 
 export function meta() {
-  return [{ title: "Posts" }];
+  return [{ title: 'Posts' }];
 }
 
 export default function Posts() {
@@ -5949,18 +5698,18 @@ The server needs everything in this file but the browser only needs the componen
 To remove the server code from the browser bundles, the Remix compiler creates a proxy module in front of your route and bundles that instead. The proxy for this route would look like:
 
 ```tsx
-export { meta, default } from "./routes/posts.tsx";
+export { meta, default } from './routes/posts.tsx';
 ```
 
 The compiler will now analyze the code in `app/routes/posts.tsx` and only keep code that's inside of `meta` and the component. The result is something like this:
 
 ```tsx
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from '@remix-run/react';
 
-import PostsView from "../PostsView";
+import PostsView from '../PostsView';
 
 export function meta() {
-  return [{ title: "Posts" }];
+  return [{ title: 'Posts' }];
 }
 
 export default function Posts() {
@@ -5982,11 +5731,11 @@ Simply put, a **side effect** is any code that might _do something_. A **module 
 Taking our code from earlier, we saw how the compiler can remove the exports and their imports that aren't used. But if we add this seemingly harmless line of code your app will break!
 
 ```tsx bad lines=[7]
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
-import { prisma } from "../db";
-import PostsView from "../PostsView";
+import { prisma } from '../db';
+import PostsView from '../PostsView';
 
 console.log(prisma);
 
@@ -5995,7 +5744,7 @@ export async function loader() {
 }
 
 export function meta() {
-  return [{ title: "Posts" }];
+  return [{ title: 'Posts' }];
 }
 
 export default function Posts() {
@@ -6007,15 +5756,15 @@ export default function Posts() {
 That `console.log` _does something_. The module is imported and then immediately logs to the console. The compiler won't remove it because it has to run when the module is imported. It will bundle something like this:
 
 ```tsx bad lines=[3,6]
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from '@remix-run/react';
 
-import { prisma } from "../db"; //😬
-import PostsView from "../PostsView";
+import { prisma } from '../db'; //😬
+import PostsView from '../PostsView';
 
 console.log(prisma); //🥶
 
 export function meta() {
-  return [{ title: "Posts" }];
+  return [{ title: 'Posts' }];
 }
 
 export default function Posts() {
@@ -6029,11 +5778,11 @@ The loader is gone but the prisma dependency stayed! Had we logged something har
 To fix this, remove the side effect by simply moving the code _into the loader_.
 
 ```tsx lines=[8]
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
-import { prisma } from "../db";
-import PostsView from "../PostsView";
+import { prisma } from '../db';
+import PostsView from '../PostsView';
 
 export async function loader() {
   console.log(prisma);
@@ -6041,7 +5790,7 @@ export async function loader() {
 }
 
 export function meta() {
-  return [{ title: "Posts" }];
+  return [{ title: 'Posts' }];
 }
 
 export default function Posts() {
@@ -6059,16 +5808,13 @@ Occasionally, the build may have trouble tree-shaking code that should only run 
 Some Remix newcomers try to abstract their loaders with "higher order functions". Something like this:
 
 ```ts bad filename=app/http.ts
-import { redirect } from "@remix-run/node"; // or cloudflare/deno
+import { redirect } from '@remix-run/node'; // or cloudflare/deno
 
 export function removeTrailingSlash(loader) {
   return function (arg) {
     const { request } = arg;
     const url = new URL(request.url);
-    if (
-      url.pathname !== "/" &&
-      url.pathname.endsWith("/")
-    ) {
+    if (url.pathname !== '/' && url.pathname.endsWith('/')) {
       return redirect(request.url.slice(0, -1), {
         status: 308,
       });
@@ -6081,12 +5827,12 @@ export function removeTrailingSlash(loader) {
 And then try to use it like this:
 
 ```ts bad filename=app/root.ts
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-import { removeTrailingSlash } from "~/http";
+import { removeTrailingSlash } from '@/http';
 
 export const loader = removeTrailingSlash(({ request }) => {
-  return json({ some: "data" });
+  return json({ some: 'data' });
 });
 ```
 
@@ -6095,10 +5841,10 @@ You can probably now see that this is a module side effect so the compiler can't
 This type of abstraction is introduced to try to return a response early. Since you can throw a Response in a `loader`, we can make this simpler and remove the module side effect at the same time so that the server code can be pruned:
 
 ```ts filename=app/http.ts
-import { redirect } from "@remix-run/node"; // or cloudflare/deno
+import { redirect } from '@remix-run/node'; // or cloudflare/deno
 
 export function removeTrailingSlash(url) {
-  if (url.pathname !== "/" && url.pathname.endsWith("/")) {
+  if (url.pathname !== '/' && url.pathname.endsWith('/')) {
     throw redirect(request.url.slice(0, -1), {
       status: 308,
     });
@@ -6109,15 +5855,13 @@ export function removeTrailingSlash(url) {
 And then use it like this:
 
 ```tsx filename=app/root.tsx
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-import { removeTrailingSlash } from "~/http";
+import { removeTrailingSlash } from '@/http';
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   removeTrailingSlash(request.url);
-  return json({ some: "data" });
+  return json({ some: 'data' });
 };
 ```
 
@@ -6125,9 +5869,7 @@ It reads much nicer as well when you've got a lot of these:
 
 ```tsx
 // this
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   return removeTrailingSlash(request.url, () => {
     return withSession(request, (session) => {
       return requireUser(session, (user) => {
@@ -6140,9 +5882,7 @@ export const loader = async ({
 
 ```tsx
 // vs. this
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   removeTrailingSlash(request.url);
   const session = await getSession(request);
   const user = await requireUser(session);
@@ -6159,13 +5899,11 @@ Unlike the browser bundles, Remix doesn't try to remove _browser only code_ from
 <docs-error>This will break your app:</docs-error>
 
 ```ts bad lines=3
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from '@stripe/stripe-js';
 
 const stripe = await loadStripe(window.ENV.stripe);
 
-export async function redirectToStripeCheckout(
-  sessionId: string
-) {
+export async function redirectToStripeCheckout(sessionId: string) {
   return stripe.redirectToCheckout({ sessionId });
 }
 ```
@@ -6181,9 +5919,9 @@ The most common scenario is initializing a third-party API when your module is i
 This ensures the library is only initialized if there is a `document`, meaning you're in the browser. We recommend `document` over `window` because server runtimes like Deno have a global `window` available.
 
 ```ts lines=[3]
-import firebase from "firebase/app";
+import firebase from 'firebase/app';
 
-if (typeof document !== "undefined") {
+if (typeof document !== 'undefined') {
   firebase.initializeApp(document.ENV.firebase);
 }
 
@@ -6195,11 +5933,9 @@ export { firebase };
 This strategy defers initialization until the library is actually used:
 
 ```ts lines=[4]
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from '@stripe/stripe-js';
 
-export async function redirectToStripeCheckout(
-  sessionId: string
-) {
+export async function redirectToStripeCheckout(sessionId: string) {
   const stripe = await loadStripe(window.ENV.stripe);
   return stripe.redirectToCheckout({ sessionId });
 }
@@ -6208,7 +5944,7 @@ export async function redirectToStripeCheckout(
 You may want to avoid initializing the library multiple times by storing it in a module-scoped variable.
 
 ```ts
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from '@stripe/stripe-js';
 
 let _stripe;
 async function getStripe() {
@@ -6218,9 +5954,7 @@ async function getStripe() {
   return _stripe;
 }
 
-export async function redirectToStripeCheckout(
-  sessionId: string
-) {
+export async function redirectToStripeCheckout(sessionId: string) {
   const stripe = await getStripe();
   return stripe.redirectToCheckout({ sessionId });
 }
@@ -6236,9 +5970,7 @@ Another common case is code that calls browser-only APIs while rendering. When s
 
 ```ts bad lines=2
 function useLocalStorage(key: string) {
-  const [state, setState] = useState(
-    localStorage.getItem(key)
-  );
+  const [state, setState] = useState(localStorage.getItem(key));
 
   const setWithLocalStorage = (nextState) => {
     setState(nextState);
@@ -6284,17 +6016,15 @@ It is **not** good for setting state that is rendered inside of elements. Just m
 If you know you're calling `useLayoutEffect` correctly and just want to silence the warning, a popular solution in libraries is to create your own hook that doesn't call anything on the server. `useLayoutEffect` only runs in the browser anyway, so this should do the trick. **Please use this carefully, because the warning is there for a good reason!**
 
 ```ts
-import * as React from "react";
+import * as React from 'react';
 
 const canUseDOM = !!(
-  typeof window !== "undefined" &&
+  typeof window !== 'undefined' &&
   window.document &&
   window.document.createElement
 );
 
-const useLayoutEffect = canUseDOM
-  ? React.useLayoutEffect
-  : () => {};
+const useLayoutEffect = canUseDOM ? React.useLayoutEffect : () => {};
 ```
 
 ### Third-Party Module Side Effects
@@ -6307,14 +6037,15 @@ We recommend finding an alternative. But if you can't, we recommend using [patch
 
 [patch-package]: https://www.npmjs.com/package/patch-package
 
-
----
-File: ./guides/contributing.md
 ---
 
+## File: ./guides/contributing.md
+
 ---
+
 title: Contributing
 description: Thank you for contributing to Remix! Here's everything you need to know before you open a pull request.
+
 ---
 
 # Contributing to Remix
@@ -6571,14 +6302,13 @@ For every release of Remix (stable, experimental, nightly, and pre-releases), we
 [templates]: ./templates
 [https_remix_new]: https://remix.new
 
-
----
-File: ./guides/css-files.md
 ---
 
+## File: ./guides/css-files.md
+
 ---
-title: CSS Files
----
+
+## title: CSS Files
 
 # CSS Files
 
@@ -6603,7 +6333,7 @@ For example, let's say you have a basic `Button` component with some styles atta
 ```
 
 ```jsx filename=components/Button.jsx
-import "./Button.css";
+import './Button.css';
 
 export function Button(props) {
   return <button {...props} className="Button__root" />;
@@ -6613,7 +6343,7 @@ export function Button(props) {
 To use this component, you can simply import it and use it in your route file:
 
 ```jsx filename=routes/hello.jsx
-import { Button } from "../components/Button";
+import { Button } from '../components/Button';
 
 export default function HelloRoute() {
   return <Button>Hello!</Button>;
@@ -6697,11 +6427,9 @@ Vite lets you append `?url` to your CSS file imports to get the URL of the file 
 For example, using the same `Button` component example from earlier, you can export a `links` array alongside the component so that consumers have access to its styles.
 
 ```jsx filename=components/Button.jsx lines=[1,3-5]
-import buttonCssUrl from "./Button.css?url";
+import buttonCssUrl from './Button.css?url';
 
-export const links = [
-  { rel: "stylesheet", href: buttonCssUrl },
-];
+export const links = [{ rel: 'stylesheet', href: buttonCssUrl }];
 
 export function Button(props) {
   return <button {...props} className="Button__root" />;
@@ -6711,10 +6439,7 @@ export function Button(props) {
 When importing this component, consumers now also need to import this `links` array and attach it to their route's `links` export:
 
 ```jsx filename=routes/hello.jsx lines=[3,6]
-import {
-  Button,
-  links as buttonLinks,
-} from "../components/Button";
+import { Button, links as buttonLinks } from '../components/Button';
 
 export const links = () => [...buttonLinks];
 
@@ -6749,14 +6474,15 @@ It's ultimately personal preference when it comes to managing CSS files in your 
 [css-bundling]: #css-bundling
 [css-url-imports]: #css-url-imports
 
-
----
-File: ./guides/data-loading.md
 ---
 
+## File: ./guides/data-loading.md
+
 ---
+
 title: Data Loading
 description: One of the primary features of Remix is simplifying interactions with the server to get data into components. This document will help you get the most out of data loading in Remix.
+
 ---
 
 # Data Loading
@@ -6778,13 +6504,13 @@ One of the primary features of Remix is simplifying interactions with the server
 Each route module can export a component and a [`loader`][loader]. [`useLoaderData`][useloaderdata] will provide the loader's data to your component:
 
 ```tsx filename=app/routes/products.tsx lines=[1-2,4-9,12]
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
 export const loader = async () => {
   return json([
-    { id: "1", name: "Pants" },
-    { id: "2", name: "Jacket" },
+    { id: '1', name: 'Pants' },
+    { id: '2', name: 'Jacket' },
   ]);
 };
 
@@ -6810,11 +6536,9 @@ If your server-side modules end up in client bundles, refer to our guide on [ser
 When you name a file with `$` like `app/routes/users.$userId.tsx` and `app/routes/users.$userId.projects.$projectId.tsx` the dynamic segments (the ones starting with `$`) will be parsed from the URL and passed to your loader on a `params` object.
 
 ```tsx filename=app/routes/users.$userId.projects.$projectId.tsx
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   console.log(params.userId);
   console.log(params.projectId);
 };
@@ -6830,19 +6554,17 @@ Given the following URLs, the params would be parsed as follows:
 These params are most useful for looking up data:
 
 ```tsx filename=app/routes/users.$userId.projects.$projectId.tsx lines=[10-11]
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json(
     await fakeDb.project.findMany({
       where: {
         userId: params.userId,
         projectId: params.projectId,
       },
-    })
+    }),
   );
 };
 ```
@@ -6852,14 +6574,12 @@ export const loader = async ({
 Because these params come from the URL and not your source code, you can't know for sure if they will be defined. That's why the types on the param's keys are `string | undefined`. It's good practice to validate before using them, especially in TypeScript to get type safety. Using `invariant` makes it easy.
 
 ```tsx filename=app/routes/users.$userId.projects.$projectId.tsx lines=[2,7-8]
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import invariant from "tiny-invariant";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import invariant from 'tiny-invariant';
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
-  invariant(params.userId, "Expected params.userId");
-  invariant(params.projectId, "Expected params.projectId");
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  invariant(params.userId, 'Expected params.userId');
+  invariant(params.projectId, 'Expected params.projectId');
 
   params.projectId; // <-- TypeScript now knows this is a string
 };
@@ -6872,11 +6592,11 @@ While you may be uncomfortable throwing errors like this with `invariant` when i
 Remix polyfills the `fetch` API on your server, so it's very easy to fetch data from existing JSON APIs. Instead of managing state, errors, race conditions, and more yourself, you can do the fetch from your loader (on the server) and let Remix handle the rest.
 
 ```tsx filename=app/routes/gists.tsx lines=[5]
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
 export async function loader() {
-  const res = await fetch("https://api.github.com/gists");
+  const res = await fetch('https://api.github.com/gists');
   return json(await res.json());
 }
 
@@ -6901,7 +6621,7 @@ This is great when you already have an API to work with and don't care or need t
 Since Remix runs on your server, you can connect directly to a database in your route modules. For example, you could connect to a Postgres database with [Prisma][prisma].
 
 ```tsx filename=app/db.server.ts
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 const db = new PrismaClient();
 export { db };
 ```
@@ -6909,21 +6629,19 @@ export { db };
 And then your routes can import it and make queries against it:
 
 ```tsx filename=app/routes/products.$categoryId.tsx
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
-import { db } from "~/db.server";
+import { db } from '@/db.server';
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json(
     await db.product.findMany({
       where: {
         categoryId: params.categoryId,
       },
-    })
+    }),
   );
 };
 
@@ -6941,11 +6659,11 @@ export default function ProductCategory() {
 If you are using TypeScript, you can use type inference to use Prisma Client generated types when calling `useLoaderData`. This allows better type safety and intellisense when writing code that uses the loaded data.
 
 ```tsx filename=app/routes/products.$productId.tsx
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
-import { db } from "~/db.server";
+import { db } from '@/db.server';
 
 async function getLoaderData(productId: string) {
   const product = await db.product.findUnique({
@@ -6962,9 +6680,7 @@ async function getLoaderData(productId: string) {
   return product;
 }
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json(await getLoaderData(params.productId));
 };
 
@@ -6994,20 +6710,12 @@ For the Cloudflare Workers environment you'll need to [do some other configurati
 This enables you to use the `PRODUCTS_KV` in a loader context (KV stores are added to loader context automatically by the Cloudflare Pages adapter):
 
 ```tsx
-import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { json } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/cloudflare';
+import { json } from '@remix-run/cloudflare';
+import { useLoaderData } from '@remix-run/react';
 
-export const loader = async ({
-  context,
-  params,
-}: LoaderFunctionArgs) => {
-  return json(
-    await context.PRODUCTS_KV.get(
-      `product-${params.productId}`,
-      { type: "json" }
-    )
-  );
+export const loader = async ({ context, params }: LoaderFunctionArgs) => {
+  return json(await context.PRODUCTS_KV.get(`product-${params.productId}`, { type: 'json' }));
 };
 
 export default function Product() {
@@ -7026,10 +6734,7 @@ export default function Product() {
 While loading data it's common for a record to be "not found". As soon as you know you can't render the component as expected, `throw` a response and Remix will stop executing code in the current loader and switch over to the nearest [error boundary][error-boundary].
 
 ```tsx lines=[10-13]
-export const loader = async ({
-  params,
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const product = await db.product.findOne({
     where: { id: params.productId },
   });
@@ -7038,7 +6743,7 @@ export const loader = async ({
     // we know we can't render the component
     // so throw immediately to stop executing code
     // and show the not found page
-    throw new Response("Not Found", { status: 404 });
+    throw new Response('Not Found', { status: 404 });
   }
 
   const cart = await getCart(request);
@@ -7054,14 +6759,12 @@ export const loader = async ({
 URL Search Params are the portion of the URL after a `?`. Other names for this are "query string", "search string", or "location search". You can access the values by creating a URL out of the `request.url`:
 
 ```tsx filename=app/routes/products.tsx lines=[7-8]
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
-  const term = url.searchParams.get("term");
+  const term = url.searchParams.get('term');
   return json(await fakeProductSearch(term));
 };
 ```
@@ -7097,20 +6800,10 @@ export default function ProductFilters() {
   return (
     <Form method="get">
       <label htmlFor="nike">Nike</label>
-      <input
-        type="checkbox"
-        id="nike"
-        name="brand"
-        value="nike"
-      />
+      <input type="checkbox" id="nike" name="brand" value="nike" />
 
       <label htmlFor="adidas">Adidas</label>
-      <input
-        type="checkbox"
-        id="adidas"
-        name="brand"
-        value="adidas"
-      />
+      <input type="checkbox" id="adidas" name="brand" value="adidas" />
 
       <button type="submit">Update</button>
     </Form>
@@ -7135,14 +6828,12 @@ Then the url will be: `/products/shoes?brand=nike&brand=adidas`
 Note that `brand` is repeated in the URL search string since both checkboxes were named `"brand"`. In your loader you can get access to all of those values with [`searchParams.getAll`][search-params-getall]
 
 ```tsx lines=[8]
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
-  const brands = url.searchParams.getAll("brand");
+  const brands = url.searchParams.getAll('brand');
   return json(await getProducts({ brands }));
 }
 ```
@@ -7160,11 +6851,11 @@ As the developer, you can control the search params by linking to URLs with sear
 In addition to reading search params in loaders, you often need access to them in components, too:
 
 ```tsx lines=[1,4-5,15,24]
-import { useSearchParams } from "@remix-run/react";
+import { useSearchParams } from '@remix-run/react';
 
 export default function ProductFilters() {
   const [searchParams] = useSearchParams();
-  const brands = searchParams.getAll("brand");
+  const brands = searchParams.getAll('brand');
 
   return (
     <Form method="get">
@@ -7174,7 +6865,7 @@ export default function ProductFilters() {
         id="nike"
         name="brand"
         value="nike"
-        defaultChecked={brands.includes("nike")}
+        defaultChecked={brands.includes('nike')}
       />
 
       <label htmlFor="adidas">Adidas</label>
@@ -7183,7 +6874,7 @@ export default function ProductFilters() {
         id="adidas"
         name="brand"
         value="adidas"
-        defaultChecked={brands.includes("adidas")}
+        defaultChecked={brands.includes('adidas')}
       />
 
       <button type="submit">Update</button>
@@ -7195,21 +6886,15 @@ export default function ProductFilters() {
 You might want to auto submit the form on any field change, for that there is [`useSubmit`][use-submit]:
 
 ```tsx lines=[2,7,14]
-import {
-  useSubmit,
-  useSearchParams,
-} from "@remix-run/react";
+import { useSubmit, useSearchParams } from '@remix-run/react';
 
 export default function ProductFilters() {
   const submit = useSubmit();
   const [searchParams] = useSearchParams();
-  const brands = searchParams.getAll("brand");
+  const brands = searchParams.getAll('brand');
 
   return (
-    <Form
-      method="get"
-      onChange={(e) => submit(e.currentTarget)}
-    >
+    <Form method="get" onChange={(e) => submit(e.currentTarget)}>
       {/* ... */}
     </Form>
   );
@@ -7221,7 +6906,7 @@ export default function ProductFilters() {
 While uncommon, you can also set searchParams imperatively at any time for any reason. The use cases here are slim, so slim we couldn't even come up with a good one, but here's a silly example:
 
 ```tsx
-import { useSearchParams } from "@remix-run/react";
+import { useSearchParams } from '@remix-run/react';
 
 export default function ProductFilters() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -7244,11 +6929,11 @@ Often you want to keep some inputs, like checkboxes, in sync with the search par
 This is only needed if the search params can be set in two ways, and we want the inputs to stay in sync with the search params. For example, both the `<input type="checkbox">` and the `Link` can change the brand in this component:
 
 ```tsx bad lines=[11-18]
-import { useSearchParams } from "@remix-run/react";
+import { useSearchParams } from '@remix-run/react';
 
 export default function ProductFilters() {
   const [searchParams] = useSearchParams();
-  const brands = searchParams.getAll("brand");
+  const brands = searchParams.getAll('brand');
 
   return (
     <Form method="get">
@@ -7259,7 +6944,7 @@ export default function ProductFilters() {
           id="nike"
           name="brand"
           value="nike"
-          defaultChecked={brands.includes("nike")}
+          defaultChecked={brands.includes('nike')}
         />
         <Link to="?brand=nike">(only)</Link>
       </p>
@@ -7278,7 +6963,7 @@ If the user clicks the checkbox and submits the form, the URL updates and the ch
   id="adidas"
   name="brand"
   value="adidas"
-  checked={brands.includes("adidas")}
+  checked={brands.includes('adidas')}
 />
 ```
 
@@ -7291,15 +6976,12 @@ You have two choices, and what you pick depends on the user experience you want.
 **First Choice**: The simplest thing is to auto-submit the form when the user clicks the checkbox:
 
 ```tsx lines=[2,7,20]
-import {
-  useSubmit,
-  useSearchParams,
-} from "@remix-run/react";
+import { useSubmit, useSearchParams } from '@remix-run/react';
 
 export default function ProductFilters() {
   const submit = useSubmit();
   const [searchParams] = useSearchParams();
-  const brands = searchParams.getAll("brand");
+  const brands = searchParams.getAll('brand');
 
   return (
     <Form method="get">
@@ -7311,7 +6993,7 @@ export default function ProductFilters() {
           name="brand"
           value="nike"
           onChange={(e) => submit(e.currentTarget.form)}
-          checked={brands.includes("nike")}
+          checked={brands.includes('nike')}
         />
         <Link to="?brand=nike">(only)</Link>
       </p>
@@ -7331,25 +7013,22 @@ export default function ProductFilters() {
 - Update the state when the search params change (the user submitted the form or clicked the link) to reflect what's in the url search params
 
 ```tsx lines=[11-14,16-20,31-35]
-import {
-  useSubmit,
-  useSearchParams,
-} from "@remix-run/react";
+import { useSubmit, useSearchParams } from '@remix-run/react';
 
 export default function ProductFilters() {
   const submit = useSubmit();
   const [searchParams] = useSearchParams();
-  const brands = searchParams.getAll("brand");
+  const brands = searchParams.getAll('brand');
 
   const [nikeChecked, setNikeChecked] = React.useState(
     // initialize from the URL
-    brands.includes("nike")
+    brands.includes('nike'),
   );
 
   // Update the state when the params change
   // (form submission or link click)
   React.useEffect(() => {
-    setNikeChecked(brands.includes("nike"));
+    setNikeChecked(brands.includes('nike'));
   }, [brands, searchParams]);
 
   return (
@@ -7387,12 +7066,8 @@ You might want to make an abstraction for checkboxes like this:
 
 function SearchCheckbox({ name, value }) {
   const [searchParams] = useSearchParams();
-  const paramsIncludeValue = searchParams
-    .getAll(name)
-    .includes(value);
-  const [checked, setChecked] = React.useState(
-    paramsIncludeValue
-  );
+  const paramsIncludeValue = searchParams.getAll(name).includes(value);
+  const [checked, setChecked] = React.useState(paramsIncludeValue);
 
   React.useEffect(() => {
     setChecked(paramsIncludeValue);
@@ -7420,8 +7095,8 @@ function SearchCheckbox({ name, value }) {
   id="adidas"
   name="brand"
   value="adidas"
-  key={"adidas" + brands.includes("adidas")}
-  defaultChecked={brands.includes("adidas")}
+  key={'adidas' + brands.includes('adidas')}
+  defaultChecked={brands.includes('adidas')}
 />
 ```
 
@@ -7476,7 +7151,7 @@ export async function loader() {
   return {
     date: new Date(),
     someMethod() {
-      return "hello!";
+      return 'hello!';
     },
   };
 }
@@ -7524,14 +7199,13 @@ export default function RouteComp() {
 [useloaderdata]: ../hooks/use-loader-data
 [server-vs-client-code]: ../discussion/server-vs-client
 
-
----
-File: ./guides/data-writes.md
 ---
 
+## File: ./guides/data-writes.md
+
 ---
-title: Data Writes
----
+
+## title: Data Writes
 
 # Data Writes
 
@@ -7638,9 +7312,7 @@ When the user submits this form, the browser will serialize the fields into a re
 The data is made available to the server's request handler, so you can create the record. After that, you return a response. In this case, you'd probably redirect to the newly-created project. A remix action would look something like this:
 
 ```tsx filename=app/routes/projects.tsx
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const body = await request.formData();
   const project = await createProject(body);
   return redirect(`/projects/${project.id}`);
@@ -7652,8 +7324,7 @@ The browser started at `/projects/new`, then posted to `/projects` with the form
 If you're newer to web development, you may not have ever used a form this way. Lots of folks have always done:
 
 ```html
-<form onSubmit={(event) => { event.preventDefault(); // good
-luck! }} />
+<form onSubmit="{(event)" ="">{ event.preventDefault(); // good luck! }} /></form>
 ```
 
 If this is you, you're going to be delighted when you see just how easy mutations can be when you just use what browsers (and Remix) have built in!
@@ -7705,13 +7376,11 @@ export default function NewProject() {
 Now add the route action. Any form submissions that are "post" will call your data "action". Any "get" submissions (`<Form method="get">`) will be handled by your "loader".
 
 ```tsx lines=[1,5-11]
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { redirect } from "@remix-run/node"; // or cloudflare/deno
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { redirect } from '@remix-run/node'; // or cloudflare/deno
 
 // Note the "action" export name, this will handle our form POST
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const project = await createProject(formData);
   return redirect(`/projects/${project.id}`);
@@ -7741,11 +7410,9 @@ const [errors, project] = await createProject(formData);
 If there are validation errors, we want to go back to the form and display them.
 
 ```tsx lines=[1,7,9-12]
-import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
+import { json, redirect } from '@remix-run/node'; // or cloudflare/deno
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const [errors, project] = await createProject(formData);
 
@@ -7761,13 +7428,11 @@ export const action = async ({
 Just like `useLoaderData` returns the values from the `loader`, `useActionData` will return the data from the action. It will only be there if the navigation was a form submission, so you always have to check if you've got it or not.
 
 ```tsx lines=[3,12,22,27-31,39,44-48]
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
-import { useActionData } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json, redirect } from '@remix-run/node'; // or cloudflare/deno
+import { useActionData } from '@remix-run/react';
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   // ...
 };
 
@@ -7778,36 +7443,22 @@ export default function NewProject() {
     <form method="post" action="/projects/new">
       <p>
         <label>
-          Name:{" "}
-          <input
-            name="name"
-            type="text"
-            defaultValue={actionData?.values.name}
-          />
+          Name: <input name="name" type="text" defaultValue={actionData?.values.name} />
         </label>
       </p>
 
-      {actionData?.errors.name ? (
-        <p style={{ color: "red" }}>
-          {actionData.errors.name}
-        </p>
-      ) : null}
+      {actionData?.errors.name ? <p style={{ color: 'red' }}>{actionData.errors.name}</p> : null}
 
       <p>
         <label>
           Description:
           <br />
-          <textarea
-            name="description"
-            defaultValue={actionData?.values.description}
-          />
+          <textarea name="description" defaultValue={actionData?.values.description} />
         </label>
       </p>
 
       {actionData?.errors.description ? (
-        <p style={{ color: "red" }}>
-          {actionData.errors.description}
-        </p>
+        <p style={{ color: 'red' }}>{actionData.errors.description}</p>
       ) : null}
 
       <p>
@@ -7827,8 +7478,8 @@ You can ship this code as-is. The browser will handle the pending UI and interru
 Let's use progressive enhancement to make this UX a bit more fancy. By changing it from `<form>` to `<Form>`, Remix will emulate the browser behavior with `fetch`. It will also give you access to the pending form data, so you can build pending UI.
 
 ```tsx lines=[2,11]
-import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
-import { useActionData, Form } from "@remix-run/react";
+import { json, redirect } from '@remix-run/node'; // or cloudflare/deno
+import { useActionData, Form } from '@remix-run/react';
 
 // ...
 
@@ -7851,12 +7502,8 @@ If you don't have the time or drive to do the rest of the job here, use `<Form r
 Now let's add some pending UI so the user has a clue something happened when they submit. There's a hook called `useNavigation`. When there is a pending form submission, Remix will give you the serialized version of the form as a <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData">`FormData`</a> object. You'll be most interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData/get">`formData.get()`</a> method.
 
 ```tsx lines=[5,13,19,65-67]
-import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
-import {
-  useActionData,
-  Form,
-  useNavigation,
-} from "@remix-run/react";
+import { json, redirect } from '@remix-run/node'; // or cloudflare/deno
+import { useActionData, Form, useNavigation } from '@remix-run/react';
 
 // ...
 
@@ -7868,28 +7515,20 @@ export default function NewProject() {
 
   return (
     <Form method="post">
-      <fieldset
-        disabled={navigation.state === "submitting"}
-      >
+      <fieldset disabled={navigation.state === 'submitting'}>
         <p>
           <label>
-            Name:{" "}
+            Name:{' '}
             <input
               name="name"
               type="text"
-              defaultValue={
-                actionData
-                  ? actionData.values.name
-                  : undefined
-              }
+              defaultValue={actionData ? actionData.values.name : undefined}
             />
           </label>
         </p>
 
         {actionData && actionData.errors.name ? (
-          <p style={{ color: "red" }}>
-            {actionData.errors.name}
-          </p>
+          <p style={{ color: 'red' }}>{actionData.errors.name}</p>
         ) : null}
 
         <p>
@@ -7898,26 +7537,18 @@ export default function NewProject() {
             <br />
             <textarea
               name="description"
-              defaultValue={
-                actionData
-                  ? actionData.values.description
-                  : undefined
-              }
+              defaultValue={actionData ? actionData.values.description : undefined}
             />
           </label>
         </p>
 
         {actionData && actionData.errors.description ? (
-          <p style={{ color: "red" }}>
-            {actionData.errors.description}
-          </p>
+          <p style={{ color: 'red' }}>{actionData.errors.description}</p>
         ) : null}
 
         <p>
           <button type="submit">
-            {navigation.state === "submitting"
-              ? "Creating..."
-              : "Create"}
+            {navigation.state === 'submitting' ? 'Creating...' : 'Create'}
           </button>
         </p>
       </fieldset>
@@ -7950,9 +7581,9 @@ function ValidationMessage({ error, isSubmitting }) {
     <div
       style={{
         opacity: show ? 1 : 0,
-        height: show ? "1em" : 0,
-        color: "red",
-        transition: "all 300ms ease-in-out",
+        height: show ? '1em' : 0,
+        color: 'red',
+        transition: 'all 300ms ease-in-out',
       }}
     >
       {error}
@@ -7970,24 +7601,16 @@ export default function NewProject() {
 
   return (
     <Form method="post">
-      <fieldset
-        disabled={navigation.state === "submitting"}
-      >
+      <fieldset disabled={navigation.state === 'submitting'}>
         <p>
           <label>
-            Name:{" "}
+            Name:{' '}
             <input
               name="name"
               type="text"
-              defaultValue={
-                actionData
-                  ? actionData.values.name
-                  : undefined
-              }
+              defaultValue={actionData ? actionData.values.name : undefined}
               style={{
-                borderColor: actionData?.errors.name
-                  ? "red"
-                  : "",
+                borderColor: actionData?.errors.name ? 'red' : '',
               }}
             />
           </label>
@@ -7995,7 +7618,7 @@ export default function NewProject() {
 
         {actionData?.errors.name ? (
           <ValidationMessage
-            isSubmitting={navigation.state === "submitting"}
+            isSubmitting={navigation.state === 'submitting'}
             error={actionData?.errors?.name}
           />
         ) : null}
@@ -8008,24 +7631,20 @@ export default function NewProject() {
               name="description"
               defaultValue={actionData?.values.description}
               style={{
-                borderColor: actionData?.errors.description
-                  ? "red"
-                  : "",
+                borderColor: actionData?.errors.description ? 'red' : '',
               }}
             />
           </label>
         </p>
 
         <ValidationMessage
-          isSubmitting={navigation.state === "submitting"}
+          isSubmitting={navigation.state === 'submitting'}
           error={actionData?.errors.description}
         />
 
         <p>
           <button type="submit">
-            {navigation.state === "submitting"
-              ? "Creating..."
-              : "Create"}
+            {navigation.state === 'submitting' ? 'Creating...' : 'Create'}
           </button>
         </p>
       </fieldset>
@@ -8062,26 +7681,26 @@ From your components perspective, all that happened was the `useNavigation` hook
 [actions]: ../route/action
 [loaders]: ../route/loader
 
-
----
-File: ./guides/debugging.md
 ---
 
+## File: ./guides/debugging.md
+
 ---
+
 title: Debugging
 hidden: true
+
 ---
 
 TODO
 
-
----
-File: ./guides/dependency-optimization.md
 ---
 
+## File: ./guides/dependency-optimization.md
+
 ---
-title: Dependency optimization
----
+
+## title: Dependency optimization
 
 <docs-info>This feature only affects development. It does not impact production builds.</docs-info>
 
@@ -8134,7 +7753,7 @@ Finally, you add `svg2img` to `optimizeDeps.exclude`, which should fix the issue
 ```ts filename=vite.config.ts
 export default defineConfig({
   optimizeDeps: {
-    exclude: ["svg2img"],
+    exclude: ['svg2img'],
   },
 });
 ```
@@ -8147,14 +7766,15 @@ export default defineConfig({
 [publint]: https://publint.dev
 [jimp-package-is-misconfigured]: https://publint.dev/jimp@0.22.12
 
-
----
-File: ./guides/deployment.md
 ---
 
+## File: ./guides/deployment.md
+
 ---
+
 title: Deployment
 toc: false
+
 ---
 
 # Deployment
@@ -8177,14 +7797,15 @@ In a nutshell: if you want to deploy your app, Read the manual 😋
 
 [starter-templates]: https://github.com/remix-run/remix/tree/main/templates
 
-
----
-File: ./guides/disabling-javascript.md
 ---
 
+## File: ./guides/disabling-javascript.md
+
 ---
+
 title: Disabling JavaScript
 toc: false
+
 ---
 
 # Disabling JavaScript
@@ -8202,21 +7823,13 @@ export const handle = { hydrate: true };
 Now open `root.tsx`, bring in `useMatches` and add this:
 
 ```tsx filename=app/root.tsx lines=[6,10,13-15,27]
-import {
-  Meta,
-  Links,
-  Scripts,
-  Outlet,
-  useMatches,
-} from "@remix-run/react";
+import { Meta, Links, Scripts, Outlet, useMatches } from '@remix-run/react';
 
 export default function App() {
   const matches = useMatches();
 
   // If at least one route wants to hydrate, this will return true
-  const includeScripts = matches.some(
-    (match) => match.handle?.hydrate
-  );
+  const includeScripts = matches.some((match) => match.handle?.hydrate);
 
   // then use the flag to render scripts or not
   return (
@@ -8247,9 +7860,7 @@ return (
     <select id="qty">
       <option>1</option>
       <option>2</option>
-      <option value="contact">
-        Contact Sales for more
-      </option>
+      <option value="contact">Contact Sales for more</option>
     </select>
 
     <script
@@ -8269,14 +7880,13 @@ return (
 );
 ```
 
-
----
-File: ./guides/envvars.md
 ---
 
+## File: ./guides/envvars.md
+
 ---
-title: Environment Variables
----
+
+## title: Environment Variables
 
 # Environment Variables
 
@@ -8327,9 +7937,7 @@ If you're using the `@remix-run/cloudflare-pages` or `@remix-run/cloudflare` ada
 Then, they'll be available via Remix's `context.cloudflare.env` in your `loader`/`action` functions:
 
 ```tsx
-export const loader = async ({
-  context,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ context }: LoaderFunctionArgs) => {
   console.log(context.cloudflare.env.SOME_SECRET);
 };
 ```
@@ -8408,9 +8016,7 @@ Instead we recommend keeping all of your environment variables on the server (al
            <Outlet />
            <script
              dangerouslySetInnerHTML={{
-               __html: `window.ENV = ${JSON.stringify(
-                 data.ENV
-               )}`,
+               __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
              }}
            />
            <Scripts />
@@ -8423,14 +8029,10 @@ Instead we recommend keeping all of your environment variables on the server (al
 3. **Access the values**
 
    ```tsx lines=[6-8]
-   import { loadStripe } from "@stripe/stripe-js";
+   import { loadStripe } from '@stripe/stripe-js';
 
-   export async function redirectToStripeCheckout(
-     sessionId
-   ) {
-     const stripe = await loadStripe(
-       window.ENV.STRIPE_PUBLIC_KEY
-     );
+   export async function redirectToStripeCheckout(sessionId) {
+     const stripe = await loadStripe(window.ENV.STRIPE_PUBLIC_KEY);
      return stripe.redirectToCheckout({ sessionId });
    }
    ```
@@ -8444,14 +8046,13 @@ Instead we recommend keeping all of your environment variables on the server (al
 [architect]: https://arc.codes/docs/en/reference/cli/env
 [dev-vars]: https://developers.cloudflare.com/pages/functions/bindings/#interact-with-your-environment-variables-locally
 
-
----
-File: ./guides/errors.md
 ---
 
+## File: ./guides/errors.md
+
 ---
-title: Error Handling
----
+
+## title: Error Handling
 
 # Error Handling
 
@@ -8520,7 +8121,7 @@ In production mode, any errors that happen on the server are automatically sanit
 ```tsx
 export async function loader() {
   if (badConditionIsTrue()) {
-    throw new Error("Oh no! Something went wrong!");
+    throw new Error('Oh no! Something went wrong!');
   }
 }
 
@@ -8539,7 +8140,7 @@ If you want to trigger an error boundary and display a specific message or data 
 ```tsx
 export async function loader() {
   if (badConditionIsTrue()) {
-    throw new Response("Oh no! Something went wrong!", {
+    throw new Response('Oh no! Something went wrong!', {
       status: 500,
     });
   }
@@ -8569,14 +8170,15 @@ export function ErrorBoundary() {
 [handle-error]: ../file-conventions/entry.server#handleerror
 [entry-server]: ../file-conventions/entry.server
 
-
----
-File: ./guides/faq.md
 ---
 
+## File: ./guides/faq.md
+
 ---
+
 title: FAQs
 description: Frequently Asked Questions about Remix
+
 ---
 
 # Frequently Asked Questions
@@ -8590,24 +8192,21 @@ This is probably not different from what you were doing before Remix, it might j
 We recommend you create a function that validates the user session that can be added to any routes that require it.
 
 ```ts filename=app/session.ts lines=[9-22]
-import {
-  createCookieSessionStorage,
-  redirect,
-} from "@remix-run/node"; // or cloudflare/deno
+import { createCookieSessionStorage, redirect } from '@remix-run/node'; // or cloudflare/deno
 
 // somewhere you've got a session storage
 const { getSession } = createCookieSessionStorage();
 
 export async function requireUserSession(request) {
   // get the session
-  const cookie = request.headers.get("cookie");
+  const cookie = request.headers.get('cookie');
   const session = await getSession(cookie);
 
   // validate the session, `userId` is just an example, use whatever value you
   // put in the session when the user authenticated
-  if (!session.has("userId")) {
+  if (!session.has('userId')) {
     // if there is no user session, redirect to login
-    throw redirect("/login");
+    throw redirect('/login');
   }
 
   return session;
@@ -8617,15 +8216,13 @@ export async function requireUserSession(request) {
 And now in any loader or action that requires a user session, you can call the function.
 
 ```tsx filename=app/routes/projects.tsx lines=[5]
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   // if the user isn't authenticated, this will redirect to login
   const session = await requireUserSession(request);
 
   // otherwise the code continues to execute
   const projects = await fakeDb.projects.scan({
-    userId: session.get("userId"),
+    userId: session.get('userId'),
   });
   return json(projects);
 }
@@ -8634,9 +8231,7 @@ export async function loader({
 Even if you don't need the session information, the function will still protect the route:
 
 ```tsx
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   await requireUserSession(request);
   // continue
 }
@@ -8662,22 +8257,20 @@ We find option (1) to be the simplest because you don't have to mess around with
 HTML buttons can send a value, so it's the easiest way to implement this:
 
 ```tsx filename=app/routes/projects.$id.tsx lines=[5-6,35,41]
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const intent = formData.get("intent");
+  const intent = formData.get('intent');
   switch (intent) {
-    case "update": {
+    case 'update': {
       // do your update
-      return updateProjectName(formData.get("name"));
+      return updateProjectName(formData.get('name'));
     }
-    case "delete": {
+    case 'delete': {
       // do your delete
       return deleteStuff(formData);
     }
     default: {
-      throw new Error("Unexpected action");
+      throw new Error('Unexpected action');
     }
   }
 }
@@ -8689,12 +8282,7 @@ export default function Projects() {
       <h2>Update Project</h2>
       <Form method="post">
         <label>
-          Project name:{" "}
-          <input
-            type="text"
-            name="name"
-            defaultValue={project.name}
-          />
+          Project name: <input type="text" name="name" defaultValue={project.name} />
         </label>
         <button type="submit" name="intent" value="update">
           Update
@@ -8726,16 +8314,13 @@ If you're wanting to send structured data simply to post arrays, you can use the
 <Form method="post">
   <p>Select the categories for this video:</p>
   <label>
-    <input type="checkbox" name="category" value="comedy" />{" "}
-    Comedy
+    <input type="checkbox" name="category" value="comedy" /> Comedy
   </label>
   <label>
-    <input type="checkbox" name="category" value="music" />{" "}
-    Music
+    <input type="checkbox" name="category" value="music" /> Music
   </label>
   <label>
-    <input type="checkbox" name="category" value="howto" />{" "}
-    How-To
+    <input type="checkbox" name="category" value="howto" /> How-To
   </label>
 </Form>
 ```
@@ -8743,11 +8328,9 @@ If you're wanting to send structured data simply to post arrays, you can use the
 Each checkbox has the name: "category". Since `FormData` can have multiple values on the same key, you don't need JSON for this. Access the checkbox values with `formData.getAll()` in your action.
 
 ```tsx
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const categories = formData.getAll("category");
+  const categories = formData.getAll('category');
   // ["comedy", "music"]
 }
 ```
@@ -8769,12 +8352,10 @@ If you still want to submit nested structures as well, you can use non-standard 
 And then in your action:
 
 ```tsx
-import queryString from "query-string";
+import queryString from 'query-string';
 
 // in your action:
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   // use `request.text()`, not `request.formData` to get the form data as a url
   // encoded form query string
   const formQueryString = await request.text();
@@ -8787,21 +8368,15 @@ export async function action({
 Some folks even dump their JSON into a hidden field. Note that this approach won't work with progressive enhancement. If that's not important to your app, this is an easy way to send structured data.
 
 ```tsx
-<input
-  type="hidden"
-  name="json"
-  value={JSON.stringify(obj)}
-/>
+<input type="hidden" name="json" value={JSON.stringify(obj)} />
 ```
 
 And then parse it in the action:
 
 ```tsx
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const obj = JSON.parse(formData.get("json"));
+  const obj = JSON.parse(formData.get('json'));
 }
 ```
 
@@ -8817,14 +8392,13 @@ Again, `formData.getAll()` is often all you need, we encourage you to give it a 
 [polyfill-formdata-submitter]: https://github.com/jenseng/formdata-submitter-polyfill
 [remix-submitter-issue]: https://github.com/remix-run/remix/issues/9704
 
-
----
-File: ./guides/file-uploads.md
 ---
 
+## File: ./guides/file-uploads.md
+
 ---
-title: File Uploads
----
+
+## title: File Uploads
 
 <docs-warning>This doc is a WIP: It was extracted from the API docs for file uploads so it's a bit out of context. We intend to re-write this as a general guide on file uploads.</docs-warning>
 
@@ -8833,77 +8407,55 @@ Most of the time, you'll probably want to proxy the file to a file host.
 **Example:**
 
 ```tsx
-import type {
-  ActionFunctionArgs,
-  UploadHandler,
-} from "@remix-run/node"; // or cloudflare/deno
+import type { ActionFunctionArgs, UploadHandler } from '@remix-run/node'; // or cloudflare/deno
 import {
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
-} from "@remix-run/node"; // or cloudflare/deno
-import { writeAsyncIterableToWritable } from "@remix-run/node"; // `writeAsyncIterableToWritable` is a Node-only utility
-import type {
-  UploadApiOptions,
-  UploadApiResponse,
-  UploadStream,
-} from "cloudinary";
-import cloudinary from "cloudinary";
+} from '@remix-run/node'; // or cloudflare/deno
+import { writeAsyncIterableToWritable } from '@remix-run/node'; // `writeAsyncIterableToWritable` is a Node-only utility
+import type { UploadApiOptions, UploadApiResponse, UploadStream } from 'cloudinary';
+import cloudinary from 'cloudinary';
 
-async function uploadImageToCloudinary(
-  data: AsyncIterable<Uint8Array>
-) {
-  const uploadPromise = new Promise<UploadApiResponse>(
-    async (resolve, reject) => {
-      const uploadStream =
-        cloudinary.v2.uploader.upload_stream(
-          {
-            folder: "remix",
-          },
-          (error, result) => {
-            if (error) {
-              reject(error);
-              return;
-            }
-            resolve(result);
-          }
-        );
-      await writeAsyncIterableToWritable(
-        data,
-        uploadStream
-      );
-    }
-  );
+async function uploadImageToCloudinary(data: AsyncIterable<Uint8Array>) {
+  const uploadPromise = new Promise<UploadApiResponse>(async (resolve, reject) => {
+    const uploadStream = cloudinary.v2.uploader.upload_stream(
+      {
+        folder: 'remix',
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(result);
+      },
+    );
+    await writeAsyncIterableToWritable(data, uploadStream);
+  });
 
   return uploadPromise;
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = getUserId(request);
 
   const uploadHandler = unstable_composeUploadHandlers(
     // our custom upload handler
     async ({ name, contentType, data, filename }) => {
-      if (name !== "img") {
+      if (name !== 'img') {
         return undefined;
       }
-      const uploadedImage = await uploadImageToCloudinary(
-        data
-      );
+      const uploadedImage = await uploadImageToCloudinary(data);
       return uploadedImage.secure_url;
     },
     // fallback to memory for everything else
-    unstable_createMemoryUploadHandler()
+    unstable_createMemoryUploadHandler(),
   );
 
-  const formData = await unstable_parseMultipartFormData(
-    request,
-    uploadHandler
-  );
+  const formData = await unstable_parseMultipartFormData(request, uploadHandler);
 
-  const imageUrl = formData.get("avatar");
+  const imageUrl = formData.get('avatar');
 
   // because our uploadHandler returns a string, that's what the imageUrl will be.
   // ... etc
@@ -8926,38 +8478,35 @@ Your job is to do whatever you need with the `data` and return a value that's a 
 We have the built-in `unstable_createFileUploadHandler` and `unstable_createMemoryUploadHandler` and we also expect more upload handler utilities to be developed in the future. If you have a form that needs to use different upload handlers, you can compose them together with a custom handler, here's a theoretical example:
 
 ```ts filename=file-upload-handler.server.ts
-import type { UploadHandler } from "@remix-run/node"; // or cloudflare/deno
-import { unstable_createFileUploadHandler } from "@remix-run/node"; // or cloudflare/deno
-import { createCloudinaryUploadHandler } from "some-handy-remix-util";
+import type { UploadHandler } from '@remix-run/node'; // or cloudflare/deno
+import { unstable_createFileUploadHandler } from '@remix-run/node'; // or cloudflare/deno
+import { createCloudinaryUploadHandler } from 'some-handy-remix-util';
 
-export const standardFileUploadHandler =
-  unstable_createFileUploadHandler({
-    directory: "public/calendar-events",
-  });
+export const standardFileUploadHandler = unstable_createFileUploadHandler({
+  directory: 'public/calendar-events',
+});
 
-export const cloudinaryUploadHandler =
-  createCloudinaryUploadHandler({
-    folder: "/my-site/avatars",
-  });
+export const cloudinaryUploadHandler = createCloudinaryUploadHandler({
+  folder: '/my-site/avatars',
+});
 
 export const fileUploadHandler: UploadHandler = (args) => {
-  if (args.name === "calendarEvent") {
+  if (args.name === 'calendarEvent') {
     return standardFileUploadHandler(args);
-  } else if (args.name === "eventBanner") {
+  } else if (args.name === 'eventBanner') {
     return cloudinaryUploadHandler(args);
   }
   return undefined;
 };
 ```
 
-
----
-File: ./guides/form-validation.md
 ---
 
+## File: ./guides/form-validation.md
+
 ---
-title: Form Validation
----
+
+## title: Form Validation
 
 # Form Validation
 
@@ -8968,7 +8517,7 @@ This guide walks you through implementing form validation for a simple signup fo
 We'll start by creating a basic signup form using the [`Form`][form_component] component from Remix.
 
 ```tsx filename=app/routes/signup.tsx
-import { Form } from "@remix-run/react";
+import { Form } from '@remix-run/react';
 
 export default function Signup() {
   return (
@@ -8992,30 +8541,27 @@ export default function Signup() {
 In this step, we'll define a server `action` in the same file as our `Signup` component. Note that the aim here is to provide a broad overview of the mechanics involved rather than digging deep into form validation rules or error object structures. We'll use rudimentary checks for the email and password to demonstrate the core concepts.
 
 ```tsx filename=app/routes/signup.tsx
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
-import { Form } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json, redirect } from '@remix-run/node'; // or cloudflare/deno
+import { Form } from '@remix-run/react';
 
 export default function Signup() {
   // omitted for brevity
 }
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const email = String(formData.get("email"));
-  const password = String(formData.get("password"));
+  const email = String(formData.get('email'));
+  const password = String(formData.get('password'));
 
   const errors = {};
 
-  if (!email.includes("@")) {
-    errors.email = "Invalid email address";
+  if (!email.includes('@')) {
+    errors.email = 'Invalid email address';
   }
 
   if (password.length < 12) {
-    errors.password =
-      "Password should be at least 12 characters";
+    errors.password = 'Password should be at least 12 characters';
   }
 
   if (Object.keys(errors).length > 0) {
@@ -9023,7 +8569,7 @@ export async function action({
   }
 
   // Redirect to dashboard if validation is successful
-  return redirect("/dashboard");
+  return redirect('/dashboard');
 }
 ```
 
@@ -9034,9 +8580,9 @@ If any validation errors are found, they are returned from the `action` to the c
 Finally, we'll modify the `Signup` component to display validation errors, if any. We'll use [`useActionData`][use_action_data] to access and display these errors.
 
 ```tsx filename=app/routes/signup.tsx lines=[3,6,12-14,19-21]
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
-import { Form, useActionData } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json, redirect } from '@remix-run/node'; // or cloudflare/deno
+import { Form, useActionData } from '@remix-run/react';
 
 export default function Signup() {
   const actionData = useActionData<typeof action>();
@@ -9045,16 +8591,12 @@ export default function Signup() {
     <Form method="post">
       <p>
         <input type="email" name="email" />
-        {actionData?.errors?.email ? (
-          <em>{actionData?.errors.email}</em>
-        ) : null}
+        {actionData?.errors?.email ? <em>{actionData?.errors.email}</em> : null}
       </p>
 
       <p>
         <input type="password" name="password" />
-        {actionData?.errors?.password ? (
-          <em>{actionData?.errors.password}</em>
-        ) : null}
+        {actionData?.errors?.password ? <em>{actionData?.errors.password}</em> : null}
       </p>
 
       <button type="submit">Sign Up</button>
@@ -9062,9 +8604,7 @@ export default function Signup() {
   );
 }
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   // omitted for brevity
 }
 ```
@@ -9077,14 +8617,13 @@ And there you have it! You've successfully set up a basic form validation flow i
 [form_component]: ../components/form
 [use_action_data]: ../hooks/use-action-data
 
-
----
-File: ./guides/gotchas.md
 ---
 
+## File: ./guides/gotchas.md
+
 ---
-title: Gotchas
----
+
+## title: Gotchas
 
 # Gotchas
 
@@ -9097,7 +8636,7 @@ This document should help you get over these bumps.
 Because the same JavaScript code can run in the browser as well as the server, sometimes you need to have a part of your code that only runs in one context or the other:
 
 ```ts bad
-if (typeof window === "undefined") {
+if (typeof window === 'undefined') {
   // running in a server environment
 } else {
   // running in a browser environment
@@ -9107,7 +8646,7 @@ if (typeof window === "undefined") {
 This works fine in a Node.js environment, however, Deno actually supports `window`! So if you really want to check whether you're running in the browser, it's better to check for `document` instead:
 
 ```ts good
-if (typeof document === "undefined") {
+if (typeof document === 'undefined') {
   // running in a server environment
 } else {
   // running in a browser environment
@@ -9153,11 +8692,11 @@ TypeError: Cannot read properties of undefined (reading 'root')
 For example, you can't import `fs-extra` directly into a route module:
 
 ```tsx bad filename=app/routes/_index.tsx lines=[2] nocopy
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import fs from "fs-extra";
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import fs from 'fs-extra';
 
 export async function loader() {
-  return json(await fs.pathExists("../some/path"));
+  return json(await fs.pathExists('../some/path'));
 }
 
 export default function SomeRoute() {
@@ -9168,18 +8707,18 @@ export default function SomeRoute() {
 To fix it, move the import into a different module named `*.server.ts` or `*.server.js` and import from there. In our example here, we create a new file at `utils/fs-extra.server.ts`:
 
 ```ts filename=app/utils/fs-extra.server.ts
-export { default } from "fs-extra";
+export { default } from 'fs-extra';
 ```
 
 And then change our import in the route to the new "wrapper" module:
 
 ```tsx filename=app/routes/_index.tsx lines=[3]
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-import fs from "~/utils/fs-extra.server";
+import fs from '@/utils/fs-extra.server';
 
 export async function loader() {
-  return json(await fs.pathExists("../some/path"));
+  return json(await fs.pathExists('../some/path'));
 }
 
 export default function SomeRoute() {
@@ -9196,7 +8735,7 @@ For example, [Remix upload handlers like `unstable_createFileUploadHandler` and 
 So instead of doing:
 
 ```tsx bad filename=app/routes/some-route.tsx lines=[3-6]
-import { unstable_createFileUploadHandler } from "@remix-run/node"; // or cloudflare/deno
+import { unstable_createFileUploadHandler } from '@remix-run/node'; // or cloudflare/deno
 
 const uploadHandler = unstable_createFileUploadHandler({
   maxPartSize: 5_000_000,
@@ -9211,7 +8750,7 @@ export async function action() {
 You should be doing:
 
 ```tsx filename=app/routes/some-route.tsx good lines=[4-7]
-import { unstable_createFileUploadHandler } from "@remix-run/node"; // or cloudflare/deno
+import { unstable_createFileUploadHandler } from '@remix-run/node'; // or cloudflare/deno
 
 export async function action() {
   const uploadHandler = unstable_createFileUploadHandler({
@@ -9247,7 +8786,7 @@ In our case here, we're using the `dot-prop` package, so we would do it like thi
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  serverDependenciesToBundle: ["dot-prop"],
+  serverDependenciesToBundle: ['dot-prop'],
   // ...
 };
 ```
@@ -9292,34 +8831,37 @@ Note that, even if this issue didn't exist, we'd still recommend using named re-
 [cookie_header]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cookie
 [classic-remix-compiler]: ./vite#classic-remix-compiler-vs-remix-vite
 
-
----
-File: ./guides/images.md
 ---
 
+## File: ./guides/images.md
+
 ---
+
 title: Handling Images
 hidden: true
----
 
-
----
-File: ./guides/index.md
 ---
 
 ---
+
+## File: ./guides/index.md
+
+---
+
 title: Guides
 order: 10
----
 
-
----
-File: ./guides/index-query-param.md
 ---
 
 ---
+
+## File: ./guides/index-query-param.md
+
+---
+
 title: Index Query Param
 toc: false
+
 ---
 
 # Index Query Param
@@ -9354,16 +8896,16 @@ This applies to `<Form>` and all of its cousins:
 ```tsx
 function Component() {
   const submit = useSubmit();
-  submit({}, { action: "/projects" });
-  submit({}, { action: "/projects?index" });
+  submit({}, { action: '/projects' });
+  submit({}, { action: '/projects?index' });
 }
 ```
 
 ```tsx
 function Component() {
   const fetcher = useFetcher();
-  fetcher.submit({}, { action: "/projects" });
-  fetcher.submit({}, { action: "/projects?index" });
+  fetcher.submit({}, { action: '/projects' });
+  fetcher.submit({}, { action: '/projects?index' });
   <fetcher.Form action="/projects" />;
   <fetcher.Form action="/projects?index" />;
   <fetcher.Form />; // defaults to the route in context
@@ -9376,14 +8918,13 @@ function Component() {
 [form_component]: ../components/form
 [action]: ../route/action
 
-
----
-File: ./guides/lazy-route-discovery.md
 ---
 
+## File: ./guides/lazy-route-discovery.md
+
 ---
-title: Lazy Route Discovery
----
+
+## title: Lazy Route Discovery
 
 # Lazy Route Discovery (a.k.a. "Fog of War")
 
@@ -9445,14 +8986,13 @@ If you wish to opt-out of this eager route discovery on a per-link basis, you ca
 [rr-v7-2]: https://remix.run/blog/incremental-path-to-react-19
 [blog-post]: https://remix.run/blog/fog-of-war
 
-
----
-File: ./guides/local-tls.md
 ---
 
+## File: ./guides/local-tls.md
+
 ---
-title: "Local TLS"
----
+
+## title: "Local TLS"
 
 # Local TLS
 
@@ -9506,13 +9046,13 @@ How you do this will depend on what app server you are using.
 For example, here's how you could use HTTPS with an Express server:
 
 ```ts filename=server.ts
-import fs from "node:fs";
-import https from "node:https";
-import path from "node:path";
+import fs from 'node:fs';
+import https from 'node:https';
+import path from 'node:path';
 
-import express from "express";
+import express from 'express';
 
-const BUILD_DIR = path.resolve(__dirname, "build");
+const BUILD_DIR = path.resolve(__dirname, 'build');
 const build = require(BUILD_DIR);
 
 const app = express();
@@ -9521,10 +9061,10 @@ const app = express();
 
 const server = https.createServer(
   {
-    key: fs.readFileSync("path/to/key.pem"),
-    cert: fs.readFileSync("path/to/cert.pem"),
+    key: fs.readFileSync('path/to/key.pem'),
+    cert: fs.readFileSync('path/to/cert.pem'),
   },
-  app
+  app,
 );
 
 const port = 3000;
@@ -9555,8 +9095,8 @@ Via config:
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   dev: {
-    tlsKey: "key.pem", // relative to cwd
-    tlsCert: "cert.pem", // relative to cwd
+    tlsKey: 'key.pem', // relative to cwd
+    tlsCert: 'cert.pem', // relative to cwd
   },
 };
 ```
@@ -9572,14 +9112,13 @@ Your app should now be running with local TLS!
 [mkcert]: https://github.com/FiloSottile/mkcert#installation
 [classic-remix-compiler]: ./vite#classic-remix-compiler-vs-remix-vite
 
-
----
-File: ./guides/manual-mode.md
 ---
 
+## File: ./guides/manual-mode.md
+
 ---
-title: Manual Dev Server
----
+
+## title: Manual Dev Server
 
 # Manual mode
 
@@ -9654,11 +9193,11 @@ When you switch on manual mode with `--manual`, you take on some new responsibil
 Re-importing code changes turns out to be tricky because JS imports are cached.
 
 ```js
-import fs from "node:fs";
+import fs from 'node:fs';
 
-const original = await import("./build/index.js");
-fs.writeFileSync("./build/index.js", someCode);
-const changed = await import("./build/index.js");
+const original = await import('./build/index.js');
+fs.writeFileSync('./build/index.js', someCode);
+const changed = await import('./build/index.js');
 //    ^^^^^^^ this will return the original module from the import cache without the code changes
 ```
 
@@ -9682,12 +9221,12 @@ That lets you bust the cache for _just_ the server code when rebuilds occur.
 For example, here's how to bust the `require` cache for the Remix server build:
 
 ```js
-const path = require("node:path");
+const path = require('node:path');
 
 /** @typedef {import('@remix-run/node').ServerBuild} ServerBuild */
 
-const BUILD_PATH = path.resolve("./build/index.js");
-const VERSION_PATH = path.resolve("./build/version.txt");
+const BUILD_PATH = path.resolve('./build/index.js');
+const VERSION_PATH = path.resolve('./build/version.txt');
 const initialBuild = reimportServer();
 
 /**
@@ -9718,14 +9257,14 @@ Unlike CJS, ESM doesn't give you direct access to the import cache.
 To work around this, you can use a timestamp query parameter to force ESM to treat the import as a new module.
 
 ```js
-import * as fs from "node:fs";
-import * as path from "node:path";
-import * as url from "node:url";
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import * as url from 'node:url';
 
 /** @typedef {import('@remix-run/node').ServerBuild} ServerBuild */
 
-const BUILD_PATH = path.resolve("./build/index.js");
-const VERSION_PATH = path.resolve("./build/version.txt");
+const BUILD_PATH = path.resolve('./build/index.js');
+const VERSION_PATH = path.resolve('./build/version.txt');
 const initialBuild = await reimportServer();
 
 /**
@@ -9738,7 +9277,7 @@ async function reimportServer() {
   const BUILD_URL = url.pathToFileURL(BUILD_PATH).href;
 
   // use a timestamp query parameter to bust the import cache
-  return import(BUILD_URL + "?t=" + stat.mtimeMs);
+  return import(BUILD_URL + '?t=' + stat.mtimeMs);
 }
 ```
 
@@ -9758,7 +9297,7 @@ Now that you have a way to bust the import cache for CJS or ESM, it's time to pu
 To detect when the server code changes, you can use a file watcher like [chokidar][chokidar]:
 
 ```js
-import chokidar from "chokidar";
+import chokidar from 'chokidar';
 
 async function handleServerUpdate() {
   build = await reimportServer();
@@ -9766,8 +9305,8 @@ async function handleServerUpdate() {
 
 chokidar
   .watch(VERSION_PATH, { ignoreInitial: true })
-  .on("add", handleServerUpdate)
-  .on("change", handleServerUpdate);
+  .on('add', handleServerUpdate)
+  .on('change', handleServerUpdate);
 ```
 
 ### 3. Sending the "ready" message
@@ -9779,7 +9318,7 @@ const port = 3000;
 app.listen(port, async () => {
   console.log(`Express server listening on port ${port}`);
 
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     broadcastDevReady(initialBuild);
   }
 });
@@ -9815,15 +9354,15 @@ function createDevRequestHandler(initialBuild) {
 
   chokidar
     .watch(VERSION_PATH, { ignoreInitial: true })
-    .on("add", handleServerUpdate)
-    .on("change", handleServerUpdate);
+    .on('add', handleServerUpdate)
+    .on('change', handleServerUpdate);
 
   // wrap request handler to make sure its recreated with the latest build for every request
   return async (req, res, next) => {
     try {
       return createRequestHandler({
         build,
-        mode: "development",
+        mode: 'development',
       })(req, res, next);
     } catch (error) {
       next(error);
@@ -9837,10 +9376,10 @@ Now let's plug in our new manual transmission when running in development mode:
 
 ```js filename=server.js
 app.all(
-  "*",
-  process.env.NODE_ENV === "development"
+  '*',
+  process.env.NODE_ENV === 'development'
     ? createDevRequestHandler(initialBuild)
-    : createRequestHandler({ build: initialBuild })
+    : createRequestHandler({ build: initialBuild }),
 );
 ```
 
@@ -9857,10 +9396,7 @@ Here's a utility that remembers any in-memory values you want to keep around acr
 // Borrowed & modified from https://github.com/jenseng/abuse-the-platform/blob/main/app/utils/singleton.ts
 // Thanks @jenseng!
 
-export const singleton = <Value>(
-  name: string,
-  valueFactory: () => Value
-): Value => {
+export const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
   const g = global as any;
   g.__singletons ??= {};
   g.__singletons[name] ??= valueFactory();
@@ -9871,15 +9407,12 @@ export const singleton = <Value>(
 For example, to reuse a Prisma client across rebuilds:
 
 ```ts filename=app/db.server.ts
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
-import { singleton } from "~/utils/singleton.server";
+import { singleton } from '@/utils/singleton.server';
 
 // hard-code a unique key so we can look up the client when this module gets re-imported
-export const db = singleton(
-  "prisma",
-  () => new PrismaClient()
-);
+export const db = singleton('prisma', () => new PrismaClient());
 ```
 
 There is also a handy [`remember` utility][remember] that can help out here if you prefer to use that.
@@ -9891,14 +9424,15 @@ There is also a handy [`remember` utility][remember] that can help out here if y
 [remember]: https://npm.im/@epic-web/remember
 [classic-remix-compiler]: ./vite#classic-remix-compiler-vs-remix-vite
 
-
----
-File: ./guides/mdx.md
 ---
 
+## File: ./guides/mdx.md
+
 ---
+
 title: MDX
 description: Remix makes integrating MDX into your project a breeze with built in routes and "import" support.
+
 ---
 
 # MDX
@@ -9943,7 +9477,7 @@ componentData:
   label: Hello, World!
 ---
 
-import SomeComponent from "~/components/some-component";
+import SomeComponent from '@/components/some-component';
 
 # Hello MDX!
 
@@ -9985,14 +9519,12 @@ handle:
   someData: abc
 ---
 
-import styles from "./first-post.css";
+import styles from './first-post.css';
 
-export const links = () => [
-  { rel: "stylesheet", href: styles },
-];
+export const links = () => [{ rel: 'stylesheet', href: styles }];
 
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
 export const loader = async () => {
   return json({ mamboNumber: 5 });
@@ -10019,10 +9551,7 @@ When you `import` a `.mdx` file, the exports of the module are:
 - **filename**: The basename of the source file (e.g. "first-post.mdx")
 
 ```tsx
-import Component, {
-  attributes,
-  filename,
-} from "./first-post.mdx";
+import Component, { attributes, filename } from './first-post.mdx';
 ```
 
 ## Example Blog Usage
@@ -10030,19 +9559,19 @@ import Component, {
 The following example demonstrates how you might build a simple blog with MDX, including individual pages for the posts themselves and an index page that shows all posts.
 
 ```tsx filename=app/routes/_index.tsx
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { Link, useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { Link, useLoaderData } from '@remix-run/react';
 
 // Import all your posts from the app/routes/posts directory. Since these are
 // regular route modules, they will all be available for individual viewing
 // at /posts/a, for example.
-import * as postA from "./posts/a.mdx";
-import * as postB from "./posts/b.md";
-import * as postC from "./posts/c.md";
+import * as postA from './posts/a.mdx';
+import * as postB from './posts/b.md';
+import * as postC from './posts/c.md';
 
 function postFromModule(mod) {
   return {
-    slug: mod.filename.replace(/\.mdx?$/, ""),
+    slug: mod.filename.replace(/\.mdx?$/, ''),
     ...mod.attributes.meta,
   };
 }
@@ -10052,11 +9581,7 @@ export async function loader() {
   // Referencing the posts here instead of in the Index component down below
   // lets us avoid bundling the actual posts themselves in the bundle for the
   // index page.
-  return json([
-    postFromModule(postA),
-    postFromModule(postB),
-    postFromModule(postC),
-  ]);
+  return json([postFromModule(postA), postFromModule(postB), postFromModule(postC)]);
 }
 
 export default function Index() {
@@ -10067,9 +9592,7 @@ export default function Index() {
       {posts.map((post) => (
         <li key={post.slug}>
           <Link to={post.slug}>{post.title}</Link>
-          {post.description ? (
-            <p>{post.description}</p>
-          ) : null}
+          {post.description ? <p>{post.description}</p> : null}
         </li>
       ))}
     </ul>
@@ -10084,15 +9607,13 @@ Clearly this is not a scalable solution for a blog with thousands of posts. Real
 If you wish to configure your own remark plugins you can do so through the `remix.config.js`'s `mdx` export:
 
 ```js filename=remix.config.js
-const {
-  remarkMdxFrontmatter,
-} = require("remark-mdx-frontmatter");
+const { remarkMdxFrontmatter } = require('remark-mdx-frontmatter');
 
 // can be an sync / async function or an object
 exports.mdx = async (filename) => {
   const [rehypeHighlight, remarkToc] = await Promise.all([
-    import("rehype-highlight").then((mod) => mod.default),
-    import("remark-toc").then((mod) => mod.default),
+    import('rehype-highlight').then((mod) => mod.default),
+    import('remark-toc').then((mod) => mod.default),
   ]);
 
   return {
@@ -10108,24 +9629,26 @@ exports.mdx = async (filename) => {
 [mdx-bundler]: https://github.com/kentcdodds/mdx-bundler
 [classic-remix-compiler]: ./vite#classic-remix-compiler-vs-remix-vite
 
-
----
-File: ./guides/meta.md
 ---
 
+## File: ./guides/meta.md
+
 ---
+
 title: SEO and Meta Tags
 hidden: true
----
 
-
----
-File: ./guides/migrating-react-router-app.md
 ---
 
 ---
+
+## File: ./guides/migrating-react-router-app.md
+
+---
+
 title: Migrating from React Router
 description: Migrating your React Router app to Remix can be done all at once or in stages. This guide will walk you through an iterative approach to get your app running quickly.
+
 ---
 
 <docs-info>If you want a TL;DR version along with a repo outlining a simplified migration, check out our <a href="https://github.com/kentcdodds/incremental-react-router-to-remix-upgrade-path">example React Router-to-Remix repo</a>.</docs-info>
@@ -10156,11 +9679,11 @@ npm install -D @remix-run/dev
 Most React Router apps run primarily in the browser. The server's only job is to send a single static HTML page while React Router manages the route-based views client-side. These apps generally have a browser entrypoint file like a root `index.js` that looks something like this:
 
 ```tsx filename=index.tsx
-import { render } from "react-dom";
+import { render } from 'react-dom';
 
-import App from "./App";
+import App from './App';
 
-render(<App />, document.getElementById("app"));
+render(<App />, document.getElementById('app'));
 ```
 
 Server-rendered React apps are a little different. The browser script is not rendering your app, but is "hydrating" the DOM provided by the server. Hydration is the process of mapping the elements in the DOM to their React component counterparts and setting up event listeners so that your app is interactive.
@@ -10173,16 +9696,13 @@ Let's start by creating two new files:
 <docs-info>All of your app code in Remix will live in an `app` directory by convention. If your existing app uses a directory with the same name, rename it to something like `src` or `old-app` to differentiate as we migrate to Remix.</docs-info>
 
 ```tsx filename=app/entry.server.tsx
-import { PassThrough } from "node:stream";
+import { PassThrough } from 'node:stream';
 
-import type {
-  AppLoadContext,
-  EntryContext,
-} from "@remix-run/node";
-import { createReadableStreamFromReadable } from "@remix-run/node";
-import { RemixServer } from "@remix-run/react";
-import { isbot } from "isbot";
-import { renderToPipeableStream } from "react-dom/server";
+import type { AppLoadContext, EntryContext } from '@remix-run/node';
+import { createReadableStreamFromReadable } from '@remix-run/node';
+import { RemixServer } from '@remix-run/react';
+import { isbot } from 'isbot';
+import { renderToPipeableStream } from 'react-dom/server';
 
 const ABORT_DELAY = 5_000;
 
@@ -10191,50 +9711,33 @@ export default function handleRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
-  loadContext: AppLoadContext
+  loadContext: AppLoadContext,
 ) {
-  return isbot(request.headers.get("user-agent") || "")
-    ? handleBotRequest(
-        request,
-        responseStatusCode,
-        responseHeaders,
-        remixContext
-      )
-    : handleBrowserRequest(
-        request,
-        responseStatusCode,
-        responseHeaders,
-        remixContext
-      );
+  return isbot(request.headers.get('user-agent') || '')
+    ? handleBotRequest(request, responseStatusCode, responseHeaders, remixContext)
+    : handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext);
 }
 
 function handleBotRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   return new Promise((resolve, reject) => {
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
+      <RemixServer context={remixContext} url={request.url} abortDelay={ABORT_DELAY} />,
       {
         onAllReady() {
           const body = new PassThrough();
 
-          responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set('Content-Type', 'text/html');
 
           resolve(
-            new Response(
-              createReadableStreamFromReadable(body),
-              {
-                headers: responseHeaders,
-                status: responseStatusCode,
-              }
-            )
+            new Response(createReadableStreamFromReadable(body), {
+              headers: responseHeaders,
+              status: responseStatusCode,
+            }),
           );
 
           pipe(body);
@@ -10246,7 +9749,7 @@ function handleBotRequest(
           responseStatusCode = 500;
           console.error(error);
         },
-      }
+      },
     );
 
     setTimeout(abort, ABORT_DELAY);
@@ -10257,29 +9760,22 @@ function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   return new Promise((resolve, reject) => {
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
+      <RemixServer context={remixContext} url={request.url} abortDelay={ABORT_DELAY} />,
       {
         onShellReady() {
           const body = new PassThrough();
 
-          responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set('Content-Type', 'text/html');
 
           resolve(
-            new Response(
-              createReadableStreamFromReadable(body),
-              {
-                headers: responseHeaders,
-                status: responseStatusCode,
-              }
-            )
+            new Response(createReadableStreamFromReadable(body), {
+              headers: responseHeaders,
+              status: responseStatusCode,
+            }),
           );
 
           pipe(body);
@@ -10291,7 +9787,7 @@ function handleBrowserRequest(
           console.error(error);
           responseStatusCode = 500;
         },
-      }
+      },
     );
 
     setTimeout(abort, ABORT_DELAY);
@@ -10302,16 +9798,16 @@ function handleBrowserRequest(
 Your client entrypoint will look like this:
 
 ```tsx filename=app/entry.client.tsx
-import { RemixBrowser } from "@remix-run/react";
-import { startTransition, StrictMode } from "react";
-import { hydrateRoot } from "react-dom/client";
+import { RemixBrowser } from '@remix-run/react';
+import { startTransition, StrictMode } from 'react';
+import { hydrateRoot } from 'react-dom/client';
 
 startTransition(() => {
   hydrateRoot(
     document,
     <StrictMode>
       <RemixBrowser />
-    </StrictMode>
+    </StrictMode>,
   );
 });
 ```
@@ -10332,24 +9828,15 @@ Create a new file called `root.tsx` (or `root.jsx`) in your `app` directory. The
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="/favicon.ico" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="My beautiful React app"
-    />
+    <meta name="description" content="My beautiful React app" />
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
     <title>My React App</title>
   </head>
   <body>
-    <noscript
-      >You need to enable JavaScript to run this
-      app.</noscript
-    >
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
 </html>
@@ -10358,7 +9845,7 @@ Create a new file called `root.tsx` (or `root.jsx`) in your `app` directory. The
 In your `root.tsx`, export a component that mirrors its structure:
 
 ```tsx filename=app/root.tsx
-import { Outlet } from "@remix-run/react";
+import { Outlet } from '@remix-run/react';
 
 export default function Root() {
   return (
@@ -10366,15 +9853,9 @@ export default function Root() {
       <head>
         <meta charSet="utf-8" />
         <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
-        <meta
-          name="description"
-          content="My beautiful React app"
-        />
+        <meta name="description" content="My beautiful React app" />
         <link rel="apple-touch-icon" href="/logo192.png" />
         <link rel="manifest" href="/manifest.json" />
         <title>My React App</title>
@@ -10413,11 +9894,11 @@ To start, create a new directory in `app` called `routes`. In that directory, cr
 Inside your `_index.tsx` and `$.tsx` files, all we need to do is export the code from our old root `App`:
 
 ```tsx filename=app/routes/_index.tsx
-export { default } from "~/old-app/app";
+export { default } from '@/old-app/app';
 ```
 
 ```tsx filename=app/routes/$.tsx
-export { default } from "~/old-app/app";
+export { default } from '@/old-app/app';
 ```
 
 ## Replacing the bundler with Remix
@@ -10489,20 +9970,16 @@ A common pain-point in migrating a client-rendered codebase to a server-rendered
 
 ```tsx
 function Count() {
-  const [count, setCount] = React.useState(
-    () => localStorage.getItem("count") || 0
-  );
+  const [count, setCount] = React.useState(() => localStorage.getItem('count') || 0);
 
   React.useEffect(() => {
-    localStorage.setItem("count", count);
+    localStorage.setItem('count', count);
   }, [count]);
 
   return (
     <div>
       <h1>Count: {count}</h1>
-      <button onClick={() => setCount(count + 1)}>
-        Increment
-      </button>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
     </div>
   );
 }
@@ -10528,9 +10005,7 @@ One potential solution here is using a different caching mechanism that can be u
 let isHydrating = true;
 
 function SomeComponent() {
-  const [isHydrated, setIsHydrated] = React.useState(
-    !isHydrating
-  );
+  const [isHydrated, setIsHydrated] = React.useState(!isHydrating);
 
   React.useEffect(() => {
     isHydrating = false;
@@ -10571,9 +10046,9 @@ Every Remix app accepts a `remix.config.js` file in the project root. While its 
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  appDirectory: "app",
-  ignoredRouteFiles: ["**/*.css"],
-  assetsBuildDirectory: "public/build",
+  appDirectory: 'app',
+  ignoredRouteFiles: ['**/*.css'],
+  assetsBuildDirectory: 'public/build',
 };
 ```
 
@@ -10633,7 +10108,7 @@ Remix does not support most non-standard imports, and we think for good reason. 
 Many bundlers use plugins to allow importing various assets like images and fonts. These typically come into your component as string representing the filepath of the asset.
 
 ```tsx
-import logo from "./logo.png";
+import logo from './logo.png';
 
 export function Logo() {
   return <img src={logo} alt="My logo" />;
@@ -10648,7 +10123,7 @@ Create React App and some other build tools allow you to import SVG files as a R
 
 ```tsx bad nocopy
 // This will not work in Remix!
-import MyLogo from "./logo.svg";
+import MyLogo from './logo.svg';
 
 export function Logo() {
   return <MyLogo />;
@@ -10693,20 +10168,20 @@ In Remix, regular stylesheets can be loaded from route component files. Importin
 Let's move our app's stylesheet and a few other assets to the `links` function in our root route:
 
 ```tsx filename=app/root.tsx lines=[2,5,7-16,32]
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
-import { Links } from "@remix-run/react";
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
+import { Links } from '@remix-run/react';
 
-import App from "./app";
-import stylesheetUrl from "./styles.css";
+import App from './app';
+import stylesheetUrl from './styles.css';
 
 export const links: LinksFunction = () => {
   // `links` returns an array of objects whose
   // properties map to the `<link />` component props
   return [
-    { rel: "icon", href: "/favicon.ico" },
-    { rel: "apple-touch-icon", href: "/logo192.png" },
-    { rel: "manifest", href: "/manifest.json" },
-    { rel: "stylesheet", href: stylesheetUrl },
+    { rel: 'icon', href: '/favicon.ico' },
+    { rel: 'apple-touch-icon', href: '/logo192.png' },
+    { rel: 'manifest', href: '/manifest.json' },
+    { rel: 'stylesheet', href: stylesheetUrl },
   ];
 };
 
@@ -10715,15 +10190,9 @@ export default function Root() {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
-        <meta
-          name="description"
-          content="Web site created using create-react-app"
-        />
+        <meta name="description" content="Web site created using create-react-app" />
         <Links />
         <title>React App</title>
       </head>
@@ -10752,14 +10221,12 @@ npm install @remix-run/css-bundle
 Then, import `cssBundleHref` and add it to a link descriptor—most likely in `root.tsx` so that it applies to your entire application.
 
 ```tsx filename=root.tsx lines=[2,6-8]
-import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import { cssBundleHref } from '@remix-run/css-bundle';
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
 export const links: LinksFunction = () => {
   return [
-    ...(cssBundleHref
-      ? [{ rel: "stylesheet", href: cssBundleHref }]
-      : []),
+    ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
     // ...
   ];
 };
@@ -10792,13 +10259,13 @@ Remix re-exports everything you get from `react-router-dom` and we recommend tha
 **Before:**
 
 ```tsx bad nocopy
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from 'react-router-dom';
 ```
 
 **After:**
 
 ```tsx good
-import { Link, Outlet } from "@remix-run/react";
+import { Link, Outlet } from '@remix-run/react';
 ```
 
 ## Final Thoughts
@@ -10855,14 +10322,13 @@ Now then, go off and _remix your app_. We think you'll like what you build along
 [classic-remix-compiler]: ./vite#classic-remix-compiler-vs-remix-vite
 [remix-vite]: ./vite
 
-
----
-File: ./guides/not-found.md
 ---
 
+## File: ./guides/not-found.md
+
 ---
-title: Not Found Handling
----
+
+## title: Not Found Handling
 
 # Not Found (404) Handling
 
@@ -10880,9 +10346,7 @@ The first case is already handled by Remix, you don't have to throw a response y
 As soon as you know you don't have what the user is looking for you should _throw a response_.
 
 ```tsx filename=app/routes/page.$slug.tsx
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const page = await db.page.findOne({
     where: { slug: params.slug },
   });
@@ -10890,7 +10354,7 @@ export async function loader({
   if (!page) {
     throw new Response(null, {
       status: 404,
-      statusText: "Not Found",
+      statusText: 'Not Found',
     });
   }
 
@@ -10923,8 +10387,8 @@ export function ErrorBoundary() {
           {isRouteErrorResponse(error)
             ? `${error.status} ${error.statusText}`
             : error instanceof Error
-            ? error.message
-            : "Unknown Error"}
+              ? error.message
+              : 'Unknown Error'}
         </h1>
         <Scripts />
       </body>
@@ -10938,14 +10402,13 @@ export function ErrorBoundary() {
 [404-status-code]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
 [splat-route]: ../file-conventions/routes#splat-routes
 
-
----
-File: ./guides/performance.md
 ---
 
+## File: ./guides/performance.md
+
 ---
-title: Performance
----
+
+## title: Performance
 
 # Performance
 
@@ -11016,14 +10479,13 @@ Here are some other technologies to help speed up your servers:
 [https-esbuild-github-io-analyze]: https://esbuild.github.io/analyze
 [classic-remix-compiler]: ./vite#classic-remix-compiler-vs-remix-vite
 
-
----
-File: ./guides/presets.md
 ---
 
+## File: ./guides/presets.md
+
 ---
-title: Presets
----
+
+## title: Presets
 
 # Presets
 
@@ -11048,9 +10510,7 @@ type Preset = {
     remixUserConfig: VitePluginConfig;
   }) => RemixConfigPreset | Promise<RemixConfigPreset>;
 
-  remixConfigResolved?: (args: {
-    remixConfig: ResolvedVitePluginConfig;
-  }) => void | Promise<void>;
+  remixConfigResolved?: (args: { remixConfig: ResolvedVitePluginConfig }) => void | Promise<void>;
 };
 ```
 
@@ -11059,20 +10519,18 @@ type Preset = {
 As a basic example, let's create a preset that configures a [server bundles function][server-bundles]:
 
 ```ts filename=my-cool-preset.ts
-import type { Preset } from "@remix-run/dev";
+import type { Preset } from '@remix-run/dev';
 
 export function myCoolPreset(): Preset {
   return {
-    name: "my-cool-preset",
+    name: 'my-cool-preset',
     remixConfig: () => ({
       serverBundles: ({ branch }) => {
         const isAuthenticatedRoute = branch.some((route) =>
-          route.id.split("/").includes("_authenticated")
+          route.id.split('/').includes('_authenticated'),
         );
 
-        return isAuthenticatedRoute
-          ? "authenticated"
-          : "unauthenticated";
+        return isAuthenticatedRoute ? 'authenticated' : 'unauthenticated';
       },
     }),
   };
@@ -11086,30 +10544,23 @@ It's important to remember that other presets and user config can still override
 In our example preset, the `serverBundles` function could be overridden with a different, conflicting implementation. If we want to validate that the final resolved config contains the `serverBundles` function from our preset, we can do this with the `remixConfigResolved` hook:
 
 ```ts filename=my-cool-preset.ts lines=[22-26]
-import type {
-  Preset,
-  ServerBundlesFunction,
-} from "@remix-run/dev";
+import type { Preset, ServerBundlesFunction } from '@remix-run/dev';
 
-const serverBundles: ServerBundlesFunction = ({
-  branch,
-}) => {
+const serverBundles: ServerBundlesFunction = ({ branch }) => {
   const isAuthenticatedRoute = branch.some((route) =>
-    route.id.split("/").includes("_authenticated")
+    route.id.split('/').includes('_authenticated'),
   );
 
-  return isAuthenticatedRoute
-    ? "authenticated"
-    : "unauthenticated";
+  return isAuthenticatedRoute ? 'authenticated' : 'unauthenticated';
 };
 
 export function myCoolPreset(): Preset {
   return {
-    name: "my-cool-preset",
+    name: 'my-cool-preset',
     remixConfig: () => ({ serverBundles }),
     remixConfigResolved: ({ remixConfig }) => {
       if (remixConfig.serverBundles !== serverBundles) {
-        throw new Error("`serverBundles` was overridden!");
+        throw new Error('`serverBundles` was overridden!');
       }
     },
   };
@@ -11123,9 +10574,9 @@ The `remixConfigResolved` hook should only be used in cases where it would be an
 Presets are designed to be published to npm and used within your Vite config.
 
 ```ts filename=vite.config.ts lines=[3,8]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { myCoolPreset } from "remix-preset-cool";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { myCoolPreset } from 'remix-preset-cool';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
@@ -11139,26 +10590,26 @@ export default defineConfig({
 [remix-vite]: ./vite
 [server-bundles]: ./server-bundles
 
-
----
-File: ./guides/progressive-enhancement.md
 ---
 
+## File: ./guides/progressive-enhancement.md
+
 ---
+
 title: Progressive Enhancement
 hidden: true
+
 ---
 
 # Progressive Enhancement
 
-
----
-File: ./guides/resource-routes.md
 ---
 
+## File: ./guides/resource-routes.md
+
 ---
-title: Resource Routes
----
+
+## title: Resource Routes
 
 # Resource Routes
 
@@ -11179,9 +10630,7 @@ If a route doesn't export a default component, it can be used as a Resource Rout
 For example, consider a UI Route that renders a report, note the link:
 
 ```tsx filename=app/routes/reports.$id.tsx lines=[12-14]
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   return json(await getReport(params.id));
 }
 
@@ -11202,15 +10651,13 @@ export default function Report() {
 It's linking to a PDF version of the page. To make this work we can create a Resource Route below it. Notice that it has no component: that makes it a Resource Route.
 
 ```tsx filename=app/routes/reports.$id[.pdf].tsx
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const report = await getReport(params.id);
   const pdf = await generateReportPDF(report);
   return new Response(pdf, {
     status: 200,
     headers: {
-      "Content-Type": "application/pdf",
+      'Content-Type': 'application/pdf',
     },
   });
 }
@@ -11248,12 +10695,10 @@ app/routes/reports.$id[.]pdf.ts
 To handle `GET` requests export a loader function:
 
 ```tsx
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   // handle "GET" request
 
   return json({ success: true }, 200);
@@ -11263,22 +10708,20 @@ export const loader = async ({
 To handle `POST`, `PUT`, `PATCH` or `DELETE` requests export an action function:
 
 ```tsx
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   switch (request.method) {
-    case "POST": {
+    case 'POST': {
       /* handle "POST" */
     }
-    case "PUT": {
+    case 'PUT': {
       /* handle "PUT" */
     }
-    case "PATCH": {
+    case 'PATCH': {
       /* handle "PATCH" */
     }
-    case "DELETE": {
+    case 'DELETE': {
       /* handle "DELETE" */
     }
   }
@@ -11290,29 +10733,25 @@ export const action = async ({
 Resource routes can be used to handle webhooks. For example, you can create a webhook that receives notifications from GitHub when a new commit is pushed to a repository:
 
 ```tsx
-import crypto from "node:crypto";
+import crypto from 'node:crypto';
 
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
-  if (request.method !== "POST") {
-    return json({ message: "Method not allowed" }, 405);
+export const action = async ({ request }: ActionFunctionArgs) => {
+  if (request.method !== 'POST') {
+    return json({ message: 'Method not allowed' }, 405);
   }
   const payload = await request.json();
 
   /* Validate the webhook */
-  const signature = request.headers.get(
-    "X-Hub-Signature-256"
-  );
+  const signature = request.headers.get('X-Hub-Signature-256');
   const generatedSignature = `sha256=${crypto
-    .createHmac("sha256", process.env.GITHUB_WEBHOOK_SECRET)
+    .createHmac('sha256', process.env.GITHUB_WEBHOOK_SECRET)
     .update(JSON.stringify(payload))
-    .digest("hex")}`;
+    .digest('hex')}`;
   if (signature !== generatedSignature) {
-    return json({ message: "Signature mismatch" }, 401);
+    return json({ message: 'Signature mismatch' }, 401);
   }
 
   /* process the webhook (e.g. enqueue a background job) */
@@ -11321,14 +10760,13 @@ export const action = async ({
 };
 ```
 
-
----
-File: ./guides/server-bundles.md
 ---
 
+## File: ./guides/server-bundles.md
+
 ---
-title: Server Bundles
----
+
+## title: Server Bundles
 
 # Server Bundles
 
@@ -11341,20 +10779,18 @@ The provided `serverBundles` function is called for each route in the tree (exce
 For each route, this function is passed an array of routes leading to and including that route, referred to as the route `branch`. This allows you to create server bundles for different portions of the route tree. For example, you could use this to create a separate server bundle containing all routes within a particular layout route:
 
 ```ts filename=vite.config.ts lines=[7-15]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
     remix({
       serverBundles: ({ branch }) => {
         const isAuthenticatedRoute = branch.some((route) =>
-          route.id.split("/").includes("_authenticated")
+          route.id.split('/').includes('_authenticated'),
         );
 
-        return isAuthenticatedRoute
-          ? "authenticated"
-          : "unauthenticated";
+        return isAuthenticatedRoute ? 'authenticated' : 'unauthenticated';
       },
     }),
   ],
@@ -11373,8 +10809,8 @@ Each `route` in the `branch` array contains the following properties:
 When the build is complete, Remix will call the Vite plugin's `buildEnd` hook passing a `buildManifest` object. This is useful if you need to inspect the build manifest to determine how to route requests to the correct server bundle.
 
 ```ts filename=vite.config.ts lines=[8-10]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
@@ -11399,14 +10835,13 @@ Alternatively, you can enable the `manifest` option on the Vite plugin to write 
 [remix-vite]: ./vite
 [pathless-layout-route]: ../file-conventions/routes#nested-layouts-without-nested-urls
 
-
----
-File: ./guides/single-fetch.md
 ---
 
+## File: ./guides/single-fetch.md
+
 ---
-title: Single Fetch
----
+
+## title: Single Fetch
 
 # Single Fetch
 
@@ -11526,11 +10961,9 @@ With Single Fetch you can return the following data types from your loader: `Big
 
 ```tsx
 // routes/blog.$slug.tsx
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from '@remix-run/node';
 
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const { slug } = params;
 
   const comments = fetchComments(slug);
@@ -11553,9 +10986,7 @@ export default function BlogPost() {
       <BlogContent content={blogData.content} />
       <Suspense fallback={<CommentsSkeleton />}>
         <Await resolve={blogData.comments}>
-          {(comments) => (
-            <BlogComments comments={comments} />
-          )}
+          {(comments) => <BlogComments comments={comments} />}
         </Await>
       </Suspense>
     </>
@@ -11582,7 +11013,7 @@ You can do this in any file covered by your `tsconfig.json` > `include`.
 We recommend you do this in your `vite.config.ts` to keep it colocated with the `future.v3_singleFetch` future flag in the Remix plugin:
 
 ```ts
-declare module "@remix-run/server-runtime" {
+declare module '@remix-run/server-runtime' {
   // or cloudflare, deno, etc.
   interface Future {
     v3_singleFetch: true;
@@ -11593,11 +11024,11 @@ declare module "@remix-run/server-runtime" {
 Now `useLoaderData`, `useActionData`, and any other utilities that use a `typeof loader` generic should be using Single Fetch types:
 
 ```ts
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from '@remix-run/react';
 
 export function loader() {
   return {
-    planet: "world",
+    planet: 'world',
     date: new Date(),
   };
 }
@@ -11613,11 +11044,11 @@ export default function Component() {
 In general, functions cannot be reliably sent over the network, so they get serialized as `undefined`:
 
 ```ts
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from '@remix-run/react';
 
 export function loader() {
   return {
-    planet: "world",
+    planet: 'world',
     date: new Date(),
     notSoRandom: () => 7,
   };
@@ -11632,7 +11063,7 @@ export default function Component() {
 Methods are also not serializable, so class instances get slimmed down to just their serializable properties:
 
 ```ts
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from '@remix-run/react';
 
 class Dog {
   name: string;
@@ -11644,15 +11075,15 @@ class Dog {
   }
 
   bark() {
-    console.log("woof");
+    console.log('woof');
   }
 }
 
 export function loader() {
   return {
-    planet: "world",
+    planet: 'world',
     date: new Date(),
-    spot: new Dog("Spot", 3),
+    spot: new Dog('Spot', 3),
   };
 }
 
@@ -11669,10 +11100,7 @@ export default function Component() {
 Data from client-side loaders and actions are never serialized so types for those are preserved:
 
 ```ts
-import {
-  useLoaderData,
-  type ClientLoaderFunctionArgs,
-} from "@remix-run/react";
+import { useLoaderData, type ClientLoaderFunctionArgs } from '@remix-run/react';
 
 class Dog {
   /* ... */
@@ -11681,10 +11109,10 @@ class Dog {
 // Make sure to annotate the types for the args! 👇
 export function clientLoader(_: ClientLoaderFunctionArgs) {
   return {
-    planet: "world",
+    planet: 'world',
     date: new Date(),
     notSoRandom: () => 7,
-    spot: new Dog("Spot", 3),
+    spot: new Dog('Spot', 3),
   };
 }
 
@@ -11718,17 +11146,17 @@ For example, consider the following `/a/b/c` routes:
 ```ts
 // routes/a.tsx
 export function loader() {
-  return { data: "A" };
+  return { data: 'A' };
 }
 
 // routes/a.b.tsx
 export function loader() {
-  return { data: "B" };
+  return { data: 'B' };
 }
 
 // routes/a.b.c.tsx
 export function loader() {
-  return { data: "C" };
+  return { data: 'C' };
 }
 
 export function clientLoader({ serverLoader }) {
@@ -11777,7 +11205,7 @@ The Remix v2 behavior with Single Fetch enabled is as follows:
   ```tsx filename=app/routes/resource.tsx bad
   export function loader() {
     return {
-      message: "My externally-accessed resource route",
+      message: 'My externally-accessed resource route',
     };
   }
   ```
@@ -11785,7 +11213,7 @@ The Remix v2 behavior with Single Fetch enabled is as follows:
   ```tsx filename=app/routes/resource.tsx good
   export function loader() {
     return Response.json({
-      message: "My externally-accessed resource route",
+      message: 'My externally-accessed resource route',
     });
   }
   ```
@@ -11826,15 +11254,11 @@ function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   return new Promise((resolve, reject) => {
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
+      <RemixServer context={remixContext} url={request.url} abortDelay={ABORT_DELAY} />,
       {
         onShellReady() {
           /* ... */
@@ -11845,7 +11269,7 @@ function handleBrowserRequest(
         onError(error: unknown) {
           /* ... */
         },
-      }
+      },
     );
 
     // Automatically timeout the react renderer after 10 seconds
@@ -11923,14 +11347,13 @@ Revalidation is handled via a `?_routes` query string parameter on the single fe
 [augment]: https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation
 [streaming-nonce]: ./streaming#streaming-with-a-content-security-policy
 
-
----
-File: ./guides/spa-mode.md
 ---
 
+## File: ./guides/spa-mode.md
+
 ---
-title: SPA Mode
----
+
+## title: SPA Mode
 
 # SPA Mode
 
@@ -11971,8 +11394,8 @@ Or, you can manually opt-into SPA mode in your Remix+Vite app by setting `ssr: f
 
 ```js
 // vite.config.ts
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
@@ -12022,12 +11445,9 @@ npx sirv-cli build/client/ --single
 Or, if you are serving via an `express` server (although at that point you may want to consider just running Remix in SSR mode 😉):
 
 ```js
-app.use("/assets", express.static("build/client/assets"));
-app.get("*", (req, res, next) =>
-  res.sendFile(
-    path.join(process.cwd(), "build/client/index.html"),
-    next
-  )
+app.use('/assets', express.static('build/client/assets'));
+app.get('*', (req, res, next) =>
+  res.sendFile(path.join(process.cwd(), 'build/client/index.html'), next),
 );
 ```
 
@@ -12084,36 +11504,27 @@ export default function Component() {
 In your `app/entry.server.tsx` file, you'll want to take the Remix-rendered HTML and insert it into your static `app/index.html` file placeholder. You'll also want to stop pre-pending the `<!DOCTYPE html>` declaration like the default `entry.server.tsx` file does since that should be in your `app/index.html` file).
 
 ```tsx filename=app/entry.server.tsx
-import fs from "node:fs";
-import path from "node:path";
+import fs from 'node:fs';
+import path from 'node:path';
 
-import type { EntryContext } from "@remix-run/node";
-import { RemixServer } from "@remix-run/react";
-import { renderToString } from "react-dom/server";
+import type { EntryContext } from '@remix-run/node';
+import { RemixServer } from '@remix-run/react';
+import { renderToString } from 'react-dom/server';
 
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
-  const shellHtml = fs
-    .readFileSync(
-      path.join(process.cwd(), "app/index.html")
-    )
-    .toString();
+  const shellHtml = fs.readFileSync(path.join(process.cwd(), 'app/index.html')).toString();
 
-  const appHtml = renderToString(
-    <RemixServer context={remixContext} url={request.url} />
-  );
+  const appHtml = renderToString(<RemixServer context={remixContext} url={request.url} />);
 
-  const html = shellHtml.replace(
-    "<!-- Remix SPA -->",
-    appHtml
-  );
+  const html = shellHtml.replace('<!-- Remix SPA -->', appHtml);
 
   return new Response(html, {
-    headers: { "Content-Type": "text/html" },
+    headers: { 'Content-Type': 'text/html' },
     status: responseStatusCode,
   });
 }
@@ -12126,16 +11537,16 @@ export default function handleRequest(
 Update `app/entry.client.tsx` to hydrate the `<div id="app">` instead of the document:
 
 ```tsx filename=app/entry.client.tsx
-import { RemixBrowser } from "@remix-run/react";
-import { startTransition, StrictMode } from "react";
-import { hydrateRoot } from "react-dom/client";
+import { RemixBrowser } from '@remix-run/react';
+import { startTransition, StrictMode } from 'react';
+import { hydrateRoot } from 'react-dom/client';
 
 startTransition(() => {
   hydrateRoot(
-    document.querySelector("#app"),
+    document.querySelector('#app'),
     <StrictMode>
       <RemixBrowser />
-    </StrictMode>
+    </StrictMode>,
   );
 });
 ```
@@ -12165,9 +11576,9 @@ It's important to note that Remix SPA mode generates your `index.html` file by p
 If you are running into ESM/CJS issues with your app dependencies you may need to play with the Vite [ssr.noExternal][vite-ssr-noexternal] option to include certain dependencies in your server bundle:
 
 ```ts filename=vite.config.ts lines=[12-15]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [
@@ -12178,7 +11589,7 @@ export default defineConfig({
   ],
   ssr: {
     // Bundle `problematic-dependency` into the server build
-    noExternal: ["problematic-dependency"],
+    noExternal: ['problematic-dependency'],
   },
   // ...
 });
@@ -12233,14 +11644,15 @@ Once you've got all your routes living in their own files, you can:
 [vite-ssr-noexternal]: https://vitejs.dev/config/ssr-options#ssr-noexternal
 [vite-ssr-external]: https://vitejs.dev/config/ssr-options#ssr-external
 
-
----
-File: ./guides/streaming.md
 ---
 
+## File: ./guides/streaming.md
+
 ---
+
 title: Streaming
 description: When, why, and how to stream with React 18 and Remix's deferred API.
+
 ---
 
 # Streaming
@@ -12274,13 +11686,11 @@ There are three steps to streaming data:
 A route module without streaming might look like this:
 
 ```tsx
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const [product, reviews] = await Promise.all([
     db.getProduct(params.productId),
     db.getReviews(params.productId),
@@ -12290,8 +11700,7 @@ export async function loader({
 }
 
 export default function Product() {
-  const { product, reviews } =
-    useLoaderData<typeof loader>();
+  const { product, reviews } = useLoaderData<typeof loader>();
   return (
     <>
       <ProductPage data={product} />
@@ -12304,29 +11713,24 @@ export default function Product() {
 In order to render streamed data, you need to use [`<Suspense>`][suspense_component] from React and [`<Await>`][await_component] from Remix. It's a bit of boilerplate, but straightforward:
 
 ```tsx lines=[3-4,20-24]
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { Await, useLoaderData } from "@remix-run/react";
-import { Suspense } from "react";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { Await, useLoaderData } from '@remix-run/react';
+import { Suspense } from 'react';
 
-import { ReviewsSkeleton } from "./reviews-skeleton";
+import { ReviewsSkeleton } from './reviews-skeleton';
 
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   // existing code
 }
 
 export default function Product() {
-  const { product, reviews } =
-    useLoaderData<typeof loader>();
+  const { product, reviews } = useLoaderData<typeof loader>();
   return (
     <>
       <ProductPage data={product} />
       <Suspense fallback={<ReviewsSkeleton />}>
-        <Await resolve={reviews}>
-          {(reviews) => <ProductReviews data={reviews} />}
-        </Await>
+        <Await resolve={reviews}>{(reviews) => <ProductReviews data={reviews} />}</Await>
       </Suspense>
     </>
   );
@@ -12342,16 +11746,14 @@ Now that our project and route component are set up stream data, we can start de
 Note the change in the async promise code.
 
 ```tsx lines=[2,11-19]
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { defer } from "@remix-run/node"; // or cloudflare/deno
-import { Await, useLoaderData } from "@remix-run/react";
-import { Suspense } from "react";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { defer } from '@remix-run/node'; // or cloudflare/deno
+import { Await, useLoaderData } from '@remix-run/react';
+import { Suspense } from 'react';
 
-import { ReviewsSkeleton } from "./reviews-skeleton";
+import { ReviewsSkeleton } from './reviews-skeleton';
 
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   // 👇 note this promise is not awaited
   const reviewsPromise = db.getReviews(params.productId);
   // 👇 but this one is
@@ -12364,8 +11766,7 @@ export async function loader({
 }
 
 export default function Product() {
-  const { product, reviews } =
-    useLoaderData<typeof loader>();
+  const { product, reviews } = useLoaderData<typeof loader>();
   // existing code
 }
 ```
@@ -12379,9 +11780,7 @@ That's it! You should now be streaming data to the browser.
 It's important to initiate promises for deferred data _before_ you await any other promises, otherwise you won't get the full benefit of streaming. Note the difference with this less efficient code example:
 
 ```tsx bad
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const product = await db.getProduct(params.productId);
   // 👇 this won't initiate loading until `product` is done
   const reviewsPromise = db.getReviews(params.productId);
@@ -12403,11 +11802,7 @@ const ABORT_DELAY = 5_000;
 // ...
 
 const { pipe, abort } = renderToPipeableStream(
-  <RemixServer
-    context={remixContext}
-    url={request.url}
-    abortDelay={ABORT_DELAY}
-  />
+  <RemixServer context={remixContext} url={request.url} abortDelay={ABORT_DELAY} />,
   // ...
 );
 
@@ -12428,15 +11823,11 @@ If you are using a nonce, it needs to be included in three places:
 
 ```tsx filename=entry.server.tsx
 const { pipe, abort } = renderToPipeableStream(
-  <RemixServer
-    context={remixContext}
-    url={request.url}
-    abortDelay={ABORT_DELAY}
-  />,
+  <RemixServer context={remixContext} url={request.url} abortDelay={ABORT_DELAY} />,
   {
-    nonce: "secretnoncevalue",
+    nonce: 'secretnoncevalue',
     /* ...remaining fields */
-  }
+  },
 );
 ```
 
@@ -12451,14 +11842,15 @@ This will ensure the nonce value is included on any deferred script tags.
 [defer]: ../utils/defer
 [csp]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src
 
-
----
-File: ./guides/templates.md
 ---
 
+## File: ./guides/templates.md
+
 ---
+
 title: Templates
 description: The quickest way to get rocking and rolling with Remix
+
 ---
 
 # Templates and Stacks
@@ -12633,14 +12025,15 @@ After the init script has been run, the `remix.init` folder gets deleted, so you
 [remix-now-react-router]: https://remix.run/blog/incremental-path-to-react-19
 [react-router-templates]: https://github.com/remix-run/react-router-templates
 
-
----
-File: ./guides/typescript.md
 ---
 
+## File: ./guides/typescript.md
+
 ---
+
 title: TypeScript
 toc: false
+
 ---
 
 # TypeScript
@@ -12726,14 +12119,13 @@ Remix has TypeScript type definitions built-in as well. For example, the starter
 
 [with-jsx]: https://www.typescriptlang.org/docs/handbook/jsx.html
 
-
----
-File: ./guides/vite.md
 ---
 
+## File: ./guides/vite.md
+
 ---
-title: Vite
----
+
+## title: Vite
 
 # Vite
 
@@ -12801,8 +12193,8 @@ Remix's Cloudflare Proxy plugin sets up these proxies for you:
 import {
   vitePlugin as remix,
   cloudflareDevProxyVitePlugin as remixCloudflareDevProxy,
-} from "@remix-run/dev";
-import { defineConfig } from "vite";
+} from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [remixCloudflareDevProxy(), remix()],
@@ -12833,11 +12225,9 @@ Then, you can access your bindings via `context.cloudflare.env`.
 For example, with a [KV namespace][cloudflare-kv] bound as `MY_KV`:
 
 ```ts filename=app/routes/_index.tsx
-export async function loader({
-  context,
-}: LoaderFunctionArgs) {
+export async function loader({ context }: LoaderFunctionArgs) {
   const { MY_KV } = context.cloudflare.env;
-  const value = await MY_KV.get("my-key");
+  const value = await MY_KV.get('my-key');
   return json({ value });
 }
 ```
@@ -12848,8 +12238,8 @@ If you'd like to add additional properties to the load context,
 you should export a `getLoadContext` function from a shared module so that **load context in Vite, Wrangler, and Cloudflare Pages are all augmented in the same way**:
 
 ```ts filename=load-context.ts lines=[1,4-9,20-33]
-import { type AppLoadContext } from "@remix-run/cloudflare";
-import { type PlatformProxy } from "wrangler";
+import { type AppLoadContext } from '@remix-run/cloudflare';
+import { type PlatformProxy } from 'wrangler';
 
 // When using `wrangler.toml` to configure bindings,
 // `wrangler types` will generate types for those bindings
@@ -12858,9 +12248,9 @@ import { type PlatformProxy } from "wrangler";
 // even if no `wrangler.toml` exists.
 interface Env {}
 
-type Cloudflare = Omit<PlatformProxy<Env>, "dispose">;
+type Cloudflare = Omit<PlatformProxy<Env>, 'dispose'>;
 
-declare module "@remix-run/cloudflare" {
+declare module '@remix-run/cloudflare' {
   interface AppLoadContext {
     cloudflare: Cloudflare;
     extra: string; // augmented
@@ -12873,12 +12263,10 @@ type GetLoadContext = (args: {
 }) => AppLoadContext;
 
 // Shared implementation compatible with Vite, Wrangler, and Cloudflare Pages
-export const getLoadContext: GetLoadContext = ({
-  context,
-}) => {
+export const getLoadContext: GetLoadContext = ({ context }) => {
   return {
     ...context,
-    extra: "stuff",
+    extra: 'stuff',
   };
 };
 ```
@@ -12891,28 +12279,25 @@ First, pass in `getLoadContext` to the Cloudflare Proxy plugin in your Vite conf
 import {
   vitePlugin as remix,
   cloudflareDevProxyVitePlugin as remixCloudflareDevProxy,
-} from "@remix-run/dev";
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+} from '@remix-run/dev';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
-import { getLoadContext } from "./load-context";
+import { getLoadContext } from './load-context';
 
 export default defineConfig({
-  plugins: [
-    remixCloudflareDevProxy({ getLoadContext }),
-    remix(),
-  ],
+  plugins: [remixCloudflareDevProxy({ getLoadContext }), remix()],
 });
 ```
 
 Next, pass in `getLoadContext` to the request handler in your `functions/[[path]].ts` file to augment load context when running Wrangler or when deploying to Cloudflare Pages:
 
 ```ts filename=functions/[[path]].ts lines=[5,9]
-import { createPagesFunctionHandler } from "@remix-run/cloudflare-pages";
+import { createPagesFunctionHandler } from '@remix-run/cloudflare-pages';
 
 // @ts-ignore - the server build file is generated by `remix vite:build`
-import * as build from "../build/server";
-import { getLoadContext } from "../load-context";
+import * as build from '../build/server';
+import { getLoadContext } from '../load-context';
 
 export const onRequest = createPagesFunctionHandler({
   build,
@@ -12956,8 +12341,8 @@ Remix is now just a Vite plugin, so you'll need to hook it up to Vite.
 👉 **Replace `remix.config.js` with `vite.config.ts` at the root of your Remix app**
 
 ```ts filename=vite.config.ts
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [remix()],
@@ -12970,7 +12355,7 @@ The subset of [supported Remix config options][vite-config] should be passed dir
 export default defineConfig({
   plugins: [
     remix({
-      ignoredRouteFiles: ["**/*.css"],
+      ignoredRouteFiles: ['**/*.css'],
     }),
   ],
 });
@@ -13104,19 +12489,19 @@ For example, if you were using Express, here's how you could do it.
 👉 **Update your `server.mjs` file**
 
 ```ts filename=server.mjs lines=[7-14,18-21,29,36-41]
-import { createRequestHandler } from "@remix-run/express";
-import { installGlobals } from "@remix-run/node";
-import express from "express";
+import { createRequestHandler } from '@remix-run/express';
+import { installGlobals } from '@remix-run/node';
+import express from 'express';
 
 installGlobals();
 
 const viteDevServer =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === 'production'
     ? undefined
-    : await import("vite").then((vite) =>
+    : await import('vite').then((vite) =>
         vite.createServer({
           server: { middlewareMode: true },
-        })
+        }),
       );
 
 const app = express();
@@ -13126,32 +12511,27 @@ if (viteDevServer) {
   app.use(viteDevServer.middlewares);
 } else {
   app.use(
-    "/assets",
-    express.static("build/client/assets", {
+    '/assets',
+    express.static('build/client/assets', {
       immutable: true,
-      maxAge: "1y",
-    })
+      maxAge: '1y',
+    }),
   );
 }
-app.use(express.static("build/client", { maxAge: "1h" }));
+app.use(express.static('build/client', { maxAge: '1h' }));
 
 // handle SSR requests
 app.all(
-  "*",
+  '*',
   createRequestHandler({
     build: viteDevServer
-      ? () =>
-          viteDevServer.ssrLoadModule(
-            "virtual:remix/server-build"
-          )
-      : await import("./build/server/index.js"),
-  })
+      ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
+      : await import('./build/server/index.js'),
+  }),
 );
 
 const port = 3000;
-app.listen(port, () =>
-  console.log("http://localhost:" + port)
-);
+app.listen(port, () => console.log('http://localhost:' + port));
 ```
 
 👉 **Update your `build`, `dev`, and `start` scripts**
@@ -13187,11 +12567,8 @@ The Remix Vite plugin only officially supports [Cloudflare Pages][cloudflare-pag
 👉 add `cloudflareDevProxyVitePlugin` **before** `remix` plugin to correctly override vite dev server's middleware!
 
 ```ts filename=vite.config.ts lines=[3,9]
-import {
-  vitePlugin as remix,
-  cloudflareDevProxyVitePlugin,
-} from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix, cloudflareDevProxyVitePlugin } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [cloudflareDevProxyVitePlugin(), remix()],
@@ -13205,10 +12582,10 @@ Instead, you can author a catch-all route directly for Cloudflare, just like how
 👉 **Create a catch-all route for Remix**
 
 ```ts filename=functions/[[page]].ts
-import { createPagesFunctionHandler } from "@remix-run/cloudflare-pages";
+import { createPagesFunctionHandler } from '@remix-run/cloudflare-pages';
 
 // @ts-ignore - the server build file is generated by `remix vite:build`
-import * as build from "../build/server";
+import * as build from '../build/server';
 
 export const onRequest = createPagesFunctionHandler({
   build,
@@ -13267,9 +12644,9 @@ npm install -D vite-tsconfig-paths
 👉 **Add `vite-tsconfig-paths` to your Vite config**
 
 ```ts filename=vite.config.ts lines=[3,6]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [remix(), tsconfigPaths()],
@@ -13382,9 +12759,9 @@ npm install -D @vanilla-extract/vite-plugin
 👉 **Add the Vanilla Extract plugin to your Vite config**
 
 ```ts filename=vite.config.ts lines=[2,6]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [remix(), vanillaExtractPlugin()],
@@ -13411,9 +12788,9 @@ In this case, that means putting the MDX plugin _before_ the Remix plugin.
 👉 **Add the MDX Rollup plugin to your Vite config**
 
 ```ts filename=vite.config.ts lines=[1,6]
-import mdx from "@mdx-js/rollup";
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import mdx from '@mdx-js/rollup';
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [mdx(), remix()],
@@ -13433,19 +12810,16 @@ npm install -D remark-frontmatter remark-mdx-frontmatter
 👉 **Pass the Remark frontmatter plugins to the MDX Rollup plugin**
 
 ```ts filename=vite.config.ts lines=[3-4,9-14]
-import mdx from "@mdx-js/rollup";
-import { vitePlugin as remix } from "@remix-run/dev";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import { defineConfig } from "vite";
+import mdx from '@mdx-js/rollup';
+import { vitePlugin as remix } from '@remix-run/dev';
+import remarkFrontmatter from 'remark-frontmatter';
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
     mdx({
-      remarkPlugins: [
-        remarkFrontmatter,
-        remarkMdxFrontmatter,
-      ],
+      remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
     }),
     remix(),
   ],
@@ -13482,7 +12856,7 @@ In the Remix compiler, the frontmatter export was named `attributes`. This diffe
 /// <reference types="@remix-run/node" />
 /// <reference types="vite/client" />
 
-declare module "*.mdx" {
+declare module '*.mdx' {
   let MDXComponent: (props: any) => JSX.Element;
   export const frontmatter: any;
   export default MDXComponent;
@@ -13523,7 +12897,7 @@ export const meta = () => {
   return [
     { title: frontmatter.title },
     {
-      name: "description",
+      name: 'description',
       content: frontmatter.description,
     },
   ];
@@ -13539,16 +12913,16 @@ The Remix compiler also provided a `filename` export from all MDX files. This wa
 For example, to import all MDX files in the `posts` directory:
 
 ```ts
-const posts = import.meta.glob("./posts/*.mdx");
+const posts = import.meta.glob('./posts/*.mdx');
 ```
 
 This is equivalent to writing this by hand:
 
 ```ts
 const posts = {
-  "./posts/a.mdx": () => import("./posts/a.mdx"),
-  "./posts/b.mdx": () => import("./posts/b.mdx"),
-  "./posts/c.mdx": () => import("./posts/c.mdx"),
+  './posts/a.mdx': () => import('./posts/a.mdx'),
+  './posts/b.mdx': () => import('./posts/b.mdx'),
+  './posts/c.mdx': () => import('./posts/c.mdx'),
   // etc.
 };
 ```
@@ -13556,7 +12930,7 @@ const posts = {
 You can also eagerly import all MDX files if you'd prefer:
 
 ```ts
-const posts = import.meta.glob("./posts/*.mdx", {
+const posts = import.meta.glob('./posts/*.mdx', {
   eager: true,
 });
 ```
@@ -13600,8 +12974,8 @@ Remember that you can always check the [Vite performance docs][vite-perf] for mo
 To visualize and analyze your bundle, you can use the [rollup-plugin-visualizer][rollup-plugin-visualizer] plugin:
 
 ```ts filename=vite.config.ts
-import { vitePlugin as remix } from "@remix-run/dev";
-import { visualizer } from "rollup-plugin-visualizer";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
   plugins: [
@@ -13672,15 +13046,15 @@ We currently recommend excluding the plugin when used with other Vite-based tool
 For Vitest:
 
 ```ts filename=vite.config.ts lines=[5]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig, loadEnv } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig({
   plugins: [!process.env.VITEST && remix()],
   test: {
-    environment: "happy-dom",
+    environment: 'happy-dom',
     // Additionally, this is to load ".env.test" during vitest
-    env: loadEnv("test", process.cwd(), ""),
+    env: loadEnv('test', process.cwd(), ''),
   },
 });
 ```
@@ -13688,10 +13062,10 @@ export default defineConfig({
 For Storybook:
 
 ```ts filename=vite.config.ts lines=[7]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
-const isStorybook = process.argv[1]?.includes("storybook");
+const isStorybook = process.argv[1]?.includes('storybook');
 
 export default defineConfig({
   plugins: [!isStorybook && remix()],
@@ -13708,16 +13082,16 @@ remix vite:dev --config vite.config.remix.ts
 When not providing the Remix Vite plugin, your setup might also need to provide [Vite Plugin React][vite-plugin-react]. For example, when using Vitest:
 
 ```ts filename=vite.config.ts lines=[2,6]
-import { vitePlugin as remix } from "@remix-run/dev";
-import react from "@vitejs/plugin-react";
-import { defineConfig, loadEnv } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import react from '@vitejs/plugin-react';
+import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig({
   plugins: [!process.env.VITEST ? remix() : react()],
   test: {
-    environment: "happy-dom",
+    environment: 'happy-dom',
     // Additionally, this is to load ".env.test" during vitest
-    env: loadEnv("test", process.cwd(), ""),
+    env: loadEnv('test', process.cwd(), ''),
   },
 });
 ```
@@ -13888,24 +13262,26 @@ Finally, we were inspired by how other frameworks implemented Vite support:
 [vite-plugin-react]: https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react
 [splitting-up-client-and-server-code]: ../discussion/server-vs-client
 
-
----
-File: ./hooks/index.md
 ---
 
+## File: ./hooks/index.md
+
 ---
+
 title: Hooks
 order: 6
----
 
-
----
-File: ./hooks/use-action-data.md
 ---
 
 ---
+
+## File: ./hooks/use-action-data.md
+
+---
+
 title: useActionData
 toc: false
+
 ---
 
 # `useActionData`
@@ -13913,15 +13289,13 @@ toc: false
 Returns the serialized data from the most recent route [action][action] or `undefined` if there isn't one. This hook only returns action data from the route in context - it can not access data from other parent or child routes.
 
 ```tsx lines=[10,14]
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { Form, useActionData } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { Form, useActionData } from '@remix-run/react';
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const body = await request.formData();
-  const name = body.get("visitorsName");
+  const name = body.get('visitorsName');
   return json({ message: `Hello, ${name}` });
 }
 
@@ -13930,7 +13304,7 @@ export default function Invoices() {
   return (
     <Form method="post">
       <input type="text" name="visitorsName" />
-      {data ? data.message : "Waiting..."}
+      {data ? data.message : 'Waiting...'}
     </Form>
   );
 }
@@ -13956,14 +13330,15 @@ export default function Invoices() {
 [use_navigation]: ../hooks/use-navigation
 [fullstack_data_flow]: ../discussion/data-flow
 
-
----
-File: ./hooks/use-async-error.md
 ---
 
+## File: ./hooks/use-async-error.md
+
 ---
+
 title: useAsyncError
 new: true
+
 ---
 
 # `useAsyncError`
@@ -13971,19 +13346,14 @@ new: true
 Returns the rejection value from the closest [`<Await>`][await_component] component.
 
 ```tsx lines[4,12]
-import { Await, useAsyncError } from "@remix-run/react";
+import { Await, useAsyncError } from '@remix-run/react';
 
 function ErrorElement() {
   const error = useAsyncError();
-  return (
-    <p>Uh Oh, something went wrong! {error.message}</p>
-  );
+  return <p>Uh Oh, something went wrong! {error.message}</p>;
 }
 
-<Await
-  resolve={promiseThatRejects}
-  errorElement={<ErrorElement />}
-/>;
+<Await resolve={promiseThatRejects} errorElement={<ErrorElement />} />;
 ```
 
 ## Additional Resources
@@ -14001,14 +13371,15 @@ function ErrorElement() {
 [streaming_guide]: ../guides/streaming
 [use_async_value]: ../hooks/use-async-value
 
-
----
-File: ./hooks/use-async-value.md
 ---
 
+## File: ./hooks/use-async-value.md
+
 ---
+
 title: useAsyncValue
 new: true
+
 ---
 
 # `useAsyncValue`
@@ -14043,14 +13414,15 @@ function SomeDescendant() {
 [streaming_guide]: ../guides/streaming
 [use_async_error]: ../hooks/use-async-error
 
-
----
-File: ./hooks/use-before-unload.md
 ---
 
+## File: ./hooks/use-before-unload.md
+
 ---
+
 title: useBeforeUnload
 toc: false
+
 ---
 
 # `useBeforeUnload`
@@ -14064,7 +13436,7 @@ In this situation, you may need to save important application state on the page 
 Remix or not, this is a good practice. The user can change the url, accidentally close the browser window, etc.
 
 ```tsx lines=[1,7-11]
-import { useBeforeUnload } from "@remix-run/react";
+import { useBeforeUnload } from '@remix-run/react';
 
 function SomeForm() {
   const [state, setState] = React.useState(null);
@@ -14073,7 +13445,7 @@ function SomeForm() {
   useBeforeUnload(
     React.useCallback(() => {
       localStorage.stuff = state;
-    }, [state])
+    }, [state]),
   );
 
   // read it in when they return
@@ -14089,14 +13461,13 @@ function SomeForm() {
 
 [window_before_unload]: https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event
 
-
----
-File: ./hooks/use-blocker.md
 ---
 
+## File: ./hooks/use-blocker.md
+
 ---
-title: useBlocker
----
+
+## title: useBlocker
 
 # `useBlocker`
 
@@ -14112,36 +13483,27 @@ Blocking a user from navigating is a bit of an anti-pattern, so please carefully
 
 ```tsx
 function ImportantForm() {
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState('');
 
   // Block navigating elsewhere when data has been entered into the input
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) =>
-      value !== "" &&
-      currentLocation.pathname !== nextLocation.pathname
+      value !== '' && currentLocation.pathname !== nextLocation.pathname,
   );
 
   return (
     <Form method="post">
       <label>
         Enter some important data:
-        <input
-          name="data"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
+        <input name="data" value={value} onChange={(e) => setValue(e.target.value)} />
       </label>
       <button type="submit">Save</button>
 
-      {blocker.state === "blocked" ? (
+      {blocker.state === 'blocked' ? (
         <div>
           <p>Are you sure you want to leave?</p>
-          <button onClick={() => blocker.proceed()}>
-            Proceed
-          </button>
-          <button onClick={() => blocker.reset()}>
-            Cancel
-          </button>
+          <button onClick={() => blocker.proceed()}>Proceed</button>
+          <button onClick={() => blocker.reset()}>Cancel</button>
         </div>
       ) : null}
     </Form>
@@ -14177,21 +13539,20 @@ When in a `blocked` state, you may call `blocker.reset()` to return the blocker 
 
 [example]: https://github.com/remix-run/react-router/tree/main/examples/navigation-blocking
 
-
----
-File: ./hooks/use-fetcher.md
 ---
 
+## File: ./hooks/use-fetcher.md
+
 ---
-title: useFetcher
----
+
+## title: useFetcher
 
 # `useFetcher`
 
 A hook for interacting with the server outside of navigation.
 
 ```tsx
-import { useFetcher } from "@remix-run/react";
+import { useFetcher } from '@remix-run/react';
 
 export function SomeComponent() {
   const fetcher = useFetcher();
@@ -14207,16 +13568,14 @@ By default, `useFetcher` generates a unique fetcher scoped to that component (ho
 
 ```tsx lines=[2,8]
 function AddToBagButton() {
-  const fetcher = useFetcher({ key: "add-to-bag" });
+  const fetcher = useFetcher({ key: 'add-to-bag' });
   return <fetcher.Form method="post">...</fetcher.Form>;
 }
 
 // Then, up in the header...
 function CartCount({ count }) {
-  const fetcher = useFetcher({ key: "add-to-bag" });
-  const inFlightCount = Number(
-    fetcher.formData?.get("quantity") || 0
-  );
+  const fetcher = useFetcher({ key: 'add-to-bag' });
+  const inFlightCount = Number(fetcher.formData?.get('quantity') || 0);
   const optimisticCount = count + inFlightCount;
   return (
     <>
@@ -14265,28 +13624,25 @@ fetcher.submit(formData);
 
 // Submit the HTML form element
 fetcher.submit(event.currentTarget.form, {
-  method: "POST",
+  method: 'POST',
 });
 
 // Submit key/value JSON as a FormData instance
-fetcher.submit(
-  { serialized: "values" },
-  { method: "POST" }
-);
+fetcher.submit({ serialized: 'values' }, { method: 'POST' });
 
 // Submit raw JSON
 fetcher.submit(
   {
     deeply: {
       nested: {
-        json: "values",
+        json: 'values',
       },
     },
   },
   {
-    method: "POST",
-    encType: "application/json",
-  }
+    method: 'POST',
+    encType: 'application/json',
+  },
 );
 ```
 
@@ -14297,8 +13653,8 @@ fetcher.submit(
 Loads data from a route loader. While multiple nested routes can match a URL, only the leaf route will be called.
 
 ```ts
-fetcher.load("/some/route");
-fetcher.load("/some/route?foo=bar");
+fetcher.load('/some/route');
+fetcher.load('/some/route?foo=bar');
 ```
 
 `fetcher.load`'s revalidate by default after action submissions and explicit revalidation requests via [`useRevalidator`][userevalidator]. Because `fetcher.load` loads a specific URL they don't revalidate on changes to route param or URL search param. You can use [`shouldRevalidate`][shouldrevalidate] to optimize which data should be reloaded.
@@ -14365,14 +13721,15 @@ The form method of the submission.
 [userevalidator]: ./use-revalidator
 [shouldrevalidate]: ../route/should-revalidate#shouldrevalidate
 
-
----
-File: ./hooks/use-fetchers.md
 ---
 
+## File: ./hooks/use-fetchers.md
+
 ---
+
 title: useFetchers
 toc: false
+
 ---
 
 # `useFetchers`
@@ -14380,7 +13737,7 @@ toc: false
 Returns an array of all in-flight fetchers. This is useful for components throughout the app that didn't create the fetchers but want to use their submissions to participate in optimistic UI.
 
 ```tsx
-import { useFetchers } from "@remix-run/react";
+import { useFetchers } from '@remix-run/react';
 
 function SomeComponent() {
   const fetchers = useFetchers();
@@ -14414,14 +13771,13 @@ The fetchers don't contain [`fetcher.Form`][fetcher_form], [`fetcher.submit`][fe
 [use_fetcher]: ./use-fetcher
 [fetcherpersist]: ../file-conventions/remix-config#future
 
-
----
-File: ./hooks/use-form-action.md
 ---
 
+## File: ./hooks/use-form-action.md
+
 ---
-title: useFormAction
----
+
+## title: useFormAction
 
 # `useFormAction`
 
@@ -14430,14 +13786,14 @@ Resolves the URL to the closest route in the component hierarchy instead of the 
 This is used internally by [`<Form>`][form_component] to resolve the action to the closest route, but can be used generically as well.
 
 ```tsx
-import { useFormAction } from "@remix-run/react";
+import { useFormAction } from '@remix-run/react';
 
 function SomeComponent() {
   // closest route URL
   const action = useFormAction();
 
   // closest route URL + "destroy"
-  const destroyAction = useFormAction("destroy");
+  const destroyAction = useFormAction('destroy');
 }
 ```
 
@@ -14460,24 +13816,23 @@ The only option is `{ relative: "route" | "path"}`.
 
 [form_component]: ../components/form
 
-
----
-File: ./hooks/use-href.md
 ---
 
+## File: ./hooks/use-href.md
+
 ---
-title: useHref
----
+
+## title: useHref
 
 # `useHref`
 
 Resolves a full URL against the current location to be used as an [`href`][anchor_element_href_attribute] to a [`link`][anchor_element]. If a relative path is supplied, it will resolve to a full URL.
 
 ```tsx
-import { useHref } from "@remix-run/react";
+import { useHref } from '@remix-run/react';
 
 function SomeComponent() {
-  const href = useHref("some/where");
+  const href = useHref('some/where');
 
   return <a href={href}>Link</a>;
 }
@@ -14506,22 +13861,21 @@ The only option is `{ relative: "route" | "path"}`, which defines the behavior w
 [anchor_element]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link
 [relativesplatpath]: ./use-resolved-path#splat-paths
 
-
----
-File: ./hooks/use-loader-data.md
 ---
 
+## File: ./hooks/use-loader-data.md
+
 ---
-title: useLoaderData
----
+
+## title: useLoaderData
 
 # `useLoaderData`
 
 Returns the serialized data from the closest route [`loader`][loader].
 
 ```tsx lines=[2,9]
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
 export async function loader() {
   return json(await fakeDb.invoices.findAll());
@@ -14550,21 +13904,20 @@ export default function Invoices() {
 [state_management]: ../discussion/state-management
 [use_fetcher]: ./use-fetcher
 
-
----
-File: ./hooks/use-location.md
 ---
 
+## File: ./hooks/use-location.md
+
 ---
-title: useLocation
----
+
+## title: useLocation
 
 # `useLocation`
 
 Returns the current location object.
 
 ```tsx
-import { useLocation } from "@remix-run/react";
+import { useLocation } from '@remix-run/react';
 
 function SomeComponent() {
   const location = useLocation();
@@ -14597,14 +13950,15 @@ The state value of the location created by [`<Link state>`][link_component_state
 [link_component_state]: ../components/link#state
 [navigate]: ./use-navigate
 
-
----
-File: ./hooks/use-matches.md
 ---
 
+## File: ./hooks/use-matches.md
+
 ---
+
 title: useMatches
 toc: false
+
 ---
 
 # `useMatches`
@@ -14636,21 +13990,20 @@ function SomeComponent() {
 
 [breadcrumbs-guide]: ../guides/breadcrumbs
 
-
----
-File: ./hooks/use-navigate.md
 ---
 
+## File: ./hooks/use-navigate.md
+
 ---
-title: useNavigate
----
+
+## title: useNavigate
 
 # `useNavigate`
 
 The `useNavigate` hook returns a function that lets you navigate programmatically in the browser in response to user interactions or effects.
 
 ```tsx
-import { useNavigate } from "@remix-run/react";
+import { useNavigate } from '@remix-run/react';
 
 function SomeComponent() {
   const navigate = useNavigate();
@@ -14673,14 +14026,14 @@ It's often better to use [`redirect`][redirect] in [`action`][action]s and [`loa
 The most basic usage takes an href string:
 
 ```tsx
-navigate("/some/path");
+navigate('/some/path');
 ```
 
 Paths can be relative:
 
 ```tsx
-navigate("..");
-navigate("../other/path");
+navigate('..');
+navigate('../other/path');
 ```
 
 <docs-info>Please see the [Splat Paths][relativesplatpath] section on the `useResolvedPath` docs for a note on the behavior of the `future.v3_relativeSplatPath` future flag for relative `useNavigate()` behavior within splat routes</docs-info>
@@ -14691,9 +14044,9 @@ You can also pass a `Partial<Path>` value:
 
 ```tsx
 navigate({
-  pathname: "/some/path",
-  search: "?query=string",
-  hash: "#hash",
+  pathname: '/some/path',
+  search: '?query=string',
+  hash: '#hash',
 });
 ```
 
@@ -14714,10 +14067,10 @@ Note that this may send you out of your application since the history stack of t
 The second argument is an options object:
 
 ```tsx
-navigate(".", {
+navigate('.', {
   replace: true,
-  relative: "path",
-  state: { some: "state" },
+  relative: 'path',
+  state: { some: 'state' },
 });
 ```
 
@@ -14740,21 +14093,20 @@ navigate(".", {
 [relativesplatpath]: ./use-resolved-path#splat-paths
 [scroll-restoration]: ../components/scroll-restoration#preventing-scroll-reset
 
-
----
-File: ./hooks/use-navigation.md
 ---
 
+## File: ./hooks/use-navigation.md
+
 ---
-title: useNavigation
----
+
+## title: useNavigation
 
 # `useNavigation`
 
 This hook provides information about a pending page navigation.
 
 ```js
-import { useNavigation } from "@remix-run/react";
+import { useNavigation } from '@remix-run/react';
 
 function SomeComponent() {
   const navigation = useNavigation();
@@ -14771,7 +14123,7 @@ The action of the form that was submitted, if any.
 ```tsx
 // set from either one of these
 <Form action="/some/where" />;
-submit(formData, { action: "/some/where" });
+submit(formData, { action: '/some/where' });
 ```
 
 ### `navigation.formMethod`
@@ -14781,7 +14133,7 @@ The method of the form that was submitted, if any.
 ```tsx
 // set from either one of these
 <Form method="get" />;
-submit(formData, { method: "get" });
+submit(formData, { method: 'get' });
 ```
 
 ### `navigation.formData`
@@ -14798,7 +14150,7 @@ For example:
 
 // So a navigation will have the field's value in `navigation.formData`
 // while the navigation is pending.
-navigation.formData.get("email");
+navigation.formData.get('email');
 ```
 
 In the case of a `GET` form submission, `formData` will be empty and the data will be reflected in `navigation.location.search`.
@@ -14829,21 +14181,20 @@ idle → submitting → loading → idle
 [use-submit]: ./use-submit
 [form-data]: https://developer.mozilla.org/en-US/docs/Web/API/FormData
 
-
----
-File: ./hooks/use-navigation-type.md
 ---
 
+## File: ./hooks/use-navigation-type.md
+
 ---
-title: useNavigationType
----
+
+## title: useNavigationType
 
 # `useNavigationType`
 
 Returns the type of navigation used when the user arrived at the current location.
 
 ```tsx
-import { useNavigationType } from "@remix-run/react";
+import { useNavigationType } from '@remix-run/react';
 
 function SomeComponent() {
   const navigationType = useNavigationType();
@@ -14867,40 +14218,38 @@ function SomeComponent() {
 [form-replace]: ../components/form#replace
 [navigate-options]: ../hooks/use-navigate#options
 
-
----
-File: ./hooks/use-outlet.md
 ---
 
+## File: ./hooks/use-outlet.md
+
 ---
-title: useOutlet
----
+
+## title: useOutlet
 
 # `useOutlet`
 
 Returns the element for the child route at this level of the route hierarchy. This hook is used internally by [`<Outlet>`][outlet-component] to render child routes.
 
 ```tsx
-import { useOutlet } from "@remix-run/react";
+import { useOutlet } from '@remix-run/react';
 ```
 
 [outlet-component]: ../components/outlet
 
-
----
-File: ./hooks/use-outlet-context.md
 ---
 
+## File: ./hooks/use-outlet-context.md
+
 ---
-title: useOutletContext
----
+
+## title: useOutletContext
 
 # `useOutletContext`
 
 Convenience API over [React Context][react-context] that returns the context value from the closest parent [`<Outlet context={val} />`][outlet-context] component.
 
 ```tsx
-import { useOutletContext } from "@remix-run/react";
+import { useOutletContext } from '@remix-run/react';
 
 function Child() {
   const myValue = useOutletContext();
@@ -14915,21 +14264,20 @@ function Child() {
 [react-context]: https://react.dev/learn/passing-data-deeply-with-context
 [outlet-context]: ../components/outlet#context
 
-
----
-File: ./hooks/use-params.md
 ---
 
+## File: ./hooks/use-params.md
+
 ---
-title: useParams
----
+
+## title: useParams
 
 # `useParams`
 
 Returns an object of key/value pairs of the dynamic params from the current URL that were matched by the routes. Child routes inherit all params from their parent routes.
 
 ```tsx
-import { useParams } from "@remix-run/react";
+import { useParams } from '@remix-run/react';
 
 function SomeComponent() {
   const params = useParams();
@@ -14941,14 +14289,13 @@ Assuming a route like `routes/posts/$postId.tsx` is matched by `/posts/123` then
 
 [splat-routes]: ../file-conventions/routes#splat-routes
 
-
----
-File: ./hooks/use-prompt.md
 ---
 
+## File: ./hooks/use-prompt.md
+
 ---
-title: unstable_usePrompt
----
+
+## title: unstable_usePrompt
 
 # `unstable_usePrompt`
 
@@ -14968,25 +14315,20 @@ We do not plan to remove the `unstable_` prefix from this hook because the behav
 
 ```tsx
 function ImportantForm() {
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState('');
 
   // Block navigating elsewhere when data has been entered into the input
   unstable_usePrompt({
-    message: "Are you sure?",
+    message: 'Are you sure?',
     when: ({ currentLocation, nextLocation }) =>
-      value !== "" &&
-      currentLocation.pathname !== nextLocation.pathname,
+      value !== '' && currentLocation.pathname !== nextLocation.pathname,
   });
 
   return (
     <Form method="post">
       <label>
         Enter some important data:
-        <input
-          name="data"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
+        <input name="data" value={value} onChange={(e) => setValue(e.target.value)} />
       </label>
       <button type="submit">Save</button>
     </Form>
@@ -14996,24 +14338,23 @@ function ImportantForm() {
 
 [window-confirm]: https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
 
-
----
-File: ./hooks/use-resolved-path.md
 ---
 
+## File: ./hooks/use-resolved-path.md
+
 ---
-title: useResolvedPath
----
+
+## title: useResolvedPath
 
 # `useResolvedPath`
 
 Resolves the `pathname` of the given `to` value against the pathname of the current location and returns a `Path` object.
 
 ```tsx
-import { useResolvedPath } from "@remix-run/react";
+import { useResolvedPath } from '@remix-run/react';
 
 function SomeComponent() {
-  const path = useResolvedPath("../some/where");
+  const path = useResolvedPath('../some/where');
   path.pathname;
   path.search;
   path.hash;
@@ -15053,14 +14394,15 @@ When you enable the flag, this "bug" is fixed so that path resolution is consist
 [rr-use-resolved-path-splat]: https://reactrouter.com/v6/hooks/use-resolved-path#splat-paths
 [remix-config-future]: https://remix.run/docs/en/main/file-conventions/remix-config#future
 
-
----
-File: ./hooks/use-revalidator.md
 ---
 
+## File: ./hooks/use-revalidator.md
+
 ---
+
 title: useRevalidator
 new: true
+
 ---
 
 # `useRevalidator`
@@ -15068,7 +14410,7 @@ new: true
 Revalidate the data on the page for reasons outside of normal data mutations like window focus or polling on an interval.
 
 ```tsx
-import { useRevalidator } from "@remix-run/react";
+import { useRevalidator } from '@remix-run/react';
 
 function WindowFocusRevalidator() {
   const revalidator = useRevalidator();
@@ -15077,11 +14419,7 @@ function WindowFocusRevalidator() {
     revalidator.revalidate();
   });
 
-  return (
-    <div hidden={revalidator.state === "idle"}>
-      Revalidating...
-    </div>
-  );
+  return <div hidden={revalidator.state === 'idle'}>Revalidating...</div>;
 }
 ```
 
@@ -15103,7 +14441,7 @@ function useLivePageData() {
   const interval = useInterval(5000);
 
   useEffect(() => {
-    if (revalidator.state === "idle") {
+    if (revalidator.state === 'idle') {
       revalidator.revalidate();
     }
   }, [interval, revalidator]);
@@ -15122,14 +14460,15 @@ If a navigation happens while a revalidation is in flight, the revalidation will
 [use-fetcher]: ./use-fetcher
 [use-submit]: ./use-submit
 
-
----
-File: ./hooks/use-route-error.md
 ---
 
+## File: ./hooks/use-route-error.md
+
 ---
+
 title: useRouteError
 new: true
+
 ---
 
 # `useRouteError`
@@ -15158,14 +14497,15 @@ export function ErrorBoundary() {
 [error-boundary]: ../route/error-boundary
 [error-handling-guide]: ../guides/errors
 
-
----
-File: ./hooks/use-route-loader-data.md
 ---
 
+## File: ./hooks/use-route-loader-data.md
+
 ---
+
 title: useRouteLoaderData
 toc: false
+
 ---
 
 # `useRouteLoaderData`
@@ -15173,10 +14513,10 @@ toc: false
 Returns the loader data for a given route by ID.
 
 ```tsx
-import { useRouteLoaderData } from "@remix-run/react";
+import { useRouteLoaderData } from '@remix-run/react';
 
 function SomeComponent() {
-  const { user } = useRouteLoaderData("root");
+  const { user } = useRouteLoaderData('root');
 }
 ```
 
@@ -15188,21 +14528,20 @@ Remix creates the route IDs automatically. They are simply the path of the route
 | `app/routes/teams.tsx`     | `"routes/teams"`     |
 | `app/routes/teams.$id.tsx` | `"routes/teams.$id"` |
 
-
----
-File: ./hooks/use-search-params.md
 ---
 
+## File: ./hooks/use-search-params.md
+
 ---
-title: useSearchParams
----
+
+## title: useSearchParams
 
 # `useSearchParams`
 
 Returns a tuple of the current URL's [`searchParams`][search-params] and a function to update them. Setting the search params causes a navigation.
 
 ```tsx
-import { useSearchParams } from "@remix-run/react";
+import { useSearchParams } from '@remix-run/react';
 
 export function SomeComponent() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15230,7 +14569,7 @@ The second value returned is a function to set new search params and causes a na
 <button
   onClick={() => {
     const params = new URLSearchParams();
-    params.set("someKey", "someValue");
+    params.set('someKey', 'someValue');
     setSearchParams(params, {
       preventScrollReset: true,
     });
@@ -15246,7 +14585,7 @@ The setter function also supports a function for setting new search params.
 <button
   onClick={() => {
     setSearchParams((prev) => {
-      prev.set("someKey", "someValue");
+      prev.set('someKey', 'someValue');
       return prev;
     });
   }}
@@ -15257,21 +14596,20 @@ The setter function also supports a function for setting new search params.
 [url-search-params]: https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
 [navigateoptions]: ./use-navigate#options
 
-
----
-File: ./hooks/use-submit.md
 ---
 
+## File: ./hooks/use-submit.md
+
 ---
-title: useSubmit
----
+
+## title: useSubmit
 
 # `useSubmit`
 
 The imperative version of [`<Form>`][form-component] that lets you, the programmer, submit a form instead of the user.
 
 ```tsx
-import { useSubmit } from "@remix-run/react";
+import { useSubmit } from '@remix-run/react';
 
 function SomeComponent() {
   const submit = useSubmit();
@@ -15309,23 +14647,20 @@ Can be any of the following:
 
 ```tsx
 const formData = new FormData();
-formData.append("myKey", "myValue");
-submit(formData, { method: "post" });
+formData.append('myKey', 'myValue');
+submit(formData, { method: 'post' });
 ```
 
 **Plain object that will be serialized as `FormData`**
 
 ```tsx
-submit({ myKey: "myValue" }, { method: "post" });
+submit({ myKey: 'myValue' }, { method: 'post' });
 ```
 
 **Plain object that will be serialized as JSON**
 
 ```tsx
-submit(
-  { myKey: "myValue" },
-  { method: "post", encType: "application/json" }
-);
+submit({ myKey: 'myValue' }, { method: 'post', encType: 'application/json' });
 ```
 
 ### `options`
@@ -15346,12 +14681,12 @@ Options for the submission, the same as [`<Form>`][form-component] props. All op
 
 ```tsx
 submit(data, {
-  action: "",
-  method: "post",
-  encType: "application/x-www-form-urlencoded",
+  action: '',
+  method: 'post',
+  encType: 'application/x-www-form-urlencoded',
   preventScrollReset: false,
   replace: false,
-  relative: "route",
+  relative: 'route',
 });
 ```
 
@@ -15379,14 +14714,15 @@ submit(data, {
 [use-view-transition-state]: ../hooks//use-view-transition-state
 [relativesplatpath]: ./use-resolved-path#splat-paths
 
-
----
-File: ./hooks/use-view-transition-state.md
 ---
 
+## File: ./hooks/use-view-transition-state.md
+
 ---
+
 title: useViewTransitionState
 toc: false
+
 ---
 
 # `useViewTransitionState`
@@ -15405,7 +14741,7 @@ function NavImage({ src, alt, id }) {
         src={src}
         alt={alt}
         style={{
-          viewTransitionName: vt ? "image-expand" : "",
+          viewTransitionName: vt ? 'image-expand' : '',
         }}
       />
     </Link>
@@ -15418,17 +14754,18 @@ function NavImage({ src, alt, id }) {
 [form-component-view-transition]: ../components/form#viewtransition
 [nav-link-component-view-transition]: ../components/nav-link#viewtransition
 
-
----
-File: ./index.md
 ---
 
+## File: ./index.md
+
 ---
+
 title: Remix Docs Home
 order: 1
 description: Learn how to Build Better Websites with Remix.
 toc: false
 hidden: true
+
 ---
 
 # Remix Docs
@@ -15482,14 +14819,15 @@ npx create-remix@latest
 [remix-now-react-router]: https://remix.run/blog/incremental-path-to-react-19
 [react-router-get-started]: https://reactrouter.com/start/framework/installation
 
-
----
-File: ./other-api/adapter.md
 ---
 
+## File: ./other-api/adapter.md
+
 ---
+
 title: "@remix-run/{adapter}"
 order: 3
+
 ---
 
 # Server Adapters
@@ -15530,29 +14868,25 @@ Each adapter has the same API. In the future we may have helpers specific to the
 Creates a request handler for your server to serve the app. This is the ultimate entry point of your Remix application.
 
 ```ts
-const {
-  createRequestHandler,
-} = require("@remix-run/{adapter}");
+const { createRequestHandler } = require('@remix-run/{adapter}');
 createRequestHandler({ build, getLoadContext });
 ```
 
 Here's a full example with express:
 
 ```ts lines=[1-3,11-22]
-const {
-  createRequestHandler,
-} = require("@remix-run/express");
-const express = require("express");
+const { createRequestHandler } = require('@remix-run/express');
+const express = require('express');
 
 const app = express();
 
 // needs to handle all verbs (GET, POST, etc.)
 app.all(
-  "*",
+  '*',
   createRequestHandler({
     // `remix build` and `remix dev` output files to a build directory, you need
     // to pass that build to the request handler
-    build: require("./build"),
+    build: require('./build'),
 
     // return anything you want here to be available as `context` in your
     // loaders and actions. This is where you can bridge the gap between Remix
@@ -15560,40 +14894,35 @@ app.all(
     getLoadContext(req, res) {
       return {};
     },
-  })
+  }),
 );
 ```
 
 Here's an example with Architect (AWS):
 
 ```ts
-const {
-  createRequestHandler,
-} = require("@remix-run/architect");
+const { createRequestHandler } = require('@remix-run/architect');
 exports.handler = createRequestHandler({
-  build: require("./build"),
+  build: require('./build'),
 });
 ```
 
 Here's an example with the simplified Cloudflare Workers API:
 
 ```ts
-import { createEventHandler } from "@remix-run/cloudflare-workers";
+import { createEventHandler } from '@remix-run/cloudflare-workers';
 
-import * as build from "../build";
+import * as build from '../build';
 
-addEventListener("fetch", createEventHandler({ build }));
+addEventListener('fetch', createEventHandler({ build }));
 ```
 
 Here's an example with the lower-level Cloudflare Workers API:
 
 ```ts
-import {
-  createRequestHandler,
-  handleAsset,
-} from "@remix-run/cloudflare-workers";
+import { createRequestHandler, handleAsset } from '@remix-run/cloudflare-workers';
 
-import * as build from "../build";
+import * as build from '../build';
 
 const handleRequest = createRequestHandler({ build });
 
@@ -15607,21 +14936,19 @@ const handleEvent = async (event: FetchEvent) => {
   return response;
 };
 
-addEventListener("fetch", (event) => {
+addEventListener('fetch', (event) => {
   try {
     event.respondWith(handleEvent(event));
   } catch (e: any) {
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === 'development') {
       event.respondWith(
         new Response(e.message || e.toString(), {
           status: 500,
-        })
+        }),
       );
     }
 
-    event.respondWith(
-      new Response("Internal Error", { status: 500 })
-    );
+    event.respondWith(new Response('Internal Error', { status: 500 }));
   }
 });
 ```
@@ -15646,14 +14973,13 @@ addEventListener("fetch", (event) => {
 [azure-functions]: https://azure.microsoft.com/en-us/products/functions/
 [azure-static-web-apps]: https://azure.microsoft.com/en-us/products/app-service/static
 
-
----
-File: ./other-api/create-remix.md
 ---
 
+## File: ./other-api/create-remix.md
+
 ---
-title: "create-remix (CLI)"
----
+
+## title: "create-remix (CLI)"
 
 # `create-remix`
 
@@ -15744,15 +15070,16 @@ If `create-remix` detects any file collisions between the template and the direc
 [remix-now-react-router]: https://remix.run/blog/incremental-path-to-react-19
 [create-react-router]: https://reactrouter.com/start/framework/installation
 
-
----
-File: ./other-api/dev.md
 ---
 
+## File: ./other-api/dev.md
+
 ---
+
 title: "@remix-run/dev CLI"
 order: 2
 new: true
+
 ---
 
 # Remix CLI
@@ -15877,25 +15204,25 @@ If not, you can follow these steps to integrate your project with `remix dev`:
 2. Ensure `broadcastDevReady` is called when your app server is up and running:
 
    ```ts filename=server.ts lines=[12,25-27]
-   import path from "node:path";
+   import path from 'node:path';
 
-   import { broadcastDevReady } from "@remix-run/node";
-   import express from "express";
+   import { broadcastDevReady } from '@remix-run/node';
+   import express from 'express';
 
-   const BUILD_DIR = path.resolve(__dirname, "build");
+   const BUILD_DIR = path.resolve(__dirname, 'build');
    const build = require(BUILD_DIR);
 
    const app = express();
 
    // ... code for setting up your express app goes here ...
 
-   app.all("*", createRequestHandler({ build }));
+   app.all('*', createRequestHandler({ build }));
 
    const port = 3000;
    app.listen(port, () => {
      console.log(`👉 http://localhost:${port}`);
 
-     if (process.env.NODE_ENV === "development") {
+     if (process.env.NODE_ENV === 'development') {
        broadcastDevReady(build);
      }
    });
@@ -15930,8 +15257,8 @@ module.exports = {
   dev: {
     // ...any other options you want to set go here...
     manual: true,
-    tlsKey: "./key.pem",
-    tlsCert: "./cert.pem",
+    tlsKey: './key.pem',
+    tlsCert: './cert.pem',
   },
 };
 ```
@@ -16003,15 +15330,13 @@ If you're using ESM as the default module system you will need to set the `--imp
 Next, you can use `REMIX_DEV_ORIGIN` to let MSW forward internal "dev ready" messages on `/ping`:
 
 ```ts
-import { http, passthrough } from "msw";
+import { http, passthrough } from 'msw';
 
-const REMIX_DEV_PING = new URL(
-  process.env.REMIX_DEV_ORIGIN
-);
-REMIX_DEV_PING.pathname = "/ping";
+const REMIX_DEV_PING = new URL(process.env.REMIX_DEV_ORIGIN);
+REMIX_DEV_PING.pathname = '/ping';
 
 export const server = setupServer(
-  http.post(REMIX_DEV_PING.href, () => passthrough())
+  http.post(REMIX_DEV_PING.href, () => passthrough()),
   // ... other request handlers go here ...
 );
 ```
@@ -16123,24 +15448,24 @@ While the initial build slowdown is inherently a cost for HDR, we plan to optimi
 [remix-vite]: ../guides/vite
 [classic-remix-compiler]: ../guides/vite#classic-remix-compiler-vs-remix-vite
 
-
----
-File: ./other-api/index.md
 ---
 
+## File: ./other-api/index.md
+
 ---
+
 title: Other API
 order: 9
----
 
-
----
-File: ./other-api/node.md
 ---
 
 ---
-title: "@remix-run/node"
+
+## File: ./other-api/node.md
+
 ---
+
+## title: "@remix-run/node"
 
 # `@remix-run/node`
 
@@ -16153,7 +15478,7 @@ Since Remix relies on browser APIs such as `fetch` that aren't natively & stably
 Your testing framework should provide you with a hook or location to polyfill globals / mock out APIs; here you can add the following lines to install the globals that Remix relies on:
 
 ```ts
-import { installGlobals } from "@remix-run/node";
+import { installGlobals } from '@remix-run/node';
 
 // This installs globals such as "fetch", "Response", "Request" and "Headers".
 installGlobals();
@@ -16169,14 +15494,15 @@ Remix officially supports **Active** and **Maintenance** [Node LTS versions][nod
 
 [node-releases]: https://nodejs.org/en/about/previous-releases
 
-
----
-File: ./other-api/serve.md
 ---
 
+## File: ./other-api/serve.md
+
 ---
+
 title: "@remix-run/serve"
 order: 3
+
 ---
 
 # Remix App Server
@@ -16230,9 +15556,7 @@ In development, `remix-serve` will ensure the latest code is run by purging the 
   // cleared and this will be required brand new
   const cache = new Map();
 
-  export async function loader({
-    params,
-  }: LoaderFunctionArgs) {
+  export async function loader({ params }: LoaderFunctionArgs) {
     if (cache.has(params.foo)) {
       return json(cache.get(params.foo));
     }
@@ -16248,7 +15572,7 @@ In development, `remix-serve` will ensure the latest code is run by purging the 
 - Any **module side effects** will remain in place! This may cause problems, but should probably be avoided anyway.
 
   ```tsx lines=[3-6]
-  import { json } from "@remix-run/node"; // or cloudflare/deno
+  import { json } from '@remix-run/node'; // or cloudflare/deno
 
   // this starts running the moment the module is imported
   setInterval(() => {
@@ -16273,14 +15597,13 @@ In production this doesn't happen. The server boots up and that's the end of it.
 [serve-static]: https://expressjs.com/en/resources/middleware/serve-static.html
 [morgan]: https://expressjs.com/en/resources/middleware/morgan.html
 
-
----
-File: ./other-api/testing.md
 ---
 
+## File: ./other-api/testing.md
+
 ---
-title: "@remix-run/testing"
----
+
+## title: "@remix-run/testing"
 
 # `@remix-run/testing`
 
@@ -16293,14 +15616,14 @@ The general usage of this is to test components/hooks that rely on Remix hooks/c
 To use [`createRemixStub`][create-remix-stub], define your routes using React Router-like route objects, where you specify the `path`, `Component`, `loader`, etc. These are essentially mocking the nesting and exports of the route files in your Remix app:
 
 ```tsx
-import { createRemixStub } from "@remix-run/testing";
+import { createRemixStub } from '@remix-run/testing';
 
 const RemixStub = createRemixStub([
   {
-    path: "/",
+    path: '/',
     Component: MyComponent,
     loader() {
-      return json({ message: "hello" });
+      return json({ message: 'hello' });
     },
   },
 ]);
@@ -16310,7 +15633,7 @@ Then you can render the `<RemixStub />` component and assert against it:
 
 ```tsx
 render(<RemixStub />);
-await screen.findByText("Some rendered text");
+await screen.findByText('Some rendered text');
 ```
 
 ## Example
@@ -16318,16 +15641,12 @@ await screen.findByText("Some rendered text");
 Here's a full working example testing using [`jest`][jest] and [React Testing Library][rtl]:
 
 ```tsx
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { createRemixStub } from "@remix-run/testing";
-import {
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import { createRemixStub } from '@remix-run/testing';
+import { render, screen, waitFor } from '@testing-library/react';
 
-test("renders loader data", async () => {
+test('renders loader data', async () => {
   // ⚠️ This would usually be a component you import from your app code
   function MyComponent() {
     const data = useLoaderData() as { message: string };
@@ -16336,17 +15655,17 @@ test("renders loader data", async () => {
 
   const RemixStub = createRemixStub([
     {
-      path: "/",
+      path: '/',
       Component: MyComponent,
       loader() {
-        return json({ message: "hello" });
+        return json({ message: 'hello' });
       },
     },
   ]);
 
   render(<RemixStub />);
 
-  await waitFor(() => screen.findByText("Message: hello"));
+  await waitFor(() => screen.findByText('Message: hello'));
 });
 ```
 
@@ -16359,14 +15678,13 @@ test("renders loader data", async () => {
 [jest]: https://jestjs.io
 [rtl]: https://testing-library.com/docs/react-testing-library/intro
 
-
----
-File: ./route/action.md
 ---
 
+## File: ./route/action.md
+
 ---
-title: action
----
+
+## title: action
 
 # `action`
 
@@ -16377,19 +15695,17 @@ A route `action` is a server only function to handle data mutations and other ac
 `action`s have the same API as `loader`s, the only difference is when they are called. This enables you to co-locate everything about a data set in a single route module: the data read, the component that renders the data, and the data writes:
 
 ```tsx
-import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
-import { Form } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json, redirect } from '@remix-run/node'; // or cloudflare/deno
+import { Form } from '@remix-run/react';
 
-import { TodoList } from "~/components/TodoList";
-import { fakeCreateTodo, fakeGetTodos } from "~/utils/db";
+import { TodoList } from '@/components/TodoList';
+import { fakeCreateTodo, fakeGetTodos } from '@/utils/db';
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const body = await request.formData();
   const todo = await fakeCreateTodo({
-    title: body.get("title"),
+    title: body.get('title'),
   });
   return redirect(`/todos/${todo.id}`);
 }
@@ -16436,14 +15752,13 @@ See also:
 [form-component-action]: ../components/form#action
 [index-query-param]: ../guides/index-query-param
 
-
----
-File: ./route/client-action.md
 ---
 
+## File: ./route/client-action.md
+
 ---
-title: clientAction
----
+
+## title: clientAction
 
 # `clientAction`
 
@@ -16452,11 +15767,7 @@ In addition to (or in place of) your [`action`][action], you may define a `clien
 Each route can define a `clientAction` function that handles mutations:
 
 ```tsx
-export const clientAction = async ({
-  request,
-  params,
-  serverAction,
-}: ClientActionFunctionArgs) => {
+export const clientAction = async ({ request, params, serverAction }: ClientActionFunctionArgs) => {
   invalidateClientSideCache();
   const data = await serverAction();
   return data;
@@ -16495,14 +15806,13 @@ See also:
 [client-data-guide]: ../guides/client-data
 [clientloader]: ./client-loader
 
-
----
-File: ./route/client-loader.md
 ---
 
+## File: ./route/client-loader.md
+
 ---
-title: clientLoader
----
+
+## title: clientLoader
 
 # `clientLoader`
 
@@ -16511,11 +15821,7 @@ In addition to (or in place of) your [`loader`][loader], you may define a `clien
 Each route can define a `clientLoader` function that provides data to the route when rendering:
 
 ```tsx
-export const clientLoader = async ({
-  request,
-  params,
-  serverLoader,
-}: ClientLoaderFunctionArgs) => {
+export const clientLoader = async ({ request, params, serverLoader }: ClientLoaderFunctionArgs) => {
   // call the server loader
   const serverData = await serverLoader();
   // And/or fetch data on the client
@@ -16597,14 +15903,13 @@ See also:
 [fetch]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 [client-data-guide]: ../guides/client-data
 
-
----
-File: ./route/component.md
 ---
 
+## File: ./route/component.md
+
 ---
-title: Component
----
+
+## title: Component
 
 # Route Component
 
@@ -16621,14 +15926,13 @@ export default function MyRouteComponent() {
 }
 ```
 
-
----
-File: ./route/error-boundary.md
 ---
 
+## File: ./route/error-boundary.md
+
 ---
-title: ErrorBoundary
----
+
+## title: ErrorBoundary
 
 # `ErrorBoundary`
 
@@ -16645,10 +15949,7 @@ The most common use-cases tend to be:
 To obtain the thrown object, you can use the [`useRouteError`][use-route-error] hook. When a `Response` is thrown, it will be automatically unwrapped into an `ErrorResponse` instance with `state`/`statusText`/`data` fields so that you don't need to bother with `await response.json()` in your component. To differentiate thrown `Response`'s from thrown `Error`'s you can use the [`isRouteErrorResponse`][is-route-error-response] utility.
 
 ```tsx
-import {
-  isRouteErrorResponse,
-  useRouteError,
-} from "@remix-run/react";
+import { isRouteErrorResponse, useRouteError } from '@remix-run/react';
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -16681,14 +15982,13 @@ export function ErrorBoundary() {
 [use-route-error]: ../hooks/use-route-error
 [is-route-error-response]: ../utils/is-route-error-response
 
-
----
-File: ./route/handle.md
 ---
 
+## File: ./route/handle.md
+
 ---
-title: handle
----
+
+## title: handle
 
 # `handle`
 
@@ -16696,7 +15996,7 @@ Exporting a handle allows you to create application conventions with the [`useMa
 
 ```tsx
 export const handle = {
-  its: "all yours",
+  its: 'all yours',
 };
 ```
 
@@ -16710,21 +16010,20 @@ This is almost always used in conjunction with `useMatches`. To see what kinds o
 [use-matches]: ../hooks/use-matches
 [breadcrumbs-guide]: ../guides/breadcrumbs
 
-
----
-File: ./route/headers.md
 ---
 
+## File: ./route/headers.md
+
 ---
-title: headers
----
+
+## title: headers
 
 # `headers`
 
 Each route can define its own HTTP headers. One of the common headers is the [`Cache-Control` header][cache-control-header] that indicates to browser and CDN caches where and for how long a page is able to be cached.
 
 ```tsx
-import type { HeadersFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { HeadersFunction } from '@remix-run/node'; // or cloudflare/deno
 
 export const headers: HeadersFunction = ({
   actionHeaders,
@@ -16732,20 +16031,18 @@ export const headers: HeadersFunction = ({
   loaderHeaders,
   parentHeaders,
 }) => ({
-  "X-Stretchy-Pants": "its for fun",
-  "Cache-Control": "max-age=300, s-maxage=3600",
+  'X-Stretchy-Pants': 'its for fun',
+  'Cache-Control': 'max-age=300, s-maxage=3600',
 });
 ```
 
 Usually your data is a better indicator of your cache duration than your route module (data tends to be more dynamic than markup), so the [`action`][action]'s & [`loader`][loader]'s headers are passed in to `headers()` too:
 
 ```tsx
-import type { HeadersFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { HeadersFunction } from '@remix-run/node'; // or cloudflare/deno
 
-export const headers: HeadersFunction = ({
-  loaderHeaders,
-}) => ({
-  "Cache-Control": loaderHeaders.get("Cache-Control"),
+export const headers: HeadersFunction = ({ loaderHeaders }) => ({
+  'Cache-Control': loaderHeaders.get('Cache-Control'),
 });
 ```
 
@@ -16782,29 +16079,19 @@ We don't want surprise headers in your responses, so it's your job to merge them
 That is all to say that Remix has given you a very large gun with which to shoot your foot. You need to be careful not to send a `Cache-Control` from a child route module that is more aggressive than a parent route. Here's some code that picks the least aggressive caching in these cases:
 
 ```tsx
-import type { HeadersFunction } from "@remix-run/node"; // or cloudflare/deno
-import parseCacheControl from "parse-cache-control";
+import type { HeadersFunction } from '@remix-run/node'; // or cloudflare/deno
+import parseCacheControl from 'parse-cache-control';
 
-export const headers: HeadersFunction = ({
-  loaderHeaders,
-  parentHeaders,
-}) => {
-  const loaderCache = parseCacheControl(
-    loaderHeaders.get("Cache-Control")
-  );
-  const parentCache = parseCacheControl(
-    parentHeaders.get("Cache-Control")
-  );
+export const headers: HeadersFunction = ({ loaderHeaders, parentHeaders }) => {
+  const loaderCache = parseCacheControl(loaderHeaders.get('Cache-Control'));
+  const parentCache = parseCacheControl(parentHeaders.get('Cache-Control'));
 
   // take the most conservative between the parent and loader, otherwise
   // we'll be too aggressive for one of them.
-  const maxAge = Math.min(
-    loaderCache["max-age"],
-    parentCache["max-age"]
-  );
+  const maxAge = Math.min(loaderCache['max-age'], parentCache['max-age']);
 
   return {
-    "Cache-Control": `max-age=${maxAge}`,
+    'Cache-Control': `max-age=${maxAge}`,
   };
 };
 ```
@@ -16814,28 +16101,23 @@ All that said, you can avoid this entire problem by _not defining headers in par
 Note that you can also add headers in your [`entry.server.tsx`][entry-server] file for things that should be global, for example:
 
 ```tsx filename=app/entry.server.tsx lines=[20]
-import type {
-  AppLoadContext,
-  EntryContext,
-} from "@remix-run/node"; // or cloudflare/deno
-import { RemixServer } from "@remix-run/react";
-import { renderToString } from "react-dom/server";
+import type { AppLoadContext, EntryContext } from '@remix-run/node'; // or cloudflare/deno
+import { RemixServer } from '@remix-run/react';
+import { renderToString } from 'react-dom/server';
 
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
-  loadContext: AppLoadContext
+  loadContext: AppLoadContext,
 ) {
-  const markup = renderToString(
-    <RemixServer context={remixContext} url={request.url} />
-  );
+  const markup = renderToString(<RemixServer context={remixContext} url={request.url} />);
 
-  responseHeaders.set("Content-Type", "text/html");
-  responseHeaders.set("X-Powered-By", "Hugs");
+  responseHeaders.set('Content-Type', 'text/html');
+  responseHeaders.set('X-Powered-By', 'Hugs');
 
-  return new Response("<!DOCTYPE html>" + markup, {
+  return new Response('<!DOCTYPE html>' + markup, {
     headers: responseHeaders,
     status: responseStatusCode,
   });
@@ -16852,14 +16134,13 @@ Just keep in mind that doing this will apply to _all_ document requests, but doe
 [entry-server]: ../file-conventions/entry.server
 [handle-data-request]: ../file-conventions/entry.server#handledatarequest
 
-
----
-File: ./route/hydrate-fallback.md
 ---
 
+## File: ./route/hydrate-fallback.md
+
 ---
-title: HydrateFallback
----
+
+## title: HydrateFallback
 
 # `HydrateFallback`
 
@@ -16890,15 +16171,8 @@ export async function loader() {
   return json(data);
 }
 
-export async function clientLoader({
-  request,
-  params,
-  serverLoader,
-}: ClientLoaderFunctionArgs) {
-  const [serverData, preferences] = await Promise.all([
-    serverLoader(),
-    getUserPreferences(),
-  ]);
+export async function clientLoader({ request, params, serverLoader }: ClientLoaderFunctionArgs) {
+  const [serverData, preferences] = await Promise.all([serverLoader(), getUserPreferences()]);
   return {
     ...serverData,
     preferences,
@@ -16912,7 +16186,7 @@ export function HydrateFallback() {
 
 export default function Component() {
   const data = useLoaderData<typeof clientLoader>();
-  if (data.preferences.display === "list") {
+  if (data.preferences.display === 'list') {
     return <ListView items={data.items} />;
   } else {
     return <GridView items={data.items} />;
@@ -16937,48 +16211,48 @@ See also:
 [hydrate-true]: ./client-loader#clientloaderhydrate
 [clientloader]: ./client-loader
 
-
----
-File: ./route/index.md
 ---
 
+## File: ./route/index.md
+
 ---
+
 title: Route Module
 order: 4
----
 
-
----
-File: ./route/links.md
 ---
 
 ---
-title: links
+
+## File: ./route/links.md
+
 ---
+
+## title: links
 
 # `links`
 
 The links function defines which [`<link>` element][link-element]s to add to the page when the user visits a route.
 
 ```tsx
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
 export const links: LinksFunction = () => {
   return [
     {
-      rel: "icon",
-      href: "/favicon.png",
-      type: "image/png",
+      rel: 'icon',
+      href: '/favicon.png',
+      type: 'image/png',
     },
     {
-      rel: "stylesheet",
-      href: "https://example.com/some/styles.css",
+      rel: 'stylesheet',
+      href: 'https://example.com/some/styles.css',
     },
-    { page: "/users/123" },
+    { page: '/users/123' },
     {
-      rel: "preload",
-      href: "/images/banner.jpg",
-      as: "image",
+      rel: 'preload',
+      href: '/images/banner.jpg',
+      as: 'image',
     },
   ];
 };
@@ -16995,45 +16269,45 @@ The `links` export from a route should return an array of `HtmlLinkDescriptor` o
 Examples:
 
 ```tsx
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import stylesHref from "../styles/something.css";
+import stylesHref from '../styles/something.css';
 
 export const links: LinksFunction = () => {
   return [
     // add a favicon
     {
-      rel: "icon",
-      href: "/favicon.png",
-      type: "image/png",
+      rel: 'icon',
+      href: '/favicon.png',
+      type: 'image/png',
     },
 
     // add an external stylesheet
     {
-      rel: "stylesheet",
-      href: "https://example.com/some/styles.css",
-      crossOrigin: "anonymous",
+      rel: 'stylesheet',
+      href: 'https://example.com/some/styles.css',
+      crossOrigin: 'anonymous',
     },
 
     // add a local stylesheet, remix will fingerprint the file name for
     // production caching
-    { rel: "stylesheet", href: stylesHref },
+    { rel: 'stylesheet', href: stylesHref },
 
     // prefetch an image into the browser cache that the user is likely to see
     // as they interact with this page, perhaps they click a button to reveal in
     // a summary/details element
     {
-      rel: "prefetch",
-      as: "image",
-      href: "/img/bunny.jpg",
+      rel: 'prefetch',
+      as: 'image',
+      href: '/img/bunny.jpg',
     },
 
     // only prefetch it if they're on a bigger screen
     {
-      rel: "prefetch",
-      as: "image",
-      href: "/img/bunny.jpg",
-      media: "(min-width: 1000px)",
+      rel: 'prefetch',
+      as: 'image',
+      href: '/img/bunny.jpg',
+      media: '(min-width: 1000px)',
     },
   ];
 };
@@ -17045,7 +16319,7 @@ These descriptors allow you to prefetch the resources for a page the user is lik
 
 ```tsx
 export const links: LinksFunction = () => {
-  return [{ page: "/posts/public" }];
+  return [{ page: '/posts/public' }];
 };
 ```
 
@@ -17055,14 +16329,13 @@ This loads up the JavaScript modules, loader data, and the stylesheets (defined 
 
 [link-element]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link
 
-
----
-File: ./route/loader.md
 ---
 
+## File: ./route/loader.md
+
 ---
-title: loader
----
+
+## title: loader
 
 # `loader`
 
@@ -17071,7 +16344,7 @@ title: loader
 Each route can define a `loader` function that provides data to the route when rendering.
 
 ```tsx
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
 export const loader = async () => {
   return json({ ok: true });
@@ -17085,9 +16358,9 @@ This means you can talk directly to your database, use server-only API secrets, 
 Using the database ORM [Prisma][prisma] as an example:
 
 ```tsx lines=[3,5-7]
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from '@remix-run/react';
 
-import { prisma } from "../db";
+import { prisma } from '../db';
 
 export async function loader() {
   return json(await prisma.user.findMany());
@@ -17116,11 +16389,11 @@ Note that whatever you return from your `loader` will be exposed to the client, 
 You can get type safety over the network for your `loader` and component with `useLoaderData<typeof loader>`.
 
 ```tsx lines=[9]
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
 export async function loader() {
-  return json({ name: "Ryan", date: new Date() });
+  return json({ name: 'Ryan', date: new Date() });
 }
 
 export default function SomeRoute() {
@@ -17137,9 +16410,7 @@ Route params are defined by route file names. If a segment begins with `$` like 
 
 ```tsx filename=app/routes/invoices.$invoiceId.tsx nocopy
 // if the user visits /invoices/123
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   params.invoiceId; // "123"
 }
 ```
@@ -17148,11 +16419,9 @@ Params are mostly useful for looking up records by ID:
 
 ```tsx filename=app/routes/invoices.$invoiceId.tsx
 // if the user visits /invoices/123
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const invoice = await fakeDb.getInvoice(params.invoiceId);
-  if (!invoice) throw new Response("", { status: 404 });
+  if (!invoice) throw new Response('', { status: 404 });
   return json(invoice);
 }
 ```
@@ -17164,15 +16433,13 @@ This is a [Fetch Request][request] instance. You can read the MDN docs to see al
 The most common use cases in `loader`s are reading [headers][request-headers] (like cookies) and URL [`URLSearchParams`][url-search-params] from the request:
 
 ```tsx
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   // read a cookie
-  const cookie = request.headers.get("Cookie");
+  const cookie = request.headers.get('Cookie');
 
   // parse the search params for `?q=`
   const url = new URL(request.url);
-  const query = url.searchParams.get("q");
+  const query = url.searchParams.get('q');
 }
 ```
 
@@ -17185,27 +16452,23 @@ This is the context passed in to your server adapter's `getLoadContext()` functi
 Using the express adapter as an example:
 
 ```ts filename=server.ts
-const {
-  createRequestHandler,
-} = require("@remix-run/express");
+const { createRequestHandler } = require('@remix-run/express');
 
 app.all(
-  "*",
+  '*',
   createRequestHandler({
     getLoadContext(req, res) {
       // this becomes the loader context
       return { expressUser: req.user };
     },
-  })
+  }),
 );
 ```
 
 And then your `loader` can access it.
 
 ```tsx filename=app/routes/some-route.tsx
-export async function loader({
-  context,
-}: LoaderFunctionArgs) {
+export async function loader({ context }: LoaderFunctionArgs) {
   const { expressUser } = context;
   // ...
 }
@@ -17221,7 +16484,7 @@ export async function loader() {
   const body = JSON.stringify(users);
   return new Response(body, {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 }
@@ -17230,7 +16493,7 @@ export async function loader() {
 Using the [`json` helper][json] simplifies this, so you don't have to construct them yourself, but these two examples are effectively the same!
 
 ```tsx
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
 export const loader = async () => {
   const users = await fakeDb.users.findMany();
@@ -17241,17 +16504,15 @@ export const loader = async () => {
 You can see how `json` just does a little of the work to make your `loader` a lot cleaner. You can also use the `json` helper to add headers or a status code to your response:
 
 ```tsx
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const project = await fakeDb.project.findOne({
     where: { id: params.id },
   });
 
   if (!project) {
-    return json("Project not found", { status: 404 });
+    return json('Project not found', { status: 404 });
   }
 
   return json(project);
@@ -17273,61 +16534,49 @@ Along with returning responses, you can also throw `Response` objects from your 
 Here is a full example showing how you can create utility functions that throw responses to stop code execution in the loader and show an alternative UI.
 
 ```ts filename=app/db.ts
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
 export function getInvoice(id) {
   const invoice = db.invoice.find({ where: { id } });
   if (invoice === null) {
-    throw json("Not Found", { status: 404 });
+    throw json('Not Found', { status: 404 });
   }
   return invoice;
 }
 ```
 
 ```ts filename=app/http.ts
-import { redirect } from "@remix-run/node"; // or cloudflare/deno
+import { redirect } from '@remix-run/node'; // or cloudflare/deno
 
-import { getSession } from "./session";
+import { getSession } from './session';
 
 export async function requireUserSession(request) {
-  const session = await getSession(
-    request.headers.get("cookie")
-  );
+  const session = await getSession(request.headers.get('cookie'));
   if (!session) {
     // You can throw our helpers like `redirect` and `json` because they
     // return `Response` objects. A `redirect` response will redirect to
     // another URL, while other  responses will trigger the UI rendered
     // in the `ErrorBoundary`.
-    throw redirect("/login", 302);
+    throw redirect('/login', 302);
   }
-  return session.get("user");
+  return session.get('user');
 }
 ```
 
 ```tsx filename=app/routes/invoice.$invoiceId.tsx
-import type { LoaderFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import {
-  isRouteErrorResponse,
-  useLoaderData,
-  useRouteError,
-} from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { isRouteErrorResponse, useLoaderData, useRouteError } from '@remix-run/react';
 
-import { getInvoice } from "~/db";
-import { requireUserSession } from "~/http";
+import { getInvoice } from '@/db';
+import { requireUserSession } from '@/http';
 
-export const loader = async ({
-  params,
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const user = await requireUserSession(request);
   const invoice = getInvoice(params.invoiceId);
 
   if (!invoice.userIds.includes(user.id)) {
-    throw json(
-      { invoiceOwnerEmail: invoice.owner.email },
-      { status: 401 }
-    );
+    throw json({ invoiceOwnerEmail: invoice.owner.email }, { status: 401 });
   }
 
   return json(invoice);
@@ -17347,10 +16596,7 @@ export function ErrorBoundary() {
         return (
           <div>
             <p>You don't have access to this invoice.</p>
-            <p>
-              Contact {error.data.invoiceOwnerEmail} to get
-              access
-            </p>
+            <p>Contact {error.data.invoiceOwnerEmail} to get access</p>
           </div>
         );
       case 404:
@@ -17359,18 +16605,12 @@ export function ErrorBoundary() {
 
     return (
       <div>
-        Something went wrong: {error.status}{" "}
-        {error.statusText}
+        Something went wrong: {error.status} {error.statusText}
       </div>
     );
   }
 
-  return (
-    <div>
-      Something went wrong:{" "}
-      {error?.message || "Unknown Error"}
-    </div>
-  );
+  return <div>Something went wrong: {error?.message || 'Unknown Error'}</div>;
 }
 ```
 
@@ -17384,14 +16624,13 @@ export function ErrorBoundary() {
 [response]: https://developer.mozilla.org/en-US/docs/Web/API/Response
 [headers]: ../route/headers
 
-
----
-File: ./route/meta.md
 ---
 
+## File: ./route/meta.md
+
 ---
-title: meta
----
+
+## title: meta
 
 # `meta`
 
@@ -17402,14 +16641,14 @@ The `meta` function should return an array of `MetaDescriptor` objects. These ob
 ```tsx
 export const meta: MetaFunction = () => {
   return [
-    { title: "Very cool app | Remix" },
+    { title: 'Very cool app | Remix' },
     {
-      property: "og:title",
-      content: "Very cool app",
+      property: 'og:title',
+      content: 'Very cool app',
     },
     {
-      name: "description",
-      content: "This app is the best",
+      name: 'description',
+      content: 'This app is the best',
     },
   ];
 };
@@ -17418,8 +16657,7 @@ export const meta: MetaFunction = () => {
 produces this HTML:
 
 ```html
-<title>Very cool app | Remix</title>
-<meta property="og:title" content="Very cool app" />;
+<title>Very cool app | Remix</title> <meta property="og:title" content="Very cool app" />;
 <meta name="description" content="This app is the best" />
 ```
 
@@ -17432,11 +16670,11 @@ By default, meta descriptors will render a [`<meta>` tag][meta-element] in most 
 export const meta: MetaFunction = () => {
   return [
     {
-      "script:ld+json": {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        name: "Remix",
-        url: "https://remix.run",
+      'script:ld+json': {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Remix',
+        url: 'https://remix.run',
       },
     },
   ];
@@ -17449,9 +16687,9 @@ A meta descriptor can also render a [`<link>` tag][link-element] by setting the 
 export const meta: MetaFunction = () => {
   return [
     {
-      tagName: "link",
-      rel: "canonical",
-      href: "https://remix.run",
+      tagName: 'link',
+      rel: 'canonical',
+      href: 'https://remix.run',
     },
   ];
 };
@@ -17465,9 +16703,7 @@ This is the current router `Location` object. This is useful for generating tags
 
 ```tsx
 export const meta: MetaFunction = ({ location }) => {
-  const searchQuery = new URLSearchParams(
-    location.search
-  ).get("q");
+  const searchQuery = new URLSearchParams(location.search).get('q');
   return [{ title: `Search results for "${searchQuery}"` }];
 };
 ```
@@ -17483,17 +16719,13 @@ The interface for `matches` is similar to the return value of [`useMatches`][use
 This is the data from your route's [`loader`][loader].
 
 ```tsx
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   return json({
     task: await getTask(params.projectId, params.taskId),
   });
 }
 
-export const meta: MetaFunction<typeof loader> = ({
-  data,
-}) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: data.task.name }];
 };
 ```
@@ -17508,7 +16740,7 @@ Thrown errors that trigger error boundaries will be passed to the `meta` functio
 
 ```tsx
 export const meta: MetaFunction = ({ error }) => {
-  return [{ title: error ? "oops!" : "Actual title" }];
+  return [{ title: error ? 'oops!' : 'Actual title' }];
 };
 ```
 
@@ -17517,21 +16749,17 @@ export const meta: MetaFunction = ({ error }) => {
 In addition to the current route's data, often you'll want to access data from a route higher up in the route hierarchy. You can look it up by its route ID in [`matches`][matches].
 
 ```tsx filename=app/routes/project.$pid.tasks.$tid.tsx
-import type { loader as projectDetailsLoader } from "./project.$pid";
+import type { loader as projectDetailsLoader } from './project.$pid';
 
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   return json({ task: await getTask(params.tid) });
 }
 
 export const meta: MetaFunction<
   typeof loader,
-  { "routes/project.$pid": typeof projectDetailsLoader }
+  { 'routes/project.$pid': typeof projectDetailsLoader }
 > = ({ data, matches }) => {
-  const project = matches.find(
-    (match) => match.id === "routes/project.$pid"
-  ).data.project;
+  const project = matches.find((match) => match.id === 'routes/project.$pid').data.project;
   const task = data.task;
   return [{ title: `${project.name}: ${task.name}` }];
 };
@@ -17551,24 +16779,22 @@ Consider a route like `/projects/123`, there are likely three matching routes: `
 export const meta: MetaFunction = () => {
   return [
     {
-      name: "viewport",
-      content: "width=device-width,initial-scale=1",
+      name: 'viewport',
+      content: 'width=device-width,initial-scale=1',
     },
-    { title: "New Remix App" },
+    { title: 'New Remix App' },
   ];
 };
 ```
 
 ```tsx bad filename=app/routes/projects.tsx
 export const meta: MetaFunction = () => {
-  return [{ title: "Projects" }];
+  return [{ title: 'Projects' }];
 };
 ```
 
 ```tsx bad filename=app/routes/projects.$id.tsx
-export const meta: MetaFunction<typeof loader> = ({
-  data,
-}) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: data.project.name }];
 };
 ```
@@ -17580,22 +16806,14 @@ With this code, we will lose the `viewport` meta tag at `/projects` and `/projec
 Nearly every app will have global meta like the `viewport` and `charSet`. We recommend using normal [`<meta>` tags][meta-element] inside the [root route][root-route] instead of the `meta` export, so you simply don't have to deal with merging:
 
 ```tsx filename=app/root.tsx lines=[12-16]
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-} from "@remix-run/react";
+import { Links, Meta, Outlet, Scripts } from '@remix-run/react';
 
 export default function App() {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
@@ -17618,10 +16836,8 @@ Usually you only need to add `meta` to what the parent has already defined. You 
 
 ```tsx
 export const meta: MetaFunction = ({ matches }) => {
-  const parentMeta = matches.flatMap(
-    (match) => match.meta ?? []
-  );
-  return [...parentMeta, { title: "Projects" }];
+  const parentMeta = matches.flatMap((match) => match.meta ?? []);
+  return [...parentMeta, { title: 'Projects' }];
 };
 ```
 
@@ -17631,8 +16847,8 @@ Note that this _will not_ override something like `title`. This is only additive
 export const meta: MetaFunction = ({ matches }) => {
   const parentMeta = matches
     .flatMap((match) => match.meta ?? [])
-    .filter((meta) => !("title" in meta));
-  return [...parentMeta, { title: "Projects" }];
+    .filter((meta) => !('title' in meta));
+  return [...parentMeta, { title: 'Projects' }];
 };
 ```
 
@@ -17655,21 +16871,20 @@ If you can't avoid the merge problem with global meta or index routes, we've cre
 [array-filter]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
 [merge-meta]: https://gist.github.com/ryanflorence/ec1849c6d690cfbffcb408ecd633e069
 
-
----
-File: ./route/should-revalidate.md
 ---
 
+## File: ./route/should-revalidate.md
+
 ---
-title: shouldRevalidate
----
+
+## title: shouldRevalidate
 
 # `shouldRevalidate`
 
 This function lets apps optimize which routes data should be reloaded after actions and for client-side navigations.
 
 ```tsx
-import type { ShouldRevalidateFunction } from "@remix-run/react";
+import type { ShouldRevalidateFunction } from '@remix-run/react';
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({
   actionResult,
@@ -17705,10 +16920,7 @@ export async function action() {
   return { ok: true };
 }
 
-export function shouldRevalidate({
-  actionResult,
-  defaultShouldRevalidate,
-}) {
+export function shouldRevalidate({ actionResult, defaultShouldRevalidate }) {
   if (actionResult?.ok) {
     return false;
   }
@@ -17728,9 +16940,7 @@ Remix will only call the loader for `tasks/def` because the param for `projects/
 It's safest to always return `defaultShouldRevalidate` after you've done your specific optimizations that return `false`, otherwise your UI might get out of sync with your data on the server.
 
 ```tsx
-export function shouldRevalidate({
-  defaultShouldRevalidate,
-}) {
+export function shouldRevalidate({ defaultShouldRevalidate }) {
   if (whateverConditionsYouCareAbout) {
     return false;
   }
@@ -17757,20 +16967,14 @@ For instance, consider an event slug with the id and a human-friendly title:
 - `/events/blink-182-little-caesars-arena-detroit--e87ad`
 
 ```tsx filename=app/routes/events.$slug.tsx
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
-  const id = params.slug.split("--")[1];
+export async function loader({ params }: LoaderFunctionArgs) {
+  const id = params.slug.split('--')[1];
   return loadEvent(id);
 }
 
-export function shouldRevalidate({
-  currentParams,
-  nextParams,
-  defaultShouldRevalidate,
-}) {
-  const currentId = currentParams.slug.split("--")[1];
-  const nextId = nextParams.slug.split("--")[1];
+export function shouldRevalidate({ currentParams, nextParams, defaultShouldRevalidate }) {
+  const currentId = currentParams.slug.split('--')[1];
+  const nextId = nextParams.slug.split('--')[1];
   if (currentId === nextId) {
     return false;
   }
@@ -17855,20 +17059,17 @@ And let's say the UI looks something like this:
 The `$projectId.activity.tsx` loader can use the search params to filter the list, so visiting a URL like `/projects/design-revamp/activity?search=image` could filter the list of results. Maybe it looks something like this:
 
 ```tsx filename=app/routes/$projectId.activity.tsx lines=[11]
-export async function loader({
-  params,
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   return json(
     await exampleDb.activity.findAll({
       where: {
         projectId: params.projectId,
         name: {
-          contains: url.searchParams.get("search"),
+          contains: url.searchParams.get('search'),
         },
       },
-    })
+    }),
   );
 }
 ```
@@ -17878,9 +17079,7 @@ This is great for the activity route, but Remix doesn't know if the parent loade
 In this UI, that's wasted bandwidth for the user, your server, and your database because `$projectId.tsx` doesn't use the search params. Consider that our loader for `$projectId.tsx` looks something like this:
 
 ```tsx filename=app/routes/$projectId.tsx
-export async function loader({
-  params,
-}: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const data = await fakedb.findProject(params.projectId);
   return json(data);
 }
@@ -17900,10 +17099,7 @@ export function shouldRevalidate({
   formMethod,
   defaultShouldRevalidate,
 }) {
-  if (
-    formMethod === "GET" &&
-    currentParams.projectId === nextParams.projectId
-  ) {
+  if (formMethod === 'GET' && currentParams.projectId === nextParams.projectId) {
     return false;
   }
 
@@ -17914,14 +17110,13 @@ export function shouldRevalidate({
 [url-params]: ../file-conventions/routes#dynamic-segments
 [userevalidator]: ../hooks/use-revalidator
 
-
----
-File: ./start/changelog.md
 ---
 
+## File: ./start/changelog.md
+
 ---
-title: Changelog
----
+
+## title: Changelog
 
 # Changelog
 
@@ -17929,15 +17124,16 @@ See the detailed changelog for each release on [GitHub][changelog].
 
 [changelog]: https://github.com/remix-run/remix/blob/main/CHANGELOG.md
 
-
----
-File: ./start/community.md
 ---
 
+## File: ./start/community.md
+
 ---
+
 title: Community
 description: Community resources for learning Remix and related technologies
 order: 4
+
 ---
 
 # Community
@@ -17980,14 +17176,15 @@ To that end, please keep in mind [our code of conduct][our-code-of-conduct].
 [remix-guide]: https://remix.guide
 [twitter]: https://twitter.com/remix_run
 
-
----
-File: ./start/future-flags.md
 ---
 
+## File: ./start/future-flags.md
+
 ---
+
 title: Future Flags
 order: 5
+
 ---
 
 # Future Flags and Deprecations
@@ -18052,8 +17249,8 @@ npm install -D vite
 👉 **Replace `remix.config.js` with `vite.config.ts` at the root of your Remix app**
 
 ```ts filename=vite.config.ts
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [remix()],
@@ -18066,7 +17263,7 @@ The subset of [supported Remix config options][supported-remix-config-options] s
 export default defineConfig({
   plugins: [
     remix({
-      ignoredRouteFiles: ["**/*.css"],
+      ignoredRouteFiles: ['**/*.css'],
     }),
   ],
 });
@@ -18157,9 +17354,9 @@ npm install -D vite-tsconfig-paths
 👉 **Add `vite-tsconfig-paths` to your Vite config**
 
 ```ts filename=vite.config.ts lines=[3,6]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [remix(), tsconfigPaths()],
@@ -18389,11 +17586,11 @@ With this flag, Remix uses a single fetch for data requests during client-side n
 👉 **Enable the Flag (and the types)**
 
 ```ts filename=vite.config.ts lines=[5-10,16]
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
-declare module "@remix-run/node" {
+declare module '@remix-run/node' {
   // or cloudflare, deno, etc.
   interface Future {
     v3_singleFetch: true;
@@ -18547,7 +17744,7 @@ touch app/routes.ts
 ```
 
 ```ts filename=app/routes.ts
-import type { RouteConfig } from "@remix-run/route-config";
+import type { RouteConfig } from '@remix-run/route-config';
 
 export default [] satisfies RouteConfig;
 ```
@@ -18565,7 +17762,7 @@ This package matches the API of React Router v7's `@react-router/fs-routes`, mak
 > If you've configured `ignoredRouteFiles` to `["**/*"]`, you should skip this step since you're already opting out of Remix's file system routing.
 
 ```ts filename=app/routes.ts
-import { flatRoutes } from "@remix-run/fs-routes";
+import { flatRoutes } from '@remix-run/fs-routes';
 
 export default flatRoutes();
 ```
@@ -18589,29 +17786,29 @@ Then, update your `routes.ts` file to use the adapter, passing the value of your
 For example, if you were using the `routes` option to use an alternative file system routing implementation like [remix-flat-routes]:
 
 ```ts filename=app/routes.ts
-import { type RouteConfig } from "@remix-run/route-config";
-import { remixRoutesOptionAdapter } from "@remix-run/routes-option-adapter";
-import { flatRoutes } from "remix-flat-routes";
+import { type RouteConfig } from '@remix-run/route-config';
+import { remixRoutesOptionAdapter } from '@remix-run/routes-option-adapter';
+import { flatRoutes } from 'remix-flat-routes';
 
 export default remixRoutesOptionAdapter((defineRoutes) =>
-  flatRoutes("routes", defineRoutes)
+  flatRoutes('routes', defineRoutes),
 ) satisfies RouteConfig;
 ```
 
 Or, if you were using the `routes` option to define config-based routes:
 
 ```ts filename=app/routes.ts
-import { flatRoutes } from "@remix-run/fs-routes";
-import { type RouteConfig } from "@remix-run/route-config";
-import { remixRoutesOptionAdapter } from "@remix-run/routes-option-adapter";
+import { flatRoutes } from '@remix-run/fs-routes';
+import { type RouteConfig } from '@remix-run/route-config';
+import { remixRoutesOptionAdapter } from '@remix-run/routes-option-adapter';
 
 export default remixRoutesOptionAdapter((defineRoutes) => {
   return defineRoutes((route) => {
-    route("/", "home/route.tsx", { index: true });
-    route("about", "about/route.tsx");
-    route("", "concerts/layout.tsx", () => {
-      route("trending", "concerts/trending.tsx");
-      route(":city", "concerts/city.tsx");
+    route('/', 'home/route.tsx', { index: true });
+    route('about', 'about/route.tsx');
+    route('', 'concerts/layout.tsx', () => {
+      route('trending', 'concerts/trending.tsx');
+      route(':city', 'concerts/city.tsx');
     });
   });
 }) satisfies RouteConfig;
@@ -18620,19 +17817,14 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 If you're defining config-based routes in this way, you might want to consider migrating to the new route config API since it's more streamlined while still being very similar to the old API. For example, the routes above would look like this:
 
 ```ts
-import {
-  type RouteConfig,
-  route,
-  layout,
-  index,
-} from "@remix-run/route-config";
+import { type RouteConfig, route, layout, index } from '@remix-run/route-config';
 
 export default [
-  index("home/route.tsx"),
-  route("about", "about/route.tsx"),
-  layout("concerts/layout.tsx", [
-    route("trending", "concerts/trending.tsx"),
-    route(":city", "concerts/city.tsx"),
+  index('home/route.tsx'),
+  route('about', 'about/route.tsx'),
+  layout('concerts/layout.tsx', [
+    route('trending', 'concerts/trending.tsx'),
+    route(':city', 'concerts/city.tsx'),
   ]),
 ] satisfies RouteConfig;
 ```
@@ -18640,17 +17832,17 @@ export default [
 Note that if you need to mix and match different route config approaches, they can be merged together into a single array of routes. The `RouteConfig` type ensures that everything is still valid.
 
 ```ts
-import { flatRoutes } from "@remix-run/fs-routes";
-import type { RouteConfig } from "@remix-run/route-config";
-import { route } from "@remix-run/route-config";
-import { remixRoutesOptionAdapter } from "@remix-run/routes-option-adapter";
+import { flatRoutes } from '@remix-run/fs-routes';
+import type { RouteConfig } from '@remix-run/route-config';
+import { route } from '@remix-run/route-config';
+import { remixRoutesOptionAdapter } from '@remix-run/routes-option-adapter';
 
 export default [
-  ...(await flatRoutes({ rootDirectory: "fs-routes" })),
+  ...(await flatRoutes({ rootDirectory: 'fs-routes' })),
 
   ...(await remixRoutesOptionAdapter(/* ... */)),
 
-  route("/hello", "routes/hello.tsx"),
+  route('/hello', 'routes/hello.tsx'),
 ] satisfies RouteConfig;
 ```
 
@@ -18735,24 +17927,26 @@ You can also checkout the [React Router "File Uploads" doc][react-router-file-up
 [file-uploads-with-remix]: https://programmingarehard.com/2024/09/06/remix-file-uploads-updated.html/
 [react-router-file-uploads]: https://reactrouter.com/how-to/file-uploads
 
-
----
-File: ./start/index.md
 ---
 
+## File: ./start/index.md
+
 ---
+
 title: Getting Started
 order: 1
----
 
-
----
-File: ./start/quickstart.md
 ---
 
 ---
+
+## File: ./start/quickstart.md
+
+---
+
 title: Quick Start (5m)
 order: 1
+
 ---
 
 # Quick Start
@@ -18794,8 +17988,8 @@ touch vite.config.js
 Since Remix uses [Vite], you'll need to provide a [Vite config][vite-config] with the Remix Vite plugin. Here's the basic configuration you'll need:
 
 ```js filename=vite.config.js
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig } from "vite";
+import { vitePlugin as remix } from '@remix-run/dev';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [remix()],
@@ -18812,21 +18006,13 @@ touch app/root.jsx
 `app/root.jsx` is what we call the "Root Route". It's the root layout of your entire app. Here's the basic set of elements you'll need for any project:
 
 ```jsx filename=app/root.jsx
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-} from "@remix-run/react";
+import { Links, Meta, Outlet, Scripts } from '@remix-run/react';
 
 export default function App() {
   return (
     <html>
       <head>
-        <link
-          rel="icon"
-          href="data:image/x-icon;base64,AA"
-        />
+        <link rel="icon" href="data:image/x-icon;base64,AA" />
         <Meta />
         <Links />
       </head>
@@ -18857,7 +18043,7 @@ First you will need to specify the type in `package.json` as module so that `rem
 
 ```jsonc filename=package.json lines=[2] nocopy
 {
-  "type": "module"
+  "type": "module",
   // ...
 }
 ```
@@ -18904,20 +18090,20 @@ touch server.js
 ```
 
 ```js filename=server.js
-import { createRequestHandler } from "@remix-run/express";
-import express from "express";
+import { createRequestHandler } from '@remix-run/express';
+import express from 'express';
 
 // notice that the result of `remix vite:build` is "just a module"
-import * as build from "./build/server/index.js";
+import * as build from './build/server/index.js';
 
 const app = express();
-app.use(express.static("build/client"));
+app.use(express.static('build/client'));
 
 // and your app is "just a request handler"
-app.all("*", createRequestHandler({ build }));
+app.all('*', createRequestHandler({ build }));
 
 app.listen(3000, () => {
-  console.log("App listening on http://localhost:3000");
+  console.log('App listening on http://localhost:3000');
 });
 ```
 
@@ -18945,8 +18131,8 @@ First, as a convenience, add `dev` and `start` commands in `package.json` that w
 {
   "scripts": {
     "dev": "node ./server.js",
-    "start": "cross-env NODE_ENV=production node ./server.js"
-  }
+    "start": "cross-env NODE_ENV=production node ./server.js",
+  },
   // ...
 }
 ```
@@ -18956,36 +18142,29 @@ First, as a convenience, add `dev` and `start` commands in `package.json` that w
 Vite middleware is not applied if `process.env.NODE_ENV` is set to `"production"`, in which case you'll still be running the regular build output as you did earlier.
 
 ```js filename=server.js lines=[4-11,14-18,20-25]
-import { createRequestHandler } from "@remix-run/express";
-import express from "express";
+import { createRequestHandler } from '@remix-run/express';
+import express from 'express';
 
 const viteDevServer =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === 'production'
     ? null
-    : await import("vite").then((vite) =>
+    : await import('vite').then((vite) =>
         vite.createServer({
           server: { middlewareMode: true },
-        })
+        }),
       );
 
 const app = express();
-app.use(
-  viteDevServer
-    ? viteDevServer.middlewares
-    : express.static("build/client")
-);
+app.use(viteDevServer ? viteDevServer.middlewares : express.static('build/client'));
 
 const build = viteDevServer
-  ? () =>
-      viteDevServer.ssrLoadModule(
-        "virtual:remix/server-build"
-      )
-  : await import("./build/server/index.js");
+  ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
+  : await import('./build/server/index.js');
 
-app.all("*", createRequestHandler({ build }));
+app.all('*', createRequestHandler({ build }));
 
 app.listen(3000, () => {
-  console.log("App listening on http://localhost:3000");
+  console.log('App listening on http://localhost:3000');
 });
 ```
 
@@ -19041,14 +18220,15 @@ What's next?
 [remix-now-react-router]: https://remix.run/blog/incremental-path-to-react-19
 [react-router-get-started]: https://reactrouter.com/start/framework/installation
 
-
----
-File: ./start/tutorial.md
 ---
 
+## File: ./start/tutorial.md
+
 ---
+
 title: Tutorial (30m)
 order: 2
+
 ---
 
 # Remix Tutorial
@@ -19099,23 +18279,14 @@ Note the file at `app/root.tsx`. This is what we call the "Root Route". It's the
 <summary>Expand here to see the root component code</summary>
 
 ```tsx filename=app/root.tsx
-import {
-  Form,
-  Links,
-  Meta,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { Form, Links, Meta, Scripts, ScrollRestoration } from '@remix-run/react';
 
 export default function App() {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
@@ -19131,11 +18302,7 @@ export default function App() {
                 placeholder="Search"
                 type="search"
               />
-              <div
-                aria-hidden
-                hidden={true}
-                id="search-spinner"
-              />
+              <div aria-hidden hidden={true} id="search-spinner" />
             </Form>
             <Form method="post">
               <button type="submit">New</button>
@@ -19172,14 +18339,12 @@ You can import CSS files directly into JavaScript modules. Vite will fingerprint
 👉 **Import the app styles**
 
 ```tsx filename=app/root.tsx lines=[1,4,6-8]
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction } from '@remix-run/node';
 // existing imports
 
-import appStylesHref from "./app.css?url";
+import appStylesHref from './app.css?url';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: appStylesHref },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: appStylesHref }];
 ```
 
 Every route can export a [`links`][links] function. They will be collected and rendered into the `<Links />` component we rendered in `app/root.tsx`.
@@ -19209,18 +18374,18 @@ In the Remix [route file convention][routes-file-conventions], `.` will create a
 It's just a bunch of elements, feel free to copy/paste.
 
 ```tsx filename=app/routes/contacts.$contactId.tsx
-import { Form } from "@remix-run/react";
-import type { FunctionComponent } from "react";
+import { Form } from '@remix-run/react';
+import type { FunctionComponent } from 'react';
 
-import type { ContactRecord } from "../data";
+import type { ContactRecord } from '../data';
 
 export default function Contact() {
   const contact = {
-    first: "Your",
-    last: "Name",
-    avatar: "https://placecats.com/200/200",
-    twitter: "your_handle",
-    notes: "Some notes",
+    first: 'Your',
+    last: 'Name',
+    avatar: 'https://placecats.com/200/200',
+    twitter: 'your_handle',
+    notes: 'Some notes',
     favorite: true,
   };
 
@@ -19242,17 +18407,13 @@ export default function Contact() {
             </>
           ) : (
             <i>No Name</i>
-          )}{" "}
+          )}{' '}
           <Favorite contact={contact} />
         </h1>
 
         {contact.twitter ? (
           <p>
-            <a
-              href={`https://twitter.com/${contact.twitter}`}
-            >
-              {contact.twitter}
-            </a>
+            <a href={`https://twitter.com/${contact.twitter}`}>{contact.twitter}</a>
           </p>
         ) : null}
 
@@ -19267,9 +18428,7 @@ export default function Contact() {
             action="destroy"
             method="post"
             onSubmit={(event) => {
-              const response = confirm(
-                "Please confirm you want to delete this record."
-              );
+              const response = confirm('Please confirm you want to delete this record.');
               if (!response) {
                 event.preventDefault();
               }
@@ -19284,22 +18443,18 @@ export default function Contact() {
 }
 
 const Favorite: FunctionComponent<{
-  contact: Pick<ContactRecord, "favorite">;
+  contact: Pick<ContactRecord, 'favorite'>;
 }> = ({ contact }) => {
   const favorite = contact.favorite;
 
   return (
     <Form method="post">
       <button
-        aria-label={
-          favorite
-            ? "Remove from favorites"
-            : "Add to favorites"
-        }
+        aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
         name="favorite"
-        value={favorite ? "false" : "true"}
+        value={favorite ? 'false' : 'true'}
       >
-        {favorite ? "★" : "☆"}
+        {favorite ? '★' : '☆'}
       </button>
     </Form>
   );
@@ -19318,14 +18473,7 @@ Since Remix is built on top of React Router, it supports nested routing. In orde
 
 ```tsx filename=app/root.tsx lines=[6,19-21]
 // existing imports
-import {
-  Form,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { Form, Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
 // existing imports & code
 
@@ -19359,15 +18507,7 @@ Client side routing allows our app to update the URL without requesting another 
 
 ```tsx filename=app/root.tsx lines=[4,24,27]
 // existing imports
-import {
-  Form,
-  Link,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { Form, Link, Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
 // existing imports & exports
 
@@ -19417,7 +18557,7 @@ There are two APIs we'll be using to load data, [`loader`][loader] and [`useLoad
 
 ```tsx filename=app/root.tsx lines=[2,11,15,19-22,25,34-57]
 // existing imports
-import { json } from "@remix-run/node";
+import { json } from '@remix-run/node';
 import {
   Form,
   Link,
@@ -19427,10 +18567,10 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-} from "@remix-run/react";
+} from '@remix-run/react';
 
 // existing imports
-import { getContacts } from "./data";
+import { getContacts } from './data';
 
 // existing exports
 
@@ -19460,10 +18600,8 @@ export default function App() {
                         </>
                       ) : (
                         <i>No Name</i>
-                      )}{" "}
-                      {contact.favorite ? (
-                        <span>★</span>
-                      ) : null}
+                      )}{' '}
+                      {contact.favorite ? <span>★</span> : null}
                     </Link>
                   </li>
                 ))}
@@ -19519,11 +18657,11 @@ These params are most often used to find a record by ID. Let's try it out.
 <docs-info>The following code has type errors in it, we'll fix them in the next section</docs-info>
 
 ```tsx filename=app/routes/contacts.$contactId.tsx lines=[1-2,5,7-10,13]
-import { json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { Form, useLoaderData } from '@remix-run/react';
 // existing imports
 
-import { getContact } from "../data";
+import { getContact } from '../data';
 
 export const loader = async ({ params }) => {
   const contact = await getContact(params.contactId);
@@ -19546,16 +18684,14 @@ export default function Contact() {
 TypeScript is very upset with us, let's make it happy and see what that forces us to consider:
 
 ```tsx filename=app/routes/contacts.$contactId.tsx lines=[1,3,7-10]
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from '@remix-run/node';
 // existing imports
-import invariant from "tiny-invariant";
+import invariant from 'tiny-invariant';
 
 // existing imports
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
-  invariant(params.contactId, "Missing contactId param");
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  invariant(params.contactId, 'Missing contactId param');
   const contact = await getContact(params.contactId);
   return json({ contact });
 };
@@ -19572,13 +18708,11 @@ We could account for the possibility of the contact being not found in component
 ```tsx filename=app/routes/contacts.$contactId.tsx lines=[8-10]
 // existing imports
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
-  invariant(params.contactId, "Missing contactId param");
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  invariant(params.contactId, 'Missing contactId param');
   const contact = await getContact(params.contactId);
   if (!contact) {
-    throw new Response("Not Found", { status: 404 });
+    throw new Response('Not Found', { status: 404 });
   }
   return json({ contact });
 };
@@ -19613,7 +18747,7 @@ We'll create new contacts by exporting an `action` function in our root route. W
 ```tsx filename=app/root.tsx lines=[3,5-8]
 // existing imports
 
-import { createEmptyContact, getContacts } from "./data";
+import { createEmptyContact, getContacts } from './data';
 
 export const action = async () => {
   const contact = await createEmptyContact();
@@ -19658,20 +18792,18 @@ Note the weird `_` in `$contactId_`. By default, routes will automatically nest 
 Nothing we haven't seen before, feel free to copy/paste:
 
 ```tsx filename=app/routes/contacts.$contactId_.edit.tsx
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
-import invariant from "tiny-invariant";
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { Form, useLoaderData } from '@remix-run/react';
+import invariant from 'tiny-invariant';
 
-import { getContact } from "../data";
+import { getContact } from '../data';
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
-  invariant(params.contactId, "Missing contactId param");
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  invariant(params.contactId, 'Missing contactId param');
   const contact = await getContact(params.contactId);
   if (!contact) {
-    throw new Response("Not Found", { status: 404 });
+    throw new Response('Not Found', { status: 404 });
   }
   return json({ contact });
 };
@@ -19700,12 +18832,7 @@ export default function EditContact() {
       </p>
       <label>
         <span>Twitter</span>
-        <input
-          defaultValue={contact.twitter}
-          name="twitter"
-          placeholder="@jack"
-          type="text"
-        />
+        <input defaultValue={contact.twitter} name="twitter" placeholder="@jack" type="text" />
       </label>
       <label>
         <span>Avatar URL</span>
@@ -19719,11 +18846,7 @@ export default function EditContact() {
       </label>
       <label>
         <span>Notes</span>
-        <textarea
-          defaultValue={contact.notes}
-          name="notes"
-          rows={6}
-        />
+        <textarea defaultValue={contact.notes} name="notes" rows={6} />
       </label>
       <p>
         <button type="submit">Save</button>
@@ -19745,20 +18868,14 @@ The edit route we just created already renders a `form`. All we need to do is ad
 👉 **Add an `action` function to the edit route**
 
 ```tsx filename=app/routes/contacts.$contactId_.edit.tsx lines=[2,5,8,10-19]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 // existing imports
 
-import { getContact, updateContact } from "../data";
+import { getContact, updateContact } from '../data';
 
-export const action = async ({
-  params,
-  request,
-}: ActionFunctionArgs) => {
-  invariant(params.contactId, "Missing contactId param");
+export const action = async ({ params, request }: ActionFunctionArgs) => {
+  invariant(params.contactId, 'Missing contactId param');
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   await updateContact(params.contactId, updates);
@@ -19795,13 +18912,10 @@ Without JavaScript, when a form is submitted, the browser will create [`FormData
 Each field in the `form` is accessible with `formData.get(name)`. For example, given the input field from above, you could access the first and last names like this:
 
 ```tsx filename=app/routes/contacts.$contactId_.edit.tsx lines=[6,7] nocopy
-export const action = async ({
-  params,
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const formData = await request.formData();
-  const firstName = formData.get("first");
-  const lastName = formData.get("last");
+  const firstName = formData.get('first');
+  const lastName = formData.get('last');
   // ...
 };
 ```
@@ -19819,11 +18933,8 @@ Aside from the `action` function, none of these APIs we're discussing are provid
 After we finished the `action`, note the [`redirect`][redirect] at the end:
 
 ```tsx filename=app/routes/contacts.$contactId_.edit.tsx lines=[9]
-export const action = async ({
-  params,
-  request,
-}: ActionFunctionArgs) => {
-  invariant(params.contactId, "Missing contactId param");
+export const action = async ({ params, request }: ActionFunctionArgs) => {
+  invariant(params.contactId, 'Missing contactId param');
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   await updateContact(params.contactId, updates);
@@ -19845,7 +18956,7 @@ Now that we know how to redirect, let's update the action that creates new conta
 
 ```tsx filename=app/root.tsx lines=[2,7]
 // existing imports
-import { json, redirect } from "@remix-run/node";
+import { json, redirect } from '@remix-run/node';
 // existing imports
 
 export const action = async () => {
@@ -19877,7 +18988,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-} from "@remix-run/react";
+} from '@remix-run/react';
 
 // existing imports and exports
 
@@ -19895,11 +19006,7 @@ export default function App() {
               <li key={contact.id}>
                 <NavLink
                   className={({ isActive, isPending }) =>
-                    isActive
-                      ? "active"
-                      : isPending
-                      ? "pending"
-                      : ""
+                    isActive ? 'active' : isPending ? 'pending' : ''
                   }
                   to={`contacts/${contact.id}`}
                 >
@@ -19941,7 +19048,7 @@ import {
   ScrollRestoration,
   useLoaderData,
   useNavigation,
-} from "@remix-run/react";
+} from '@remix-run/react';
 
 // existing imports & exports
 
@@ -19954,12 +19061,7 @@ export default function App() {
       {/* existing elements */}
       <body>
         {/* existing elements */}
-        <div
-          className={
-            navigation.state === "loading" ? "loading" : ""
-          }
-          id="detail"
-        >
+        <div className={navigation.state === 'loading' ? 'loading' : ''} id="detail">
           <Outlet />
         </div>
         {/* existing elements */}
@@ -19984,9 +19086,7 @@ If we review code in the contact route, we can find the delete button looks like
   action="destroy"
   method="post"
   onSubmit={(event) => {
-    const response = confirm(
-      "Please confirm you want to delete this record."
-    );
+    const response = confirm('Please confirm you want to delete this record.');
     if (!response) {
       event.preventDefault();
     }
@@ -20014,18 +19114,16 @@ touch app/routes/contacts.\$contactId_.destroy.tsx
 👉 **Add the destroy action**
 
 ```tsx filename=app/routes/contacts.$contactId_.destroy.tsx
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import invariant from "tiny-invariant";
+import type { ActionFunctionArgs } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
+import invariant from 'tiny-invariant';
 
-import { deleteContact } from "../data";
+import { deleteContact } from '../data';
 
-export const action = async ({
-  params,
-}: ActionFunctionArgs) => {
-  invariant(params.contactId, "Missing contactId param");
+export const action = async ({ params }: ActionFunctionArgs) => {
+  invariant(params.contactId, 'Missing contactId param');
   await deleteContact(params.contactId);
-  return redirect("/");
+  return redirect('/');
 };
 ```
 
@@ -20065,8 +19163,7 @@ export default function Index() {
     <p id="index-page">
       This is a demo for Remix.
       <br />
-      Check out{" "}
-      <a href="https://remix.run">the docs at remix.run</a>.
+      Check out <a href="https://remix.run">the docs at remix.run</a>.
     </p>
   );
 }
@@ -20088,11 +19185,7 @@ We'll need a click handler on the button as well as [`useNavigate`][use-navigate
 
 ```tsx filename=app/routes/contacts.$contactId_.edit.tsx lines=[5,11,18]
 // existing imports
-import {
-  Form,
-  useLoaderData,
-  useNavigate,
-} from "@remix-run/react";
+import { Form, useLoaderData, useNavigate } from '@remix-run/react';
 // existing imports & exports
 
 export default function EditContact() {
@@ -20142,18 +19235,13 @@ Since it's not `<Form method="post">`, Remix emulates the browser by serializing
 👉 **Filter the list if there are `URLSearchParams`**
 
 ```tsx filename=app/root.tsx lines=[3,8-13]
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 
 // existing imports & exports
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
-  const q = url.searchParams.get("q");
+  const q = url.searchParams.get('q');
   const contacts = await getContacts(q);
   return json({ contacts });
 };
@@ -20183,11 +19271,9 @@ Let's solve (2) first and start the input with the value from the URL.
 ```tsx filename=app/root.tsx lines=[9,13,26]
 // existing imports & exports
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
-  const q = url.searchParams.get("q");
+  const q = url.searchParams.get('q');
   const contacts = await getContacts(q);
   return json({ contacts, q });
 };
@@ -20206,7 +19292,7 @@ export default function App() {
             <Form id="search-form" role="search">
               <input
                 aria-label="Search contacts"
-                defaultValue={q || ""}
+                defaultValue={q || ''}
                 id="q"
                 name="q"
                 placeholder="Search"
@@ -20233,7 +19319,7 @@ Now for problem (1), clicking the back button and updating the input. We can bri
 
 ```tsx filename=app/root.tsx lines=[2,10-15]
 // existing imports
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 // existing imports & exports
 
@@ -20242,9 +19328,9 @@ export default function App() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const searchField = document.getElementById("q");
+    const searchField = document.getElementById('q');
     if (searchField instanceof HTMLInputElement) {
-      searchField.value = q || "";
+      searchField.value = q || '';
     }
   }, [q]);
 
@@ -20262,7 +19348,7 @@ You could certainly do this as a controlled component. You will have more synchr
 
 ```tsx filename=app/root.tsx lines=[2,9-10,12-16,30-33,36-37]
 // existing imports
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 // existing imports & exports
 
@@ -20270,12 +19356,12 @@ export default function App() {
   const { contacts, q } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
   // the query now needs to be kept in state
-  const [query, setQuery] = useState(q || "");
+  const [query, setQuery] = useState(q || '');
 
   // we still have a `useEffect` to synchronize the query
   // to the component state on back/forward button clicks
   useEffect(() => {
-    setQuery(q || "");
+    setQuery(q || '');
   }, [q]);
 
   return (
@@ -20291,9 +19377,7 @@ export default function App() {
                 id="q"
                 name="q"
                 // synchronize user's input to component state
-                onChange={(event) =>
-                  setQuery(event.currentTarget.value)
-                }
+                onChange={(event) => setQuery(event.currentTarget.value)}
                 placeholder="Search"
                 type="search"
                 // switched to `value` from `defaultValue`
@@ -20335,7 +19419,7 @@ import {
   useLoaderData,
   useNavigation,
   useSubmit,
-} from "@remix-run/react";
+} from '@remix-run/react';
 // existing imports & exports
 
 export default function App() {
@@ -20352,13 +19436,7 @@ export default function App() {
         <div id="sidebar">
           {/* existing elements */}
           <div>
-            <Form
-              id="search-form"
-              onChange={(event) =>
-                submit(event.currentTarget)
-              }
-              role="search"
-            >
+            <Form id="search-form" onChange={(event) => submit(event.currentTarget)} role="search">
               {/* existing elements */}
             </Form>
             {/* existing elements */}
@@ -20393,11 +19471,7 @@ export default function App() {
   const { contacts, q } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
   const submit = useSubmit();
-  const searching =
-    navigation.location &&
-    new URLSearchParams(navigation.location.search).has(
-      "q"
-    );
+  const searching = navigation.location && new URLSearchParams(navigation.location.search).has('q');
 
   // existing code
 }
@@ -20420,27 +19494,17 @@ export default function App() {
         <div id="sidebar">
           {/* existing elements */}
           <div>
-            <Form
-              id="search-form"
-              onChange={(event) =>
-                submit(event.currentTarget)
-              }
-              role="search"
-            >
+            <Form id="search-form" onChange={(event) => submit(event.currentTarget)} role="search">
               <input
                 aria-label="Search contacts"
-                className={searching ? "loading" : ""}
-                defaultValue={q || ""}
+                className={searching ? 'loading' : ''}
+                defaultValue={q || ''}
                 id="q"
                 name="q"
                 placeholder="Search"
                 type="search"
               />
-              <div
-                aria-hidden
-                hidden={!searching}
-                id="search-spinner"
-              />
+              <div aria-hidden hidden={!searching} id="search-spinner" />
             </Form>
             {/* existing elements */}
           </div>
@@ -20466,14 +19530,7 @@ export default function App() {
       {/* existing elements */}
       <body>
         {/* existing elements */}
-        <div
-          className={
-            navigation.state === "loading" && !searching
-              ? "loading"
-              : ""
-          }
-          id="detail"
-        >
+        <div className={navigation.state === 'loading' && !searching ? 'loading' : ''} id="detail">
           <Outlet />
         </div>
         {/* existing elements */}
@@ -20547,17 +19604,13 @@ The ★ button on the contact page makes sense for this. We aren't creating or d
 
 ```tsx filename=app/routes/contacts.$contactId.tsx lines=[4,14,18,30]
 // existing imports
-import {
-  Form,
-  useFetcher,
-  useLoaderData,
-} from "@remix-run/react";
+import { Form, useFetcher, useLoaderData } from '@remix-run/react';
 // existing imports & exports
 
 // existing code
 
 const Favorite: FunctionComponent<{
-  contact: Pick<ContactRecord, "favorite">;
+  contact: Pick<ContactRecord, 'favorite'>;
 }> = ({ contact }) => {
   const fetcher = useFetcher();
   const favorite = contact.favorite;
@@ -20565,15 +19618,11 @@ const Favorite: FunctionComponent<{
   return (
     <fetcher.Form method="post">
       <button
-        aria-label={
-          favorite
-            ? "Remove from favorites"
-            : "Add to favorites"
-        }
+        aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
         name="favorite"
-        value={favorite ? "false" : "true"}
+        value={favorite ? 'false' : 'true'}
       >
-        {favorite ? "★" : "☆"}
+        {favorite ? '★' : '☆'}
       </button>
     </fetcher.Form>
   );
@@ -20585,23 +19634,17 @@ This form will no longer cause a navigation, but simply fetch to the `action`. S
 👉 **Create the `action`**
 
 ```tsx filename=app/routes/contacts.$contactId.tsx lines=[2,7,10-19]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 // existing imports
 
-import { getContact, updateContact } from "../data";
+import { getContact, updateContact } from '../data';
 // existing imports
 
-export const action = async ({
-  params,
-  request,
-}: ActionFunctionArgs) => {
-  invariant(params.contactId, "Missing contactId param");
+export const action = async ({ params, request }: ActionFunctionArgs) => {
+  invariant(params.contactId, 'Missing contactId param');
   const formData = await request.formData();
   return updateContact(params.contactId, {
-    favorite: formData.get("favorite") === "true",
+    favorite: formData.get('favorite') === 'true',
   });
 };
 
@@ -20630,25 +19673,21 @@ The fetcher knows the [`FormData`][form-data] being submitted to the `action`, s
 // existing code
 
 const Favorite: FunctionComponent<{
-  contact: Pick<ContactRecord, "favorite">;
+  contact: Pick<ContactRecord, 'favorite'>;
 }> = ({ contact }) => {
   const fetcher = useFetcher();
   const favorite = fetcher.formData
-    ? fetcher.formData.get("favorite") === "true"
+    ? fetcher.formData.get('favorite') === 'true'
     : contact.favorite;
 
   return (
     <fetcher.Form method="post">
       <button
-        aria-label={
-          favorite
-            ? "Remove from favorites"
-            : "Add to favorites"
-        }
+        aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
         name="favorite"
-        value={favorite ? "false" : "true"}
+        value={favorite ? 'false' : 'true'}
       >
-        {favorite ? "★" : "☆"}
+        {favorite ? '★' : '☆'}
       </button>
     </fetcher.Form>
   );
@@ -20692,14 +19731,15 @@ That's it! Thanks for giving Remix a shot. We hope this tutorial gives you a sol
 [remix-now-react-router]: https://remix.run/blog/incremental-path-to-react-19
 [react-router-tutorial]: https://reactrouter.com/tutorials/address-book
 
-
----
-File: ./start/v2.md
 ---
 
+## File: ./start/v2.md
+
 ---
+
 title: Upgrading to v2
 order: 3
+
 ---
 
 # Upgrading to v2
@@ -20769,10 +19809,10 @@ or follow these steps:
 3. Send a "ready" message to the Remix compiler once your app is running
 
    ```ts filename=server.js lines=[1-2,11]
-   import { broadcastDevReady } from "@remix-run/node";
+   import { broadcastDevReady } from '@remix-run/node';
    // import { logDevReady } from "@remix-run/cloudflare" // use `logDevReady` if using CloudFlare
 
-   const BUILD_DIR = path.join(process.cwd(), "build");
+   const BUILD_DIR = path.join(process.cwd(), 'build');
 
    // ... code setting up your server goes here ...
 
@@ -20825,9 +19865,7 @@ npm i -D @remix-run/v1-route-convention
 ```
 
 ```js filename=remix.config.js
-const {
-  createRoutesFromFolders,
-} = require("@remix-run/v1-route-convention");
+const { createRoutesFromFolders } = require('@remix-run/v1-route-convention');
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
@@ -20963,21 +20001,21 @@ Using the `metaV1` function, you can pass in the `meta` function's arguments and
 ```tsx bad filename=app/routes/v1-route.tsx
 export function meta() {
   return {
-    title: "...",
-    description: "...",
-    "og:title": "...",
+    title: '...',
+    description: '...',
+    'og:title': '...',
   };
 }
 ```
 
 ```tsx filename=app/routes/v2-route.tsx good
-import { metaV1 } from "@remix-run/v1-meta";
+import { metaV1 } from '@remix-run/v1-meta';
 
 export function meta(args) {
   return metaV1(args, {
-    title: "...",
-    description: "...",
-    "og:title": "...",
+    title: '...',
+    description: '...',
+    'og:title': '...',
   });
 }
 ```
@@ -20992,18 +20030,18 @@ To replicate the API of `parentsData`, the `@remix-run/v1-meta` package provides
 
 ```tsx bad filename=app/routes/v1-route.tsx
 export function meta(args) {
-  const parentData = args.parentsData["routes/parent"];
+  const parentData = args.parentsData['routes/parent'];
 }
 ```
 
 Becomes:
 
 ```tsx filename=app/routes/v2-route.tsx good
-import { getMatchesData } from "@remix-run/v1-meta";
+import { getMatchesData } from '@remix-run/v1-meta';
 
 export function meta(args) {
   const matchesData = getMatchesData(args);
-  const parentData = matchesData["routes/parent"];
+  const parentData = matchesData['routes/parent'];
 }
 ```
 
@@ -21012,9 +20050,9 @@ export function meta(args) {
 ```tsx bad filename=app/routes/v1-route.tsx
 export function meta() {
   return {
-    title: "...",
-    description: "...",
-    "og:title": "...",
+    title: '...',
+    description: '...',
+    'og:title': '...',
   };
 }
 ```
@@ -21022,17 +20060,17 @@ export function meta() {
 ```tsx filename=app/routes/v2-route.tsx good
 export function meta() {
   return [
-    { title: "..." },
-    { name: "description", content: "..." },
-    { property: "og:title", content: "..." },
+    { title: '...' },
+    { name: 'description', content: '...' },
+    { property: 'og:title', content: '...' },
 
     // you can now add SEO related <links>
-    { tagName: "link", rel: "canonical", href: "..." },
+    { tagName: 'link', rel: 'canonical', href: '...' },
 
     // and <script type=ld+json>
     {
-      "script:ld+json": {
-        some: "value",
+      'script:ld+json': {
+        some: 'value',
       },
     },
   ];
@@ -21050,18 +20088,18 @@ export function meta({ matches }) {
 
   return [
     title,
-    { name: "description", content: "..." },
-    { property: "og:title", content: "..." },
+    { name: 'description', content: '...' },
+    { property: 'og:title', content: '...' },
 
     // you can now add SEO related <links>
-    { tagName: "link", rel: "canonical", href: "..." },
+    { tagName: 'link', rel: 'canonical', href: '...' },
 
     // and <script type=ld+json>
     {
-      "script:ld+json": {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        name: "Remix",
+      'script:ld+json': {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Remix',
       },
     },
   ];
@@ -21086,7 +20124,7 @@ In v1, a thrown `Response` rendered the closest `CatchBoundary` while all other 
 Additionally, the error is no longer passed to `ErrorBoundary` as props but is accessed with the `useRouteError` hook.
 
 ```tsx bad filename=app/routes/v1-route.tsx
-import { useCatch } from "@remix-run/react";
+import { useCatch } from '@remix-run/react';
 
 export function CatchBoundary() {
   const caught = useCatch();
@@ -21106,7 +20144,7 @@ export function ErrorBoundary({ error }) {
     <div>
       <h1>Uh oh ...</h1>
       <p>Something went wrong</p>
-      <pre>{error.message || "Unknown error"}</pre>
+      <pre>{error.message || 'Unknown error'}</pre>
     </div>
   );
 }
@@ -21115,10 +20153,7 @@ export function ErrorBoundary({ error }) {
 Becomes:
 
 ```tsx filename=app/routes/v2-route.tsx good
-import {
-  useRouteError,
-  isRouteErrorResponse,
-} from "@remix-run/react";
+import { useRouteError, isRouteErrorResponse } from '@remix-run/react';
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -21136,7 +20171,7 @@ export function ErrorBoundary() {
 
   // Don't forget to typecheck with your own logic.
   // Any value can be thrown, not just errors!
-  let errorMessage = "Unknown error";
+  let errorMessage = 'Unknown error';
   if (isDefinitelyAnError(error)) {
     errorMessage = error.message;
   }
@@ -21169,18 +20204,18 @@ function Something() {
   const navigation = useNavigation();
 
   // v1
-  navigation.formMethod === "post";
+  navigation.formMethod === 'post';
 
   // v2
-  navigation.formMethod === "POST";
+  navigation.formMethod === 'POST';
 }
 
 export function shouldRevalidate({ formMethod }) {
   // v1
-  formMethod === "post";
+  formMethod === 'post';
 
   // v2
-  formMethod === "POST";
+  formMethod === 'POST';
 }
 ```
 
@@ -21189,7 +20224,7 @@ export function shouldRevalidate({ formMethod }) {
 This hook is now called `useNavigation` to avoid confusion with the recent React hook by the same name. It also no longer has the `type` field and flattens the `submission` object into the `navigation` object itself.
 
 ```tsx bad filename=app/routes/v1-route.tsx
-import { useTransition } from "@remix-run/react";
+import { useTransition } from '@remix-run/react';
 
 function SomeComponent() {
   const transition = useTransition();
@@ -21201,7 +20236,7 @@ function SomeComponent() {
 ```
 
 ```tsx filename=app/routes/v2-route.tsx good
-import { useNavigation } from "@remix-run/react";
+import { useNavigation } from '@remix-run/react';
 
 function SomeComponent() {
   const navigation = useNavigation();
@@ -21223,36 +20258,35 @@ function Component() {
   const navigation = useNavigation();
 
   // transition.type === "actionSubmission"
-  const isActionSubmission =
-    navigation.state === "submitting";
+  const isActionSubmission = navigation.state === 'submitting';
 
   // transition.type === "actionReload"
   const isActionReload =
-    navigation.state === "loading" &&
+    navigation.state === 'loading' &&
     navigation.formMethod != null &&
-    navigation.formMethod != "GET" &&
+    navigation.formMethod != 'GET' &&
     // We had a submission navigation and are loading the submitted location
     navigation.formAction === navigation.location.pathname;
 
   // transition.type === "actionRedirect"
   const isActionRedirect =
-    navigation.state === "loading" &&
+    navigation.state === 'loading' &&
     navigation.formMethod != null &&
-    navigation.formMethod != "GET" &&
+    navigation.formMethod != 'GET' &&
     // We had a submission navigation and are now navigating to different location
     navigation.formAction !== navigation.location.pathname;
 
   // transition.type === "loaderSubmission"
   const isLoaderSubmission =
-    navigation.state === "loading" &&
-    navigation.state.formMethod === "GET" &&
+    navigation.state === 'loading' &&
+    navigation.state.formMethod === 'GET' &&
     // We had a loader submission and are navigating to the submitted location
     navigation.formAction === navigation.location.pathname;
 
   // transition.type === "loaderSubmissionRedirect"
   const isLoaderSubmissionRedirect =
-    navigation.state === "loading" &&
-    navigation.state.formMethod === "GET" &&
+    navigation.state === 'loading' &&
+    navigation.state.formMethod === 'GET' &&
     // We had a loader submission and are navigating to a new location
     navigation.formAction !== navigation.location.pathname;
 }
@@ -21269,7 +20303,7 @@ In v2, GET submissions are more accurately reflected as loading navigations and 
 Like `useNavigation`, `useFetcher` has flattened the `submission` and removed the `type` field.
 
 ```tsx bad filename=app/routes/v1-route.tsx
-import { useFetcher } from "@remix-run/react";
+import { useFetcher } from '@remix-run/react';
 
 function SomeComponent() {
   const fetcher = useFetcher();
@@ -21281,7 +20315,7 @@ function SomeComponent() {
 ```
 
 ```tsx filename=app/routes/v2-route.tsx good
-import { useFetcher } from "@remix-run/react";
+import { useFetcher } from '@remix-run/react';
 
 function SomeComponent() {
   const fetcher = useFetcher();
@@ -21303,41 +20337,35 @@ function Component() {
   const fetcher = useFetcher();
 
   // fetcher.type === "init"
-  const isInit =
-    fetcher.state === "idle" && fetcher.data == null;
+  const isInit = fetcher.state === 'idle' && fetcher.data == null;
 
   // fetcher.type === "done"
-  const isDone =
-    fetcher.state === "idle" && fetcher.data != null;
+  const isDone = fetcher.state === 'idle' && fetcher.data != null;
 
   // fetcher.type === "actionSubmission"
-  const isActionSubmission = fetcher.state === "submitting";
+  const isActionSubmission = fetcher.state === 'submitting';
 
   // fetcher.type === "actionReload"
   const isActionReload =
-    fetcher.state === "loading" &&
+    fetcher.state === 'loading' &&
     fetcher.formMethod != null &&
-    fetcher.formMethod != "GET" &&
+    fetcher.formMethod != 'GET' &&
     // If we returned data, we must be reloading
     fetcher.data != null;
 
   // fetcher.type === "actionRedirect"
   const isActionRedirect =
-    fetcher.state === "loading" &&
+    fetcher.state === 'loading' &&
     fetcher.formMethod != null &&
-    fetcher.formMethod != "GET" &&
+    fetcher.formMethod != 'GET' &&
     // If we have no data we must have redirected
     fetcher.data == null;
 
   // fetcher.type === "loaderSubmission"
-  const isLoaderSubmission =
-    fetcher.state === "loading" &&
-    fetcher.formMethod === "GET";
+  const isLoaderSubmission = fetcher.state === 'loading' && fetcher.formMethod === 'GET';
 
   // fetcher.type === "normalLoad"
-  const isNormalLoad =
-    fetcher.state === "loading" &&
-    fetcher.formMethod == null;
+  const isNormalLoad = fetcher.state === 'loading' && fetcher.formMethod == null;
 }
 ```
 
@@ -21355,10 +20383,10 @@ Route `links` properties should all be the React camelCase values instead of HTM
 export const links: LinksFunction = () => {
   return [
     {
-      rel: "preload",
-      as: "image",
-      imagesrcset: "...",
-      imagesizes: "...",
+      rel: 'preload',
+      as: 'image',
+      imagesrcset: '...',
+      imagesizes: '...',
     },
   ];
 };
@@ -21368,10 +20396,10 @@ export const links: LinksFunction = () => {
 export const links: V2_LinksFunction = () => {
   return [
     {
-      rel: "preload",
-      as: "image",
-      imageSrcSet: "...",
-      imageSizes: "...",
+      rel: 'preload',
+      as: 'image',
+      imageSrcSet: '...',
+      imageSizes: '...',
     },
   ];
 };
@@ -21384,14 +20412,14 @@ In your `remix.config.js`, rename `browserBuildDirectory` to `assetsBuildDirecto
 ```js bad filename=remix.config.js lines=[3]
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  browserBuildDirectory: "./public/build",
+  browserBuildDirectory: './public/build',
 };
 ```
 
 ```js filename=remix.config.js good lines=[3]
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  assetsBuildDirectory: "./public/build",
+  assetsBuildDirectory: './public/build',
 };
 ```
 
@@ -21439,14 +20467,14 @@ In your `remix.config.js`, rename `serverBuildDirectory` to `serverBuildPath` an
 ```js bad filename=remix.config.js lines=[3]
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  serverBuildDirectory: "./build",
+  serverBuildDirectory: './build',
 };
 ```
 
 ```js filename=remix.config.js good lines=[3]
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  serverBuildPath: "./build/index.js",
+  serverBuildPath: './build/index.js',
 };
 ```
 
@@ -21463,12 +20491,12 @@ The following configurations should replace your current `serverBuildTarget`:
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  publicPath: "/_static/build/",
-  serverBuildPath: "server/index.js",
-  serverMainFields: ["main", "module"], // default value, can be removed
+  publicPath: '/_static/build/',
+  serverBuildPath: 'server/index.js',
+  serverMainFields: ['main', 'module'], // default value, can be removed
   serverMinify: false, // default value, can be removed
-  serverModuleFormat: "cjs", // default value in 1.x, add before upgrading
-  serverPlatform: "node", // default value, can be removed
+  serverModuleFormat: 'cjs', // default value in 1.x, add before upgrading
+  serverPlatform: 'node', // default value, can be removed
 };
 ```
 
@@ -21477,14 +20505,14 @@ module.exports = {
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  publicPath: "/build/", // default value, can be removed
-  serverBuildPath: "functions/[[path]].js",
-  serverConditions: ["worker"],
-  serverDependenciesToBundle: "all",
-  serverMainFields: ["browser", "module", "main"],
+  publicPath: '/build/', // default value, can be removed
+  serverBuildPath: 'functions/[[path]].js',
+  serverConditions: ['worker'],
+  serverDependenciesToBundle: 'all',
+  serverMainFields: ['browser', 'module', 'main'],
   serverMinify: true,
-  serverModuleFormat: "esm", // default value in 2.x, can be removed once upgraded
-  serverPlatform: "neutral",
+  serverModuleFormat: 'esm', // default value in 2.x, can be removed once upgraded
+  serverPlatform: 'neutral',
 };
 ```
 
@@ -21493,14 +20521,14 @@ module.exports = {
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  publicPath: "/build/", // default value, can be removed
-  serverBuildPath: "build/index.js", // default value, can be removed
-  serverConditions: ["worker"],
-  serverDependenciesToBundle: "all",
-  serverMainFields: ["browser", "module", "main"],
+  publicPath: '/build/', // default value, can be removed
+  serverBuildPath: 'build/index.js', // default value, can be removed
+  serverConditions: ['worker'],
+  serverDependenciesToBundle: 'all',
+  serverMainFields: ['browser', 'module', 'main'],
   serverMinify: true,
-  serverModuleFormat: "esm", // default value in 2.x, can be removed once upgraded
-  serverPlatform: "neutral",
+  serverModuleFormat: 'esm', // default value in 2.x, can be removed once upgraded
+  serverPlatform: 'neutral',
 };
 ```
 
@@ -21509,14 +20537,14 @@ module.exports = {
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  publicPath: "/build/", // default value, can be removed
-  serverBuildPath: "build/index.js", // default value, can be removed
-  serverConditions: ["deno", "worker"],
-  serverDependenciesToBundle: "all",
-  serverMainFields: ["module", "main"],
+  publicPath: '/build/', // default value, can be removed
+  serverBuildPath: 'build/index.js', // default value, can be removed
+  serverConditions: ['deno', 'worker'],
+  serverDependenciesToBundle: 'all',
+  serverMainFields: ['module', 'main'],
   serverMinify: false, // default value, can be removed
-  serverModuleFormat: "esm", // default value in 2.x, can be removed once upgraded
-  serverPlatform: "neutral",
+  serverModuleFormat: 'esm', // default value in 2.x, can be removed once upgraded
+  serverPlatform: 'neutral',
 };
 ```
 
@@ -21525,12 +20553,12 @@ module.exports = {
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  publicPath: "/build/", // default value, can be removed
-  serverBuildPath: "build/index.js", // default value, can be removed
-  serverMainFields: ["main", "module"], // default value, can be removed
+  publicPath: '/build/', // default value, can be removed
+  serverBuildPath: 'build/index.js', // default value, can be removed
+  serverMainFields: ['main', 'module'], // default value, can be removed
   serverMinify: false, // default value, can be removed
-  serverModuleFormat: "cjs", // default value in 1.x, add before upgrading
-  serverPlatform: "node", // default value, can be removed
+  serverModuleFormat: 'cjs', // default value in 1.x, add before upgrading
+  serverPlatform: 'node', // default value, can be removed
 };
 ```
 
@@ -21550,7 +20578,7 @@ module.exports = {
   browserNodeBuiltinsPolyfill: {
     modules: {
       buffer: true,
-      fs: "empty",
+      fs: 'empty',
     },
     globals: {
       Buffer: true,
@@ -21562,7 +20590,7 @@ module.exports = {
 Even though we recommend being explicit about which polyfills are allowed in your browser bundle, especially since some polyfills can be quite large, you can quickly reinstate the full set of polyfills from Remix v1 with the following configuration:
 
 ```js filename=remix.config.js
-const { builtinModules } = require("node:module");
+const { builtinModules } = require('node:module');
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
@@ -21595,7 +20623,7 @@ module.exports = {
   serverNodeBuiltinsPolyfill: {
     modules: {
       buffer: true,
-      fs: "empty",
+      fs: 'empty',
     },
     globals: {
       Buffer: true,
@@ -21617,38 +20645,38 @@ module.exports = {
       _stream_transform: true,
       _stream_writable: true,
       assert: true,
-      "assert/strict": true,
+      'assert/strict': true,
       buffer: true,
       console: true,
       constants: true,
-      crypto: "empty",
+      crypto: 'empty',
       diagnostics_channel: true,
       domain: true,
       events: true,
-      fs: "empty",
-      "fs/promises": "empty",
+      fs: 'empty',
+      'fs/promises': 'empty',
       http: true,
       https: true,
       module: true,
       os: true,
       path: true,
-      "path/posix": true,
-      "path/win32": true,
+      'path/posix': true,
+      'path/win32': true,
       perf_hooks: true,
       process: true,
       punycode: true,
       querystring: true,
       stream: true,
-      "stream/promises": true,
-      "stream/web": true,
+      'stream/promises': true,
+      'stream/web': true,
       string_decoder: true,
       sys: true,
       timers: true,
-      "timers/promises": true,
+      'timers/promises': true,
       tty: true,
       url: true,
       util: true,
-      "util/types": true,
+      'util/types': true,
       vm: true,
       wasi: true,
       worker_threads: true,
@@ -21663,7 +20691,7 @@ module.exports = {
 For preparation of using Node's built in fetch implementation, installing the fetch globals is now a responsibility of the app server. If you are using `remix-serve`, nothing is required. If you are using your own app server, you will need to install the globals yourself.
 
 ```ts filename=server.ts
-import { installGlobals } from "@remix-run/node";
+import { installGlobals } from '@remix-run/node';
 
 installGlobals();
 ```
@@ -21758,7 +20786,7 @@ npm i source-map-support
 ```
 
 ```ts filename=server.ts
-import sourceMapSupport from "source-map-support";
+import sourceMapSupport from 'source-map-support';
 
 sourceMapSupport.install();
 ```
@@ -21834,14 +20862,13 @@ Please see the [`serverModuleFormat`][server-module-format] section.
 [2-min-to-v2]: https://twitter.com/BrooksLybrand/status/1704265835546578989
 [dev-after-upgrading]: #after-upgrading-from-v1-to-v2
 
-
----
-File: ./styling/bundling.md
 ---
 
+## File: ./styling/bundling.md
+
 ---
-title: CSS Bundling
----
+
+## title: CSS Bundling
 
 # CSS Bundling
 
@@ -21868,13 +20895,11 @@ npm install @remix-run/css-bundle
 Then, import `cssBundleHref` and add it to a link descriptor—most likely in `app/root.tsx` so that it applies to your entire application.
 
 ```tsx filename=app/root.tsx
-import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import { cssBundleHref } from '@remix-run/css-bundle';
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
 export const links: LinksFunction = () => [
-  ...(cssBundleHref
-    ? [{ rel: "stylesheet", href: cssBundleHref }]
-    : []),
+  ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
   // ...
 ];
 ```
@@ -21894,14 +20919,13 @@ Avoid using `export *` due to an [issue with `esbuild`'s CSS tree shaking][esbui
 [remix-vite]: ../guides/vite
 [vite-css]: https://vitejs.dev/guide/features#css
 
-
----
-File: ./styling/css.md
 ---
 
+## File: ./styling/css.md
+
 ---
-title: Regular CSS
----
+
+## title: Regular CSS
 
 # Regular CSS
 
@@ -21922,33 +20946,27 @@ Remix alleviates these issues with route-based stylesheets. Nested routes can ea
 Each route can add style links to the page, for example:
 
 ```tsx filename=app/routes/dashboard.tsx
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import styles from "~/styles/dashboard.css?url";
+import styles from '@/styles/dashboard.css?url';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 ```
 
 ```tsx filename=app/routes/dashboard.accounts.tsx
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import styles from "~/styles/accounts.css?url";
+import styles from '@/styles/accounts.css?url';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 ```
 
 ```tsx filename=app/routes/dashboard.sales.tsx
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import styles from "~/styles/sales.css?url";
+import styles from '@/styles/sales.css?url';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 ```
 
 Given these routes, this table shows which CSS will apply at specific URLs:
@@ -22017,20 +21035,16 @@ Note that these are not routes, but they export `links` functions as if they wer
 ```
 
 ```tsx filename=app/components/button/index.tsx lines=[1,3,5-7]
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import styles from "./styles.css?url";
+import styles from './styles.css?url';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
-export const Button = React.forwardRef(
-  ({ children, ...props }, ref) => {
-    return <button {...props} ref={ref} data-button />;
-  }
-);
-Button.displayName = "Button";
+export const Button = React.forwardRef(({ children, ...props }, ref) => {
+  return <button {...props} ref={ref} data-button />;
+});
+Button.displayName = 'Button';
 ```
 
 And then a `<PrimaryButton>` that extends it:
@@ -22043,25 +21057,18 @@ And then a `<PrimaryButton>` that extends it:
 ```
 
 ```tsx filename=app/components/primary-button/index.tsx lines=[3,8,15]
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import { Button, links as buttonLinks } from "../button";
+import { Button, links as buttonLinks } from '../button';
 
-import styles from "./styles.css?url";
+import styles from './styles.css?url';
 
-export const links: LinksFunction = () => [
-  ...buttonLinks(),
-  { rel: "stylesheet", href: styles },
-];
+export const links: LinksFunction = () => [...buttonLinks(), { rel: 'stylesheet', href: styles }];
 
-export const PrimaryButton = React.forwardRef(
-  ({ children, ...props }, ref) => {
-    return (
-      <Button {...props} ref={ref} data-primary-button />
-    );
-  }
-);
-PrimaryButton.displayName = "PrimaryButton";
+export const PrimaryButton = React.forwardRef(({ children, ...props }, ref) => {
+  return <Button {...props} ref={ref} data-primary-button />;
+});
+PrimaryButton.displayName = 'PrimaryButton';
 ```
 
 Note that the primary button's `links` include the base button's links. This way consumers of `<PrimaryButton>` don't need to know its dependencies (just like JavaScript imports).
@@ -22071,17 +21078,14 @@ Because these buttons are not routes, and therefore not associated with a URL se
 Consider that `app/routes/_index.tsx` uses the primary button component:
 
 ```tsx filename=app/routes/_index.tsx lines=[3-6,10]
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import {
-  PrimaryButton,
-  links as primaryButtonLinks,
-} from "~/components/primary-button";
-import styles from "~/styles/index.css?url";
+import { PrimaryButton, links as primaryButtonLinks } from '@/components/primary-button';
+import styles from '@/styles/index.css?url';
 
 export const links: LinksFunction = () => [
   ...primaryButtonLinks(),
-  { rel: "stylesheet", href: styles },
+  { rel: 'stylesheet', href: styles },
 ];
 ```
 
@@ -22090,17 +21094,15 @@ Now Remix can prefetch, load, and unload the styles for `button.css`, `primary-b
 An initial reaction to this is that routes have to know more than you want them to. Keep in mind that each component must be imported already, so it's not introducing a new dependency, just some boilerplate to get the assets. For example, consider a product category page like this:
 
 ```tsx filename=app/routes/$category.tsx lines=[3-7]
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import { AddFavoriteButton } from "~/components/add-favorite-button";
-import { ProductDetails } from "~/components/product-details";
-import { ProductTile } from "~/components/product-tile";
-import { TileGrid } from "~/components/tile-grid";
-import styles from "~/styles/$category.css?url";
+import { AddFavoriteButton } from '@/components/add-favorite-button';
+import { ProductDetails } from '@/components/product-details';
+import { ProductTile } from '@/components/product-tile';
+import { TileGrid } from '@/components/tile-grid';
+import styles from '@/styles/$category.css?url';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export default function Category() {
   const products = useLoaderData<typeof loader>();
@@ -22120,25 +21122,13 @@ export default function Category() {
 The component imports are already there, we just need to surface the assets:
 
 ```tsx filename=app/routes/$category.tsx
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import {
-  AddFavoriteButton,
-  links as addFavoriteLinks,
-} from "~/components/add-favorite-button";
-import {
-  ProductDetails,
-  links as productDetailsLinks,
-} from "~/components/product-details";
-import {
-  ProductTile,
-  links as productTileLinks,
-} from "~/components/product-tile";
-import {
-  TileGrid,
-  links as tileGridLinks,
-} from "~/components/tile-grid";
-import styles from "~/styles/$category.css?url";
+import { AddFavoriteButton, links as addFavoriteLinks } from '@/components/add-favorite-button';
+import { ProductDetails, links as productDetailsLinks } from '@/components/product-details';
+import { ProductTile, links as productTileLinks } from '@/components/product-tile';
+import { TileGrid, links as tileGridLinks } from '@/components/tile-grid';
+import styles from '@/styles/$category.css?url';
 
 export const links: LinksFunction = () => {
   return [
@@ -22146,7 +21136,7 @@ export const links: LinksFunction = () => {
     ...productTileLinks(),
     ...productDetailsLinks(),
     ...addFavoriteLinks(),
-    { rel: "stylesheet", href: styles },
+    { rel: 'stylesheet', href: styles },
   ];
 };
 
@@ -22169,33 +21159,29 @@ Since these are just `<link>` tags, you can do more than stylesheet links, like 
 
 ```css filename=app/components/copy-to-clipboard.css
 [data-copy-to-clipboard] {
-  background: url("/icons/clipboard.svg");
+  background: url('/icons/clipboard.svg');
 }
 ```
 
 ```tsx filename=app/components/copy-to-clipboard.tsx lines=[6-11]
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
-import styles from "./styles.css?url";
+import styles from './styles.css?url';
 
 export const links: LinksFunction = () => [
   {
-    rel: "preload",
-    href: "/icons/clipboard.svg",
-    as: "image",
-    type: "image/svg+xml",
+    rel: 'preload',
+    href: '/icons/clipboard.svg',
+    as: 'image',
+    type: 'image/svg+xml',
   },
-  { rel: "stylesheet", href: styles },
+  { rel: 'stylesheet', href: styles },
 ];
 
-export const CopyToClipboard = React.forwardRef(
-  ({ children, ...props }, ref) => {
-    return (
-      <Button {...props} ref={ref} data-copy-to-clipboard />
-    );
-  }
-);
-CopyToClipboard.displayName = "CopyToClipboard";
+export const CopyToClipboard = React.forwardRef(({ children, ...props }, ref) => {
+  return <Button {...props} ref={ref} data-copy-to-clipboard />;
+});
+CopyToClipboard.displayName = 'CopyToClipboard';
 ```
 
 Not only will this make the asset high priority in the network tab, but Remix will turn that `preload` into a `prefetch` when you link to the page with [`<Link prefetch>`][link], so the SVG background is prefetched, in parallel, with the next route's data, modules, stylesheets, and any other preloads.
@@ -22208,23 +21194,23 @@ Using plain stylesheets and `<link>` tags also opens up the ability to decrease 
 export const links: LinksFunction = () => {
   return [
     {
-      rel: "stylesheet",
+      rel: 'stylesheet',
       href: mainStyles,
     },
     {
-      rel: "stylesheet",
+      rel: 'stylesheet',
       href: largeStyles,
-      media: "(min-width: 1024px)",
+      media: '(min-width: 1024px)',
     },
     {
-      rel: "stylesheet",
+      rel: 'stylesheet',
       href: xlStyles,
-      media: "(min-width: 1280px)",
+      media: '(min-width: 1280px)',
     },
     {
-      rel: "stylesheet",
+      rel: 'stylesheet',
       href: darkStyles,
-      media: "(prefers-color-scheme: dark)",
+      media: '(prefers-color-scheme: dark)',
     },
   ];
 };
@@ -22236,14 +21222,13 @@ export const links: LinksFunction = () => {
 [classic-remix-compiler]: ../guides/vite#classic-remix-compiler-vs-remix-vite
 [remix-vite]: ../guides/vite
 
-
----
-File: ./styling/css-imports.md
 ---
 
+## File: ./styling/css-imports.md
+
 ---
-title: CSS Imports
----
+
+## title: CSS Imports
 
 # CSS Side Effect Imports
 
@@ -22254,7 +21239,7 @@ Some NPM packages use side effect imports of plain CSS files (e.g. `import "./st
 For example, a module may have source code like this:
 
 ```tsx
-import "./menu-button.css";
+import './menu-button.css';
 
 export function MenuButton() {
   return <button data-menu-button>{/* ... */}</button>;
@@ -22266,11 +21251,7 @@ Since JavaScript runtimes don't support importing CSS in this way, you'll need t
 ```js filename=remix.config.js
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  serverDependenciesToBundle: [
-    /^@adobe\/react-spectrum/,
-    /^@react-spectrum/,
-    /^@spectrum-icons/,
-  ],
+  serverDependenciesToBundle: [/^@adobe\/react-spectrum/, /^@react-spectrum/, /^@spectrum-icons/],
   // ...
 };
 ```
@@ -22279,14 +21260,13 @@ module.exports = {
 [server-dependencies-to-bundle]: ../file-conventions/remix-config#serverdependenciestobundle
 [remix-vite]: ../guides/vite
 
-
----
-File: ./styling/css-in-js.md
 ---
 
+## File: ./styling/css-in-js.md
+
 ---
-title: CSS in JS
----
+
+## title: CSS in JS
 
 # CSS in JS libraries
 
@@ -22300,14 +21280,13 @@ Most CSS-in-JS approaches aren't recommended for use in Remix because they requi
 
 [examples]: https://github.com/remix-run/examples
 
-
----
-File: ./styling/css-modules.md
 ---
 
+## File: ./styling/css-modules.md
+
 ---
-title: CSS Modules
----
+
+## title: CSS Modules
 
 # CSS Modules
 
@@ -22326,20 +21305,12 @@ You can then opt into [CSS Modules][css-modules] via the `.module.css` file name
 ```
 
 ```tsx filename=app/components/button/index.js lines=[1,9]
-import styles from "./styles.module.css";
+import styles from './styles.module.css';
 
-export const Button = React.forwardRef(
-  ({ children, ...props }, ref) => {
-    return (
-      <button
-        {...props}
-        ref={ref}
-        className={styles.root}
-      />
-    );
-  }
-);
-Button.displayName = "Button";
+export const Button = React.forwardRef(({ children, ...props }, ref) => {
+  return <button {...props} ref={ref} className={styles.root} />;
+});
+Button.displayName = 'Button';
 ```
 
 [css-bundling]: ./bundling
@@ -22348,24 +21319,24 @@ Button.displayName = "Button";
 [remix-vite]: ../guides/vite
 [vite-css-modules]: https://vitejs.dev/guide/features#css-modules
 
-
----
-File: ./styling/index.md
 ---
 
+## File: ./styling/index.md
+
 ---
+
 title: Styling
 order: 7
----
 
-
----
-File: ./styling/postcss.md
 ---
 
 ---
-title: PostCSS
+
+## File: ./styling/postcss.md
+
 ---
+
+## title: PostCSS
 
 # PostCSS
 
@@ -22428,8 +21399,8 @@ An example using SASS.
      // ...
      "scripts": {
        // ...
-       "sass": "sass --watch app/:app/"
-     }
+       "sass": "sass --watch app/:app/",
+     },
      // ...
    }
    ```
@@ -22474,14 +21445,13 @@ An example using SASS.
 [remix-vite]: ../guides/vite
 [vite-postcss]: https://vitejs.dev/guide/features#postcss
 
-
----
-File: ./styling/tailwind.md
 ---
 
+## File: ./styling/tailwind.md
+
 ---
-title: Tailwind
----
+
+## title: Tailwind
 
 # Tailwind
 
@@ -22510,12 +21480,10 @@ npx tailwindcss init --ts
 Now we can tell it which files to generate classes from:
 
 ```ts filename=tailwind.config.ts lines=[4]
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 export default {
-  content: [
-    "./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ['./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {},
   },
@@ -22534,15 +21502,13 @@ Then include the `@tailwind` directives in your CSS. For example, you could crea
 Then add `tailwind.css` to your root route's `links` function:
 
 ```tsx filename=app/root.tsx
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from '@remix-run/node'; // or cloudflare/deno
 
 // ...
 
-import styles from "./tailwind.css?url";
+import styles from './tailwind.css?url';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 ```
 
 With this setup in place, you can also use [Tailwind's functions and directives][tailwind-functions-and-directives] anywhere in your CSS. Note that Tailwind will warn that no utility classes were detected in your source files if you never used it before.
@@ -22570,14 +21536,13 @@ Alternatively, you can use [PostCSS][built-in-post-css-support] with the [postcs
 [remix-vite]: ../guides/vite
 [vite-postcss]: https://vitejs.dev/guide/features#postcss
 
-
----
-File: ./styling/vanilla-extract.md
 ---
 
+## File: ./styling/vanilla-extract.md
+
 ---
-title: Vanilla Extract
----
+
+## title: Vanilla Extract
 
 # Vanilla Extract
 
@@ -22596,30 +21561,22 @@ npm install -D @vanilla-extract/css
 You can then opt into Vanilla Extract via the `.css.ts`/`.css.js` file name convention. For example:
 
 ```ts filename=app/components/button/styles.css.ts
-import { style } from "@vanilla-extract/css";
+import { style } from '@vanilla-extract/css';
 
 export const root = style({
-  border: "solid 1px",
-  background: "white",
-  color: "#454545",
+  border: 'solid 1px',
+  background: 'white',
+  color: '#454545',
 });
 ```
 
 ```tsx filename=app/components/button/index.js lines=[1,9]
-import * as styles from "./styles.css"; // Note that `.ts` is omitted here
+import * as styles from './styles.css'; // Note that `.ts` is omitted here
 
-export const Button = React.forwardRef(
-  ({ children, ...props }, ref) => {
-    return (
-      <button
-        {...props}
-        ref={ref}
-        className={styles.root}
-      />
-    );
-  }
-);
-Button.displayName = "Button";
+export const Button = React.forwardRef(({ children, ...props }, ref) => {
+  return <button {...props} ref={ref} className={styles.root} />;
+});
+Button.displayName = 'Button';
 ```
 
 [vanilla-extract]: https://vanilla-extract.style
@@ -22629,15 +21586,16 @@ Button.displayName = "Button";
 [remix-vite]: ../guides/vite
 [vanilla-extract-vite]: https://vanilla-extract.style/documentation/integrations/vite
 
-
----
-File: ./tutorials/blog.md
 ---
 
+## File: ./tutorials/blog.md
+
 ---
+
 title: Blog Tutorial (short)
 order: 3
 hidden: true
+
 ---
 
 # Blog Tutorial
@@ -22705,10 +21663,7 @@ Go ahead and copy/paste this:
 
 ```tsx filename=app/routes/_index.tsx
 <div className="mx-auto mt-16 max-w-7xl text-center">
-  <Link
-    to="/posts"
-    className="text-xl text-blue-600 underline"
-  >
+  <Link to="/posts" className="text-xl text-blue-600 underline">
     Blog Posts
   </Link>
 </div>
@@ -22767,19 +21722,19 @@ So let's get to it and provide some data to our component.
 💿 Make the posts route `loader`
 
 ```tsx filename=app/routes/posts._index.tsx lines=[1-2,4-17,20-21]
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
 export const loader = async () => {
   return json({
     posts: [
       {
-        slug: "my-first-post",
-        title: "My First Post",
+        slug: 'my-first-post',
+        title: 'My First Post',
       },
       {
-        slug: "90s-mixtape",
-        title: "A Mixtape I Made Just For You",
+        slug: '90s-mixtape',
+        title: 'A Mixtape I Made Just For You',
       },
     ],
   });
@@ -22804,8 +21759,8 @@ Whatever you return from your loader will be exposed to the client, even if the 
 💿 Render links to our posts
 
 ```tsx filename=app/routes/posts._index.tsx lines=[2,10-21] nocopy
-import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { Link, useLoaderData } from '@remix-run/react';
 
 // ...
 export default function Posts() {
@@ -22816,10 +21771,7 @@ export default function Posts() {
       <ul>
         {posts.map((post) => (
           <li key={post.slug}>
-            <Link
-              to={post.slug}
-              className="text-blue-600 underline"
-            >
+            <Link to={post.slug} className="text-blue-600 underline">
               {post.title}
             </Link>
           </li>
@@ -22853,12 +21805,12 @@ type Post = {
 export async function getPosts(): Promise<Array<Post>> {
   return [
     {
-      slug: "my-first-post",
-      title: "My First Post",
+      slug: 'my-first-post',
+      title: 'My First Post',
     },
     {
-      slug: "90s-mixtape",
-      title: "A Mixtape I Made Just For You",
+      slug: '90s-mixtape',
+      title: 'A Mixtape I Made Just For You',
     },
   ];
 }
@@ -22869,10 +21821,10 @@ Note that we're making the `getPosts` function `async` because even though it's 
 💿 Update the posts route to use our new posts module:
 
 ```tsx filename=app/routes/posts._index.tsx lines=[4,6-8] nocopy
-import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { Link, useLoaderData } from '@remix-run/react';
 
-import { getPosts } from "~/models/post.server";
+import { getPosts } from '@/models/post.server';
 
 export const loader = async () => {
   return json({ posts: await getPosts() });
@@ -22915,8 +21867,8 @@ npx prisma migrate dev --name "create post model"
 ```ts filename=prisma/seed.ts
 const posts = [
   {
-    slug: "my-first-post",
-    title: "My First Post",
+    slug: 'my-first-post',
+    title: 'My First Post',
     markdown: `
 # This is my first post
 
@@ -22924,8 +21876,8 @@ Isn't it great?
     `.trim(),
   },
   {
-    slug: "90s-mixtape",
-    title: "A Mixtape I Made Just For You",
+    slug: '90s-mixtape',
+    title: 'A Mixtape I Made Just For You',
     markdown: `
 # 90s Mixtape
 
@@ -22970,7 +21922,7 @@ npx prisma db seed
 💿 Now update the `app/models/post.server.ts` file to read from the SQLite database:
 
 ```ts filename=app/models/post.server.ts
-import { prisma } from "~/db.server";
+import { prisma } from '@/db.server';
 
 export async function getPosts() {
   return prisma.post.findMany();
@@ -23004,9 +21956,7 @@ touch app/routes/posts.\$slug.tsx
 export default function PostSlug() {
   return (
     <main className="mx-auto max-w-4xl">
-      <h1 className="my-6 border-b-2 text-center text-3xl">
-        Some Post
-      </h1>
+      <h1 className="my-6 border-b-2 text-center text-3xl">Some Post</h1>
     </main>
   );
 }
@@ -23017,13 +21967,11 @@ You can click one of your posts and should see the new page.
 💿 Add a loader to access the params
 
 ```tsx filename=app/routes/posts.$slug.tsx lines=[1-3,5-9,12,16]
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json({ slug: params.slug });
 };
 
@@ -23031,9 +21979,7 @@ export default function PostSlug() {
   const { slug } = useLoaderData<typeof loader>();
   return (
     <main className="mx-auto max-w-4xl">
-      <h1 className="my-6 border-b-2 text-center text-3xl">
-        Some Post: {slug}
-      </h1>
+      <h1 className="my-6 border-b-2 text-center text-3xl">Some Post: {slug}</h1>
     </main>
   );
 }
@@ -23046,7 +21992,7 @@ Now, let's actually get the post contents from the database by its slug.
 💿 Add a `getPost` function to our post module
 
 ```tsx filename=app/models/post.server.ts lines=[7-9]
-import { prisma } from "~/db.server";
+import { prisma } from '@/db.server';
 
 export async function getPosts() {
   return prisma.post.findMany();
@@ -23060,15 +22006,13 @@ export async function getPost(slug: string) {
 💿 Use the new `getPost` function in the route
 
 ```tsx filename=app/routes/posts.$slug.tsx lines=[5,10-11,15,19]
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
-import { getPost } from "~/models/post.server";
+import { getPost } from '@/models/post.server';
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const post = await getPost(params.slug);
   return json({ post });
 };
@@ -23077,9 +22021,7 @@ export default function PostSlug() {
   const { post } = useLoaderData<typeof loader>();
   return (
     <main className="mx-auto max-w-4xl">
-      <h1 className="my-6 border-b-2 text-center text-3xl">
-        {post.title}
-      </h1>
+      <h1 className="my-6 border-b-2 text-center text-3xl">{post.title}</h1>
     </main>
   );
 }
@@ -23090,17 +22032,15 @@ Check that out! We're now pulling our posts from a data source instead of includ
 Let's make TypeScript happy with our code:
 
 ```tsx filename=app/routes/posts.$slug.tsx lines=[4,11,14]
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import invariant from "tiny-invariant";
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import invariant from 'tiny-invariant';
 
-import { getPost } from "~/models/post.server";
+import { getPost } from '@/models/post.server';
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
-  invariant(params.slug, "params.slug is required");
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  invariant(params.slug, 'params.slug is required');
 
   const post = await getPost(params.slug);
   invariant(post, `Post not found: ${params.slug}`);
@@ -23112,9 +22052,7 @@ export default function PostSlug() {
   const { post } = useLoaderData<typeof loader>();
   return (
     <main className="mx-auto max-w-4xl">
-      <h1 className="my-6 border-b-2 text-center text-3xl">
-        {post.title}
-      </h1>
+      <h1 className="my-6 border-b-2 text-center text-3xl">{post.title}</h1>
     </main>
   );
 }
@@ -23137,18 +22075,16 @@ npm add @types/marked@^4.3.1 -D
 Now that `marked` has been installed, we will need to restart our server. So stop the dev server and start it back up again with `npm run dev`.
 
 ```tsx filename=app/routes/posts.$slug.tsx lines=[4,17-18,22,28]
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { marked } from "marked";
-import invariant from "tiny-invariant";
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import { marked } from 'marked';
+import invariant from 'tiny-invariant';
 
-import { getPost } from "~/models/post.server";
+import { getPost } from '@/models/post.server';
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
-  invariant(params.slug, "params.slug is required");
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  invariant(params.slug, 'params.slug is required');
 
   const post = await getPost(params.slug);
   invariant(post, `Post not found: ${params.slug}`);
@@ -23161,9 +22097,7 @@ export default function PostSlug() {
   const { html, post } = useLoaderData<typeof loader>();
   return (
     <main className="mx-auto max-w-4xl">
-      <h1 className="my-6 border-b-2 text-center text-3xl">
-        {post.title}
-      </h1>
+      <h1 className="my-6 border-b-2 text-center text-3xl">{post.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: html }} />
     </main>
   );
@@ -23199,10 +22133,10 @@ touch app/routes/posts.admin.tsx
 ```
 
 ```tsx filename=app/routes/posts.admin.tsx
-import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { Link, useLoaderData } from '@remix-run/react';
 
-import { getPosts } from "~/models/post.server";
+import { getPosts } from '@/models/post.server';
 
 export const loader = async () => {
   return json({ posts: await getPosts() });
@@ -23212,27 +22146,20 @@ export default function PostAdmin() {
   const { posts } = useLoaderData<typeof loader>();
   return (
     <div className="mx-auto max-w-4xl">
-      <h1 className="my-6 mb-2 border-b-2 text-center text-3xl">
-        Blog Admin
-      </h1>
+      <h1 className="my-6 mb-2 border-b-2 text-center text-3xl">Blog Admin</h1>
       <div className="grid grid-cols-4 gap-6">
         <nav className="col-span-4 md:col-span-1">
           <ul>
             {posts.map((post) => (
               <li key={post.slug}>
-                <Link
-                  to={post.slug}
-                  className="text-blue-600 underline"
-                >
+                <Link to={post.slug} className="text-blue-600 underline">
                   {post.title}
                 </Link>
               </li>
             ))}
           </ul>
         </nav>
-        <main className="col-span-4 md:col-span-3">
-          ...
-        </main>
+        <main className="col-span-4 md:col-span-3">...</main>
       </div>
     </div>
   );
@@ -23253,7 +22180,7 @@ touch app/routes/posts.admin._index.tsx
 ```
 
 ```tsx filename=app/routes/posts.admin._index.tsx
-import { Link } from "@remix-run/react";
+import { Link } from '@remix-run/react';
 
 export default function AdminIndex() {
   return (
@@ -23271,14 +22198,10 @@ If you refresh you're not going to see it yet. Every route that starts with `app
 💿 Add an outlet to the admin page
 
 ```tsx filename=app/routes/posts.admin.tsx lines=[4,37]
-import { json } from "@remix-run/node";
-import {
-  Link,
-  Outlet,
-  useLoaderData,
-} from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { Link, Outlet, useLoaderData } from '@remix-run/react';
 
-import { getPosts } from "~/models/post.server";
+import { getPosts } from '@/models/post.server';
 
 export const loader = async () => {
   return json({ posts: await getPosts() });
@@ -23288,18 +22211,13 @@ export default function PostAdmin() {
   const { posts } = useLoaderData<typeof loader>();
   return (
     <div className="mx-auto max-w-4xl">
-      <h1 className="my-6 mb-2 border-b-2 text-center text-3xl">
-        Blog Admin
-      </h1>
+      <h1 className="my-6 mb-2 border-b-2 text-center text-3xl">Blog Admin</h1>
       <div className="grid grid-cols-4 gap-6">
         <nav className="col-span-4 md:col-span-1">
           <ul>
             {posts.map((post) => (
               <li key={post.slug}>
-                <Link
-                  to={post.slug}
-                  className="text-blue-600 underline"
-                >
+                <Link to={post.slug} className="text-blue-600 underline">
                   {post.title}
                 </Link>
               </li>
@@ -23340,32 +22258,21 @@ We're going to get serious now. Let's build a form to create a new post in our n
 💿 Add a form to the new route
 
 ```tsx filename=app/routes/posts.admin.new.tsx
-import { Form } from "@remix-run/react";
+import { Form } from '@remix-run/react';
 
-const inputClassName =
-  "w-full rounded border border-gray-500 px-2 py-1 text-lg";
+const inputClassName = 'w-full rounded border border-gray-500 px-2 py-1 text-lg';
 
 export default function NewPost() {
   return (
     <Form method="post">
       <p>
         <label>
-          Post Title:{" "}
-          <input
-            type="text"
-            name="title"
-            className={inputClassName}
-          />
+          Post Title: <input type="text" name="title" className={inputClassName} />
         </label>
       </p>
       <p>
         <label>
-          Post Slug:{" "}
-          <input
-            type="text"
-            name="slug"
-            className={inputClassName}
-          />
+          Post Slug: <input type="text" name="slug" className={inputClassName} />
         </label>
       </p>
       <p>
@@ -23409,24 +22316,22 @@ export async function createPost(post) {
 💿 Call `createPost` from the new post route's action
 
 ```tsx filename=app/routes/posts.admin.new.tsx lines=[1-2,5,7-19] nocopy
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
+import { Form } from '@remix-run/react';
 
-import { createPost } from "~/models/post.server";
+import { createPost } from '@/models/post.server';
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
 
-  const title = formData.get("title");
-  const slug = formData.get("slug");
-  const markdown = formData.get("markdown");
+  const title = formData.get('title');
+  const slug = formData.get('slug');
+  const markdown = formData.get('markdown');
 
   await createPost({ title, slug, markdown });
 
-  return redirect("/posts/admin");
+  return redirect('/posts/admin');
 };
 
 // ...
@@ -23445,13 +22350,11 @@ TypeScript is mad again, let's add some types.
 
 ```tsx filename=app/models/post.server.ts lines=[2,7]
 // ...
-import type { Post } from "@prisma/client";
+import type { Post } from '@prisma/client';
 
 // ...
 
-export async function createPost(
-  post: Pick<Post, "slug" | "title" | "markdown">
-) {
+export async function createPost(post: Pick<Post, 'slug' | 'title' | 'markdown'>) {
   return prisma.post.create({ data: post });
 }
 ```
@@ -23463,36 +22366,32 @@ Let's add some validation before we create the post.
 💿 Validate if the form data contains what we need, and return the errors if not
 
 ```tsx filename=app/routes/posts.admin.new.tsx lines=[2,16-26]
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import { Form } from '@remix-run/react';
 
-import { createPost } from "~/models/post.server";
+import { createPost } from '@/models/post.server';
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
 
-  const title = formData.get("title");
-  const slug = formData.get("slug");
-  const markdown = formData.get("markdown");
+  const title = formData.get('title');
+  const slug = formData.get('slug');
+  const markdown = formData.get('markdown');
 
   const errors = {
-    title: title ? null : "Title is required",
-    slug: slug ? null : "Slug is required",
-    markdown: markdown ? null : "Markdown is required",
+    title: title ? null : 'Title is required',
+    slug: slug ? null : 'Slug is required',
+    markdown: markdown ? null : 'Markdown is required',
   };
-  const hasErrors = Object.values(errors).some(
-    (errorMessage) => errorMessage
-  );
+  const hasErrors = Object.values(errors).some((errorMessage) => errorMessage);
   if (hasErrors) {
     return json(errors);
   }
 
   await createPost({ title, slug, markdown });
 
-  return redirect("/posts/admin");
+  return redirect('/posts/admin');
 };
 
 // ...
@@ -23503,14 +22402,13 @@ Notice we don't return a redirect this time, we actually return the errors. Thes
 💿 Add validation messages to the UI
 
 ```tsx filename=app/routes/posts.admin.new.tsx lines=[3,11,18-20,27-29,36-40]
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect, json } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node';
+import { redirect, json } from '@remix-run/node';
+import { Form, useActionData } from '@remix-run/react';
 
 // ...
 
-const inputClassName =
-  "w-full rounded border border-gray-500 px-2 py-1 text-lg";
+const inputClassName = 'w-full rounded border border-gray-500 px-2 py-1 text-lg';
 
 export default function NewPost() {
   const errors = useActionData<typeof action>();
@@ -23519,30 +22417,19 @@ export default function NewPost() {
     <Form method="post">
       <p>
         <label>
-          Post Title:{" "}
-          {errors?.title ? (
-            <em className="text-red-600">{errors.title}</em>
-          ) : null}
+          Post Title: {errors?.title ? <em className="text-red-600">{errors.title}</em> : null}
           <input type="text" name="title" className={inputClassName} />
         </label>
       </p>
       <p>
         <label>
-          Post Slug:{" "}
-          {errors?.slug ? (
-            <em className="text-red-600">{errors.slug}</em>
-          ) : null}
+          Post Slug: {errors?.slug ? <em className="text-red-600">{errors.slug}</em> : null}
           <input type="text" name="slug" className={inputClassName} />
         </label>
       </p>
       <p>
         <label htmlFor="markdown">
-          Markdown:{" "}
-          {errors?.markdown ? (
-            <em className="text-red-600">
-              {errors.markdown}
-            </em>
-          ) : null}
+          Markdown: {errors?.markdown ? <em className="text-red-600">{errors.markdown}</em> : null}
         </label>
         <br />
         <textarea
@@ -23569,29 +22456,18 @@ TypeScript is still mad, because someone could call our API with non-string valu
 
 ```tsx filename=app/routes/posts.admin.new.tsx nocopy
 //...
-import invariant from "tiny-invariant";
+import invariant from 'tiny-invariant';
 // ..
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   // ...
-  invariant(
-    typeof title === "string",
-    "title must be a string"
-  );
-  invariant(
-    typeof slug === "string",
-    "slug must be a string"
-  );
-  invariant(
-    typeof markdown === "string",
-    "markdown must be a string"
-  );
+  invariant(typeof title === 'string', 'title must be a string');
+  invariant(typeof slug === 'string', 'slug must be a string');
+  invariant(typeof markdown === 'string', 'markdown must be a string');
 
   await createPost({ title, slug, markdown });
 
-  return redirect("/posts/admin");
+  return redirect('/posts/admin');
 };
 ```
 
@@ -23605,9 +22481,7 @@ Let's slow this down and add some "pending UI" to our form.
 
 ```tsx filename=app/routes/posts.admin.new.tsx lines=[5-6]
 // ...
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   // TODO: remove me
   await new Promise((res) => setTimeout(res, 1000));
 
@@ -23619,13 +22493,9 @@ export const action = async ({
 💿 Add some pending UI with `useNavigation`
 
 ```tsx filename=app/routes/posts.admin.new.tsx lines=[6,14-17,26,28]
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import {
-  Form,
-  useActionData,
-  useNavigation,
-} from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import { Form, useActionData, useNavigation } from '@remix-run/react';
 
 // ..
 
@@ -23633,9 +22503,7 @@ export default function NewPost() {
   const errors = useActionData<typeof action>();
 
   const navigation = useNavigation();
-  const isCreating = Boolean(
-    navigation.state === "submitting"
-  );
+  const isCreating = Boolean(navigation.state === 'submitting');
 
   return (
     <Form method="post">
@@ -23646,7 +22514,7 @@ export default function NewPost() {
           className="rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
           disabled={isCreating}
         >
-          {isCreating ? "Creating..." : "Create Post"}
+          {isCreating ? 'Creating...' : 'Create Post'}
         </button>
       </p>
     </Form>
@@ -23693,25 +22561,27 @@ We hope you love Remix! 💿 👋
 [the-pending-ui-guide]: ../discussion/pending-ui
 [somewhere]: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
-
----
-File: ./tutorials/index.md
 ---
 
+## File: ./tutorials/index.md
+
 ---
+
 title: Tutorials
 hidden: true
----
 
-
----
-File: ./tutorials/jokes.md
 ---
 
 ---
+
+## File: ./tutorials/jokes.md
+
+---
+
 title: App Tutorial (long)
 order: 4
 hidden: true
+
 ---
 
 # Jokes App Tutorial
@@ -23904,17 +22774,14 @@ We're going to trim this down the bare bones and introduce things incrementally.
 💿 Replace the contents of `app/root.tsx` with this:
 
 ```tsx filename=app/root.tsx
-import { LiveReload } from "@remix-run/react";
+import { LiveReload } from '@remix-run/react';
 
 export default function App() {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Remix: So great, it's funny!</title>
       </head>
       <body>
@@ -23992,17 +22859,14 @@ React Router supports "nested routing" which means we have parent-child relation
 <summary>app/root.tsx</summary>
 
 ```tsx filename=app/root.tsx lines=[1,15]
-import { LiveReload, Outlet } from "@remix-run/react";
+import { LiveReload, Outlet } from '@remix-run/react';
 
 export default function App() {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Remix: So great, it's funny!</title>
       </head>
       <body>
@@ -24033,7 +22897,7 @@ Great! Next let's handle the `/jokes` route.
 <summary>app/routes/jokes.tsx</summary>
 
 ```tsx filename=app/routes/jokes.tsx
-import { Outlet } from "@remix-run/react";
+import { Outlet } from '@remix-run/react';
 
 export default function JokesRoute() {
   return (
@@ -24062,10 +22926,7 @@ export default function JokesIndexRoute() {
   return (
     <div>
       <p>Here's a random joke:</p>
-      <p>
-        I was wondering why the frisbee was getting bigger,
-        then it hit me.
-      </p>
+      <p>I was wondering why the frisbee was getting bigger, then it hit me.</p>
     </div>
   );
 }
@@ -24137,10 +22998,7 @@ export default function JokeRoute() {
   return (
     <div>
       <p>Here's your hilarious joke:</p>
-      <p>
-        Why don't you find hippopotamuses hiding in trees?
-        They're really good at it.
-      </p>
+      <p>Why don't you find hippopotamuses hiding in trees? They're really good at it.</p>
     </div>
   );
 }
@@ -24183,13 +23041,11 @@ body {
 <summary>app/routes/_index.tsx</summary>
 
 ```tsx filename=app/routes/_index.tsx lines=[1,3,5-7]
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction } from '@remix-run/node';
 
-import stylesUrl from "~/styles/index.css";
+import stylesUrl from '@/styles/index.css';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
 export default function IndexRoute() {
   return <div>Hello Index Route</div>;
@@ -24209,21 +23065,14 @@ So we need some way to get the `link` exports from all active routes and add `<l
 <summary>app/root.tsx</summary>
 
 ```tsx filename=app/root.tsx lines=[2,17]
-import {
-  Links,
-  LiveReload,
-  Outlet,
-} from "@remix-run/react";
+import { Links, LiveReload, Outlet } from '@remix-run/react';
 
 export default function App() {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Remix: So great, it's funny!</title>
         <Links />
       </head>
@@ -24264,8 +23113,8 @@ That's pretty much all there is to it for styling with the tutorial. The rest is
 
 ```css filename=app/styles/global.css
 @font-face {
-  font-family: "baloo";
-  src: url("/fonts/baloo/baloo.woff") format("woff");
+  font-family: 'baloo';
+  src: url('/fonts/baloo/baloo.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -24284,9 +23133,8 @@ That's pretty much all there is to it for styling with the tutorial. The rest is
     rgba(118, 15, 181, 1) 35%,
     rgba(58, 13, 85, 1) 100%
   );
-  --font-body: -apple-system, "Segoe UI", Helvetica Neue, Helvetica,
-    Roboto, Arial, sans-serif, system-ui, "Apple Color Emoji",
-    "Segoe UI Emoji";
+  --font-body: -apple-system, 'Segoe UI', Helvetica Neue, Helvetica, Roboto, Arial, sans-serif,
+    system-ui, 'Apple Color Emoji', 'Segoe UI Emoji';
   --font-display: baloo, var(--font-body);
 }
 
@@ -24431,8 +23279,9 @@ h6 {
   box-shadow: 0 var(--shadow-size) 0 0 var(--shadow-color);
   outline-offset: 2px;
   transform: translateY(0);
-  transition: background-color 50ms ease-out, box-shadow
-      50ms ease-out,
+  transition:
+    background-color 50ms ease-out,
+    box-shadow 50ms ease-out,
     transform 100ms cubic-bezier(0.3, 0.6, 0.8, 1.25);
 }
 
@@ -24440,23 +23289,19 @@ h6 {
   --raise: 1px;
   color: var(--color-background);
   text-decoration: none;
-  box-shadow: 0 calc(var(--shadow-size) + var(--raise)) 0 0 var(
-      --shadow-color
-    );
+  box-shadow: 0 calc(var(--shadow-size) + var(--raise)) 0 0 var(--shadow-color);
   transform: translateY(calc(var(--raise) * -1));
 }
 
 .button:active {
   --press: 1px;
-  box-shadow: 0 calc(var(--shadow-size) - var(--press)) 0 0 var(
-      --shadow-color
-    );
+  box-shadow: 0 calc(var(--shadow-size) - var(--press)) 0 0 var(--shadow-color);
   transform: translateY(var(--press));
   background-color: var(--color-links-hover);
 }
 
 .button[disabled],
-.button[aria-disabled="true"] {
+.button[aria-disabled='true'] {
   transform: translateY(0);
   pointer-events: none;
   opacity: 0.7;
@@ -24489,20 +23334,20 @@ legend {
   white-space: normal;
 }
 
-[type="text"],
-[type="password"],
-[type="date"],
-[type="datetime"],
-[type="datetime-local"],
-[type="month"],
-[type="week"],
-[type="email"],
-[type="number"],
-[type="search"],
-[type="tel"],
-[type="time"],
-[type="url"],
-[type="color"],
+[type='text'],
+[type='password'],
+[type='date'],
+[type='datetime'],
+[type='datetime-local'],
+[type='month'],
+[type='week'],
+[type='email'],
+[type='number'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='url'],
+[type='color'],
 textarea {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -24524,44 +23369,47 @@ textarea {
   font-weight: normal;
   line-height: 1.5;
   color: var(--color-foreground);
-  transition: box-shadow 200ms, border-color 50ms ease-out,
-    background-color 50ms ease-out, color 50ms ease-out;
+  transition:
+    box-shadow 200ms,
+    border-color 50ms ease-out,
+    background-color 50ms ease-out,
+    color 50ms ease-out;
 }
 
-[data-light] [type="text"],
-[data-light] [type="password"],
-[data-light] [type="date"],
-[data-light] [type="datetime"],
-[data-light] [type="datetime-local"],
-[data-light] [type="month"],
-[data-light] [type="week"],
-[data-light] [type="email"],
-[data-light] [type="number"],
-[data-light] [type="search"],
-[data-light] [type="tel"],
-[data-light] [type="time"],
-[data-light] [type="url"],
-[data-light] [type="color"],
+[data-light] [type='text'],
+[data-light] [type='password'],
+[data-light] [type='date'],
+[data-light] [type='datetime'],
+[data-light] [type='datetime-local'],
+[data-light] [type='month'],
+[data-light] [type='week'],
+[data-light] [type='email'],
+[data-light] [type='number'],
+[data-light] [type='search'],
+[data-light] [type='tel'],
+[data-light] [type='time'],
+[data-light] [type='url'],
+[data-light] [type='color'],
 [data-light] textarea {
   color: var(--color-background);
   background-color: hsl(0 0% 0% / 10%);
 }
 
-[type="text"][aria-invalid="true"],
-[type="password"][aria-invalid="true"],
-[type="date"][aria-invalid="true"],
-[type="datetime"][aria-invalid="true"],
-[type="datetime-local"][aria-invalid="true"],
-[type="month"][aria-invalid="true"],
-[type="week"][aria-invalid="true"],
-[type="email"][aria-invalid="true"],
-[type="number"][aria-invalid="true"],
-[type="search"][aria-invalid="true"],
-[type="tel"][aria-invalid="true"],
-[type="time"][aria-invalid="true"],
-[type="url"][aria-invalid="true"],
-[type="color"][aria-invalid="true"],
-textarea[aria-invalid="true"] {
+[type='text'][aria-invalid='true'],
+[type='password'][aria-invalid='true'],
+[type='date'][aria-invalid='true'],
+[type='datetime'][aria-invalid='true'],
+[type='datetime-local'][aria-invalid='true'],
+[type='month'][aria-invalid='true'],
+[type='week'][aria-invalid='true'],
+[type='email'][aria-invalid='true'],
+[type='number'][aria-invalid='true'],
+[type='search'][aria-invalid='true'],
+[type='tel'][aria-invalid='true'],
+[type='time'][aria-invalid='true'],
+[type='url'][aria-invalid='true'],
+[type='color'][aria-invalid='true'],
+textarea[aria-invalid='true'] {
   border-color: var(--color-invalid);
 }
 
@@ -24583,13 +23431,13 @@ textarea[readonly] {
   cursor: not-allowed;
 }
 
-[type="file"],
-[type="checkbox"],
-[type="radio"] {
+[type='file'],
+[type='checkbox'],
+[type='radio'] {
   margin: 0;
 }
 
-[type="file"] {
+[type='file'] {
   width: 100%;
 }
 
@@ -24597,13 +23445,13 @@ label {
   margin: 0;
 }
 
-[type="checkbox"] + label,
-[type="radio"] + label {
+[type='checkbox'] + label,
+[type='radio'] + label {
   margin-left: 0.5rem;
 }
 
-label > [type="checkbox"],
-label > [type="radio"] {
+label > [type='checkbox'],
+label > [type='radio'] {
   margin-right: 0.5rem;
 }
 
@@ -24742,8 +23590,9 @@ h1 span {
   font-size: 4.5rem;
   line-height: 1;
   text-transform: uppercase;
-  text-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.5), 0 5px 0
-      rgba(0, 0, 0, 0.75);
+  text-shadow:
+    0 0.2em 0.5em rgba(0, 0, 0, 0.5),
+    0 5px 0 rgba(0, 0, 0, 0.75);
 }
 
 nav ul {
@@ -24900,28 +23749,24 @@ The `global-large.css` and `global-medium.css` files are for media query-based C
 <summary>app/root.tsx</summary>
 
 ```tsx filename=app/root.tsx lines=[1,8-10,12-24]
-import type { LinksFunction } from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Outlet,
-} from "@remix-run/react";
+import type { LinksFunction } from '@remix-run/node';
+import { Links, LiveReload, Outlet } from '@remix-run/react';
 
-import globalLargeStylesUrl from "~/styles/global-large.css";
-import globalMediumStylesUrl from "~/styles/global-medium.css";
-import globalStylesUrl from "~/styles/global.css";
+import globalLargeStylesUrl from '@/styles/global-large.css';
+import globalMediumStylesUrl from '@/styles/global-medium.css';
+import globalStylesUrl from '@/styles/global.css';
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: globalStylesUrl },
+  { rel: 'stylesheet', href: globalStylesUrl },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalMediumStylesUrl,
-    media: "print, (min-width: 640px)",
+    media: 'print, (min-width: 640px)',
   },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalLargeStylesUrl,
-    media: "screen and (min-width: 1024px)",
+    media: 'screen and (min-width: 1024px)',
   },
 ];
 
@@ -24930,10 +23775,7 @@ export default function App() {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Remix: So great, it's funny!</title>
         <Links />
       </head>
@@ -24953,14 +23795,12 @@ export default function App() {
 <summary>app/routes/jokes.tsx</summary>
 
 ```tsx filename=app/routes/jokes.tsx lines=[1,4,6-8]
-import type { LinksFunction } from "@remix-run/node";
-import { Link, Outlet } from "@remix-run/react";
+import type { LinksFunction } from '@remix-run/node';
+import { Link, Outlet } from '@remix-run/react';
 
-import stylesUrl from "~/styles/jokes.css";
+import stylesUrl from '@/styles/jokes.css';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
 export default function JokesRoute() {
   return (
@@ -24968,11 +23808,7 @@ export default function JokesRoute() {
       <header className="jokes-header">
         <div className="container">
           <h1 className="home-link">
-            <Link
-              to="/"
-              title="Remix Jokes"
-              aria-label="Remix Jokes"
-            >
+            <Link to="/" title="Remix Jokes" aria-label="Remix Jokes">
               <span className="logo">🤪</span>
               <span className="logo-medium">J🤪KES</span>
             </Link>
@@ -25012,14 +23848,12 @@ export default function JokesRoute() {
 <summary>app/routes/_index.tsx</summary>
 
 ```tsx filename=app/routes/_index.tsx lines=[2,11-26]
-import type { LinksFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import type { LinksFunction } from '@remix-run/node';
+import { Link } from '@remix-run/react';
 
-import stylesUrl from "~/styles/index.css";
+import stylesUrl from '@/styles/index.css';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
 export default function IndexRoute() {
   return (
@@ -25162,14 +23996,14 @@ Next, we're going to write a little file that will "seed" our database with test
 💿 Copy this into a new file called `prisma/seed.ts`
 
 ```ts filename=prisma/seed.ts
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 const db = new PrismaClient();
 
 async function seed() {
   await Promise.all(
     getJokes().map((joke) => {
       return db.joke.create({ data: joke });
-    })
+    }),
   );
 }
 
@@ -25180,31 +24014,31 @@ function getJokes() {
 
   return [
     {
-      name: "Road worker",
+      name: 'Road worker',
       content: `I never wanted to believe that my Dad was stealing from his job as a road worker. But when I got home, all the signs were there.`,
     },
     {
-      name: "Frisbee",
+      name: 'Frisbee',
       content: `I was wondering why the frisbee was getting bigger, then it hit me.`,
     },
     {
-      name: "Trees",
+      name: 'Trees',
       content: `Why do trees seem suspicious on sunny days? Dunno, they're just a bit shady.`,
     },
     {
-      name: "Skeletons",
+      name: 'Skeletons',
       content: `Why don't skeletons ride roller coasters? They don't have the stomach for it.`,
     },
     {
-      name: "Hippos",
+      name: 'Hippos',
       content: `Why don't you find hippopotamuses hiding in trees? They're really good at it.`,
     },
     {
-      name: "Dinner",
+      name: 'Dinner',
       content: `What did one plate say to the other plate? Dinner is on me!`,
     },
     {
-      name: "Elevator",
+      name: 'Elevator',
       content: `My first time using an elevator was an uplifting experience. The second time let me down.`,
     },
   ];
@@ -25248,7 +24082,7 @@ Now, whenever we reset the database, Prisma will call our seeding file as well.
 Ok, one last thing we need to do is connect to the database in our app. We do this at the top of our `prisma/seed.ts` file:
 
 ```ts nocopy
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 const db = new PrismaClient();
 ```
 
@@ -25263,10 +24097,7 @@ Note that this isn't a remix-only problem. Any time you have "live reload" of se
 💿 Copy this into two new files called `app/utils/singleton.server.ts` & `app/utils/db.server.ts`
 
 ```ts filename=app/utils/singleton.server.ts
-export const singleton = <Value>(
-  name: string,
-  valueFactory: () => Value
-): Value => {
+export const singleton = <Value>(name: string, valueFactory: () => Value): Value => {
   const g = global as any;
   g.__singletons ??= {};
   g.__singletons[name] ??= valueFactory();
@@ -25275,15 +24106,12 @@ export const singleton = <Value>(
 ```
 
 ```ts filename=app/utils/db.server.ts
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
-import { singleton } from "./singleton.server";
+import { singleton } from './singleton.server';
 
 // Hard-code a unique key, so we can look up the client when this module gets re-imported
-export const db = singleton(
-  "prisma",
-  () => new PrismaClient()
-);
+export const db = singleton('prisma', () => new PrismaClient());
 ```
 
 I'll leave analysis of this code as an exercise for the reader because again, this has nothing to do with Remix directly.
@@ -25300,10 +24128,10 @@ To _load_ data in a Remix route module, you use a [`loader`][loader]. This is si
 
 ```tsx nocopy
 // this is just an example. No need to copy/paste this 😄
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
+import { db } from '@/utils/db.server';
 
 export const loader = async () => {
   return json({
@@ -25338,20 +24166,14 @@ Remix and the `tsconfig.json` you get from the starter template are configured t
 <summary>app/routes/jokes.tsx</summary>
 
 ```tsx filename=app/routes/jokes.tsx lines=[2,6,10,16-20,23,47-51]
-import type { LinksFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import {
-  Link,
-  Outlet,
-  useLoaderData,
-} from "@remix-run/react";
+import type { LinksFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { Link, Outlet, useLoaderData } from '@remix-run/react';
 
-import stylesUrl from "~/styles/jokes.css";
-import { db } from "~/utils/db.server";
+import stylesUrl from '@/styles/jokes.css';
+import { db } from '@/utils/db.server';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
 export const loader = async () => {
   return json({
@@ -25367,11 +24189,7 @@ export default function JokesRoute() {
       <header className="jokes-header">
         <div className="container">
           <h1 className="home-link">
-            <Link
-              to="/"
-              title="Remix Jokes"
-              aria-label="Remix Jokes"
-            >
+            <Link to="/" title="Remix Jokes" aria-label="Remix Jokes">
               <span className="logo">🤪</span>
               <span className="logo-medium">J🤪KES</span>
             </Link>
@@ -25418,7 +24236,7 @@ I want to call out something specific in my solution. Here's my loader:
 export const loader = async () => {
   return json({
     jokeListItems: await db.joke.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
       select: { id: true, name: true },
       take: 5,
     }),
@@ -25449,9 +24267,7 @@ So the only way to really be 100% positive that your data is correct, you should
 Before we get to the `/jokes/:jokeId` route, here's a quick example of how you can access params (like `:jokeId`) in your loader.
 
 ```tsx nocopy
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   console.log(params); // <-- {jokeId: "123"}
 };
 ```
@@ -25473,20 +24289,18 @@ const joke = await db.joke.findUnique({
 <summary>app/routes/jokes.$jokeId.tsx</summary>
 
 ```tsx filename=app/routes/jokes.$jokeId.tsx lines=[1-3,5,7-17,20,25-26]
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { Link, useLoaderData } from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
+import { db } from '@/utils/db.server';
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const joke = await db.joke.findUnique({
     where: { id: params.jokeId },
   });
   if (!joke) {
-    throw new Error("Joke not found");
+    throw new Error('Joke not found');
   }
   return json({ joke });
 };
@@ -25532,10 +24346,10 @@ const [randomJoke] = await db.joke.findMany({
 <summary>app/routes/jokes._index.tsx</summary>
 
 ```tsx filename=app/routes/jokes._index.tsx lines=[1-2,4,6-14,17,22-25]
-import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { Link, useLoaderData } from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
+import { db } from '@/utils/db.server';
 
 export const loader = async () => {
   const count = await db.joke.count();
@@ -25554,9 +24368,7 @@ export default function JokesIndexRoute() {
     <div>
       <p>Here's a random joke:</p>
       <p>{data.randomJoke.content}</p>
-      <Link to={data.randomJoke.id}>
-        "{data.randomJoke.name}" Permalink
-      </Link>
+      <Link to={data.randomJoke.id}>"{data.randomJoke.name}" Permalink</Link>
     </div>
   );
 }
@@ -25616,24 +24428,19 @@ const joke = await db.joke.create({
 <summary>app/routes/jokes.new.tsx</summary>
 
 ```tsx filename=app/routes/jokes.new.tsx lines=[1-2,4,6-25]
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import type { ActionFunctionArgs } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 
-import { db } from "~/utils/db.server";
+import { db } from '@/utils/db.server';
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  const content = form.get("content");
-  const name = form.get("name");
+  const content = form.get('content');
+  const name = form.get('name');
   // we do this type check to be extra sure and to make TypeScript happy
   // we'll explore validation next!
-  if (
-    typeof content !== "string" ||
-    typeof name !== "string"
-  ) {
-    throw new Error("Form not submitted correctly.");
+  if (typeof content !== 'string' || typeof name !== 'string') {
+    throw new Error('Form not submitted correctly.');
   }
 
   const fields = { content, name };
@@ -25701,16 +24508,16 @@ But if there's an error, you can return an object with the error messages and th
 <summary>app/routes/jokes.new.tsx</summary>
 
 ```tsx filename=app/routes/jokes.new.tsx lines=[3,6,8-12,14-18,30-34,37-40,42-48,55,65,68-75,78-86,92,94-101,104-112,115-122]
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
+import { useActionData } from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
 
 function validateJokeContent(content: string) {
   if (content.length < 10) {
-    return "That joke is too short";
+    return 'That joke is too short';
   }
 }
 
@@ -25720,20 +24527,15 @@ function validateJokeName(name: string) {
   }
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  const content = form.get("content");
-  const name = form.get("name");
-  if (
-    typeof content !== "string" ||
-    typeof name !== "string"
-  ) {
+  const content = form.get('content');
+  const name = form.get('name');
+  if (typeof content !== 'string' || typeof name !== 'string') {
     return badRequest({
       fieldErrors: null,
       fields: null,
-      formError: "Form not submitted correctly.",
+      formError: 'Form not submitted correctly.',
     });
   }
 
@@ -25763,63 +24565,40 @@ export default function NewJokeRoute() {
       <form method="post">
         <div>
           <label>
-            Name:{" "}
+            Name:{' '}
             <input
               defaultValue={actionData?.fields?.name}
               name="name"
               type="text"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.name
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.name
-                  ? "name-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.name)}
+              aria-errormessage={actionData?.fieldErrors?.name ? 'name-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.name ? (
-            <p
-              className="form-validation-error"
-              id="name-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="name-error" role="alert">
               {actionData.fieldErrors.name}
             </p>
           ) : null}
         </div>
         <div>
           <label>
-            Content:{" "}
+            Content:{' '}
             <textarea
               defaultValue={actionData?.fields?.content}
               name="content"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.content
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.content
-                  ? "content-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.content)}
+              aria-errormessage={actionData?.fieldErrors?.content ? 'content-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.content ? (
-            <p
-              className="form-validation-error"
-              id="content-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="content-error" role="alert">
               {actionData.fieldErrors.content}
             </p>
           ) : null}
         </div>
         <div>
           {actionData?.formError ? (
-            <p
-              className="form-validation-error"
-              role="alert"
-            >
+            <p className="form-validation-error" role="alert">
               {actionData.formError}
             </p>
           ) : null}
@@ -25840,14 +24619,13 @@ export default function NewJokeRoute() {
 <summary>app/utils/request.server.ts</summary>
 
 ```ts filename=app/utils/request.server.ts
-import { json } from "@remix-run/node";
+import { json } from '@remix-run/node';
 
 /**
  * This helper function helps us to return the accurate HTTP status,
  * 400 Bad Request, to the client.
  */
-export const badRequest = <T>(data: T) =>
-  json<T>(data, { status: 400 });
+export const badRequest = <T>(data: T) => json<T>(data, { status: 400 });
 ```
 
 </details>
@@ -25953,23 +24731,22 @@ With this change, we're going to start experiencing some TypeScript errors in ou
 💿 Let's start by fixing our `prisma/seed.ts` file.
 
 ```ts filename=prisma/seed.ts lines=[5-12,15-16]
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 const db = new PrismaClient();
 
 async function seed() {
   const kody = await db.user.create({
     data: {
-      username: "kody",
+      username: 'kody',
       // this is a hashed version of "twixrox"
-      passwordHash:
-        "$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u",
+      passwordHash: '$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u',
     },
   });
   await Promise.all(
     getJokes().map((joke) => {
       const data = { jokesterId: kody.id, ...joke };
       return db.joke.create({ data });
-    })
+    }),
   );
 }
 
@@ -25980,31 +24757,31 @@ function getJokes() {
 
   return [
     {
-      name: "Road worker",
+      name: 'Road worker',
       content: `I never wanted to believe that my Dad was stealing from his job as a road worker. But when I got home, all the signs were there.`,
     },
     {
-      name: "Frisbee",
+      name: 'Frisbee',
       content: `I was wondering why the frisbee was getting bigger, then it hit me.`,
     },
     {
-      name: "Trees",
+      name: 'Trees',
       content: `Why do trees seem suspicious on sunny days? Dunno, they're just a bit shady.`,
     },
     {
-      name: "Skeletons",
+      name: 'Skeletons',
       content: `Why don't skeletons ride roller coasters? They don't have the stomach for it.`,
     },
     {
-      name: "Hippos",
+      name: 'Hippos',
       content: `Why don't you find hippopotamuses hiding in trees? They're really good at it.`,
     },
     {
-      name: "Dinner",
+      name: 'Dinner',
       content: `What did one plate say to the other plate? Dinner is on me!`,
     },
     {
-      name: "Elevator",
+      name: 'Elevator',
       content: `My first time using an elevator was an uplifting experience. The second time let me down.`,
     },
   ];
@@ -26153,14 +24930,12 @@ fieldset > :not(:last-child) {
 <summary>app/routes/login.tsx</summary>
 
 ```tsx filename=app/routes/login.tsx
-import type { LinksFunction } from "@remix-run/node";
-import { Link, useSearchParams } from "@remix-run/react";
+import type { LinksFunction } from '@remix-run/node';
+import { Link, useSearchParams } from '@remix-run/react';
 
-import stylesUrl from "~/styles/login.css";
+import stylesUrl from '@/styles/login.css';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
 export default function Login() {
   const [searchParams] = useSearchParams();
@@ -26172,47 +24947,24 @@ export default function Login() {
           <input
             type="hidden"
             name="redirectTo"
-            value={
-              searchParams.get("redirectTo") ?? undefined
-            }
+            value={searchParams.get('redirectTo') ?? undefined}
           />
           <fieldset>
-            <legend className="sr-only">
-              Login or Register?
-            </legend>
+            <legend className="sr-only">Login or Register?</legend>
             <label>
-              <input
-                type="radio"
-                name="loginType"
-                value="login"
-                defaultChecked
-              />{" "}
-              Login
+              <input type="radio" name="loginType" value="login" defaultChecked /> Login
             </label>
             <label>
-              <input
-                type="radio"
-                name="loginType"
-                value="register"
-              />{" "}
-              Register
+              <input type="radio" name="loginType" value="register" /> Register
             </label>
           </fieldset>
           <div>
             <label htmlFor="username-input">Username</label>
-            <input
-              type="text"
-              id="username-input"
-              name="username"
-            />
+            <input type="text" id="username-input" name="username" />
           </div>
           <div>
             <label htmlFor="password-input">Password</label>
-            <input
-              id="password-input"
-              name="password"
-              type="password"
-            />
+            <input id="password-input" name="password" type="password" />
           </div>
           <button type="submit" className="button">
             Submit
@@ -26251,63 +25003,50 @@ Great, now that we've got the UI looking nice, let's add some logic. This will b
 <summary>app/routes/login.tsx</summary>
 
 ```tsx filename=app/routes/login.tsx lines=[2,7,12-13,19-23,25-29,31-37,39-112,115,138-141,150-153,164-172,174-182,190-198,200-208,210-219]
-import type {
-  ActionFunctionArgs,
-  LinksFunction,
-} from "@remix-run/node";
-import {
-  Link,
-  useActionData,
-  useSearchParams,
-} from "@remix-run/react";
+import type { ActionFunctionArgs, LinksFunction } from '@remix-run/node';
+import { Link, useActionData, useSearchParams } from '@remix-run/react';
 
-import stylesUrl from "~/styles/login.css";
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
+import stylesUrl from '@/styles/login.css';
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
 function validateUsername(username: string) {
   if (username.length < 3) {
-    return "Usernames must be at least 3 characters long";
+    return 'Usernames must be at least 3 characters long';
   }
 }
 
 function validatePassword(password: string) {
   if (password.length < 6) {
-    return "Passwords must be at least 6 characters long";
+    return 'Passwords must be at least 6 characters long';
   }
 }
 
 function validateUrl(url: string) {
-  const urls = ["/jokes", "/", "https://remix.run"];
+  const urls = ['/jokes', '/', 'https://remix.run'];
   if (urls.includes(url)) {
     return url;
   }
-  return "/jokes";
+  return '/jokes';
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  const loginType = form.get("loginType");
-  const password = form.get("password");
-  const username = form.get("username");
-  const redirectTo = validateUrl(
-    (form.get("redirectTo") as string) || "/jokes"
-  );
+  const loginType = form.get('loginType');
+  const password = form.get('password');
+  const username = form.get('username');
+  const redirectTo = validateUrl((form.get('redirectTo') as string) || '/jokes');
   if (
-    typeof loginType !== "string" ||
-    typeof password !== "string" ||
-    typeof username !== "string"
+    typeof loginType !== 'string' ||
+    typeof password !== 'string' ||
+    typeof username !== 'string'
   ) {
     return badRequest({
       fieldErrors: null,
       fields: null,
-      formError: "Form not submitted correctly.",
+      formError: 'Form not submitted correctly.',
     });
   }
 
@@ -26325,17 +25064,17 @@ export const action = async ({
   }
 
   switch (loginType) {
-    case "login": {
+    case 'login': {
       // login to get the user
       // if there's no user, return the fields and a formError
       // if there is a user, create their session and redirect to /jokes
       return badRequest({
         fieldErrors: null,
         fields,
-        formError: "Not implemented",
+        formError: 'Not implemented',
       });
     }
-    case "register": {
+    case 'register': {
       const userExists = await db.user.findFirst({
         where: { username },
       });
@@ -26351,14 +25090,14 @@ export const action = async ({
       return badRequest({
         fieldErrors: null,
         fields,
-        formError: "Not implemented",
+        formError: 'Not implemented',
       });
     }
     default: {
       return badRequest({
         fieldErrors: null,
         fields,
-        formError: "Login type invalid",
+        formError: 'Login type invalid',
       });
     }
   }
@@ -26375,24 +25114,19 @@ export default function Login() {
           <input
             type="hidden"
             name="redirectTo"
-            value={
-              searchParams.get("redirectTo") ?? undefined
-            }
+            value={searchParams.get('redirectTo') ?? undefined}
           />
           <fieldset>
-            <legend className="sr-only">
-              Login or Register?
-            </legend>
+            <legend className="sr-only">Login or Register?</legend>
             <label>
               <input
                 type="radio"
                 name="loginType"
                 value="login"
                 defaultChecked={
-                  !actionData?.fields?.loginType ||
-                  actionData?.fields?.loginType === "login"
+                  !actionData?.fields?.loginType || actionData?.fields?.loginType === 'login'
                 }
-              />{" "}
+              />{' '}
               Login
             </label>
             <label>
@@ -26400,11 +25134,8 @@ export default function Login() {
                 type="radio"
                 name="loginType"
                 value="register"
-                defaultChecked={
-                  actionData?.fields?.loginType ===
-                  "register"
-                }
-              />{" "}
+                defaultChecked={actionData?.fields?.loginType === 'register'}
+              />{' '}
               Register
             </label>
           </fieldset>
@@ -26415,21 +25146,11 @@ export default function Login() {
               id="username-input"
               name="username"
               defaultValue={actionData?.fields?.username}
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.username
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.username
-                  ? "username-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.username)}
+              aria-errormessage={actionData?.fieldErrors?.username ? 'username-error' : undefined}
             />
             {actionData?.fieldErrors?.username ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-                id="username-error"
-              >
+              <p className="form-validation-error" role="alert" id="username-error">
                 {actionData.fieldErrors.username}
               </p>
             ) : null}
@@ -26441,31 +25162,18 @@ export default function Login() {
               name="password"
               type="password"
               defaultValue={actionData?.fields?.password}
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.password
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.password
-                  ? "password-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.password)}
+              aria-errormessage={actionData?.fieldErrors?.password ? 'password-error' : undefined}
             />
             {actionData?.fieldErrors?.password ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-                id="password-error"
-              >
+              <p className="form-validation-error" role="alert" id="password-error">
                 {actionData.fieldErrors.password}
               </p>
             ) : null}
           </div>
           <div id="form-error-message">
             {actionData?.formError ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-              >
+              <p className="form-validation-error" role="alert">
                 {actionData.formError}
               </p>
             ) : null}
@@ -26514,19 +25222,16 @@ Here's what we need in that file to get started:
 <summary>app/utils/session.server.ts</summary>
 
 ```ts filename=app/utils/session.server.ts
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
 
-import { db } from "./db.server";
+import { db } from './db.server';
 
 type LoginForm = {
   password: string;
   username: string;
 };
 
-export async function login({
-  password,
-  username,
-}: LoginForm) {
+export async function login({ password, username }: LoginForm) {
   const user = await db.user.findUnique({
     where: { username },
   });
@@ -26534,10 +25239,7 @@ export async function login({
     return null;
   }
 
-  const isCorrectPassword = await bcrypt.compare(
-    password,
-    user.passwordHash
-  );
+  const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
   if (!isCorrectPassword) {
     return null;
   }
@@ -26557,34 +25259,31 @@ Great, with that in place, we can now update `app/routes/login.tsx` to use it:
 ```tsx filename=app/routes/login.tsx lines=[6,16-25] nocopy
 // ...
 
-import stylesUrl from "~/styles/login.css";
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
-import { login } from "~/utils/session.server";
+import stylesUrl from '@/styles/login.css';
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
+import { login } from '@/utils/session.server';
 
 // ...
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   // ...
   switch (loginType) {
-    case "login": {
+    case 'login': {
       const user = await login({ username, password });
       console.log({ user });
       if (!user) {
         return badRequest({
           fieldErrors: null,
           fields,
-          formError:
-            "Username/Password combination is incorrect",
+          formError: 'Username/Password combination is incorrect',
         });
       }
       // if there is a user, create their session and redirect to /jokes
       return badRequest({
         fieldErrors: null,
         fields,
-        formError: "Not implemented",
+        formError: 'Not implemented',
       });
     }
     // ...
@@ -26630,33 +25329,24 @@ Note: If you need a hand, there's a small example of how the whole basic flow go
 <summary>app/utils/session.server.ts</summary>
 
 ```ts filename=app/utils/session.server.ts lines=[1-4,35-38,40-53,55-66]
-import {
-  createCookieSessionStorage,
-  redirect,
-} from "@remix-run/node";
-import bcrypt from "bcryptjs";
+import { createCookieSessionStorage, redirect } from '@remix-run/node';
+import bcrypt from 'bcryptjs';
 
-import { db } from "./db.server";
+import { db } from './db.server';
 
 type LoginForm = {
   username: string;
   password: string;
 };
 
-export async function login({
-  username,
-  password,
-}: LoginForm) {
+export async function login({ username, password }: LoginForm) {
   const user = await db.user.findUnique({
     where: { username },
   });
   if (!user) {
     return null;
   }
-  const isCorrectPassword = await bcrypt.compare(
-    password,
-    user.passwordHash
-  );
+  const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
   if (!isCorrectPassword) {
     return null;
   }
@@ -26666,33 +25356,30 @@ export async function login({
 
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) {
-  throw new Error("SESSION_SECRET must be set");
+  throw new Error('SESSION_SECRET must be set');
 }
 
 const storage = createCookieSessionStorage({
   cookie: {
-    name: "RJ_session",
+    name: 'RJ_session',
     // normally you want this to be `secure: true`
     // but that doesn't work on localhost for Safari
     // https://web.dev/when-to-use-local-https/
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === 'production',
     secrets: [sessionSecret],
-    sameSite: "lax",
-    path: "/",
+    sameSite: 'lax',
+    path: '/',
     maxAge: 60 * 60 * 24 * 30,
     httpOnly: true,
   },
 });
 
-export async function createUserSession(
-  userId: string,
-  redirectTo: string
-) {
+export async function createUserSession(userId: string, redirectTo: string) {
   const session = await storage.getSession();
-  session.set("userId", userId);
+  session.set('userId', userId);
   return redirect(redirectTo, {
     headers: {
-      "Set-Cookie": await storage.commitSession(session),
+      'Set-Cookie': await storage.commitSession(session),
     },
   });
 }
@@ -26707,23 +25394,18 @@ export async function createUserSession(
 ```tsx filename=app/routes/login.tsx lines=[7,29] nocopy
 // ...
 
-import stylesUrl from "~/styles/login.css";
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
-import {
-  createUserSession,
-  login,
-} from "~/utils/session.server";
+import stylesUrl from '@/styles/login.css';
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
+import { createUserSession, login } from '@/utils/session.server';
 
 // ...
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   // ...
 
   switch (loginType) {
-    case "login": {
+    case 'login': {
       const user = await login({ username, password });
 
       if (!user) {
@@ -26772,33 +25454,24 @@ So we can now check whether the user is authenticated on the server by reading t
 <summary>app/utils/session.server.ts</summary>
 
 ```ts filename=app/utils/session.server.ts lines=[55-57,59-66,68-81]
-import {
-  createCookieSessionStorage,
-  redirect,
-} from "@remix-run/node";
-import bcrypt from "bcryptjs";
+import { createCookieSessionStorage, redirect } from '@remix-run/node';
+import bcrypt from 'bcryptjs';
 
-import { db } from "./db.server";
+import { db } from './db.server';
 
 type LoginForm = {
   username: string;
   password: string;
 };
 
-export async function login({
-  username,
-  password,
-}: LoginForm) {
+export async function login({ username, password }: LoginForm) {
   const user = await db.user.findUnique({
     where: { username },
   });
   if (!user) {
     return null;
   }
-  const isCorrectPassword = await bcrypt.compare(
-    password,
-    user.passwordHash
-  );
+  const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
   if (!isCorrectPassword) {
     return null;
   }
@@ -26808,32 +25481,32 @@ export async function login({
 
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) {
-  throw new Error("SESSION_SECRET must be set");
+  throw new Error('SESSION_SECRET must be set');
 }
 
 const storage = createCookieSessionStorage({
   cookie: {
-    name: "RJ_session",
+    name: 'RJ_session',
     // normally you want this to be `secure: true`
     // but that doesn't work on localhost for Safari
     // https://web.dev/when-to-use-local-https/
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === 'production',
     secrets: [sessionSecret],
-    sameSite: "lax",
-    path: "/",
+    sameSite: 'lax',
+    path: '/',
     maxAge: 60 * 60 * 24 * 30,
     httpOnly: true,
   },
 });
 
 function getUserSession(request: Request) {
-  return storage.getSession(request.headers.get("Cookie"));
+  return storage.getSession(request.headers.get('Cookie'));
 }
 
 export async function getUserId(request: Request) {
   const session = await getUserSession(request);
-  const userId = session.get("userId");
-  if (!userId || typeof userId !== "string") {
+  const userId = session.get('userId');
+  if (!userId || typeof userId !== 'string') {
     return null;
   }
   return userId;
@@ -26841,28 +25514,23 @@ export async function getUserId(request: Request) {
 
 export async function requireUserId(
   request: Request,
-  redirectTo: string = new URL(request.url).pathname
+  redirectTo: string = new URL(request.url).pathname,
 ) {
   const session = await getUserSession(request);
-  const userId = session.get("userId");
-  if (!userId || typeof userId !== "string") {
-    const searchParams = new URLSearchParams([
-      ["redirectTo", redirectTo],
-    ]);
+  const userId = session.get('userId');
+  if (!userId || typeof userId !== 'string') {
+    const searchParams = new URLSearchParams([['redirectTo', redirectTo]]);
     throw redirect(`/login?${searchParams}`);
   }
   return userId;
 }
 
-export async function createUserSession(
-  userId: string,
-  redirectTo: string
-) {
+export async function createUserSession(userId: string, redirectTo: string) {
   const session = await storage.getSession();
-  session.set("userId", userId);
+  session.set('userId', userId);
   return redirect(redirectTo, {
     headers: {
-      "Set-Cookie": await storage.commitSession(session),
+      'Set-Cookie': await storage.commitSession(session),
     },
   });
 }
@@ -26885,17 +25553,17 @@ You may also notice that our solution makes use of the `login` route's `redirect
 <summary>app/routes/jokes.new.tsx</summary>
 
 ```tsx filename=app/routes/jokes.new.tsx lines=[7,24,53]
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
+import type { ActionFunctionArgs } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
+import { useActionData } from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
-import { requireUserId } from "~/utils/session.server";
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
+import { requireUserId } from '@/utils/session.server';
 
 function validateJokeContent(content: string) {
   if (content.length < 10) {
-    return "That joke is too short";
+    return 'That joke is too short';
   }
 }
 
@@ -26905,21 +25573,16 @@ function validateJokeName(name: string) {
   }
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
   const form = await request.formData();
-  const content = form.get("content");
-  const name = form.get("name");
-  if (
-    typeof content !== "string" ||
-    typeof name !== "string"
-  ) {
+  const content = form.get('content');
+  const name = form.get('name');
+  if (typeof content !== 'string' || typeof name !== 'string') {
     return badRequest({
       fieldErrors: null,
       fields: null,
-      formError: "Form not submitted correctly.",
+      formError: 'Form not submitted correctly.',
     });
   }
 
@@ -26951,63 +25614,40 @@ export default function NewJokeRoute() {
       <form method="post">
         <div>
           <label>
-            Name:{" "}
+            Name:{' '}
             <input
               defaultValue={actionData?.fields?.name}
               name="name"
               type="text"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.name
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.name
-                  ? "name-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.name)}
+              aria-errormessage={actionData?.fieldErrors?.name ? 'name-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.name ? (
-            <p
-              className="form-validation-error"
-              id="name-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="name-error" role="alert">
               {actionData.fieldErrors.name}
             </p>
           ) : null}
         </div>
         <div>
           <label>
-            Content:{" "}
+            Content:{' '}
             <textarea
               defaultValue={actionData?.fields?.content}
               name="content"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.content
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.content
-                  ? "content-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.content)}
+              aria-errormessage={actionData?.fieldErrors?.content ? 'content-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.content ? (
-            <p
-              className="form-validation-error"
-              id="content-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="content-error" role="alert">
               {actionData.fieldErrors.content}
             </p>
           ) : null}
         </div>
         <div>
           {actionData?.formError ? (
-            <p
-              className="form-validation-error"
-              role="alert"
-            >
+            <p className="form-validation-error" role="alert">
               {actionData.formError}
             </p>
           ) : null}
@@ -27036,23 +25676,17 @@ We should probably give people the ability to see that they're logged in and a w
 <summary>app/utils/session.server.ts</summary>
 
 ```ts filename=app/utils/session.server.ts lines=[84-100,102-109]
-import {
-  createCookieSessionStorage,
-  redirect,
-} from "@remix-run/node";
-import bcrypt from "bcryptjs";
+import { createCookieSessionStorage, redirect } from '@remix-run/node';
+import bcrypt from 'bcryptjs';
 
-import { db } from "./db.server";
+import { db } from './db.server';
 
 type LoginForm = {
   password: string;
   username: string;
 };
 
-export async function login({
-  password,
-  username,
-}: LoginForm) {
+export async function login({ password, username }: LoginForm) {
   const user = await db.user.findUnique({
     where: { username },
   });
@@ -27060,10 +25694,7 @@ export async function login({
     return null;
   }
 
-  const isCorrectPassword = await bcrypt.compare(
-    password,
-    user.passwordHash
-  );
+  const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
   if (!isCorrectPassword) {
     return null;
   }
@@ -27073,32 +25704,32 @@ export async function login({
 
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) {
-  throw new Error("SESSION_SECRET must be set");
+  throw new Error('SESSION_SECRET must be set');
 }
 
 const storage = createCookieSessionStorage({
   cookie: {
-    name: "RJ_session",
+    name: 'RJ_session',
     // normally you want this to be `secure: true`
     // but that doesn't work on localhost for Safari
     // https://web.dev/when-to-use-local-https/
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === 'production',
     secrets: [sessionSecret],
-    sameSite: "lax",
-    path: "/",
+    sameSite: 'lax',
+    path: '/',
     maxAge: 60 * 60 * 24 * 30,
     httpOnly: true,
   },
 });
 
 function getUserSession(request: Request) {
-  return storage.getSession(request.headers.get("Cookie"));
+  return storage.getSession(request.headers.get('Cookie'));
 }
 
 export async function getUserId(request: Request) {
   const session = await getUserSession(request);
-  const userId = session.get("userId");
-  if (!userId || typeof userId !== "string") {
+  const userId = session.get('userId');
+  if (!userId || typeof userId !== 'string') {
     return null;
   }
   return userId;
@@ -27106,14 +25737,12 @@ export async function getUserId(request: Request) {
 
 export async function requireUserId(
   request: Request,
-  redirectTo: string = new URL(request.url).pathname
+  redirectTo: string = new URL(request.url).pathname,
 ) {
   const session = await getUserSession(request);
-  const userId = session.get("userId");
-  if (!userId || typeof userId !== "string") {
-    const searchParams = new URLSearchParams([
-      ["redirectTo", redirectTo],
-    ]);
+  const userId = session.get('userId');
+  if (!userId || typeof userId !== 'string') {
+    const searchParams = new URLSearchParams([['redirectTo', redirectTo]]);
     throw redirect(`/login?${searchParams}`);
   }
   return userId;
@@ -27121,7 +25750,7 @@ export async function requireUserId(
 
 export async function getUser(request: Request) {
   const userId = await getUserId(request);
-  if (typeof userId !== "string") {
+  if (typeof userId !== 'string') {
     return null;
   }
 
@@ -27139,22 +25768,19 @@ export async function getUser(request: Request) {
 
 export async function logout(request: Request) {
   const session = await getUserSession(request);
-  return redirect("/login", {
+  return redirect('/login', {
     headers: {
-      "Set-Cookie": await storage.destroySession(session),
+      'Set-Cookie': await storage.destroySession(session),
     },
   });
 }
 
-export async function createUserSession(
-  userId: string,
-  redirectTo: string
-) {
+export async function createUserSession(userId: string, redirectTo: string) {
   const session = await storage.getSession();
-  session.set("userId", userId);
+  session.set('userId', userId);
   return redirect(redirectTo, {
     headers: {
-      "Set-Cookie": await storage.commitSession(session),
+      'Set-Cookie': await storage.commitSession(session),
     },
   });
 }
@@ -27169,30 +25795,19 @@ export async function createUserSession(
 <summary>app/routes/jokes.tsx</summary>
 
 ```tsx filename=app/routes/jokes.tsx lines=[3,14,20-22,28,30,50-61]
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import {
-  Link,
-  Outlet,
-  useLoaderData,
-} from "@remix-run/react";
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { Link, Outlet, useLoaderData } from '@remix-run/react';
 
-import stylesUrl from "~/styles/jokes.css";
-import { db } from "~/utils/db.server";
-import { getUser } from "~/utils/session.server";
+import stylesUrl from '@/styles/jokes.css';
+import { db } from '@/utils/db.server';
+import { getUser } from '@/utils/session.server';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const jokeListItems = await db.joke.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
     select: { id: true, name: true },
     take: 5,
   });
@@ -27209,11 +25824,7 @@ export default function JokesRoute() {
       <header className="jokes-header">
         <div className="container">
           <h1 className="home-link">
-            <Link
-              to="/"
-              title="Remix Jokes"
-              aria-label="Remix Jokes"
-            >
+            <Link to="/" title="Remix Jokes" aria-label="Remix Jokes">
               <span className="logo">🤪</span>
               <span className="logo-medium">J🤪KES</span>
             </Link>
@@ -27265,16 +25876,14 @@ export default function JokesRoute() {
 <summary>app/routes/logout.tsx</summary>
 
 ```tsx filename=app/routes/logout.tsx
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import type { ActionFunctionArgs } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 
-import { logout } from "~/utils/session.server";
+import { logout } from '@/utils/session.server';
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => logout(request);
+export const action = async ({ request }: ActionFunctionArgs) => logout(request);
 
-export const loader = async () => redirect("/");
+export const loader = async () => redirect('/');
 ```
 
 </details>
@@ -27310,23 +25919,17 @@ Luckily, all we need to do to support this is to update `app/utils/session.serve
 <summary>app/utils/session.server.ts</summary>
 
 ```tsx filename=app/utils/session.server.ts lines=[14-23]
-import {
-  createCookieSessionStorage,
-  redirect,
-} from "@remix-run/node";
-import bcrypt from "bcryptjs";
+import { createCookieSessionStorage, redirect } from '@remix-run/node';
+import bcrypt from 'bcryptjs';
 
-import { db } from "./db.server";
+import { db } from './db.server';
 
 type LoginForm = {
   password: string;
   username: string;
 };
 
-export async function register({
-  password,
-  username,
-}: LoginForm) {
+export async function register({ password, username }: LoginForm) {
   const passwordHash = await bcrypt.hash(password, 10);
   const user = await db.user.create({
     data: { passwordHash, username },
@@ -27334,10 +25937,7 @@ export async function register({
   return { id: user.id, username };
 }
 
-export async function login({
-  password,
-  username,
-}: LoginForm) {
+export async function login({ password, username }: LoginForm) {
   const user = await db.user.findUnique({
     where: { username },
   });
@@ -27345,10 +25945,7 @@ export async function login({
     return null;
   }
 
-  const isCorrectPassword = await bcrypt.compare(
-    password,
-    user.passwordHash
-  );
+  const isCorrectPassword = await bcrypt.compare(password, user.passwordHash);
   if (!isCorrectPassword) {
     return null;
   }
@@ -27358,32 +25955,32 @@ export async function login({
 
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) {
-  throw new Error("SESSION_SECRET must be set");
+  throw new Error('SESSION_SECRET must be set');
 }
 
 const storage = createCookieSessionStorage({
   cookie: {
-    name: "RJ_session",
+    name: 'RJ_session',
     // normally you want this to be `secure: true`
     // but that doesn't work on localhost for Safari
     // https://web.dev/when-to-use-local-https/
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === 'production',
     secrets: [sessionSecret],
-    sameSite: "lax",
-    path: "/",
+    sameSite: 'lax',
+    path: '/',
     maxAge: 60 * 60 * 24 * 30,
     httpOnly: true,
   },
 });
 
 function getUserSession(request: Request) {
-  return storage.getSession(request.headers.get("Cookie"));
+  return storage.getSession(request.headers.get('Cookie'));
 }
 
 export async function getUserId(request: Request) {
   const session = await getUserSession(request);
-  const userId = session.get("userId");
-  if (!userId || typeof userId !== "string") {
+  const userId = session.get('userId');
+  if (!userId || typeof userId !== 'string') {
     return null;
   }
   return userId;
@@ -27391,14 +25988,12 @@ export async function getUserId(request: Request) {
 
 export async function requireUserId(
   request: Request,
-  redirectTo: string = new URL(request.url).pathname
+  redirectTo: string = new URL(request.url).pathname,
 ) {
   const session = await getUserSession(request);
-  const userId = session.get("userId");
-  if (!userId || typeof userId !== "string") {
-    const searchParams = new URLSearchParams([
-      ["redirectTo", redirectTo],
-    ]);
+  const userId = session.get('userId');
+  if (!userId || typeof userId !== 'string') {
+    const searchParams = new URLSearchParams([['redirectTo', redirectTo]]);
     throw redirect(`/login?${searchParams}`);
   }
   return userId;
@@ -27406,7 +26001,7 @@ export async function requireUserId(
 
 export async function getUser(request: Request) {
   const userId = await getUserId(request);
-  if (typeof userId !== "string") {
+  if (typeof userId !== 'string') {
     return null;
   }
 
@@ -27424,22 +26019,19 @@ export async function getUser(request: Request) {
 
 export async function logout(request: Request) {
   const session = await getUserSession(request);
-  return redirect("/login", {
+  return redirect('/login', {
     headers: {
-      "Set-Cookie": await storage.destroySession(session),
+      'Set-Cookie': await storage.destroySession(session),
     },
   });
 }
 
-export async function createUserSession(
-  userId: string,
-  redirectTo: string
-) {
+export async function createUserSession(userId: string, redirectTo: string) {
   const session = await storage.getSession();
-  session.set("userId", userId);
+  session.set('userId', userId);
   return redirect(redirectTo, {
     headers: {
-      "Set-Cookie": await storage.commitSession(session),
+      'Set-Cookie': await storage.commitSession(session),
     },
   });
 }
@@ -27452,68 +26044,51 @@ export async function createUserSession(
 <summary>app/routes/login.tsx</summary>
 
 ```tsx filename=app/routes/login.tsx lines=[17,104-112]
-import type {
-  ActionFunctionArgs,
-  LinksFunction,
-} from "@remix-run/node";
-import {
-  Link,
-  useActionData,
-  useSearchParams,
-} from "@remix-run/react";
+import type { ActionFunctionArgs, LinksFunction } from '@remix-run/node';
+import { Link, useActionData, useSearchParams } from '@remix-run/react';
 
-import stylesUrl from "~/styles/login.css";
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
-import {
-  createUserSession,
-  login,
-  register,
-} from "~/utils/session.server";
+import stylesUrl from '@/styles/login.css';
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
+import { createUserSession, login, register } from '@/utils/session.server';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
 function validateUsername(username: string) {
   if (username.length < 3) {
-    return "Usernames must be at least 3 characters long";
+    return 'Usernames must be at least 3 characters long';
   }
 }
 
 function validatePassword(password: string) {
   if (password.length < 6) {
-    return "Passwords must be at least 6 characters long";
+    return 'Passwords must be at least 6 characters long';
   }
 }
 
 function validateUrl(url: string) {
-  const urls = ["/jokes", "/", "https://remix.run"];
+  const urls = ['/jokes', '/', 'https://remix.run'];
   if (urls.includes(url)) {
     return url;
   }
-  return "/jokes";
+  return '/jokes';
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  const loginType = form.get("loginType");
-  const password = form.get("password");
-  const username = form.get("username");
-  const redirectTo = validateUrl(
-    (form.get("redirectTo") as string) || "/jokes"
-  );
+  const loginType = form.get('loginType');
+  const password = form.get('password');
+  const username = form.get('username');
+  const redirectTo = validateUrl((form.get('redirectTo') as string) || '/jokes');
   if (
-    typeof loginType !== "string" ||
-    typeof password !== "string" ||
-    typeof username !== "string"
+    typeof loginType !== 'string' ||
+    typeof password !== 'string' ||
+    typeof username !== 'string'
   ) {
     return badRequest({
       fieldErrors: null,
       fields: null,
-      formError: "Form not submitted correctly.",
+      formError: 'Form not submitted correctly.',
     });
   }
 
@@ -27531,20 +26106,19 @@ export const action = async ({
   }
 
   switch (loginType) {
-    case "login": {
+    case 'login': {
       const user = await login({ username, password });
       console.log({ user });
       if (!user) {
         return badRequest({
           fieldErrors: null,
           fields,
-          formError:
-            "Username/Password combination is incorrect",
+          formError: 'Username/Password combination is incorrect',
         });
       }
       return createUserSession(user.id, redirectTo);
     }
-    case "register": {
+    case 'register': {
       const userExists = await db.user.findFirst({
         where: { username },
       });
@@ -27560,8 +26134,7 @@ export const action = async ({
         return badRequest({
           fieldErrors: null,
           fields,
-          formError:
-            "Something went wrong trying to create a new user.",
+          formError: 'Something went wrong trying to create a new user.',
         });
       }
       return createUserSession(user.id, redirectTo);
@@ -27570,7 +26143,7 @@ export const action = async ({
       return badRequest({
         fieldErrors: null,
         fields,
-        formError: "Login type invalid",
+        formError: 'Login type invalid',
       });
     }
   }
@@ -27587,24 +26160,19 @@ export default function Login() {
           <input
             type="hidden"
             name="redirectTo"
-            value={
-              searchParams.get("redirectTo") ?? undefined
-            }
+            value={searchParams.get('redirectTo') ?? undefined}
           />
           <fieldset>
-            <legend className="sr-only">
-              Login or Register?
-            </legend>
+            <legend className="sr-only">Login or Register?</legend>
             <label>
               <input
                 type="radio"
                 name="loginType"
                 value="login"
                 defaultChecked={
-                  !actionData?.fields?.loginType ||
-                  actionData?.fields?.loginType === "login"
+                  !actionData?.fields?.loginType || actionData?.fields?.loginType === 'login'
                 }
-              />{" "}
+              />{' '}
               Login
             </label>
             <label>
@@ -27612,11 +26180,8 @@ export default function Login() {
                 type="radio"
                 name="loginType"
                 value="register"
-                defaultChecked={
-                  actionData?.fields?.loginType ===
-                  "register"
-                }
-              />{" "}
+                defaultChecked={actionData?.fields?.loginType === 'register'}
+              />{' '}
               Register
             </label>
           </fieldset>
@@ -27627,21 +26192,11 @@ export default function Login() {
               id="username-input"
               name="username"
               defaultValue={actionData?.fields?.username}
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.username
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.username
-                  ? "username-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.username)}
+              aria-errormessage={actionData?.fieldErrors?.username ? 'username-error' : undefined}
             />
             {actionData?.fieldErrors?.username ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-                id="username-error"
-              >
+              <p className="form-validation-error" role="alert" id="username-error">
                 {actionData.fieldErrors.username}
               </p>
             ) : null}
@@ -27653,31 +26208,18 @@ export default function Login() {
               name="password"
               type="password"
               defaultValue={actionData?.fields?.password}
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.password
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.password
-                  ? "password-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.password)}
+              aria-errormessage={actionData?.fieldErrors?.password ? 'password-error' : undefined}
             />
             {actionData?.fieldErrors?.password ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-                id="password-error"
-              >
+              <p className="form-validation-error" role="alert" id="password-error">
                 {actionData.fieldErrors.password}
               </p>
             ) : null}
           </div>
           <div id="form-error-message">
             {actionData?.formError ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-              >
+              <p className="form-validation-error" role="alert">
                 {actionData.formError}
               </p>
             ) : null}
@@ -27727,30 +26269,25 @@ Remember that the `app/root.tsx` module is responsible for rendering our `<html>
 <summary>app/root.tsx</summary>
 
 ```tsx filename=app/root.tsx lines=[6,8,28-49,51-57,59-74]
-import type { LinksFunction } from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Outlet,
-  useRouteError,
-} from "@remix-run/react";
-import type { PropsWithChildren } from "react";
+import type { LinksFunction } from '@remix-run/node';
+import { Links, LiveReload, Outlet, useRouteError } from '@remix-run/react';
+import type { PropsWithChildren } from 'react';
 
-import globalLargeStylesUrl from "~/styles/global-large.css";
-import globalMediumStylesUrl from "~/styles/global-medium.css";
-import globalStylesUrl from "~/styles/global.css";
+import globalLargeStylesUrl from '@/styles/global-large.css';
+import globalMediumStylesUrl from '@/styles/global-medium.css';
+import globalStylesUrl from '@/styles/global.css';
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: globalStylesUrl },
+  { rel: 'stylesheet', href: globalStylesUrl },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalMediumStylesUrl,
-    media: "print, (min-width: 640px)",
+    media: 'print, (min-width: 640px)',
   },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalLargeStylesUrl,
-    media: "screen and (min-width: 1024px)",
+    media: 'screen and (min-width: 1024px)',
   },
 ];
 
@@ -27762,10 +26299,7 @@ function Document({
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{title}</title>
         <Links />
       </head>
@@ -27788,10 +26322,7 @@ export default function App() {
 export function ErrorBoundary() {
   const error = useRouteError();
 
-  const errorMessage =
-    error instanceof Error
-      ? error.message
-      : "Unknown error";
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
   return (
     <Document title="Uh-oh!">
       <div className="error-container">
@@ -27812,11 +26343,7 @@ export function ErrorBoundary() {
 ```tsx filename=app/routes/jokes.$jokeId.tsx lines=[6,11-19] nocopy
 // ...
 
-import {
-  Link,
-  useLoaderData,
-  useParams,
-} from "@remix-run/react";
+import { Link, useLoaderData, useParams } from '@remix-run/react';
 
 // ...
 
@@ -27824,8 +26351,7 @@ export function ErrorBoundary() {
   const { jokeId } = useParams();
   return (
     <div className="error-container">
-      There was an error loading joke by the id "${jokeId}".
-      Sorry.
+      There was an error loading joke by the id "${jokeId}". Sorry.
     </div>
   );
 }
@@ -27841,11 +26367,7 @@ export function ErrorBoundary() {
 // ...
 
 export function ErrorBoundary() {
-  return (
-    <div className="error-container">
-      Something unexpected went wrong. Sorry about that.
-    </div>
-  );
+  return <div className="error-container">Something unexpected went wrong. Sorry about that.</div>;
 }
 ```
 
@@ -27859,11 +26381,7 @@ export function ErrorBoundary() {
 // ...
 
 export function ErrorBoundary() {
-  return (
-    <div className="error-container">
-      I did a whoopsies.
-    </div>
-  );
+  return <div className="error-container">I did a whoopsies.</div>;
 }
 ```
 
@@ -27872,7 +26390,7 @@ export function ErrorBoundary() {
 Ok great, with those in place, let's check what happens when there's an error. Go ahead and just add this to the default component, loader, or action of each of the routes.
 
 ```ts
-throw new Error("Testing Error Boundary");
+throw new Error('Testing Error Boundary');
 ```
 
 Here's what I get:
@@ -27913,31 +26431,25 @@ With that understanding, we're going to add a `isRouteErrorResponse` check to th
 <summary>app/root.tsx</summary>
 
 ```tsx filename=app/root.tsx lines=[3,63-75]
-import type { LinksFunction } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  Links,
-  LiveReload,
-  Outlet,
-  useRouteError,
-} from "@remix-run/react";
-import type { PropsWithChildren } from "react";
+import type { LinksFunction } from '@remix-run/node';
+import { isRouteErrorResponse, Links, LiveReload, Outlet, useRouteError } from '@remix-run/react';
+import type { PropsWithChildren } from 'react';
 
-import globalLargeStylesUrl from "~/styles/global-large.css";
-import globalMediumStylesUrl from "~/styles/global-medium.css";
-import globalStylesUrl from "~/styles/global.css";
+import globalLargeStylesUrl from '@/styles/global-large.css';
+import globalMediumStylesUrl from '@/styles/global-medium.css';
+import globalStylesUrl from '@/styles/global.css';
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: globalStylesUrl },
+  { rel: 'stylesheet', href: globalStylesUrl },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalMediumStylesUrl,
-    media: "print, (min-width: 640px)",
+    media: 'print, (min-width: 640px)',
   },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalLargeStylesUrl,
-    media: "screen and (min-width: 1024px)",
+    media: 'screen and (min-width: 1024px)',
   },
 ];
 
@@ -27949,10 +26461,7 @@ function Document({
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{title}</title>
         <Links />
       </head>
@@ -27977,9 +26486,7 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     return (
-      <Document
-        title={`${error.status} ${error.statusText}`}
-      >
+      <Document title={`${error.status} ${error.statusText}`}>
         <div className="error-container">
           <h1>
             {error.status} {error.statusText}
@@ -27989,10 +26496,7 @@ export function ErrorBoundary() {
     );
   }
 
-  const errorMessage =
-    error instanceof Error
-      ? error.message
-      : "Unknown error";
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
   return (
     <Document title="Uh-oh!">
       <div className="error-container">
@@ -28011,26 +26515,24 @@ export function ErrorBoundary() {
 <summary>app/routes/jokes.$jokeId.tsx</summary>
 
 ```tsx filename=app/routes/jokes.$jokeId.tsx lines=[4,8,20-22,41,43-49]
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import {
   isRouteErrorResponse,
   Link,
   useLoaderData,
   useParams,
   useRouteError,
-} from "@remix-run/react";
+} from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
+import { db } from '@/utils/db.server';
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const joke = await db.joke.findUnique({
     where: { id: params.jokeId },
   });
   if (!joke) {
-    throw new Response("What a joke! Not found.", {
+    throw new Response('What a joke! Not found.', {
       status: 404,
     });
   }
@@ -28054,17 +26556,12 @@ export function ErrorBoundary() {
   const error = useRouteError();
 
   if (isRouteErrorResponse(error) && error.status === 404) {
-    return (
-      <div className="error-container">
-        Huh? What the heck is "{jokeId}"?
-      </div>
-    );
+    return <div className="error-container">Huh? What the heck is "{jokeId}"?</div>;
   }
 
   return (
     <div className="error-container">
-      There was an error loading joke by the id "${jokeId}".
-      Sorry.
+      There was an error loading joke by the id "${jokeId}". Sorry.
     </div>
   );
 }
@@ -28077,15 +26574,10 @@ export function ErrorBoundary() {
 <summary>app/routes/jokes._index.tsx</summary>
 
 ```tsx filename=app/routes/jokes._index.tsx lines=[3,6,18-22,41,43-50]
-import { json } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  Link,
-  useLoaderData,
-  useRouteError,
-} from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { isRouteErrorResponse, Link, useLoaderData, useRouteError } from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
+import { db } from '@/utils/db.server';
 
 export const loader = async () => {
   const count = await db.joke.count();
@@ -28095,7 +26587,7 @@ export const loader = async () => {
     take: 1,
   });
   if (!randomJoke) {
-    throw new Response("No random joke found", {
+    throw new Response('No random joke found', {
       status: 404,
     });
   }
@@ -28109,9 +26601,7 @@ export default function JokesIndexRoute() {
     <div>
       <p>Here's a random joke:</p>
       <p>{data.randomJoke.content}</p>
-      <Link to={data.randomJoke.id}>
-        "{data.randomJoke.name}" Permalink
-      </Link>
+      <Link to={data.randomJoke.id}>"{data.randomJoke.name}" Permalink</Link>
     </div>
   );
 }
@@ -28128,11 +26618,7 @@ export function ErrorBoundary() {
     );
   }
 
-  return (
-    <div className="error-container">
-      I did a whoopsies.
-    </div>
-  );
+  return <div className="error-container">I did a whoopsies.</div>;
 }
 ```
 
@@ -28143,38 +26629,25 @@ export function ErrorBoundary() {
 <summary>app/routes/jokes.new.tsx</summary>
 
 ```tsx filename=app/routes/jokes.new.tsx lines=[3,5,7,10,16,20-30,162,164-171]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  Link,
-  useActionData,
-  useRouteError,
-} from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import { isRouteErrorResponse, Link, useActionData, useRouteError } from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
-import {
-  getUserId,
-  requireUserId,
-} from "~/utils/session.server";
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
+import { getUserId, requireUserId } from '@/utils/session.server';
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   if (!userId) {
-    throw new Response("Unauthorized", { status: 401 });
+    throw new Response('Unauthorized', { status: 401 });
   }
   return json({});
 };
 
 function validateJokeContent(content: string) {
   if (content.length < 10) {
-    return "That joke is too short";
+    return 'That joke is too short';
   }
 }
 
@@ -28184,21 +26657,16 @@ function validateJokeName(name: string) {
   }
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
   const form = await request.formData();
-  const content = form.get("content");
-  const name = form.get("name");
-  if (
-    typeof content !== "string" ||
-    typeof name !== "string"
-  ) {
+  const content = form.get('content');
+  const name = form.get('name');
+  if (typeof content !== 'string' || typeof name !== 'string') {
     return badRequest({
       fieldErrors: null,
       fields: null,
-      formError: "Form not submitted correctly.",
+      formError: 'Form not submitted correctly.',
     });
   }
 
@@ -28230,63 +26698,40 @@ export default function NewJokeRoute() {
       <form method="post">
         <div>
           <label>
-            Name:{" "}
+            Name:{' '}
             <input
               defaultValue={actionData?.fields?.name}
               name="name"
               type="text"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.name
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.name
-                  ? "name-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.name)}
+              aria-errormessage={actionData?.fieldErrors?.name ? 'name-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.name ? (
-            <p
-              className="form-validation-error"
-              id="name-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="name-error" role="alert">
               {actionData.fieldErrors.name}
             </p>
           ) : null}
         </div>
         <div>
           <label>
-            Content:{" "}
+            Content:{' '}
             <textarea
               defaultValue={actionData?.fields?.content}
               name="content"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.content
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.content
-                  ? "content-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.content)}
+              aria-errormessage={actionData?.fieldErrors?.content ? 'content-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.content ? (
-            <p
-              className="form-validation-error"
-              id="content-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="content-error" role="alert">
               {actionData.fieldErrors.content}
             </p>
           ) : null}
         </div>
         <div>
           {actionData?.formError ? (
-            <p
-              className="form-validation-error"
-              role="alert"
-            >
+            <p className="form-validation-error" role="alert">
               {actionData.formError}
             </p>
           ) : null}
@@ -28311,11 +26756,7 @@ export function ErrorBoundary() {
     );
   }
 
-  return (
-    <div className="error-container">
-      Something unexpected went wrong. Sorry about that.
-    </div>
-  );
+  return <div className="error-container">Something unexpected went wrong. Sorry about that.</div>;
 }
 ```
 
@@ -28356,46 +26797,35 @@ And then the `action` can determine whether the intention is to delete based on 
 <summary>app/routes/jokes.$jokeId.tsx</summary>
 
 ```tsx filename=app/routes/jokes.$jokeId.tsx lines=[2,5,7,11,15,31-59,69-78,88-101]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 import {
   isRouteErrorResponse,
   Link,
   useLoaderData,
   useParams,
   useRouteError,
-} from "@remix-run/react";
+} from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
-import { requireUserId } from "~/utils/session.server";
+import { db } from '@/utils/db.server';
+import { requireUserId } from '@/utils/session.server';
 
-export const loader = async ({
-  params,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const joke = await db.joke.findUnique({
     where: { id: params.jokeId },
   });
   if (!joke) {
-    throw new Response("What a joke! Not found.", {
+    throw new Response('What a joke! Not found.', {
       status: 404,
     });
   }
   return json({ joke });
 };
 
-export const action = async ({
-  params,
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  if (form.get("intent") !== "delete") {
-    throw new Response(
-      `The intent ${form.get("intent")} is not supported`,
-      { status: 400 }
-    );
+  if (form.get('intent') !== 'delete') {
+    throw new Response(`The intent ${form.get('intent')} is not supported`, { status: 400 });
   }
   const userId = await requireUserId(request);
   const joke = await db.joke.findUnique({
@@ -28407,13 +26837,10 @@ export const action = async ({
     });
   }
   if (joke.jokesterId !== userId) {
-    throw new Response(
-      "Pssh, nice try. That's not your joke",
-      { status: 403 }
-    );
+    throw new Response("Pssh, nice try. That's not your joke", { status: 403 });
   }
   await db.joke.delete({ where: { id: params.jokeId } });
-  return redirect("/jokes");
+  return redirect('/jokes');
 };
 
 export default function JokeRoute() {
@@ -28425,12 +26852,7 @@ export default function JokeRoute() {
       <p>{data.joke.content}</p>
       <Link to=".">"{data.joke.name}" Permalink</Link>
       <form method="post">
-        <button
-          className="button"
-          name="intent"
-          type="submit"
-          value="delete"
-        >
+        <button className="button" name="intent" type="submit" value="delete">
           Delete
         </button>
       </form>
@@ -28444,32 +26866,19 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     if (error.status === 400) {
-      return (
-        <div className="error-container">
-          What you're trying to do is not allowed.
-        </div>
-      );
+      return <div className="error-container">What you're trying to do is not allowed.</div>;
     }
     if (error.status === 403) {
-      return (
-        <div className="error-container">
-          Sorry, but "{jokeId}" is not your joke.
-        </div>
-      );
+      return <div className="error-container">Sorry, but "{jokeId}" is not your joke.</div>;
     }
     if (error.status === 404) {
-      return (
-        <div className="error-container">
-          Huh? What the heck is "{jokeId}"?
-        </div>
-      );
+      return <div className="error-container">Huh? What the heck is "{jokeId}"?</div>;
     }
   }
 
   return (
     <div className="error-container">
-      There was an error loading joke by the id "${jokeId}".
-      Sorry.
+      There was an error loading joke by the id "${jokeId}". Sorry.
     </div>
   );
 }
@@ -28484,35 +26893,26 @@ Now that people will get a proper error message if they try to delete a joke tha
 <summary>app/routes/jokes.$jokeId.tsx</summary>
 
 ```tsx filename=app/routes/jokes.$jokeId.tsx lines=[16,22,24,34,77,88]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 import {
   isRouteErrorResponse,
   Link,
   useLoaderData,
   useParams,
   useRouteError,
-} from "@remix-run/react";
+} from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
-import {
-  getUserId,
-  requireUserId,
-} from "~/utils/session.server";
+import { db } from '@/utils/db.server';
+import { getUserId, requireUserId } from '@/utils/session.server';
 
-export const loader = async ({
-  params,
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   const joke = await db.joke.findUnique({
     where: { id: params.jokeId },
   });
   if (!joke) {
-    throw new Response("What a joke! Not found.", {
+    throw new Response('What a joke! Not found.', {
       status: 404,
     });
   }
@@ -28522,16 +26922,10 @@ export const loader = async ({
   });
 };
 
-export const action = async ({
-  params,
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  if (form.get("intent") !== "delete") {
-    throw new Response(
-      `The intent ${form.get("intent")} is not supported`,
-      { status: 400 }
-    );
+  if (form.get('intent') !== 'delete') {
+    throw new Response(`The intent ${form.get('intent')} is not supported`, { status: 400 });
   }
   const userId = await requireUserId(request);
   const joke = await db.joke.findUnique({
@@ -28543,13 +26937,10 @@ export const action = async ({
     });
   }
   if (joke.jokesterId !== userId) {
-    throw new Response(
-      "Pssh, nice try. That's not your joke",
-      { status: 403 }
-    );
+    throw new Response("Pssh, nice try. That's not your joke", { status: 403 });
   }
   await db.joke.delete({ where: { id: params.jokeId } });
-  return redirect("/jokes");
+  return redirect('/jokes');
 };
 
 export default function JokeRoute() {
@@ -28562,12 +26953,7 @@ export default function JokeRoute() {
       <Link to=".">"{data.joke.name}" Permalink</Link>
       {data.isOwner ? (
         <form method="post">
-          <button
-            className="button"
-            name="intent"
-            type="submit"
-            value="delete"
-          >
+          <button className="button" name="intent" type="submit" value="delete">
             Delete
           </button>
         </form>
@@ -28582,32 +26968,19 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     if (error.status === 400) {
-      return (
-        <div className="error-container">
-          What you're trying to do is not allowed.
-        </div>
-      );
+      return <div className="error-container">What you're trying to do is not allowed.</div>;
     }
     if (error.status === 403) {
-      return (
-        <div className="error-container">
-          Sorry, but "{jokeId}" is not your joke.
-        </div>
-      );
+      return <div className="error-container">Sorry, but "{jokeId}" is not your joke.</div>;
     }
     if (error.status === 404) {
-      return (
-        <div className="error-container">
-          Huh? What the heck is "{jokeId}"?
-        </div>
-      );
+      return <div className="error-container">Huh? What the heck is "{jokeId}"?</div>;
     }
   }
 
   return (
     <div className="error-container">
-      There was an error loading joke by the id "${jokeId}".
-      Sorry.
+      There was an error loading joke by the id "${jokeId}". Sorry.
     </div>
   );
 }
@@ -28633,10 +27006,7 @@ But before you get started, remember that we're in charge of rendering everythin
 <summary>app/root.tsx</summary>
 
 ```tsx filename=app/root.tsx lines=[3,9,33-42,46,56-69]
-import type {
-  LinksFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import {
   isRouteErrorResponse,
   Links,
@@ -28644,59 +27014,46 @@ import {
   Meta,
   Outlet,
   useRouteError,
-} from "@remix-run/react";
-import type { PropsWithChildren } from "react";
+} from '@remix-run/react';
+import type { PropsWithChildren } from 'react';
 
-import globalLargeStylesUrl from "~/styles/global-large.css";
-import globalMediumStylesUrl from "~/styles/global-medium.css";
-import globalStylesUrl from "~/styles/global.css";
+import globalLargeStylesUrl from '@/styles/global-large.css';
+import globalMediumStylesUrl from '@/styles/global-medium.css';
+import globalStylesUrl from '@/styles/global.css';
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: globalStylesUrl },
+  { rel: 'stylesheet', href: globalStylesUrl },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalMediumStylesUrl,
-    media: "print, (min-width: 640px)",
+    media: 'print, (min-width: 640px)',
   },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalLargeStylesUrl,
-    media: "screen and (min-width: 1024px)",
+    media: 'screen and (min-width: 1024px)',
   },
 ];
 
 export const meta: MetaFunction = () => {
-  const description =
-    "Learn Remix and laugh at the same time!";
+  const description = 'Learn Remix and laugh at the same time!';
 
   return [
-    { name: "description", content: description },
-    { name: "twitter:description", content: description },
+    { name: 'description', content: description },
+    { name: 'twitter:description', content: description },
     { title: "Remix: So great, it's funny!" },
   ];
 };
 
-function Document({
-  children,
-  title,
-}: PropsWithChildren<{ title?: string }>) {
+function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="keywords" content="Remix,jokes" />
-        <meta
-          name="twitter:image"
-          content="https://remix-jokes.lol/social.png"
-        />
-        <meta
-          name="twitter:card"
-          content="summary_large_image"
-        />
+        <meta name="twitter:image" content="https://remix-jokes.lol/social.png" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@remix_run" />
         <meta name="twitter:site" content="@remix_run" />
         <meta name="twitter:title" content="Remix Jokes" />
@@ -28725,9 +27082,7 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     return (
-      <Document
-        title={`${error.status} ${error.statusText}`}
-      >
+      <Document title={`${error.status} ${error.statusText}`}>
         <div className="error-container">
           <h1>
             {error.status} {error.statusText}
@@ -28737,10 +27092,7 @@ export function ErrorBoundary() {
     );
   }
 
-  const errorMessage =
-    error instanceof Error
-      ? error.message
-      : "Unknown error";
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
   return (
     <Document title="Uh-oh!">
       <div className="error-container">
@@ -28759,80 +27111,61 @@ export function ErrorBoundary() {
 <summary>app/routes/login.tsx</summary>
 
 ```tsx filename=app/routes/login.tsx lines=[4,25-34]
-import type {
-  ActionFunctionArgs,
-  LinksFunction,
-  MetaFunction,
-} from "@remix-run/node";
-import {
-  Link,
-  useActionData,
-  useSearchParams,
-} from "@remix-run/react";
+import type { ActionFunctionArgs, LinksFunction, MetaFunction } from '@remix-run/node';
+import { Link, useActionData, useSearchParams } from '@remix-run/react';
 
-import stylesUrl from "~/styles/login.css";
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
-import {
-  createUserSession,
-  login,
-  register,
-} from "~/utils/session.server";
+import stylesUrl from '@/styles/login.css';
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
+import { createUserSession, login, register } from '@/utils/session.server';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
 export const meta: MetaFunction = () => {
-  const description =
-    "Login to submit your own jokes to Remix Jokes!";
+  const description = 'Login to submit your own jokes to Remix Jokes!';
 
   return [
-    { name: "description", content: description },
-    { name: "twitter:description", content: description },
-    { title: "Remix Jokes | Login" },
+    { name: 'description', content: description },
+    { name: 'twitter:description', content: description },
+    { title: 'Remix Jokes | Login' },
   ];
 };
 
 function validateUsername(username: string) {
   if (username.length < 3) {
-    return "Usernames must be at least 3 characters long";
+    return 'Usernames must be at least 3 characters long';
   }
 }
 
 function validatePassword(password: string) {
   if (password.length < 6) {
-    return "Passwords must be at least 6 characters long";
+    return 'Passwords must be at least 6 characters long';
   }
 }
 
 function validateUrl(url: string) {
-  const urls = ["/jokes", "/", "https://remix.run"];
+  const urls = ['/jokes', '/', 'https://remix.run'];
   if (urls.includes(url)) {
     return url;
   }
-  return "/jokes";
+  return '/jokes';
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  const loginType = form.get("loginType");
-  const password = form.get("password");
-  const username = form.get("username");
-  const redirectTo = validateUrl(
-    (form.get("redirectTo") as string) || "/jokes"
-  );
+  const loginType = form.get('loginType');
+  const password = form.get('password');
+  const username = form.get('username');
+  const redirectTo = validateUrl((form.get('redirectTo') as string) || '/jokes');
   if (
-    typeof loginType !== "string" ||
-    typeof password !== "string" ||
-    typeof username !== "string"
+    typeof loginType !== 'string' ||
+    typeof password !== 'string' ||
+    typeof username !== 'string'
   ) {
     return badRequest({
       fieldErrors: null,
       fields: null,
-      formError: "Form not submitted correctly.",
+      formError: 'Form not submitted correctly.',
     });
   }
 
@@ -28850,20 +27183,19 @@ export const action = async ({
   }
 
   switch (loginType) {
-    case "login": {
+    case 'login': {
       const user = await login({ username, password });
       console.log({ user });
       if (!user) {
         return badRequest({
           fieldErrors: null,
           fields,
-          formError:
-            "Username/Password combination is incorrect",
+          formError: 'Username/Password combination is incorrect',
         });
       }
       return createUserSession(user.id, redirectTo);
     }
-    case "register": {
+    case 'register': {
       const userExists = await db.user.findFirst({
         where: { username },
       });
@@ -28879,8 +27211,7 @@ export const action = async ({
         return badRequest({
           fieldErrors: null,
           fields,
-          formError:
-            "Something went wrong trying to create a new user.",
+          formError: 'Something went wrong trying to create a new user.',
         });
       }
       return createUserSession(user.id, redirectTo);
@@ -28889,7 +27220,7 @@ export const action = async ({
       return badRequest({
         fieldErrors: null,
         fields,
-        formError: "Login type invalid",
+        formError: 'Login type invalid',
       });
     }
   }
@@ -28906,24 +27237,19 @@ export default function Login() {
           <input
             type="hidden"
             name="redirectTo"
-            value={
-              searchParams.get("redirectTo") ?? undefined
-            }
+            value={searchParams.get('redirectTo') ?? undefined}
           />
           <fieldset>
-            <legend className="sr-only">
-              Login or Register?
-            </legend>
+            <legend className="sr-only">Login or Register?</legend>
             <label>
               <input
                 type="radio"
                 name="loginType"
                 value="login"
                 defaultChecked={
-                  !actionData?.fields?.loginType ||
-                  actionData?.fields?.loginType === "login"
+                  !actionData?.fields?.loginType || actionData?.fields?.loginType === 'login'
                 }
-              />{" "}
+              />{' '}
               Login
             </label>
             <label>
@@ -28931,11 +27257,8 @@ export default function Login() {
                 type="radio"
                 name="loginType"
                 value="register"
-                defaultChecked={
-                  actionData?.fields?.loginType ===
-                  "register"
-                }
-              />{" "}
+                defaultChecked={actionData?.fields?.loginType === 'register'}
+              />{' '}
               Register
             </label>
           </fieldset>
@@ -28946,21 +27269,11 @@ export default function Login() {
               id="username-input"
               name="username"
               defaultValue={actionData?.fields?.username}
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.username
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.username
-                  ? "username-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.username)}
+              aria-errormessage={actionData?.fieldErrors?.username ? 'username-error' : undefined}
             />
             {actionData?.fieldErrors?.username ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-                id="username-error"
-              >
+              <p className="form-validation-error" role="alert" id="username-error">
                 {actionData.fieldErrors.username}
               </p>
             ) : null}
@@ -28972,31 +27285,18 @@ export default function Login() {
               name="password"
               type="password"
               defaultValue={actionData?.fields?.password}
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.password
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.password
-                  ? "password-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.password)}
+              aria-errormessage={actionData?.fieldErrors?.password ? 'password-error' : undefined}
             />
             {actionData?.fieldErrors?.password ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-                id="password-error"
-              >
+              <p className="form-validation-error" role="alert" id="password-error">
                 {actionData.fieldErrors.password}
               </p>
             ) : null}
           </div>
           <div id="form-error-message">
             {actionData?.formError ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-              >
+              <p className="form-validation-error" role="alert">
                 {actionData.formError}
               </p>
             ) : null}
@@ -29028,53 +27328,41 @@ export default function Login() {
 <summary>app/routes/jokes.$jokeId.tsx</summary>
 
 ```tsx filename=app/routes/jokes.$jokeId.tsx lines=[4,21-36]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 import {
   isRouteErrorResponse,
   Link,
   useLoaderData,
   useParams,
   useRouteError,
-} from "@remix-run/react";
+} from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
-import {
-  getUserId,
-  requireUserId,
-} from "~/utils/session.server";
+import { db } from '@/utils/db.server';
+import { getUserId, requireUserId } from '@/utils/session.server';
 
-export const meta: MetaFunction<typeof loader> = ({
-  data,
-}) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const { description, title } = data
     ? {
         description: `Enjoy the "${data.joke.name}" joke and much more`,
         title: `"${data.joke.name}" joke`,
       }
-    : { description: "No joke found", title: "No joke" };
+    : { description: 'No joke found', title: 'No joke' };
 
   return [
-    { name: "description", content: description },
-    { name: "twitter:description", content: description },
+    { name: 'description', content: description },
+    { name: 'twitter:description', content: description },
     { title },
   ];
 };
 
-export const loader = async ({
-  params,
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   const joke = await db.joke.findUnique({
     where: { id: params.jokeId },
   });
   if (!joke) {
-    throw new Response("What a joke! Not found.", {
+    throw new Response('What a joke! Not found.', {
       status: 404,
     });
   }
@@ -29084,16 +27372,10 @@ export const loader = async ({
   });
 };
 
-export const action = async ({
-  params,
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  if (form.get("intent") !== "delete") {
-    throw new Response(
-      `The intent ${form.get("intent")} is not supported`,
-      { status: 400 }
-    );
+  if (form.get('intent') !== 'delete') {
+    throw new Response(`The intent ${form.get('intent')} is not supported`, { status: 400 });
   }
   const userId = await requireUserId(request);
   const joke = await db.joke.findUnique({
@@ -29105,13 +27387,10 @@ export const action = async ({
     });
   }
   if (joke.jokesterId !== userId) {
-    throw new Response(
-      "Pssh, nice try. That's not your joke",
-      { status: 403 }
-    );
+    throw new Response("Pssh, nice try. That's not your joke", { status: 403 });
   }
   await db.joke.delete({ where: { id: params.jokeId } });
-  return redirect("/jokes");
+  return redirect('/jokes');
 };
 
 export default function JokeRoute() {
@@ -29124,12 +27403,7 @@ export default function JokeRoute() {
       <Link to=".">"{data.joke.name}" Permalink</Link>
       {data.isOwner ? (
         <form method="post">
-          <button
-            className="button"
-            name="intent"
-            type="submit"
-            value="delete"
-          >
+          <button className="button" name="intent" type="submit" value="delete">
             Delete
           </button>
         </form>
@@ -29144,32 +27418,19 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     if (error.status === 400) {
-      return (
-        <div className="error-container">
-          What you're trying to do is not allowed.
-        </div>
-      );
+      return <div className="error-container">What you're trying to do is not allowed.</div>;
     }
     if (error.status === 403) {
-      return (
-        <div className="error-container">
-          Sorry, but "{jokeId}" is not your joke.
-        </div>
-      );
+      return <div className="error-container">Sorry, but "{jokeId}" is not your joke.</div>;
     }
     if (error.status === 404) {
-      return (
-        <div className="error-container">
-          Huh? What the heck is "{jokeId}"?
-        </div>
-      );
+      return <div className="error-container">Huh? What the heck is "{jokeId}"?</div>;
     }
   }
 
   return (
     <div className="error-container">
-      There was an error loading joke by the id "${jokeId}".
-      Sorry.
+      There was an error loading joke by the id "${jokeId}". Sorry.
     </div>
   );
 }
@@ -29196,41 +27457,35 @@ For this one, you'll probably want to at least peek at the example unless you wa
 <summary>app/routes/jokes[.]rss.tsx</summary>
 
 ```tsx filename=app/routes/jokes[.]rss.tsx
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from '@remix-run/node';
 
-import { db } from "~/utils/db.server";
+import { db } from '@/utils/db.server';
 
 function escapeCdata(s: string) {
-  return s.replace(/\]\]>/g, "]]]]><![CDATA[>");
+  return s.replace(/\]\]>/g, ']]]]><![CDATA[>');
 }
 
 function escapeHtml(s: string) {
   return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const jokes = await db.joke.findMany({
     include: { jokester: { select: { username: true } } },
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
     take: 100,
   });
 
-  const host =
-    request.headers.get("X-Forwarded-Host") ??
-    request.headers.get("host");
+  const host = request.headers.get('X-Forwarded-Host') ?? request.headers.get('host');
   if (!host) {
-    throw new Error("Could not determine domain URL.");
+    throw new Error('Could not determine domain URL.');
   }
-  const protocol = host.includes("localhost")
-    ? "http"
-    : "https";
+  const protocol = host.includes('localhost') ? 'http' : 'https';
   const domain = `${protocol}://${host}`;
   const jokesUrl = `${domain}/jokes`;
 
@@ -29247,35 +27502,25 @@ export const loader = async ({
           .map((joke) =>
             `
             <item>
-              <title><![CDATA[${escapeCdata(
-                joke.name
-              )}]]></title>
-              <description><![CDATA[A funny joke called ${escapeHtml(
-                joke.name
-              )}]]></description>
-              <author><![CDATA[${escapeCdata(
-                joke.jokester.username
-              )}]]></author>
+              <title><![CDATA[${escapeCdata(joke.name)}]]></title>
+              <description><![CDATA[A funny joke called ${escapeHtml(joke.name)}]]></description>
+              <author><![CDATA[${escapeCdata(joke.jokester.username)}]]></author>
               <pubDate>${joke.createdAt.toUTCString()}</pubDate>
               <link>${jokesUrl}/${joke.id}</link>
               <guid>${jokesUrl}/${joke.id}</guid>
             </item>
-          `.trim()
+          `.trim(),
           )
-          .join("\n")}
+          .join('\n')}
       </channel>
     </rss>
   `.trim();
 
   return new Response(rssString, {
     headers: {
-      "Cache-Control": `public, max-age=${
-        60 * 10
-      }, s-maxage=${60 * 60 * 24}`,
-      "Content-Type": "application/xml",
-      "Content-Length": String(
-        Buffer.byteLength(rssString)
-      ),
+      'Cache-Control': `public, max-age=${60 * 10}, s-maxage=${60 * 60 * 24}`,
+      'Content-Type': 'application/xml',
+      'Content-Length': String(Buffer.byteLength(rssString)),
     },
   });
 };
@@ -29294,14 +27539,12 @@ Wahoo! You can seriously do anything you can imagine with this API. You could ev
 <summary>app/routes/_index.tsx</summary>
 
 ```tsx filename=app/routes/_index.tsx lines=[22-26]
-import type { LinksFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import type { LinksFunction } from '@remix-run/node';
+import { Link } from '@remix-run/react';
 
-import stylesUrl from "~/styles/index.css";
+import stylesUrl from '@/styles/index.css';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
 export default function IndexRoute() {
   return (
@@ -29335,30 +27578,19 @@ export default function IndexRoute() {
 <summary>app/routes/jokes.tsx</summary>
 
 ```tsx filename=app/routes/jokes.tsx lines=[85-91]
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import {
-  Link,
-  Outlet,
-  useLoaderData,
-} from "@remix-run/react";
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { Link, Outlet, useLoaderData } from '@remix-run/react';
 
-import stylesUrl from "~/styles/jokes.css";
-import { db } from "~/utils/db.server";
-import { getUser } from "~/utils/session.server";
+import stylesUrl from '@/styles/jokes.css';
+import { db } from '@/utils/db.server';
+import { getUser } from '@/utils/session.server';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const jokeListItems = await db.joke.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
     select: { id: true, name: true },
     take: 5,
   });
@@ -29375,11 +27607,7 @@ export default function JokesRoute() {
       <header className="jokes-header">
         <div className="container">
           <h1 className="home-link">
-            <Link
-              to="/"
-              title="Remix Jokes"
-              aria-label="Remix Jokes"
-            >
+            <Link to="/" title="Remix Jokes" aria-label="Remix Jokes">
               <span className="logo">🤪</span>
               <span className="logo-medium">J🤪KES</span>
             </Link>
@@ -29458,10 +27686,7 @@ Ok, so let's load JavaScript on this page now 😆
 <summary>app/root.tsx</summary>
 
 ```tsx filename=app/root.tsx lines=[11,75]
-import type {
-  LinksFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import {
   isRouteErrorResponse,
   Links,
@@ -29470,59 +27695,46 @@ import {
   Outlet,
   Scripts,
   useRouteError,
-} from "@remix-run/react";
-import type { PropsWithChildren } from "react";
+} from '@remix-run/react';
+import type { PropsWithChildren } from 'react';
 
-import globalLargeStylesUrl from "~/styles/global-large.css";
-import globalMediumStylesUrl from "~/styles/global-medium.css";
-import globalStylesUrl from "~/styles/global.css";
+import globalLargeStylesUrl from '@/styles/global-large.css';
+import globalMediumStylesUrl from '@/styles/global-medium.css';
+import globalStylesUrl from '@/styles/global.css';
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: globalStylesUrl },
+  { rel: 'stylesheet', href: globalStylesUrl },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalMediumStylesUrl,
-    media: "print, (min-width: 640px)",
+    media: 'print, (min-width: 640px)',
   },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalLargeStylesUrl,
-    media: "screen and (min-width: 1024px)",
+    media: 'screen and (min-width: 1024px)',
   },
 ];
 
 export const meta: MetaFunction = () => {
-  const description =
-    "Learn Remix and laugh at the same time!";
+  const description = 'Learn Remix and laugh at the same time!';
 
   return [
-    { name: "description", content: description },
-    { name: "twitter:description", content: description },
+    { name: 'description', content: description },
+    { name: 'twitter:description', content: description },
     { title: "Remix: So great, it's funny!" },
   ];
 };
 
-function Document({
-  children,
-  title,
-}: PropsWithChildren<{ title?: string }>) {
+function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="keywords" content="Remix,jokes" />
-        <meta
-          name="twitter:image"
-          content="https://remix-jokes.lol/social.png"
-        />
-        <meta
-          name="twitter:card"
-          content="summary_large_image"
-        />
+        <meta name="twitter:image" content="https://remix-jokes.lol/social.png" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@remix_run" />
         <meta name="twitter:site" content="@remix_run" />
         <meta name="twitter:title" content="Remix Jokes" />
@@ -29552,9 +27764,7 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     return (
-      <Document
-        title={`${error.status} ${error.statusText}`}
-      >
+      <Document title={`${error.status} ${error.statusText}`}>
         <div className="error-container">
           <h1>
             {error.status} {error.statusText}
@@ -29564,10 +27774,7 @@ export function ErrorBoundary() {
     );
   }
 
-  const errorMessage =
-    error instanceof Error
-      ? error.message
-      : "Unknown error";
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
   return (
     <Document title="Uh-oh!">
       <div className="error-container">
@@ -29590,10 +27797,7 @@ export function ErrorBoundary() {
 <summary>app/root.tsx</summary>
 
 ```tsx filename=app/root.tsx lines=[92]
-import type {
-  LinksFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import {
   isRouteErrorResponse,
   Links,
@@ -29602,59 +27806,46 @@ import {
   Outlet,
   Scripts,
   useRouteError,
-} from "@remix-run/react";
-import type { PropsWithChildren } from "react";
+} from '@remix-run/react';
+import type { PropsWithChildren } from 'react';
 
-import globalLargeStylesUrl from "~/styles/global-large.css";
-import globalMediumStylesUrl from "~/styles/global-medium.css";
-import globalStylesUrl from "~/styles/global.css";
+import globalLargeStylesUrl from '@/styles/global-large.css';
+import globalMediumStylesUrl from '@/styles/global-medium.css';
+import globalStylesUrl from '@/styles/global.css';
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: globalStylesUrl },
+  { rel: 'stylesheet', href: globalStylesUrl },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalMediumStylesUrl,
-    media: "print, (min-width: 640px)",
+    media: 'print, (min-width: 640px)',
   },
   {
-    rel: "stylesheet",
+    rel: 'stylesheet',
     href: globalLargeStylesUrl,
-    media: "screen and (min-width: 1024px)",
+    media: 'screen and (min-width: 1024px)',
   },
 ];
 
 export const meta: MetaFunction = () => {
-  const description =
-    "Learn Remix and laugh at the same time!";
+  const description = 'Learn Remix and laugh at the same time!';
 
   return [
-    { name: "description", content: description },
-    { name: "twitter:description", content: description },
+    { name: 'description', content: description },
+    { name: 'twitter:description', content: description },
     { title: "Remix: So great, it's funny!" },
   ];
 };
 
-function Document({
-  children,
-  title,
-}: PropsWithChildren<{ title?: string }>) {
+function Document({ children, title }: PropsWithChildren<{ title?: string }>) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="keywords" content="Remix,jokes" />
-        <meta
-          name="twitter:image"
-          content="https://remix-jokes.lol/social.png"
-        />
-        <meta
-          name="twitter:card"
-          content="summary_large_image"
-        />
+        <meta name="twitter:image" content="https://remix-jokes.lol/social.png" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@remix_run" />
         <meta name="twitter:site" content="@remix_run" />
         <meta name="twitter:title" content="Remix Jokes" />
@@ -29685,9 +27876,7 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     return (
-      <Document
-        title={`${error.status} ${error.statusText}`}
-      >
+      <Document title={`${error.status} ${error.statusText}`}>
         <div className="error-container">
           <h1>
             {error.status} {error.statusText}
@@ -29697,10 +27886,7 @@ export function ErrorBoundary() {
     );
   }
 
-  const errorMessage =
-    error instanceof Error
-      ? error.message
-      : "Unknown error";
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
   return (
     <Document title="Uh-oh!">
       <div className="error-container">
@@ -29719,53 +27905,41 @@ export function ErrorBoundary() {
 <summary>app/routes/jokes.$jokeId.tsx</summary>
 
 ```tsx filename=app/routes/jokes.$jokeId.tsx lines=[114]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 import {
   isRouteErrorResponse,
   Link,
   useLoaderData,
   useParams,
   useRouteError,
-} from "@remix-run/react";
+} from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
-import {
-  getUserId,
-  requireUserId,
-} from "~/utils/session.server";
+import { db } from '@/utils/db.server';
+import { getUserId, requireUserId } from '@/utils/session.server';
 
-export const meta: MetaFunction<typeof loader> = ({
-  data,
-}) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const { description, title } = data
     ? {
         description: `Enjoy the "${data.joke.name}" joke and much more`,
         title: `"${data.joke.name}" joke`,
       }
-    : { description: "No joke found", title: "No joke" };
+    : { description: 'No joke found', title: 'No joke' };
 
   return [
-    { name: "description", content: description },
-    { name: "twitter:description", content: description },
+    { name: 'description', content: description },
+    { name: 'twitter:description', content: description },
     { title },
   ];
 };
 
-export const loader = async ({
-  params,
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   const joke = await db.joke.findUnique({
     where: { id: params.jokeId },
   });
   if (!joke) {
-    throw new Response("What a joke! Not found.", {
+    throw new Response('What a joke! Not found.', {
       status: 404,
     });
   }
@@ -29775,16 +27949,10 @@ export const loader = async ({
   });
 };
 
-export const action = async ({
-  params,
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  if (form.get("intent") !== "delete") {
-    throw new Response(
-      `The intent ${form.get("intent")} is not supported`,
-      { status: 400 }
-    );
+  if (form.get('intent') !== 'delete') {
+    throw new Response(`The intent ${form.get('intent')} is not supported`, { status: 400 });
   }
   const userId = await requireUserId(request);
   const joke = await db.joke.findUnique({
@@ -29796,13 +27964,10 @@ export const action = async ({
     });
   }
   if (joke.jokesterId !== userId) {
-    throw new Response(
-      "Pssh, nice try. That's not your joke",
-      { status: 403 }
-    );
+    throw new Response("Pssh, nice try. That's not your joke", { status: 403 });
   }
   await db.joke.delete({ where: { id: params.jokeId } });
-  return redirect("/jokes");
+  return redirect('/jokes');
 };
 
 export default function JokeRoute() {
@@ -29815,12 +27980,7 @@ export default function JokeRoute() {
       <Link to=".">"{data.joke.name}" Permalink</Link>
       {data.isOwner ? (
         <form method="post">
-          <button
-            className="button"
-            name="intent"
-            type="submit"
-            value="delete"
-          >
+          <button className="button" name="intent" type="submit" value="delete">
             Delete
           </button>
         </form>
@@ -29836,32 +27996,19 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     if (error.status === 400) {
-      return (
-        <div className="error-container">
-          What you're trying to do is not allowed.
-        </div>
-      );
+      return <div className="error-container">What you're trying to do is not allowed.</div>;
     }
     if (error.status === 403) {
-      return (
-        <div className="error-container">
-          Sorry, but "{jokeId}" is not your joke.
-        </div>
-      );
+      return <div className="error-container">Sorry, but "{jokeId}" is not your joke.</div>;
     }
     if (error.status === 404) {
-      return (
-        <div className="error-container">
-          Huh? What the heck is "{jokeId}"?
-        </div>
-      );
+      return <div className="error-container">Huh? What the heck is "{jokeId}"?</div>;
     }
   }
 
   return (
     <div className="error-container">
-      There was an error loading joke by the id "${jokeId}".
-      Sorry.
+      There was an error loading joke by the id "${jokeId}". Sorry.
     </div>
   );
 }
@@ -29874,15 +28021,10 @@ export function ErrorBoundary() {
 <summary>app/routes/jokes._index.tsx</summary>
 
 ```tsx filename=app/routes/jokes._index.tsx lines=[42]
-import { json } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  Link,
-  useLoaderData,
-  useRouteError,
-} from "@remix-run/react";
+import { json } from '@remix-run/node';
+import { isRouteErrorResponse, Link, useLoaderData, useRouteError } from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
+import { db } from '@/utils/db.server';
 
 export const loader = async () => {
   const count = await db.joke.count();
@@ -29892,7 +28034,7 @@ export const loader = async () => {
     take: 1,
   });
   if (!randomJoke) {
-    throw new Response("No random joke found", {
+    throw new Response('No random joke found', {
       status: 404,
     });
   }
@@ -29906,9 +28048,7 @@ export default function JokesIndexRoute() {
     <div>
       <p>Here's a random joke:</p>
       <p>{data.randomJoke.content}</p>
-      <Link to={data.randomJoke.id}>
-        "{data.randomJoke.name}" Permalink
-      </Link>
+      <Link to={data.randomJoke.id}>"{data.randomJoke.name}" Permalink</Link>
     </div>
   );
 }
@@ -29926,11 +28066,7 @@ export function ErrorBoundary() {
     );
   }
 
-  return (
-    <div className="error-container">
-      I did a whoopsies.
-    </div>
-  );
+  return <div className="error-container">I did a whoopsies.</div>;
 }
 ```
 
@@ -29941,38 +28077,25 @@ export function ErrorBoundary() {
 <summary>app/routes/jokes.new.tsx</summary>
 
 ```tsx filename=app/routes/jokes.new.tsx lines=[159]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  Link,
-  useActionData,
-  useRouteError,
-} from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import { isRouteErrorResponse, Link, useActionData, useRouteError } from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
-import {
-  getUserId,
-  requireUserId,
-} from "~/utils/session.server";
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
+import { getUserId, requireUserId } from '@/utils/session.server';
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   if (!userId) {
-    throw new Response("Unauthorized", { status: 401 });
+    throw new Response('Unauthorized', { status: 401 });
   }
   return json({});
 };
 
 function validateJokeContent(content: string) {
   if (content.length < 10) {
-    return "That joke is too short";
+    return 'That joke is too short';
   }
 }
 
@@ -29982,21 +28105,16 @@ function validateJokeName(name: string) {
   }
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
   const form = await request.formData();
-  const content = form.get("content");
-  const name = form.get("name");
-  if (
-    typeof content !== "string" ||
-    typeof name !== "string"
-  ) {
+  const content = form.get('content');
+  const name = form.get('name');
+  if (typeof content !== 'string' || typeof name !== 'string') {
     return badRequest({
       fieldErrors: null,
       fields: null,
-      formError: "Form not submitted correctly.",
+      formError: 'Form not submitted correctly.',
     });
   }
 
@@ -30028,63 +28146,40 @@ export default function NewJokeRoute() {
       <form method="post">
         <div>
           <label>
-            Name:{" "}
+            Name:{' '}
             <input
               defaultValue={actionData?.fields?.name}
               name="name"
               type="text"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.name
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.name
-                  ? "name-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.name)}
+              aria-errormessage={actionData?.fieldErrors?.name ? 'name-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.name ? (
-            <p
-              className="form-validation-error"
-              id="name-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="name-error" role="alert">
               {actionData.fieldErrors.name}
             </p>
           ) : null}
         </div>
         <div>
           <label>
-            Content:{" "}
+            Content:{' '}
             <textarea
               defaultValue={actionData?.fields?.content}
               name="content"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.content
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.content
-                  ? "content-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.content)}
+              aria-errormessage={actionData?.fieldErrors?.content ? 'content-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.content ? (
-            <p
-              className="form-validation-error"
-              id="content-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="content-error" role="alert">
               {actionData.fieldErrors.content}
             </p>
           ) : null}
         </div>
         <div>
           {actionData?.formError ? (
-            <p
-              className="form-validation-error"
-              role="alert"
-            >
+            <p className="form-validation-error" role="alert">
               {actionData.formError}
             </p>
           ) : null}
@@ -30110,11 +28205,7 @@ export function ErrorBoundary() {
     );
   }
 
-  return (
-    <div className="error-container">
-      Something unexpected went wrong. Sorry about that.
-    </div>
-  );
+  return <div className="error-container">Something unexpected went wrong. Sorry about that.</div>;
 }
 ```
 
@@ -30133,81 +28224,61 @@ Remix has its own [`<Form />`][form-component] component. When JavaScript is not
 <summary>app/routes/login.tsx</summary>
 
 ```tsx filename=app/routes/login.tsx lines=[7,145,247]
-import type {
-  ActionFunctionArgs,
-  LinksFunction,
-  MetaFunction,
-} from "@remix-run/node";
-import {
-  Form,
-  Link,
-  useActionData,
-  useSearchParams,
-} from "@remix-run/react";
+import type { ActionFunctionArgs, LinksFunction, MetaFunction } from '@remix-run/node';
+import { Form, Link, useActionData, useSearchParams } from '@remix-run/react';
 
-import stylesUrl from "~/styles/login.css";
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
-import {
-  createUserSession,
-  login,
-  register,
-} from "~/utils/session.server";
+import stylesUrl from '@/styles/login.css';
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
+import { createUserSession, login, register } from '@/utils/session.server';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
 export const meta: MetaFunction = () => {
-  const description =
-    "Login to submit your own jokes to Remix Jokes!";
+  const description = 'Login to submit your own jokes to Remix Jokes!';
 
   return [
-    { name: "description", content: description },
-    { name: "twitter:description", content: description },
-    { title: "Remix Jokes | Login" },
+    { name: 'description', content: description },
+    { name: 'twitter:description', content: description },
+    { title: 'Remix Jokes | Login' },
   ];
 };
 
 function validateUsername(username: string) {
   if (username.length < 3) {
-    return "Usernames must be at least 3 characters long";
+    return 'Usernames must be at least 3 characters long';
   }
 }
 
 function validatePassword(password: string) {
   if (password.length < 6) {
-    return "Passwords must be at least 6 characters long";
+    return 'Passwords must be at least 6 characters long';
   }
 }
 
 function validateUrl(url: string) {
-  const urls = ["/jokes", "/", "https://remix.run"];
+  const urls = ['/jokes', '/', 'https://remix.run'];
   if (urls.includes(url)) {
     return url;
   }
-  return "/jokes";
+  return '/jokes';
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  const loginType = form.get("loginType");
-  const password = form.get("password");
-  const username = form.get("username");
-  const redirectTo = validateUrl(
-    (form.get("redirectTo") as string) || "/jokes"
-  );
+  const loginType = form.get('loginType');
+  const password = form.get('password');
+  const username = form.get('username');
+  const redirectTo = validateUrl((form.get('redirectTo') as string) || '/jokes');
   if (
-    typeof loginType !== "string" ||
-    typeof password !== "string" ||
-    typeof username !== "string"
+    typeof loginType !== 'string' ||
+    typeof password !== 'string' ||
+    typeof username !== 'string'
   ) {
     return badRequest({
       fieldErrors: null,
       fields: null,
-      formError: "Form not submitted correctly.",
+      formError: 'Form not submitted correctly.',
     });
   }
 
@@ -30225,20 +28296,19 @@ export const action = async ({
   }
 
   switch (loginType) {
-    case "login": {
+    case 'login': {
       const user = await login({ username, password });
       console.log({ user });
       if (!user) {
         return badRequest({
           fieldErrors: null,
           fields,
-          formError:
-            "Username/Password combination is incorrect",
+          formError: 'Username/Password combination is incorrect',
         });
       }
       return createUserSession(user.id, redirectTo);
     }
-    case "register": {
+    case 'register': {
       const userExists = await db.user.findFirst({
         where: { username },
       });
@@ -30254,8 +28324,7 @@ export const action = async ({
         return badRequest({
           fieldErrors: null,
           fields,
-          formError:
-            "Something went wrong trying to create a new user.",
+          formError: 'Something went wrong trying to create a new user.',
         });
       }
       return createUserSession(user.id, redirectTo);
@@ -30264,7 +28333,7 @@ export const action = async ({
       return badRequest({
         fieldErrors: null,
         fields,
-        formError: "Login type invalid",
+        formError: 'Login type invalid',
       });
     }
   }
@@ -30281,24 +28350,19 @@ export default function Login() {
           <input
             type="hidden"
             name="redirectTo"
-            value={
-              searchParams.get("redirectTo") ?? undefined
-            }
+            value={searchParams.get('redirectTo') ?? undefined}
           />
           <fieldset>
-            <legend className="sr-only">
-              Login or Register?
-            </legend>
+            <legend className="sr-only">Login or Register?</legend>
             <label>
               <input
                 type="radio"
                 name="loginType"
                 value="login"
                 defaultChecked={
-                  !actionData?.fields?.loginType ||
-                  actionData?.fields?.loginType === "login"
+                  !actionData?.fields?.loginType || actionData?.fields?.loginType === 'login'
                 }
-              />{" "}
+              />{' '}
               Login
             </label>
             <label>
@@ -30306,11 +28370,8 @@ export default function Login() {
                 type="radio"
                 name="loginType"
                 value="register"
-                defaultChecked={
-                  actionData?.fields?.loginType ===
-                  "register"
-                }
-              />{" "}
+                defaultChecked={actionData?.fields?.loginType === 'register'}
+              />{' '}
               Register
             </label>
           </fieldset>
@@ -30321,21 +28382,11 @@ export default function Login() {
               id="username-input"
               name="username"
               defaultValue={actionData?.fields?.username}
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.username
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.username
-                  ? "username-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.username)}
+              aria-errormessage={actionData?.fieldErrors?.username ? 'username-error' : undefined}
             />
             {actionData?.fieldErrors?.username ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-                id="username-error"
-              >
+              <p className="form-validation-error" role="alert" id="username-error">
                 {actionData.fieldErrors.username}
               </p>
             ) : null}
@@ -30347,31 +28398,18 @@ export default function Login() {
               name="password"
               type="password"
               defaultValue={actionData?.fields?.password}
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.password
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.password
-                  ? "password-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.password)}
+              aria-errormessage={actionData?.fieldErrors?.password ? 'password-error' : undefined}
             />
             {actionData?.fieldErrors?.password ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-                id="password-error"
-              >
+              <p className="form-validation-error" role="alert" id="password-error">
                 {actionData.fieldErrors.password}
               </p>
             ) : null}
           </div>
           <div id="form-error-message">
             {actionData?.formError ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-              >
+              <p className="form-validation-error" role="alert">
                 {actionData.formError}
               </p>
             ) : null}
@@ -30403,31 +28441,19 @@ export default function Login() {
 <summary>app/routes/jokes.tsx</summary>
 
 ```tsx filename=app/routes/jokes.tsx lines=[7,54,58]
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import {
-  Form,
-  Link,
-  Outlet,
-  useLoaderData,
-} from "@remix-run/react";
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { Form, Link, Outlet, useLoaderData } from '@remix-run/react';
 
-import stylesUrl from "~/styles/jokes.css";
-import { db } from "~/utils/db.server";
-import { getUser } from "~/utils/session.server";
+import stylesUrl from '@/styles/jokes.css';
+import { db } from '@/utils/db.server';
+import { getUser } from '@/utils/session.server';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const jokeListItems = await db.joke.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
     select: { id: true, name: true },
     take: 5,
   });
@@ -30444,11 +28470,7 @@ export default function JokesRoute() {
       <header className="jokes-header">
         <div className="container">
           <h1 className="home-link">
-            <Link
-              to="/"
-              title="Remix Jokes"
-              aria-label="Remix Jokes"
-            >
+            <Link to="/" title="Remix Jokes" aria-label="Remix Jokes">
               <span className="logo">🤪</span>
               <span className="logo-medium">J🤪KES</span>
             </Link>
@@ -30507,12 +28529,8 @@ export default function JokesRoute() {
 <summary>app/routes/jokes.$jokeId.tsx</summary>
 
 ```tsx filename=app/routes/jokes.$jokeId.tsx lines=[8,97,106]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 import {
   Form,
   isRouteErrorResponse,
@@ -30520,41 +28538,33 @@ import {
   useLoaderData,
   useParams,
   useRouteError,
-} from "@remix-run/react";
+} from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
-import {
-  getUserId,
-  requireUserId,
-} from "~/utils/session.server";
+import { db } from '@/utils/db.server';
+import { getUserId, requireUserId } from '@/utils/session.server';
 
-export const meta: MetaFunction<typeof loader> = ({
-  data,
-}) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const { description, title } = data
     ? {
         description: `Enjoy the "${data.joke.name}" joke and much more`,
         title: `"${data.joke.name}" joke`,
       }
-    : { description: "No joke found", title: "No joke" };
+    : { description: 'No joke found', title: 'No joke' };
 
   return [
-    { name: "description", content: description },
-    { name: "twitter:description", content: description },
+    { name: 'description', content: description },
+    { name: 'twitter:description', content: description },
     { title },
   ];
 };
 
-export const loader = async ({
-  params,
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   const joke = await db.joke.findUnique({
     where: { id: params.jokeId },
   });
   if (!joke) {
-    throw new Response("What a joke! Not found.", {
+    throw new Response('What a joke! Not found.', {
       status: 404,
     });
   }
@@ -30564,16 +28574,10 @@ export const loader = async ({
   });
 };
 
-export const action = async ({
-  params,
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  if (form.get("intent") !== "delete") {
-    throw new Response(
-      `The intent ${form.get("intent")} is not supported`,
-      { status: 400 }
-    );
+  if (form.get('intent') !== 'delete') {
+    throw new Response(`The intent ${form.get('intent')} is not supported`, { status: 400 });
   }
   const userId = await requireUserId(request);
   const joke = await db.joke.findUnique({
@@ -30585,13 +28589,10 @@ export const action = async ({
     });
   }
   if (joke.jokesterId !== userId) {
-    throw new Response(
-      "Pssh, nice try. That's not your joke",
-      { status: 403 }
-    );
+    throw new Response("Pssh, nice try. That's not your joke", { status: 403 });
   }
   await db.joke.delete({ where: { id: params.jokeId } });
-  return redirect("/jokes");
+  return redirect('/jokes');
 };
 
 export default function JokeRoute() {
@@ -30604,12 +28605,7 @@ export default function JokeRoute() {
       <Link to=".">"{data.joke.name}" Permalink</Link>
       {data.isOwner ? (
         <Form method="post">
-          <button
-            className="button"
-            name="intent"
-            type="submit"
-            value="delete"
-          >
+          <button className="button" name="intent" type="submit" value="delete">
             Delete
           </button>
         </Form>
@@ -30625,32 +28621,19 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     if (error.status === 400) {
-      return (
-        <div className="error-container">
-          What you're trying to do is not allowed.
-        </div>
-      );
+      return <div className="error-container">What you're trying to do is not allowed.</div>;
     }
     if (error.status === 403) {
-      return (
-        <div className="error-container">
-          Sorry, but "{jokeId}" is not your joke.
-        </div>
-      );
+      return <div className="error-container">Sorry, but "{jokeId}" is not your joke.</div>;
     }
     if (error.status === 404) {
-      return (
-        <div className="error-container">
-          Huh? What the heck is "{jokeId}"?
-        </div>
-      );
+      return <div className="error-container">Huh? What the heck is "{jokeId}"?</div>;
     }
   }
 
   return (
     <div className="error-container">
-      There was an error loading joke by the id "${jokeId}".
-      Sorry.
+      There was an error loading joke by the id "${jokeId}". Sorry.
     </div>
   );
 }
@@ -30663,39 +28646,25 @@ export function ErrorBoundary() {
 <summary>app/routes/jokes.new.tsx</summary>
 
 ```tsx filename=app/routes/jokes.new.tsx lines=[7,86,153]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import {
-  Form,
-  isRouteErrorResponse,
-  Link,
-  useActionData,
-  useRouteError,
-} from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import { Form, isRouteErrorResponse, Link, useActionData, useRouteError } from '@remix-run/react';
 
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
-import {
-  getUserId,
-  requireUserId,
-} from "~/utils/session.server";
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
+import { getUserId, requireUserId } from '@/utils/session.server';
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   if (!userId) {
-    throw new Response("Unauthorized", { status: 401 });
+    throw new Response('Unauthorized', { status: 401 });
   }
   return json({});
 };
 
 function validateJokeContent(content: string) {
   if (content.length < 10) {
-    return "That joke is too short";
+    return 'That joke is too short';
   }
 }
 
@@ -30705,21 +28674,16 @@ function validateJokeName(name: string) {
   }
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
   const form = await request.formData();
-  const content = form.get("content");
-  const name = form.get("name");
-  if (
-    typeof content !== "string" ||
-    typeof name !== "string"
-  ) {
+  const content = form.get('content');
+  const name = form.get('name');
+  if (typeof content !== 'string' || typeof name !== 'string') {
     return badRequest({
       fieldErrors: null,
       fields: null,
-      formError: "Form not submitted correctly.",
+      formError: 'Form not submitted correctly.',
     });
   }
 
@@ -30751,63 +28715,40 @@ export default function NewJokeRoute() {
       <Form method="post">
         <div>
           <label>
-            Name:{" "}
+            Name:{' '}
             <input
               defaultValue={actionData?.fields?.name}
               name="name"
               type="text"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.name
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.name
-                  ? "name-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.name)}
+              aria-errormessage={actionData?.fieldErrors?.name ? 'name-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.name ? (
-            <p
-              className="form-validation-error"
-              id="name-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="name-error" role="alert">
               {actionData.fieldErrors.name}
             </p>
           ) : null}
         </div>
         <div>
           <label>
-            Content:{" "}
+            Content:{' '}
             <textarea
               defaultValue={actionData?.fields?.content}
               name="content"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.content
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.content
-                  ? "content-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.content)}
+              aria-errormessage={actionData?.fieldErrors?.content ? 'content-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.content ? (
-            <p
-              className="form-validation-error"
-              id="content-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="content-error" role="alert">
               {actionData.fieldErrors.content}
             </p>
           ) : null}
         </div>
         <div>
           {actionData?.formError ? (
-            <p
-              className="form-validation-error"
-              role="alert"
-            >
+            <p className="form-validation-error" role="alert">
               {actionData.formError}
             </p>
           ) : null}
@@ -30833,11 +28774,7 @@ export function ErrorBoundary() {
     );
   }
 
-  return (
-    <div className="error-container">
-      Something unexpected went wrong. Sorry about that.
-    </div>
-  );
+  return <div className="error-container">Something unexpected went wrong. Sorry about that.</div>;
 }
 ```
 
@@ -30858,31 +28795,19 @@ If a user focuses or mouses-over a link, it's likely they want to go there. So w
 <summary>app/routes/jokes.tsx</summary>
 
 ```tsx filename=app/routes/jokes.tsx lines=[73]
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import {
-  Form,
-  Link,
-  Outlet,
-  useLoaderData,
-} from "@remix-run/react";
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { Form, Link, Outlet, useLoaderData } from '@remix-run/react';
 
-import stylesUrl from "~/styles/jokes.css";
-import { db } from "~/utils/db.server";
-import { getUser } from "~/utils/session.server";
+import stylesUrl from '@/styles/jokes.css';
+import { db } from '@/utils/db.server';
+import { getUser } from '@/utils/session.server';
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesUrl },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesUrl }];
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const jokeListItems = await db.joke.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
     select: { id: true, name: true },
     take: 5,
   });
@@ -30899,11 +28824,7 @@ export default function JokesRoute() {
       <header className="jokes-header">
         <div className="container">
           <h1 className="home-link">
-            <Link
-              to="/"
-              title="Remix Jokes"
-              aria-label="Remix Jokes"
-            >
+            <Link to="/" title="Remix Jokes" aria-label="Remix Jokes">
               <span className="logo">🤪</span>
               <span className="logo-medium">J🤪KES</span>
             </Link>
@@ -30976,8 +28897,8 @@ Note, you'll probably want to create a new file in `app/components/` called `jok
 <summary>app/components/joke.tsx</summary>
 
 ```tsx filename=app/components/joke.tsx lines=[5,9,16-18,22]
-import type { Joke } from "@prisma/client";
-import { Form, Link } from "@remix-run/react";
+import type { Joke } from '@prisma/client';
+import { Form, Link } from '@remix-run/react';
 
 export function JokeDisplay({
   canDelete = true,
@@ -30986,7 +28907,7 @@ export function JokeDisplay({
 }: {
   canDelete?: boolean;
   isOwner: boolean;
-  joke: Pick<Joke, "content" | "name">;
+  joke: Pick<Joke, 'content' | 'name'>;
 }) {
   return (
     <div>
@@ -31018,53 +28939,36 @@ export function JokeDisplay({
 <summary>app/routes/jokes.$jokeId.tsx</summary>
 
 ```tsx filename=app/routes/jokes.$jokeId.tsx lines=[14,91]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  useLoaderData,
-  useParams,
-  useRouteError,
-} from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import { isRouteErrorResponse, useLoaderData, useParams, useRouteError } from '@remix-run/react';
 
-import { JokeDisplay } from "~/components/joke";
-import { db } from "~/utils/db.server";
-import {
-  getUserId,
-  requireUserId,
-} from "~/utils/session.server";
+import { JokeDisplay } from '@/components/joke';
+import { db } from '@/utils/db.server';
+import { getUserId, requireUserId } from '@/utils/session.server';
 
-export const meta: MetaFunction<typeof loader> = ({
-  data,
-}) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const { description, title } = data
     ? {
         description: `Enjoy the "${data.joke.name}" joke and much more`,
         title: `"${data.joke.name}" joke`,
       }
-    : { description: "No joke found", title: "No joke" };
+    : { description: 'No joke found', title: 'No joke' };
 
   return [
-    { name: "description", content: description },
-    { name: "twitter:description", content: description },
+    { name: 'description', content: description },
+    { name: 'twitter:description', content: description },
     { title },
   ];
 };
 
-export const loader = async ({
-  params,
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   const joke = await db.joke.findUnique({
     where: { id: params.jokeId },
   });
   if (!joke) {
-    throw new Response("What a joke! Not found.", {
+    throw new Response('What a joke! Not found.', {
       status: 404,
     });
   }
@@ -31074,16 +28978,10 @@ export const loader = async ({
   });
 };
 
-export const action = async ({
-  params,
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  if (form.get("intent") !== "delete") {
-    throw new Response(
-      `The intent ${form.get("intent")} is not supported`,
-      { status: 400 }
-    );
+  if (form.get('intent') !== 'delete') {
+    throw new Response(`The intent ${form.get('intent')} is not supported`, { status: 400 });
   }
   const userId = await requireUserId(request);
   const joke = await db.joke.findUnique({
@@ -31095,21 +28993,16 @@ export const action = async ({
     });
   }
   if (joke.jokesterId !== userId) {
-    throw new Response(
-      "Pssh, nice try. That's not your joke",
-      { status: 403 }
-    );
+    throw new Response("Pssh, nice try. That's not your joke", { status: 403 });
   }
   await db.joke.delete({ where: { id: params.jokeId } });
-  return redirect("/jokes");
+  return redirect('/jokes');
 };
 
 export default function JokeRoute() {
   const data = useLoaderData<typeof loader>();
 
-  return (
-    <JokeDisplay isOwner={data.isOwner} joke={data.joke} />
-  );
+  return <JokeDisplay isOwner={data.isOwner} joke={data.joke} />;
 }
 
 export function ErrorBoundary() {
@@ -31119,32 +29012,19 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     if (error.status === 400) {
-      return (
-        <div className="error-container">
-          What you're trying to do is not allowed.
-        </div>
-      );
+      return <div className="error-container">What you're trying to do is not allowed.</div>;
     }
     if (error.status === 403) {
-      return (
-        <div className="error-container">
-          Sorry, but "{jokeId}" is not your joke.
-        </div>
-      );
+      return <div className="error-container">Sorry, but "{jokeId}" is not your joke.</div>;
     }
     if (error.status === 404) {
-      return (
-        <div className="error-container">
-          Huh? What the heck is "{jokeId}"?
-        </div>
-      );
+      return <div className="error-container">Huh? What the heck is "{jokeId}"?</div>;
     }
   }
 
   return (
     <div className="error-container">
-      There was an error loading joke by the id "${jokeId}".
-      Sorry.
+      There was an error loading joke by the id "${jokeId}". Sorry.
     </div>
   );
 }
@@ -31157,11 +29037,8 @@ export function ErrorBoundary() {
 <summary>app/routes/jokes.new.tsx</summary>
 
 ```tsx filename=app/routes/jokes.new.tsx lines=[11,15,84,86-103]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 import {
   Form,
   isRouteErrorResponse,
@@ -31169,29 +29046,24 @@ import {
   useActionData,
   useNavigation,
   useRouteError,
-} from "@remix-run/react";
+} from '@remix-run/react';
 
-import { JokeDisplay } from "~/components/joke";
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/request.server";
-import {
-  getUserId,
-  requireUserId,
-} from "~/utils/session.server";
+import { JokeDisplay } from '@/components/joke';
+import { db } from '@/utils/db.server';
+import { badRequest } from '@/utils/request.server';
+import { getUserId, requireUserId } from '@/utils/session.server';
 
-export const loader = async ({
-  request,
-}: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
   if (!userId) {
-    throw new Response("Unauthorized", { status: 401 });
+    throw new Response('Unauthorized', { status: 401 });
   }
   return json({});
 };
 
 function validateJokeContent(content: string) {
   if (content.length < 10) {
-    return "That joke is too short";
+    return 'That joke is too short';
   }
 }
 
@@ -31201,21 +29073,16 @@ function validateJokeName(name: string) {
   }
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
   const form = await request.formData();
-  const content = form.get("content");
-  const name = form.get("name");
-  if (
-    typeof content !== "string" ||
-    typeof name !== "string"
-  ) {
+  const content = form.get('content');
+  const name = form.get('name');
+  if (typeof content !== 'string' || typeof name !== 'string') {
     return badRequest({
       fieldErrors: null,
       fields: null,
-      formError: "Form not submitted correctly.",
+      formError: 'Form not submitted correctly.',
     });
   }
 
@@ -31243,21 +29110,15 @@ export default function NewJokeRoute() {
   const navigation = useNavigation();
 
   if (navigation.formData) {
-    const content = navigation.formData.get("content");
-    const name = navigation.formData.get("name");
+    const content = navigation.formData.get('content');
+    const name = navigation.formData.get('name');
     if (
-      typeof content === "string" &&
-      typeof name === "string" &&
+      typeof content === 'string' &&
+      typeof name === 'string' &&
       !validateJokeContent(content) &&
       !validateJokeName(name)
     ) {
-      return (
-        <JokeDisplay
-          canDelete={false}
-          isOwner={true}
-          joke={{ name, content }}
-        />
-      );
+      return <JokeDisplay canDelete={false} isOwner={true} joke={{ name, content }} />;
     }
   }
 
@@ -31267,63 +29128,40 @@ export default function NewJokeRoute() {
       <Form method="post">
         <div>
           <label>
-            Name:{" "}
+            Name:{' '}
             <input
               defaultValue={actionData?.fields?.name}
               name="name"
               type="text"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.name
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.name
-                  ? "name-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.name)}
+              aria-errormessage={actionData?.fieldErrors?.name ? 'name-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.name ? (
-            <p
-              className="form-validation-error"
-              id="name-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="name-error" role="alert">
               {actionData.fieldErrors.name}
             </p>
           ) : null}
         </div>
         <div>
           <label>
-            Content:{" "}
+            Content:{' '}
             <textarea
               defaultValue={actionData?.fields?.content}
               name="content"
-              aria-invalid={Boolean(
-                actionData?.fieldErrors?.content
-              )}
-              aria-errormessage={
-                actionData?.fieldErrors?.content
-                  ? "content-error"
-                  : undefined
-              }
+              aria-invalid={Boolean(actionData?.fieldErrors?.content)}
+              aria-errormessage={actionData?.fieldErrors?.content ? 'content-error' : undefined}
             />
           </label>
           {actionData?.fieldErrors?.content ? (
-            <p
-              className="form-validation-error"
-              id="content-error"
-              role="alert"
-            >
+            <p className="form-validation-error" id="content-error" role="alert">
               {actionData.fieldErrors.content}
             </p>
           ) : null}
         </div>
         <div>
           {actionData?.formError ? (
-            <p
-              className="form-validation-error"
-              role="alert"
-            >
+            <p className="form-validation-error" role="alert">
               {actionData.formError}
             </p>
           ) : null}
@@ -31349,11 +29187,7 @@ export function ErrorBoundary() {
     );
   }
 
-  return (
-    <div className="error-container">
-      Something unexpected went wrong. Sorry about that.
-    </div>
-  );
+  return <div className="error-container">Something unexpected went wrong. Sorry about that.</div>;
 }
 ```
 
@@ -31603,14 +29437,13 @@ Phew! And there we have it. If you made it through this whole thing then I'm rea
 [tweet-your-success]: https://twitter.com/intent/tweet?text=I%20went%20through%20the%20whole%20remix.run%20jokes%20tutorial!%20%F0%9F%92%BF%20And%20now%20I%20love%20@remix_run!&url=https://remix.run/tutorials/jokes
 [global-singleton-workaround]: ../guides/manual-mode#keeping-in-memory-server-state-across-rebuilds
 
-
----
-File: ./utils/cookies.md
 ---
 
+## File: ./utils/cookies.md
+
 ---
-title: Cookies
----
+
+## title: Cookies
 
 # Cookies
 
@@ -31629,9 +29462,9 @@ Let's say you have a banner on your e-commerce site that prompts users to check 
 First, create a cookie:
 
 ```ts filename=app/cookies.server.ts
-import { createCookie } from "@remix-run/node"; // or cloudflare/deno
+import { createCookie } from '@remix-run/node'; // or cloudflare/deno
 
-export const userPrefs = createCookie("user-prefs", {
+export const userPrefs = createCookie('user-prefs', {
   maxAge: 604_800, // one week
 });
 ```
@@ -31641,43 +29474,30 @@ Then, you can `import` the cookie and use it in your `loader` and/or `action`. T
 **Note:** We recommend (for now) that you create all the cookies your app needs in a `*.server.ts` file and `import` them into your route modules. This allows the Remix compiler to correctly prune these imports out of the browser build where they are not needed. We hope to eventually remove this caveat.
 
 ```tsx filename=app/routes/_index.tsx lines=[12,17-19,26-28,37]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node"; // or cloudflare/deno
-import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
-import {
-  useLoaderData,
-  Link,
-  Form,
-} from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json, redirect } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData, Link, Form } from '@remix-run/react';
 
-import { userPrefs } from "~/cookies.server";
+import { userPrefs } from '@/cookies.server';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie =
-    (await userPrefs.parse(cookieHeader)) || {};
+export async function loader({ request }: LoaderFunctionArgs) {
+  const cookieHeader = request.headers.get('Cookie');
+  const cookie = (await userPrefs.parse(cookieHeader)) || {};
   return json({ showBanner: cookie.showBanner });
 }
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie =
-    (await userPrefs.parse(cookieHeader)) || {};
+export async function action({ request }: ActionFunctionArgs) {
+  const cookieHeader = request.headers.get('Cookie');
+  const cookie = (await userPrefs.parse(cookieHeader)) || {};
   const bodyParams = await request.formData();
 
-  if (bodyParams.get("bannerVisibility") === "hidden") {
+  if (bodyParams.get('bannerVisibility') === 'hidden') {
     cookie.showBanner = false;
   }
 
-  return redirect("/", {
+  return redirect('/', {
     headers: {
-      "Set-Cookie": await userPrefs.serialize(cookie),
+      'Set-Cookie': await userPrefs.serialize(cookie),
     },
   });
 }
@@ -31691,11 +29511,7 @@ export default function Home() {
         <div>
           <Link to="/sale">Don't miss our sale!</Link>
           <Form method="post">
-            <input
-              type="hidden"
-              name="bannerVisibility"
-              value="hidden"
-            />
+            <input type="hidden" name="bannerVisibility" value="hidden" />
             <button type="submit">Hide</button>
           </Form>
         </div>
@@ -31711,10 +29527,10 @@ export default function Home() {
 Cookies have [several attributes][cookie-attrs] that control when they expire, how they are accessed, and where they are sent. Any of these attributes may be specified either in `createCookie(name, options)`, or during `serialize()` when the `Set-Cookie` header is generated.
 
 ```ts
-const cookie = createCookie("user-prefs", {
+const cookie = createCookie('user-prefs', {
   // These are defaults for this cookie.
-  path: "/",
-  sameSite: "lax",
+  path: '/',
+  sameSite: 'lax',
   httpOnly: true,
   secure: true,
   expires: new Date(Date.now() + 60_000),
@@ -31725,7 +29541,7 @@ const cookie = createCookie("user-prefs", {
 cookie.serialize(userPrefs);
 
 // Or override individual ones as needed:
-cookie.serialize(userPrefs, { sameSite: "strict" });
+cookie.serialize(userPrefs, { sameSite: 'strict' });
 ```
 
 Please read [more info about these attributes][cookie-attrs] to get a better understanding of what they do.
@@ -31737,8 +29553,8 @@ It is possible to sign a cookie to automatically verify its contents when it is 
 To sign a cookie, provide one or more `secrets` when you first create the cookie:
 
 ```ts
-const cookie = createCookie("user-prefs", {
-  secrets: ["s3cret1"],
+const cookie = createCookie('user-prefs', {
+  secrets: ['s3cret1'],
 });
 ```
 
@@ -31747,25 +29563,23 @@ Cookies that have one or more `secrets` will be stored and verified in a way tha
 Secrets may be rotated by adding new secrets to the front of the `secrets` array. Cookies that have been signed with old secrets will still be decoded successfully in `cookie.parse()`, and the newest secret (the first one in the array) will always be used to sign outgoing cookies created in `cookie.serialize()`.
 
 ```ts filename=app/cookies.server.ts
-export const cookie = createCookie("user-prefs", {
-  secrets: ["n3wsecr3t", "olds3cret"],
+export const cookie = createCookie('user-prefs', {
+  secrets: ['n3wsecr3t', 'olds3cret'],
 });
 ```
 
 ```tsx filename=app/routes/route.tsx
-import { cookie } from "~/cookies.server";
+import { cookie } from '@/cookies.server';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
-  const oldCookie = request.headers.get("Cookie");
+export async function loader({ request }: LoaderFunctionArgs) {
+  const oldCookie = request.headers.get('Cookie');
   // oldCookie may have been signed with "olds3cret", but still parses ok
   const value = await cookie.parse(oldCookie);
 
-  new Response("...", {
+  new Response('...', {
     headers: {
       // Set-Cookie is signed with "n3wsecr3t"
-      "Set-Cookie": await cookie.serialize(value),
+      'Set-Cookie': await cookie.serialize(value),
     },
   });
 }
@@ -31776,16 +29590,16 @@ export async function loader({
 Creates a logical container for managing a browser cookie from the server.
 
 ```ts
-import { createCookie } from "@remix-run/node"; // or cloudflare/deno
+import { createCookie } from '@remix-run/node'; // or cloudflare/deno
 
-const cookie = createCookie("cookie-name", {
+const cookie = createCookie('cookie-name', {
   // all of these are optional defaults that can be overridden at runtime
   expires: new Date(Date.now() + 60_000),
   httpOnly: true,
   maxAge: 60,
-  path: "/",
-  sameSite: "lax",
-  secrets: ["s3cret1"],
+  path: '/',
+  sameSite: 'lax',
+  secrets: ['s3cret1'],
   secure: true,
 });
 ```
@@ -31797,8 +29611,8 @@ To learn more about each attribute, please see the [MDN Set-Cookie docs][cookie-
 Returns `true` if an object is a Remix cookie container.
 
 ```ts
-import { isCookie } from "@remix-run/node"; // or cloudflare/deno
-const cookie = createCookie("user-prefs");
+import { isCookie } from '@remix-run/node'; // or cloudflare/deno
+const cookie = createCookie('user-prefs');
 console.log(isCookie(cookie));
 // true
 ```
@@ -31823,9 +29637,7 @@ The name of the cookie, used in `Cookie` and `Set-Cookie` HTTP headers.
 Extracts and returns the value of this cookie in a given `Cookie` header.
 
 ```ts
-const value = await cookie.parse(
-  request.headers.get("Cookie")
-);
+const value = await cookie.parse(request.headers.get('Cookie'));
 ```
 
 ### `cookie.serialize()`
@@ -31833,9 +29645,9 @@ const value = await cookie.parse(
 Serializes a value and combines it with this cookie's options to create a `Set-Cookie` header, suitable for use in an outgoing `Response`.
 
 ```ts
-new Response("...", {
+new Response('...', {
   headers: {
-    "Set-Cookie": await cookie.serialize({
+    'Set-Cookie': await cookie.serialize({
       showBanner: true,
     }),
   },
@@ -31847,11 +29659,11 @@ new Response("...", {
 Will be `true` if the cookie uses any `secrets`, `false` otherwise.
 
 ```ts
-let cookie = createCookie("user-prefs");
+let cookie = createCookie('user-prefs');
 console.log(cookie.isSigned); // false
 
-cookie = createCookie("user-prefs", {
-  secrets: ["soopersekrit"],
+cookie = createCookie('user-prefs', {
+  secrets: ['soopersekrit'],
 });
 console.log(cookie.isSigned); // true
 ```
@@ -31861,8 +29673,8 @@ console.log(cookie.isSigned); // true
 The `Date` on which this cookie expires. Note that if a cookie has both `maxAge` and `expires`, this value will be the date at the current time plus the `maxAge` value since `Max-Age` takes precedence over `Expires`.
 
 ```ts
-const cookie = createCookie("user-prefs", {
-  expires: new Date("2021-01-01"),
+const cookie = createCookie('user-prefs', {
+  expires: new Date('2021-01-01'),
 });
 
 console.log(cookie.expires); // "2020-01-01T00:00:00.000Z"
@@ -31872,26 +29684,25 @@ console.log(cookie.expires); // "2020-01-01T00:00:00.000Z"
 [cookie]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
 [cookie-attrs]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#attributes
 
-
----
-File: ./utils/create-remix-stub.md
 ---
 
+## File: ./utils/create-remix-stub.md
+
 ---
-title: createRemixStub
----
+
+## title: createRemixStub
 
 # `createRemixStub`
 
 This utility allows you to unit-test your own components that rely on Remix hooks/components by setting up a mocked set of routes:
 
 ```tsx
-import { createRemixStub } from "@remix-run/testing";
+import { createRemixStub } from '@remix-run/testing';
 
-test("renders loader data", async () => {
+test('renders loader data', async () => {
   const RemixStub = createRemixStub([
     {
-      path: "/",
+      path: '/',
       meta() {
         /* ... */
       },
@@ -31912,11 +29723,11 @@ test("renders loader data", async () => {
   render(<RemixStub />);
 
   // Assert initial render
-  await waitFor(() => screen.findByText("..."));
+  await waitFor(() => screen.findByText('...'));
 
   // Click a button and assert a UI change
-  user.click(screen.getByText("button text"));
-  await waitFor(() => screen.findByText("..."));
+  user.click(screen.getByText('button text'));
+  await waitFor(() => screen.findByText('...'));
 });
 ```
 
@@ -31926,14 +29737,14 @@ If your [`loader`][loader]s rely on the `getLoadContext` method, you can provide
 const RemixStub = createRemixStub(
   [
     {
-      path: "/",
+      path: '/',
       Component: MyComponent,
       loader({ context }) {
         return json({ message: context.key });
       },
     },
   ],
-  { key: "value" }
+  { key: 'value' },
 );
 ```
 
@@ -31941,21 +29752,16 @@ The `<RemixStub>` component itself takes properties similar to React Router if y
 
 ```tsx
 // Test the app rendered at "/2" with 2 prior history stack entries
-render(
-  <RemixStub
-    initialEntries={["/", "/1", "/2"]}
-    initialIndex={2}
-  />
-);
+render(<RemixStub initialEntries={['/', '/1', '/2']} initialIndex={2} />);
 
 // Test the app rendered with initial loader data for the root route.  When using
 // this, it's best to give your routes their own unique IDs in your route definitions
 render(
   <RemixStub
     hydrationData={{
-      loaderData: { root: { message: "hello" } },
+      loaderData: { root: { message: 'hello' } },
     }}
-  />
+  />,
 );
 
 // Test the app rendered with given future flags enabled
@@ -31964,14 +29770,15 @@ render(<RemixStub future={{ v3_coolFeature: true }} />);
 
 [loader]: ../route/loader
 
-
----
-File: ./utils/data.md
 ---
 
+## File: ./utils/data.md
+
 ---
+
 title: data
 toc: false
+
 ---
 
 # `data`
@@ -31979,17 +29786,17 @@ toc: false
 This is a utility for use with [Single Fetch][single-fetch] to return raw data accompanied with a status code or custom response headers. This avoids the need to serialize your data into a `Response` instance to provide custom status/headers. This is generally a replacement for `loader`/`action` functions that used [`json`][json] or [`defer`][defer] prior to Single Fetch.
 
 ```tsx
-import { data } from "@remix-run/node"; // or cloudflare/deno
+import { data } from '@remix-run/node'; // or cloudflare/deno
 
 export const loader = async () => {
   return data(
-    { not: "coffee" },
+    { not: 'coffee' },
     {
       status: 418,
       headers: {
-        "Cache-Control": "no-store",
+        'Cache-Control': 'no-store',
       },
-    }
+    },
   );
 };
 ```
@@ -31999,10 +29806,10 @@ You should _not_ be using this function if you don't need to return custom statu
 ```tsx
 export const loader = async () => {
   // ❌ Bad
-  return data({ not: "coffee" });
+  return data({ not: 'coffee' });
 
   // ✅ Good
-  return { not: "coffee" };
+  return { not: 'coffee' };
 };
 ```
 
@@ -32010,14 +29817,15 @@ export const loader = async () => {
 [json]: ./json
 [defer]: ./defer
 
-
----
-File: ./utils/defer.md
 ---
 
+## File: ./utils/defer.md
+
 ---
+
 title: defer
 toc: false
+
 ---
 
 # `defer`
@@ -32027,14 +29835,14 @@ To get started with streaming data, check out the [Streaming Guide][streaming_gu
 This is a shortcut for creating a streaming/deferred response. It assumes you are using `utf-8` encoding. From a developer perspective it behaves just like [`json()`][json], but with the ability to transport promises to your UI components.
 
 ```tsx lines=[1,7-10]
-import { defer } from "@remix-run/node"; // or cloudflare/deno
+import { defer } from '@remix-run/node'; // or cloudflare/deno
 
 export const loader = async () => {
   const aStillRunningPromise = loadSlowDataAsync();
 
   // So you can write this without awaiting the promise:
   return defer({
-    critical: "data",
+    critical: 'data',
     slowPromise: aStillRunningPromise,
   });
 };
@@ -32048,15 +29856,15 @@ export const loader = async () => {
 
   return defer(
     {
-      critical: "data",
+      critical: 'data',
       slowPromise: aStillRunningPromise,
     },
     {
       status: 418,
       headers: {
-        "Cache-Control": "no-store",
+        'Cache-Control': 'no-store',
       },
-    }
+    },
   );
 };
 ```
@@ -32064,24 +29872,26 @@ export const loader = async () => {
 [streaming_guide]: ../guides/streaming
 [json]: ./json
 
-
----
-File: ./utils/index.md
 ---
 
+## File: ./utils/index.md
+
 ---
+
 title: Utilities
 order: 6
----
 
-
----
-File: ./utils/is-route-error-response.md
 ---
 
 ---
+
+## File: ./utils/is-route-error-response.md
+
+---
+
 title: isRouteErrorResponse
 toc: false
+
 ---
 
 # `isRouteErrorResponse`
@@ -32090,14 +29900,15 @@ toc: false
 
 [rr-isrouteerrorresponse]: https://reactrouter.com/v6/utils/is-route-error-response
 
-
----
-File: ./utils/json.md
 ---
 
+## File: ./utils/json.md
+
 ---
+
 title: json
 toc: false
+
 ---
 
 # `json`
@@ -32105,16 +29916,16 @@ toc: false
 This is a shortcut for creating `application/json` responses. It assumes you are using `utf-8` encoding.
 
 ```tsx lines=[1,5]
-import { json } from "@remix-run/node"; // or cloudflare/deno
+import { json } from '@remix-run/node'; // or cloudflare/deno
 
 export const loader = async () => {
   // So you can write this:
-  return json({ any: "thing" });
+  return json({ any: 'thing' });
 
   // Instead of this:
-  return new Response(JSON.stringify({ any: "thing" }), {
+  return new Response(JSON.stringify({ any: 'thing' }), {
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
+      'Content-Type': 'application/json; charset=utf-8',
     },
   });
 };
@@ -32125,25 +29936,24 @@ You can also pass a status code and headers:
 ```tsx lines=[4-9]
 export const loader = async () => {
   return json(
-    { not: "coffee" },
+    { not: 'coffee' },
     {
       status: 418,
       headers: {
-        "Cache-Control": "no-store",
+        'Cache-Control': 'no-store',
       },
-    }
+    },
   );
 };
 ```
 
-
----
-File: ./utils/parse-multipart-form-data.md
 ---
 
+## File: ./utils/parse-multipart-form-data.md
+
 ---
-title: unstable_parseMultipartFormData
----
+
+## title: unstable_parseMultipartFormData
 
 # `unstable_parseMultipartFormData`
 
@@ -32161,24 +29971,22 @@ It's to be used in place of `request.formData()`.
 For example:
 
 ```tsx lines=[4-7,12,25]
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await unstable_parseMultipartFormData(
     request,
-    uploadHandler // <-- we'll look at this deeper next
+    uploadHandler, // <-- we'll look at this deeper next
   );
 
   // the returned value for the file field is whatever our uploadHandler returns.
   // Let's imagine we're uploading the avatar to s3,
   // so our uploadHandler returns the URL.
-  const avatarUrl = formData.get("avatar");
+  const avatarUrl = formData.get('avatar');
 
   // update the currently logged in user's avatar in our database
   await updateUserAvatar(request, avatarUrl);
 
   // success! Redirect to account page
-  return redirect("/account");
+  return redirect('/account');
 };
 
 export default function AvatarUploadRoute() {
@@ -32208,14 +30016,15 @@ These are fully featured utilities for handling fairly simple use cases. It's no
 [the-browser-file-api]: https://developer.mozilla.org/en-US/docs/Web/API/File
 [the-blob-api]: https://developer.mozilla.org/en-US/docs/Web/API/Blob
 
-
----
-File: ./utils/redirect.md
 ---
 
+## File: ./utils/redirect.md
+
 ---
+
 title: redirect
 toc: false
+
 ---
 
 # `redirect`
@@ -32223,13 +30032,13 @@ toc: false
 This is a shortcut for sending 30x responses.
 
 ```tsx lines=[1,7]
-import { redirect } from "@remix-run/node"; // or cloudflare/deno
+import { redirect } from '@remix-run/node'; // or cloudflare/deno
 
 export const action = async () => {
   const userSession = await getUserSessionOrWhatever();
 
   if (!userSession) {
-    return redirect("/login");
+    return redirect('/login');
   }
 
   return json({ ok: true });
@@ -32248,14 +30057,14 @@ You can also send a `ResponseInit` to set headers, like committing a session.
 ```ts
 redirect(path, {
   headers: {
-    "Set-Cookie": await commitSession(session),
+    'Set-Cookie': await commitSession(session),
   },
 });
 
 redirect(path, {
   status: 302,
   headers: {
-    "Set-Cookie": await commitSession(session),
+    'Set-Cookie': await commitSession(session),
   },
 });
 ```
@@ -32264,13 +30073,13 @@ Of course, you can do redirects without this helper if you'd rather build it up 
 
 ```ts
 // this is a shortcut...
-return redirect("/else/where", 303);
+return redirect('/else/where', 303);
 
 // ...for this
 return new Response(null, {
   status: 303,
   headers: {
-    Location: "/else/where",
+    Location: '/else/where',
   },
 });
 ```
@@ -32279,18 +30088,19 @@ And you can throw redirects to break through the call stack and redirect right a
 
 ```ts
 if (!session) {
-  throw redirect("/login", 302);
+  throw redirect('/login', 302);
 }
 ```
 
-
----
-File: ./utils/redirectDocument.md
 ---
 
+## File: ./utils/redirectDocument.md
+
 ---
+
 title: redirectDocument
 toc: false
+
 ---
 
 # `redirectDocument`
@@ -32300,14 +30110,14 @@ This is a small wrapper around [`redirect`][redirect] that will trigger a docume
 This is most useful when you have a Remix app living next to a non-Remix app on the same domain and need to redirect from the Remix app to the non-Remix app:
 
 ```tsx lines=[1,7]
-import { redirectDocument } from "@remix-run/node"; // or cloudflare/deno
+import { redirectDocument } from '@remix-run/node'; // or cloudflare/deno
 
 export const action = async () => {
   const userSession = await getUserSessionOrWhatever();
 
   if (!userSession) {
     // Assuming `/login` is a separate non-Remix app
-    return redirectDocument("/login");
+    return redirectDocument('/login');
   }
 
   return json({ ok: true });
@@ -32324,21 +30134,22 @@ redirectDocument(path, 303);
 ```ts
 redirectDocument(path, {
   headers: {
-    "Set-Cookie": await commitSession(session),
+    'Set-Cookie': await commitSession(session),
   },
 });
 ```
 
 [redirect]: ./redirect
 
-
----
-File: ./utils/replace.md
 ---
 
+## File: ./utils/replace.md
+
 ---
+
 title: replace
 toc: false
+
 ---
 
 # `replace`
@@ -32357,21 +30168,20 @@ replace(path, 303);
 ```ts
 replace(path, {
   headers: {
-    "Set-Cookie": await commitSession(session),
+    'Set-Cookie': await commitSession(session),
   },
 });
 ```
 
 [redirect]: ./redirect
 
-
----
-File: ./utils/sessions.md
 ---
 
+## File: ./utils/sessions.md
+
 ---
-title: Sessions
----
+
+## title: Sessions
 
 # Sessions
 
@@ -32394,7 +30204,7 @@ This is an example of a cookie session storage:
 
 ```ts filename=app/sessions.ts
 // app/sessions.ts
-import { createCookieSessionStorage } from "@remix-run/node"; // or cloudflare/deno
+import { createCookieSessionStorage } from '@remix-run/node'; // or cloudflare/deno
 
 type SessionData = {
   userId: string;
@@ -32404,28 +30214,28 @@ type SessionFlashData = {
   error: string;
 };
 
-const { getSession, commitSession, destroySession } =
-  createCookieSessionStorage<SessionData, SessionFlashData>(
-    {
-      // a Cookie from `createCookie` or the CookieOptions to create one
-      cookie: {
-        name: "__session",
+const { getSession, commitSession, destroySession } = createCookieSessionStorage<
+  SessionData,
+  SessionFlashData
+>({
+  // a Cookie from `createCookie` or the CookieOptions to create one
+  cookie: {
+    name: '__session',
 
-        // all of these are optional
-        domain: "remix.run",
-        // Expires can also be set (although maxAge overrides it when used in combination).
-        // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
-        //
-        // expires: new Date(Date.now() + 60_000),
-        httpOnly: true,
-        maxAge: 60,
-        path: "/",
-        sameSite: "lax",
-        secrets: ["s3cret1"],
-        secure: true,
-      },
-    }
-  );
+    // all of these are optional
+    domain: 'remix.run',
+    // Expires can also be set (although maxAge overrides it when used in combination).
+    // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
+    //
+    // expires: new Date(Date.now() + 60_000),
+    httpOnly: true,
+    maxAge: 60,
+    path: '/',
+    sameSite: 'lax',
+    secrets: ['s3cret1'],
+    secure: true,
+  },
+});
 
 export { getSession, commitSession, destroySession };
 ```
@@ -32439,68 +30249,54 @@ You'll use methods to get access to sessions in your `loader` and `action` funct
 A login form might look something like this:
 
 ```tsx filename=app/routes/login.tsx lines=[8,13-15,17,22,26,34-36,47,52,57,62]
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node"; // or cloudflare/deno
-import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
-import { useLoaderData } from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import { json, redirect } from '@remix-run/node'; // or cloudflare/deno
+import { useLoaderData } from '@remix-run/react';
 
-import { getSession, commitSession } from "../sessions";
+import { getSession, commitSession } from '../sessions';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
-  const session = await getSession(
-    request.headers.get("Cookie")
-  );
+export async function loader({ request }: LoaderFunctionArgs) {
+  const session = await getSession(request.headers.get('Cookie'));
 
-  if (session.has("userId")) {
+  if (session.has('userId')) {
     // Redirect to the home page if they are already signed in.
-    return redirect("/");
+    return redirect('/');
   }
 
-  const data = { error: session.get("error") };
+  const data = { error: session.get('error') };
 
   return json(data, {
     headers: {
-      "Set-Cookie": await commitSession(session),
+      'Set-Cookie': await commitSession(session),
     },
   });
 }
 
-export async function action({
-  request,
-}: ActionFunctionArgs) {
-  const session = await getSession(
-    request.headers.get("Cookie")
-  );
+export async function action({ request }: ActionFunctionArgs) {
+  const session = await getSession(request.headers.get('Cookie'));
   const form = await request.formData();
-  const username = form.get("username");
-  const password = form.get("password");
+  const username = form.get('username');
+  const password = form.get('password');
 
-  const userId = await validateCredentials(
-    username,
-    password
-  );
+  const userId = await validateCredentials(username, password);
 
   if (userId == null) {
-    session.flash("error", "Invalid username/password");
+    session.flash('error', 'Invalid username/password');
 
     // Redirect back to the login page with errors.
-    return redirect("/login", {
+    return redirect('/login', {
       headers: {
-        "Set-Cookie": await commitSession(session),
+        'Set-Cookie': await commitSession(session),
       },
     });
   }
 
-  session.set("userId", userId);
+  session.set('userId', userId);
 
   // Login succeeded, send them to the home page.
-  return redirect("/", {
+  return redirect('/', {
     headers: {
-      "Set-Cookie": await commitSession(session),
+      'Set-Cookie': await commitSession(session),
     },
   });
 }
@@ -32519,8 +30315,7 @@ export default function Login() {
           Username: <input type="text" name="username" />
         </label>
         <label>
-          Password:{" "}
-          <input type="password" name="password" />
+          Password: <input type="password" name="password" />
         </label>
       </form>
     </div>
@@ -32531,17 +30326,13 @@ export default function Login() {
 And then a logout form might look something like this:
 
 ```tsx
-import { getSession, destroySession } from "../sessions";
+import { getSession, destroySession } from '../sessions';
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
-  const session = await getSession(
-    request.headers.get("Cookie")
-  );
-  return redirect("/login", {
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const session = await getSession(request.headers.get('Cookie'));
+  return redirect('/login', {
     headers: {
-      "Set-Cookie": await destroySession(session),
+      'Set-Cookie': await destroySession(session),
     },
   });
 };
@@ -32574,10 +30365,10 @@ TODO:
 Returns `true` if an object is a Remix session.
 
 ```ts
-import { isSession } from "@remix-run/node"; // or cloudflare/deno
+import { isSession } from '@remix-run/node'; // or cloudflare/deno
 
-const sessionData = { foo: "bar" };
-const session = createSession(sessionData, "remix-session");
+const sessionData = { foo: 'bar' };
+const session = createSession(sessionData, 'remix-session');
 console.log(isSession(session));
 // true
 ```
@@ -32594,13 +30385,9 @@ Remix makes it easy to store sessions in your own database if needed. The `creat
 The following example shows how you could do this using a generic database client:
 
 ```ts
-import { createSessionStorage } from "@remix-run/node"; // or cloudflare/deno
+import { createSessionStorage } from '@remix-run/node'; // or cloudflare/deno
 
-function createDatabaseSessionStorage({
-  cookie,
-  host,
-  port,
-}) {
+function createDatabaseSessionStorage({ cookie, host, port }) {
   // Configure your database client...
   const db = createDatabaseClient(host, port);
 
@@ -32629,15 +30416,14 @@ function createDatabaseSessionStorage({
 And then you can use it like this:
 
 ```ts
-const { getSession, commitSession, destroySession } =
-  createDatabaseSessionStorage({
-    host: "localhost",
-    port: 1234,
-    cookie: {
-      name: "__session",
-      sameSite: "lax",
-    },
-  });
+const { getSession, commitSession, destroySession } = createDatabaseSessionStorage({
+  host: 'localhost',
+  port: 1234,
+  cookie: {
+    name: '__session',
+    sameSite: 'lax',
+  },
+});
 ```
 
 The `expires` argument to `createData` and `updateData` is the same `Date` at which the cookie itself expires and is no longer valid. You can use this information to automatically purge the session record from your database to save on space, or to ensure that you do not otherwise return any data for old, expired cookies.
@@ -32651,17 +30437,16 @@ The main advantage of cookie session storage is that you don't need any addition
 The downside is that you have to `commitSession` in almost every loader and action. If your loader or action changes the session at all, it must be committed. That means if you `session.flash` in an action, and then `session.get` in another, you must commit it for that flashed message to go away. With other session storage strategies you only have to commit it when it's created (the browser cookie doesn't need to change because it doesn't store the session data, just the key to find it elsewhere).
 
 ```ts
-import { createCookieSessionStorage } from "@remix-run/node"; // or cloudflare/deno
+import { createCookieSessionStorage } from '@remix-run/node'; // or cloudflare/deno
 
-const { getSession, commitSession, destroySession } =
-  createCookieSessionStorage({
-    // a Cookie from `createCookie` or the same CookieOptions to create one
-    cookie: {
-      name: "__session",
-      secrets: ["r3m1xr0ck5"],
-      sameSite: "lax",
-    },
-  });
+const { getSession, commitSession, destroySession } = createCookieSessionStorage({
+  // a Cookie from `createCookie` or the same CookieOptions to create one
+  cookie: {
+    name: '__session',
+    secrets: ['r3m1xr0ck5'],
+    sameSite: 'lax',
+  },
+});
 ```
 
 Note that other session implementations store a unique session ID in a cookie and use that ID to look up the session in the source of truth (in-memory, filesystem, DB, etc.). In a cookie session, the cookie _is_ the source of truth so there is no unique ID out of the box. If you need to track a unique ID in your cookie session you will need to add an ID value yourself via `session.set()`.
@@ -32673,21 +30458,17 @@ This storage keeps all the cookie information in your server's memory.
 <docs-error>This should only be used in development. Use one of the other methods in production.</docs-error>
 
 ```ts filename=app/sessions.ts
-import {
-  createCookie,
-  createMemorySessionStorage,
-} from "@remix-run/node"; // or cloudflare/deno
+import { createCookie, createMemorySessionStorage } from '@remix-run/node'; // or cloudflare/deno
 
 // In this example the Cookie is created separately.
-const sessionCookie = createCookie("__session", {
-  secrets: ["r3m1xr0ck5"],
+const sessionCookie = createCookie('__session', {
+  secrets: ['r3m1xr0ck5'],
   sameSite: true,
 });
 
-const { getSession, commitSession, destroySession } =
-  createMemorySessionStorage({
-    cookie: sessionCookie,
-  });
+const { getSession, commitSession, destroySession } = createMemorySessionStorage({
+  cookie: sessionCookie,
+});
 
 export { getSession, commitSession, destroySession };
 ```
@@ -32701,24 +30482,20 @@ The advantage of file-backed sessions is that only the session ID is stored in t
 <docs-info>If you are deploying to a serverless function, ensure you have access to a persistent file system. They usually don't have one without extra configuration.</docs-info>
 
 ```ts filename=app/sessions.ts
-import {
-  createCookie,
-  createFileSessionStorage,
-} from "@remix-run/node"; // or cloudflare/deno
+import { createCookie, createFileSessionStorage } from '@remix-run/node'; // or cloudflare/deno
 
 // In this example the Cookie is created separately.
-const sessionCookie = createCookie("__session", {
-  secrets: ["r3m1xr0ck5"],
+const sessionCookie = createCookie('__session', {
+  secrets: ['r3m1xr0ck5'],
   sameSite: true,
 });
 
-const { getSession, commitSession, destroySession } =
-  createFileSessionStorage({
-    // The root directory where you want to store the files.
-    // Make sure it's writable!
-    dir: "/app/sessions",
-    cookie: sessionCookie,
-  });
+const { getSession, commitSession, destroySession } = createFileSessionStorage({
+  // The root directory where you want to store the files.
+  // Make sure it's writable!
+  dir: '/app/sessions',
+  cookie: sessionCookie,
+});
 
 export { getSession, commitSession, destroySession };
 ```
@@ -32730,23 +30507,19 @@ For [Cloudflare Workers KV][cloudflare-kv] backed sessions, use `createWorkersKV
 The advantage of KV backed sessions is that only the session ID is stored in the cookie while the rest of the data is stored in a globally-replicated, low-latency data store with exceptionally high-read volumes with low-latency.
 
 ```ts filename=app/sessions.server.ts
-import {
-  createCookie,
-  createWorkersKVSessionStorage,
-} from "@remix-run/cloudflare";
+import { createCookie, createWorkersKVSessionStorage } from '@remix-run/cloudflare';
 
 // In this example the Cookie is created separately.
-const sessionCookie = createCookie("__session", {
-  secrets: ["r3m1xr0ck5"],
+const sessionCookie = createCookie('__session', {
+  secrets: ['r3m1xr0ck5'],
   sameSite: true,
 });
 
-const { getSession, commitSession, destroySession } =
-  createWorkersKVSessionStorage({
-    // The KV Namespace where you want to store sessions
-    kv: YOUR_NAMESPACE,
-    cookie: sessionCookie,
-  });
+const { getSession, commitSession, destroySession } = createWorkersKVSessionStorage({
+  // The KV Namespace where you want to store sessions
+  kv: YOUR_NAMESPACE,
+  cookie: sessionCookie,
+});
 
 export { getSession, commitSession, destroySession };
 ```
@@ -32765,28 +30538,24 @@ sessions
 ```
 
 ```ts filename=app/sessions.server.ts
-import {
-  createCookie,
-  createArcTableSessionStorage,
-} from "@remix-run/architect";
+import { createCookie, createArcTableSessionStorage } from '@remix-run/architect';
 
 // In this example the Cookie is created separately.
-const sessionCookie = createCookie("__session", {
-  secrets: ["r3m1xr0ck5"],
+const sessionCookie = createCookie('__session', {
+  secrets: ['r3m1xr0ck5'],
   maxAge: 3600,
   sameSite: true,
 });
 
-const { getSession, commitSession, destroySession } =
-  createArcTableSessionStorage({
-    // The name of the table (should match app.arc)
-    table: "sessions",
-    // The name of the key used to store the session ID (should match app.arc)
-    idx: "_idx",
-    // The name of the key used to store the expiration time (should match app.arc)
-    ttl: "_ttl",
-    cookie: sessionCookie,
-  });
+const { getSession, commitSession, destroySession } = createArcTableSessionStorage({
+  // The name of the table (should match app.arc)
+  table: 'sessions',
+  // The name of the key used to store the session ID (should match app.arc)
+  idx: '_idx',
+  // The name of the key used to store the expiration time (should match app.arc)
+  ttl: '_ttl',
+  cookie: sessionCookie,
+});
 
 export { getSession, commitSession, destroySession };
 ```
@@ -32796,14 +30565,10 @@ export { getSession, commitSession, destroySession };
 After retrieving a session with `getSession`, the returned session object has a handful of methods and properties:
 
 ```tsx
-export async function action({
-  request,
-}: ActionFunctionArgs) {
-  const session = await getSession(
-    request.headers.get("Cookie")
-  );
-  session.get("foo");
-  session.has("bar");
+export async function action({ request }: ActionFunctionArgs) {
+  const session = await getSession(request.headers.get('Cookie'));
+  session.get('foo');
+  session.has('bar');
   // etc.
 }
 ```
@@ -32813,7 +30578,7 @@ export async function action({
 Returns `true` if the session has a variable with the given `name`.
 
 ```ts
-session.has("userId");
+session.has('userId');
 ```
 
 ### `session.set(key, value)`
@@ -32821,7 +30586,7 @@ session.has("userId");
 Sets a session value for use in subsequent requests:
 
 ```ts
-session.set("userId", "1234");
+session.set('userId', '1234');
 ```
 
 ### `session.flash(key, value)`
@@ -32829,27 +30594,17 @@ session.set("userId", "1234");
 Sets a session value that will be unset the first time it is read. After that, it's gone. Most useful for "flash messages" and server-side form validation messages:
 
 ```tsx
-import { commitSession, getSession } from "../sessions";
+import { commitSession, getSession } from '../sessions';
 
-export async function action({
-  params,
-  request,
-}: ActionFunctionArgs) {
-  const session = await getSession(
-    request.headers.get("Cookie")
-  );
-  const deletedProject = await archiveProject(
-    params.projectId
-  );
+export async function action({ params, request }: ActionFunctionArgs) {
+  const session = await getSession(request.headers.get('Cookie'));
+  const deletedProject = await archiveProject(params.projectId);
 
-  session.flash(
-    "globalMessage",
-    `Project ${deletedProject.name} successfully archived`
-  );
+  session.flash('globalMessage', `Project ${deletedProject.name} successfully archived`);
 
-  return redirect("/dashboard", {
+  return redirect('/dashboard', {
     headers: {
-      "Set-Cookie": await commitSession(session),
+      'Set-Cookie': await commitSession(session),
     },
   });
 }
@@ -32860,32 +30615,23 @@ Now we can read the message in a loader.
 <docs-info>You must commit the session whenever you read a `flash`. This is different than what you might be used to, where some type of middleware automatically sets the cookie header for you.</docs-info>
 
 ```tsx
-import { json } from "@remix-run/node"; // or cloudflare/deno
-import {
-  Meta,
-  Links,
-  Scripts,
-  Outlet,
-} from "@remix-run/react";
+import { json } from '@remix-run/node'; // or cloudflare/deno
+import { Meta, Links, Scripts, Outlet } from '@remix-run/react';
 
-import { getSession, commitSession } from "./sessions";
+import { getSession, commitSession } from './sessions';
 
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
-  const session = await getSession(
-    request.headers.get("Cookie")
-  );
-  const message = session.get("globalMessage") || null;
+export async function loader({ request }: LoaderFunctionArgs) {
+  const session = await getSession(request.headers.get('Cookie'));
+  const message = session.get('globalMessage') || null;
 
   return json(
     { message },
     {
       headers: {
         // only necessary with cookieSessionStorage
-        "Set-Cookie": await commitSession(session),
+        'Set-Cookie': await commitSession(session),
       },
-    }
+    },
   );
 }
 
@@ -32899,9 +30645,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        {message ? (
-          <div className="flash">{message}</div>
-        ) : null}
+        {message ? <div className="flash">{message}</div> : null}
         <Outlet />
         <Scripts />
       </body>
@@ -32915,7 +30659,7 @@ export default function App() {
 Accesses a session value from a previous request:
 
 ```ts
-session.get("name");
+session.get('name');
 ```
 
 ### `session.unset()`
@@ -32923,20 +30667,18 @@ session.get("name");
 Removes a value from the session.
 
 ```ts
-session.unset("name");
+session.unset('name');
 ```
 
 <docs-info>When using cookieSessionStorage, you must commit the session whenever you `unset`</docs-info>
 
 ```tsx
-export async function loader({
-  request,
-}: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   // ...
 
   return json(data, {
     headers: {
-      "Set-Cookie": await commitSession(session),
+      'Set-Cookie': await commitSession(session),
     },
   });
 }
@@ -32948,14 +30690,15 @@ export async function loader({
 [cloudflare-kv]: https://developers.cloudflare.com/workers/learning/how-kv-works
 [amazon-dynamo-db]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide
 
-
----
-File: ./utils/unstable-create-file-upload-handler.md
 ---
 
+## File: ./utils/unstable-create-file-upload-handler.md
+
 ---
+
 title: unstable_createFileUploadHandler
 toc: false
+
 ---
 
 # `unstable_createFileUploadHandler`
@@ -32965,23 +30708,18 @@ A Node.js upload handler that will write parts with a filename to disk to keep t
 **Example:**
 
 ```tsx
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const uploadHandler = unstable_composeUploadHandlers(
     unstable_createFileUploadHandler({
       maxPartSize: 5_000_000,
       file: ({ filename }) => filename,
     }),
     // parse everything else into memory
-    unstable_createMemoryUploadHandler()
+    unstable_createMemoryUploadHandler(),
   );
-  const formData = await unstable_parseMultipartFormData(
-    request,
-    uploadHandler
-  );
+  const formData = await unstable_parseMultipartFormData(request, uploadHandler);
 
-  const file = formData.get("avatar");
+  const file = formData.get('avatar');
 
   // file is a "NodeOnDiskFile" which implements the "File" API
   // ... etc
@@ -33002,14 +30740,15 @@ The function API for `file` and `directory` are the same. They accept an `object
 
 The `filter` function accepts an `object` and returns a `boolean` (or a promise that resolves to a `boolean`). The object it accepts has the `filename`, `name`, and `contentType` (all strings). The `boolean` returned is `true` if you want to handle that file stream.
 
-
----
-File: ./utils/unstable-create-memory-upload-handler.md
 ---
 
+## File: ./utils/unstable-create-memory-upload-handler.md
+
 ---
+
 title: unstable_createMemoryUploadHandler
 toc: false
+
 ---
 
 # `unstable_createMemoryUploadHandler`
@@ -33017,18 +30756,13 @@ toc: false
 **Example:**
 
 ```tsx
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const uploadHandler = unstable_createMemoryUploadHandler({
     maxPartSize: 500_000,
   });
-  const formData = await unstable_parseMultipartFormData(
-    request,
-    uploadHandler
-  );
+  const formData = await unstable_parseMultipartFormData(request, uploadHandler);
 
-  const file = formData.get("avatar");
+  const file = formData.get('avatar');
 
   // file is a "File" (https://mdn.io/File) polyfilled for node
   // ... etc
@@ -33036,4 +30770,3 @@ export const action = async ({
 ```
 
 **Options:** The only options supported are `maxPartSize` and `filter` which work the same as in `unstable_createFileUploadHandler` above. This API is not recommended for anything at scale, but is a convenient utility for simple use cases and as a fallback for another handler.
-

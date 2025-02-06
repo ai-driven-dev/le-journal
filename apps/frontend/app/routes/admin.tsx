@@ -1,7 +1,7 @@
 import type { ApiUser } from '@le-journal/shared-types';
 import { useLoaderData } from '@remix-run/react';
 
-import { apiFetch } from '~/utils/api/fetcher';
+import { apiFetch } from '@/utils/api/fetcher';
 
 type LoaderData = {
   users: ApiUser[];
