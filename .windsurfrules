@@ -1,62 +1,117 @@
 # Project rules
 
-## Versions
+## When giving Instructions
 
+- Do not take care of cases in user's prompt (me).
+- Always follow that case:
+  - kebab-case : folder names.
+  - camelCase : store filenames, function and variable names.
+  - PascalCase : Components and class names.
+  - snake_case : environment variables.
+  - Constants: UPPERCASE
+  - Interface : Precise "I"
+- Focus only on changes you mentioned, do NOT over-interpret.
+
+## Current projet versions
+
+- Monorepo: Turborepo 2.4+
 - Frontend: Remix 2.5+, React v19
   - Vitest: 1.2+
   - Vite: 5.1+
+  - MobX: 6.3+
 - Backend: NestJS v11+ with Node LTS 22
   - Prisma :6.3+
   - Jest: 29+ with @nestjs/testing
 
-## Package
+## On package installation
 
-- Never install package globally, use pnpm -D for development dependencies instead.
 - Always use latest available version of packages.
 - Use PNPM instead of NPM.
+- Never install package globally, use pnpm -D for development dependencies instead.
 - Never auto-install packages without my confirmation.
 
-## Global rules
+## Global code generation rules
 
-- Focus only on changes you mentioned, do NOT over-interpret.
-
-## Coding
-
-- Never generic anemic models.
-- Always be type-safe.
+- **Strict Type for every variables, functions and components.**
+- Minimal file size.
+- Use single responsibility principle.
+- Never generate anemic models.
+- Never comment code, except for complexe logic, interfaces, configuration.
 
 ### Before coding
 
-- Before proposing code change, please take a look at the version used!
-- When creating a feature, always:
-  - Generate a plan overview of what you are going to do.
-  - Print the lib versions explicitly to make sure you are on the right one.
-  - Check officiel documentation.
+1. Generate a plan overview of what you are going to do.
+2. Print the lib versions explicitly to make sure you are on the right one.
+3. Check officiel documentation.
 
 ### After coding
 
-- Always check if the code follows best practices.
-- Assert there is no duplicate code or dead code.
-- When finishing a feature, always:
-  - Check what you did according to best practices
-  - Check in the online documentation that you did it correctly
-  - Check if everything is working as expected but running check commands
+1. Check for best practices.
+2. Assert no duplicate code or dead code.
+3. Check online documentation to assert correctness.
+4. Verify your work, propose user to run checks if needed.
 
-### Comments
-
-- Never comment code, except when needed for:
-  - Complexe logic
-  - Interfaces
-  - Configuration
-
-## Frontend rules
+## Frontend coding rules
 
 - Test with Vitest.
 - Use "Vite" instead of "Webpack".
-- Always use "Remix" instead of "NextJS".
 - Use "eslint.config.js" with flat config when using Eslint.
+
+### Remix
+
+- Always use "Remix" instead of "NextJS".
 - Use "@remix-run/node" for server rendering.
 - Use "@remix-run/react" for client rendering.
+- Do not return json(), use plain objects instead.
+
+#### Remix Routing
+
+- `app/routes` must be used.
+- Follow the official documentation for routing:
+
+```text
+app/
+├── routes/
+│   ├── _index/
+│   │   ├── signup-form.tsx
+│   │   └── route.tsx
+│   ├── about/
+│   │   ├── header.tsx
+│   │   └── route.tsx
+│   ├── concerts/
+│   │   ├── favorites-cookie.ts
+│   │   └── route.tsx
+│   ├── concerts.$city/
+│   │   └── route.tsx
+│   ├── concerts._index/
+│   │   ├── featured.tsx
+│   │   └── route.tsx
+│   └── concerts.trending/
+│       ├── card.tsx
+│       ├── route.tsx
+│       └── sponsored.tsx
+└── root.tsx
+```
+
+### Frontend Architecture
+
+- Feature based folder structure.
+- `types/` : Put types and interfaces single files.
+- `stores/` : Small stores.
+- `components/` : Small components.
+- `hooks/` : Small hooks.
+
+### Component generation with MobX
+
+- Use "mobx-react-lite" instead of "mobx-react".
+- Use "mobx" for core.
+- Behavior based store, focused on domain, semantical.
+- Use `makeAutoObservable`, no annotations.
+- Prefer computed for Derived State.
+- Always Use Actions to Modify State.
+- Use runInAction for Side Effects (especially when async).
+- Avoid Overusing Observables in Large Stores, split by parent > children logic.
+- Use reaction for Side Effects.
 
 ## Backend rules
 

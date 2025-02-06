@@ -1,3 +1,4 @@
+import { createRemixStub } from '@remix-run/testing';
 import { describe, expect, it } from 'vitest';
 
 import { generateMetaArgs, render } from '../../test/test-utils';
@@ -5,11 +6,18 @@ import Index, { meta } from '../routes/_index';
 
 describe('Index Route', () => {
   it('renders index page correctly', () => {
-    const { getByText } = render(<Index />);
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: Index,
+      },
+    ]);
 
-    expect(getByText('Bienvenue sur Le Journal')).toBeInTheDocument();
+    const { getByText } = render(<RemixStub />);
+
+    expect(getByText(/Le Journal : Votre veille techno automatique/)).toBeInTheDocument();
     expect(
-      getByText('Votre espace personnel pour écrire et organiser vos pensées.'),
+      getByText(/Gagnez 3h \/ semaine en laissant l'IA vous trier vos newsletters/),
     ).toBeInTheDocument();
   });
 
@@ -19,7 +27,7 @@ describe('Index Route', () => {
     expect(metaData[0]).toEqual({ title: 'Le Journal - Accueil' });
     expect(metaData[1]).toEqual({
       name: 'description',
-      content: 'Bienvenue sur Le Journal - Votre journal personnel',
+      content: 'Votre veille techno automatique',
     });
   });
 });
