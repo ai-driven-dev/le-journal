@@ -30,6 +30,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
+      '@': '/app',
       // Polyfills pour les modules Node
       'node:crypto': 'crypto-browserify',
       'node:buffer': 'buffer',
