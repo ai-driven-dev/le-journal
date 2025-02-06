@@ -55,6 +55,8 @@
 - Use "Vite" instead of "Webpack".
 - Always use "Remix" instead of "NextJS".
 - Use "eslint.config.js" with flat config when using Eslint.
+- Use "@remix-run/node" for server rendering.
+- Use "@remix-run/react" for client rendering.
 
 ## Backend rules
 
