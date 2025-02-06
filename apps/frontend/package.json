@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "remix vite:dev --port 8080",
+    "dev": "remix vite:dev --port 3000",
     "build": "remix vite:build",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc --noEmit",
