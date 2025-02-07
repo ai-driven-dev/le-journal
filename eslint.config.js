@@ -17,6 +17,7 @@ export default [
       '**/.react-router/**',
       '**/build/**',
       '**/*.d.ts',
+      'apps/frontend/app/components/ui/*',
     ],
   },
   // React component configuration
@@ -64,19 +65,19 @@ export default [
             './apps/*/tsconfig.build.json',
             './packages/*/tsconfig.json',
           ],
-          alwaysTryTypes: true
+          alwaysTryTypes: true,
         },
         node: {
           project: [
             './apps/*/tsconfig.json',
             './apps/*/tsconfig.build.json',
             './packages/*/tsconfig.json',
-          ]
-        }
+          ],
+        },
       },
       'import/parsers': {
-        '@typescript-eslint/parser': ['.ts', '.tsx']
-      }
+        '@typescript-eslint/parser': ['.ts', '.tsx'],
+      },
     },
     plugins: {
       '@typescript-eslint': tsPlugin,

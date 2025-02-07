@@ -1,12 +1,14 @@
-import type { ReactNode } from 'react';
+import type { FC } from 'react';
 
 import { Layout } from '~/components/Layout';
-import { DashboardWelcome } from '~/features/dashboard/components/DashboardWelcome';
+import { Dashboard } from '~/features/dashboard/index.component';
 
-export default function Dashboard(): ReactNode {
+const DashboardRoute: FC = () => {
   return (
     <Layout>
-      <DashboardWelcome />
+      <Dashboard />
     </Layout>
   );
-}
+};
+
+export default DashboardRoute;

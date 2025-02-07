@@ -1,6 +1,11 @@
-import { useState } from "react"
-import { Button } from "~/components/ui/button"
-import { Textarea } from "~/components/ui/textarea"
+'use client';
+
+import { observer } from 'mobx-react-lite';
+import type { FC } from 'react';
+
+import { dashboardStore } from '../../global/dashboard.store';
+
+import { Button } from '~/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,17 +14,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog"
+} from '~/components/ui/dialog';
+import { Textarea } from '~/components/ui/textarea';
 
-export function AICustomization() {
-  const [customization, setCustomization] = useState("")
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-
-  const handleSave = () => {
-    // Here you would typically send the customization to your backend
-    console.log("Saving customization:", customization)
-    setIsDialogOpen(false)
-  }
+export const AiCustomization: FC = observer(() => {
+  const store = dashboardStore.aiCustomization;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4">
@@ -30,27 +29,29 @@ export function AICustomization() {
         <div className="flex space-x-4">
           <Textarea
             id="ai-customization"
-            value={customization}
-            onChange={(e) => setCustomization(e.target.value)}
+            value={store.customization}
+            onChange={(e) => store.setCustomization(e.target.value)}
             className="flex-1"
             placeholder="Enter your customization preferences..."
           />
           <div className="flex flex-col justify-between">
-            <span className="text-sm text-gray-500">{customization.length}/200 tokens</span>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <span className="text-sm text-gray-500">{store.customization.length}/200 tokens</span>
+            <Dialog open={store.isDialogOpen} onOpenChange={store.setIsDialogOpen}>
               <DialogTrigger asChild>
                 <Button>Save</Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Confirm Customization</DialogTitle>
-                  <DialogDescription>Are you sure you want to save these customization preferences?</DialogDescription>
+                  <DialogDescription>
+                    Are you sure you want to save these customization preferences?
+                  </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                  <Button variant="outline" onClick={() => store.setIsDialogOpen(false)}>
                     Cancel
                   </Button>
-                  <Button onClick={handleSave}>Confirm</Button>
+                  <Button onClick={store.handleSave}>Confirm</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -58,6 +59,5 @@ export function AICustomization() {
         </div>
       </div>
     </div>
-  )
-}
-
+  );
+});
