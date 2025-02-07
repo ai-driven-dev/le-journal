@@ -2,7 +2,6 @@ import type { MetaFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-
 export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
   return [
     { title: 'Le Journal - Accueil' },

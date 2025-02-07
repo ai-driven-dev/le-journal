@@ -1,23 +1,17 @@
 'use client';
 
 import { Check, Clock, Copy, X } from 'lucide-react';
+import { observer } from 'mobx-react-lite';
+import type { FC } from 'react';
+
+import { dashboardStore } from '../../global/dashboard.store';
+
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';
 
-export function NewsletterStatus() {
-  const userAlias = 'user123@lejournal.ai';
-
-  const copyToClipboard = () => {
-    navigator.clipboard
-      .writeText(userAlias)
-      .then(() => {
-        console.log('Copied to clipboard');
-      })
-      .catch((err) => {
-        console.error('Failed to copy: ', err);
-      });
-  };
+export const StatusList: FC = observer(() => {
+  const store = dashboardStore.statusList;
 
   return (
     <div className="space-y-6">
@@ -26,10 +20,10 @@ export function NewsletterStatus() {
           <CardTitle className="text-lg font-semibold">Your Newsletter Alias</CardTitle>
         </CardHeader>
         <CardContent>
-          <HoverCard>
+          <HoverCard open={store.isHoverCardOpen} onOpenChange={store.setIsHoverCardOpen}>
             <HoverCardTrigger asChild>
               <Button variant="outline" className="w-full justify-between">
-                <span className="truncate">{userAlias}</span>
+                <span className="truncate">{store.userAlias}</span>
                 <Copy className="h-4 w-4 ml-2" />
               </Button>
             </HoverCardTrigger>
@@ -45,7 +39,7 @@ export function NewsletterStatus() {
                   tailored to your interests. It helps manage your subscriptions and filter out
                   unwanted emails.
                 </p>
-                <Button size="sm" onClick={copyToClipboard}>
+                <Button size="sm" onClick={store.copyToClipboard}>
                   Copy to Clipboard
                 </Button>
               </div>
@@ -72,4 +66,4 @@ export function NewsletterStatus() {
       </div>
     </div>
   );
-}
+});
