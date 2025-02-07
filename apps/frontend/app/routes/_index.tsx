@@ -2,7 +2,6 @@ import type { MetaFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { globalStore } from '~/stores/globalStore';
 
 export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
   return [
@@ -26,20 +25,17 @@ export default observer(function Index(): React.ReactNode {
           </p>
 
           <div className="space-y-4">
-            {globalStore.isAuthenticated ? (
-              <div className="mt-4">
-                <Link to="/dashboard" className="text-blue-600 hover:text-blue-700">
-                  Accéder à mon tableau de bord →
-                </Link>
-              </div>
-            ) : (
-              <Link
-                to="/onboarding"
-                className="inline-block px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all"
-              >
-                Commencer votre journal
+            <Link
+              to="/onboarding"
+              className="inline-block px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all"
+            >
+              Commencer votre journal
+            </Link>
+            <div className="mt-4">
+              <Link to="/dashboard" className="text-blue-600 hover:text-blue-700">
+                Accéder à mon tableau de bord →
               </Link>
-            )}
+            </div>
           </div>
         </div>
       </main>

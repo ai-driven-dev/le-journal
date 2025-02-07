@@ -6,9 +6,7 @@ import { DashboardWelcome } from '~/features/dashboard/components/DashboardWelco
 export default function Dashboard(): ReactNode {
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8">
-        <DashboardWelcome />
-      </div>
+      <DashboardWelcome />
     </Layout>
   );
 }

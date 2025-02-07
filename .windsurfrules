@@ -93,13 +93,21 @@ app/
 └── root.tsx
 ```
 
+### Import 
+
+- use "/~" for root import.
+
 ### Frontend Architecture
 
 - Feature based folder structure.
-- `types/` : Put types and interfaces single files.
-- `stores/` : Small stores.
-- `components/` : Small components.
-- `hooks/` : Small hooks.
+Example 
+```text
+user-profile/
+| user-profile.component.tsx
+| user-profile.store.ts
+| user-profile.hook.ts
+| user-profile.type.ts
+```
 
 ### Component generation with MobX
 
