@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 
 export type OnboardingStep = '' | 'welcome' | 'permissions' | 'setup' | 'finish';
 
@@ -9,7 +9,9 @@ class OnboardingStore {
   private hasCompleted = false;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      navigateToStep: action,
+    });
   }
 
   get step(): OnboardingStep {

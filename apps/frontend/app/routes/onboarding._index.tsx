@@ -2,8 +2,8 @@ import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 import { type ReactNode } from 'react';
 
-import { StepForm } from '@/features/onboarding/components/StepForm';
-import { onboardingStore } from '@/features/onboarding/stores/onboardingStore';
+import { StepForm } from '~/features/onboarding/components/StepForm';
+import { onboardingStore } from '~/features/onboarding/stores/onboardingStore';
 
 function OnboardingAlreadyDone(): ReactNode {
   return (

@@ -1,33 +1,36 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import type { LinkDescriptor, LinksFunction, MetaFunction } from '@remix-run/node';
 import {
+  isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  isRouteErrorResponse,
   useRouteError,
 } from '@remix-run/react';
 
-import stylesheet from './app.css?url';
+import './tailwind.css';
 
 export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
   return [{ title: 'Le Journal' }, { name: 'description', content: 'Votre journal personnel' }];
 };
 
-export const links: LinksFunction = (): ReturnType<LinksFunction> => [
-  { rel: 'stylesheet', href: stylesheet },
+export const links: LinksFunction = (): LinkDescriptor[] => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+  {
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+    crossOrigin: 'anonymous',
+  },
   {
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
   },
 ];
 
-export default function App(): React.ReactNode {
+export function Layout({ children }: { children: React.ReactNode }): React.ReactNode {
   return (
-    <html lang="fr">
+    <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,15 +38,16 @@ export default function App(): React.ReactNode {
         <Links />
       </head>
       <body>
-        <nav role="navigation">
-          <a href="/">Le Journal</a>
-        </nav>
-        <Outlet />
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
+}
+
+export default function App(): React.ReactNode {
+  return <Outlet />;
 }
 
 export function ErrorBoundary(): React.ReactNode {

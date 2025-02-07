@@ -15,10 +15,14 @@ describe('Index Route', () => {
 
     const { getByText } = render(<RemixStub />);
 
-    expect(getByText(/Le Journal : Votre veille techno automatique/)).toBeInTheDocument();
+    expect(document.body.contains(getByText(/Le Journal : Votre veille techno automatique/))).toBe(
+      true,
+    );
     expect(
-      getByText(/Gagnez 3h \/ semaine en laissant l'IA vous trier vos newsletters/),
-    ).toBeInTheDocument();
+      document.body.contains(
+        getByText(/Gagnez 3h \/ semaine en laissant l'IA vous trier vos newsletters/),
+      ),
+    ).toBe(true);
   });
 
   it('provides correct meta tags', () => {

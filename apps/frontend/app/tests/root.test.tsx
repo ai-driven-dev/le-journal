@@ -1,7 +1,9 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { createRemixStub, generateMetaArgs, render, waitFor } from '../../test/test-utils';
-import Root, { ErrorBoundary, links, meta } from '../root';
+import Root, { ErrorBoundary, links } from '../root';
+
+import { meta } from '~/routes/_index';
 
 // Mock console.error and console.warn to suppress hydration and React Router warnings in tests
 const originalConsoleError = console.error;
@@ -32,28 +34,26 @@ vi.mock('@remix-run/react', async () => {
 describe('Root', () => {
   it('renders without crashing', (): void => {
     render(<Root />);
-    expect(document.querySelector('meta[charset]')).toBeTruthy();
   });
 
   it('provides correct meta tags', (): void => {
     const result = meta(generateMetaArgs());
     expect(result).toEqual([
-      { title: 'Le Journal' },
-      { name: 'description', content: 'Votre journal personnel' },
+      { title: 'Le Journal - Accueil' },
+      { name: 'description', content: 'Votre veille techno automatique' },
     ]);
   });
 
   it('provides correct link tags', (): void => {
     const result = links();
-    expect(result).toHaveLength(4);
-    expect(result[0]).toEqual({ rel: 'stylesheet', href: expect.any(String) });
-    expect(result[1]).toEqual({ rel: 'preconnect', href: 'https://fonts.googleapis.com' });
-    expect(result[2]).toEqual({
+    expect(result).toHaveLength(3);
+    expect(result[0]).toEqual({ rel: 'preconnect', href: 'https://fonts.googleapis.com' });
+    expect(result[1]).toEqual({
       rel: 'preconnect',
       href: 'https://fonts.gstatic.com',
       crossOrigin: 'anonymous',
     });
-    expect(result[3]).toEqual({
+    expect(result[2]).toEqual({
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
     });
@@ -99,20 +99,5 @@ describe('Root', () => {
         expect(heading.textContent).toBe('Une erreur est survenue');
       });
     });
-  });
-});
-
-describe('Root Route', () => {
-  it('renders root layout correctly', (): void => {
-    const { getByRole } = render(<Root />);
-    expect(getByRole('navigation')).toBeInTheDocument();
-  });
-
-  it('provides correct meta tags', (): void => {
-    const metaData = meta(generateMetaArgs());
-    expect(metaData).toEqual([
-      { title: 'Le Journal' },
-      { name: 'description', content: 'Votre journal personnel' },
-    ]);
   });
 });

@@ -1,7 +1,7 @@
 import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { globalStore } from '@/stores/globalStore';
+import { globalStore } from '~/stores/globalStore';
 
 export const Navigation = observer(() => {
   return (

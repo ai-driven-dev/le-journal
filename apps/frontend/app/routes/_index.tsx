@@ -2,7 +2,7 @@ import type { MetaFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { globalStore } from '@/stores/globalStore';
+import { globalStore } from '~/stores/globalStore';
 
 export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
   return [
@@ -11,7 +11,7 @@ export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
   ];
 };
 
-export default observer(function Index() {
+export default observer(function Index(): React.ReactNode {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <main className="container mx-auto px-4 py-16">
