@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import type { OnboardingStep } from '../features/onboarding/stores/onboardingStore';
 
-import { StepForm } from '@/features/onboarding/components/StepForm';
+import { StepForm } from '~/features/onboarding/components/StepForm';
 
 export const loader = async ({
   params,

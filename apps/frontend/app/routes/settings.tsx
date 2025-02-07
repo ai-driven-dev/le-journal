@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 
-import { Layout } from '@/components/Layout';
+import { Layout } from '~/components/Layout';
 
 export default observer(function Settings() {
   return (
