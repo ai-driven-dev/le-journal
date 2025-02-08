@@ -1,9 +1,9 @@
-import type { IProject } from '@le-journal/shared-types';
+import type { Project } from '@le-journal/shared-types';
 
-export interface INewsletterAliasState {
-  currentProject: IProject | null;
+export interface NewsletterAliasState {
+  currentProject: Project | null;
 }
 
-export interface INewsletterAliasActions {
+export interface NewsletterAliasActions {
   copyToClipboard: () => void;
 }

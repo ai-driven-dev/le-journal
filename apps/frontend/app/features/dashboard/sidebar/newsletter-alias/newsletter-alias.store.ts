@@ -1,11 +1,11 @@
+import type { Project } from '@le-journal/shared-types';
 import { makeAutoObservable } from 'mobx';
-import type { IProject } from '@le-journal/shared-types';
 
 import { NEWSLETTER_ALIAS_MOCK } from './newsletter-alias.mock';
-import type { INewsletterAliasActions, INewsletterAliasState } from './newsletter-alias.type';
+import type { NewsletterAliasActions, NewsletterAliasState } from './newsletter-alias.type';
 
-class NewsletterAliasStore implements INewsletterAliasState, INewsletterAliasActions {
-  currentProject: IProject | null = NEWSLETTER_ALIAS_MOCK;
+class NewsletterAliasStore implements NewsletterAliasState, NewsletterAliasActions {
+  currentProject: Project | null = NEWSLETTER_ALIAS_MOCK;
 
   constructor() {
     makeAutoObservable(this);
@@ -13,7 +13,7 @@ class NewsletterAliasStore implements INewsletterAliasState, INewsletterAliasAct
 
   copyToClipboard = async (): Promise<void> => {
     try {
-      if (!this.currentProject) {
+      if (this.currentProject === null) {
         throw new Error('No project selected');
       }
       await navigator.clipboard.writeText(this.currentProject.newsletterAlias);

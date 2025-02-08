@@ -2,15 +2,15 @@ import { Inject, Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 
 import {
-  IUserRepository,
   USER_REPOSITORY,
+  UserRepository,
 } from '../../domain/repositories/user.repository.interface';
 
 @Injectable()
 export class GetAllUsersUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
-    private readonly userRepository: IUserRepository,
+    private readonly userRepository: UserRepository,
   ) {}
 
   async execute(): Promise<User[]> {

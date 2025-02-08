@@ -1,12 +1,22 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CreateUserUseCase } from '../../application/use-cases/create-user.use-case';
 import { GetAllUsersUseCase } from '../../application/use-cases/get-all-users.use-case';
 import { CreateUserDto, UserDto } from '../dtos/user.dto';
 
-@ApiTags('users')
+@ApiTags('Users')
 @Controller('users')
+@UsePipes(new ValidationPipe())
 export class UsersController {
   constructor(
     private readonly createUserUseCase: CreateUserUseCase,

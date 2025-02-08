@@ -1,5 +1,5 @@
 ---
-date: 2025-02-08 20:54:33
+date: 2025-02-08 22:24:31
 ---
 
 # Project Specifications "Knowledge Base"
@@ -771,9 +771,9 @@ model User {
   updated_at DateTime @updatedAt @map("updated_at")
 
   // Relations
-  projects                     Project[]
-  newsletter_subscriptions     NewsletterEmailSubscription[] @relation("UserNewsletterSubscriptions")
-  transactions                 Transaction[]
+  projects     Project[]
+  newsletters  Newsletter[]
+  transactions Transaction[]
 
   @@map("users")
   @@index([email])
@@ -785,6 +785,7 @@ model Project {
   project_number    Int      @unique
   name              String   @unique
   slug              String   @unique
+  newsletter_alias  String   @unique @map("newsletter_alias")
   prompt_instruction String? @db.Text @map("prompt_instruction")
   created_at        DateTime @default(now()) @map("created_at")
 
@@ -795,43 +796,40 @@ model Project {
   @@index([user_id])
 }
 
-model NewsletterEmailSubscription {
-  id                String             @id @default(uuid())
-  user_id          String
-  newsletter_name  String             @map("newsletter_name")
-  newsletter_email String             @map("newsletter_email")
-  newsletter_url   String             @map("newsletter_url")
-  status           SubscriptionStatus
-  subscribed_at    DateTime           @default(now()) @map("subscribed_at")
+model Newsletter {
+  id           String   @id @default(uuid())
+  user_id     String
+  email       String
+  subscribed_at DateTime @default(now()) @map("subscribed_at")
 
-  user   User     @relation("UserNewsletterSubscriptions", fields: [user_id], references: [id], onDelete: Cascade)
-  emails Email[] @relation("NewsletterSubscriptionEmails")
+  user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  emails Email[]
 
-  @@map("newsletter_email_subscriptions")
+  @@map("newsletters")
   @@index([user_id])
-  @@index([newsletter_email])
+  @@index([email])
 }
 
 model Email {
-  id                               String      @id @default(uuid())
-  project_id                       String
-  newsletter_email_subscription_id String      @map("newsletter_email_subscription_id")
-  subject                         String
-  raw_content                     String      @db.Text @map("raw_content")
-  received_at                     DateTime    @default(now()) @map("received_at")
-  status                          EmailStatus
+  id           String      @id @default(uuid())
+  project_id   String
+  newsletter_id String      @map("newsletter_id")
+  subject      String
+  raw_content  String      @db.Text @map("raw_content")
+  received_at  DateTime    @default(now()) @map("received_at")
+  status       EmailStatus
 
-  project                       Project                     @relation(fields: [project_id], references: [id], onDelete: Cascade)
-  newsletter_subscription       NewsletterEmailSubscription @relation("NewsletterSubscriptionEmails", fields: [newsletter_email_subscription_id], references: [id], onDelete: Cascade)
-  news                         News[]
+  project    Project    @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  newsletter Newsletter @relation(fields: [newsletter_id], references: [id], onDelete: Cascade)
+  articles   Article[]
 
   @@map("emails")
   @@index([project_id])
-  @@index([newsletter_email_subscription_id])
+  @@index([newsletter_id])
   @@index([subject])
 }
 
-model News {
+model Article {
   id               String   @id @default(uuid())
   email_id         String
   title            String
@@ -843,13 +841,13 @@ model News {
 
   email Email @relation(fields: [email_id], references: [id], onDelete: Cascade)
 
-  @@map("news")
+  @@map("articles")
   @@index([email_id])
 }
 
 model Transaction {
   id                String        @id @default(uuid())
-  user_id          String
+  user_id          String?
   stripe_payment_id String        @map("stripe_payment_id")
   amount           Decimal
   currency         String
@@ -858,7 +856,7 @@ model Transaction {
   payment_date     DateTime       @default(now()) @map("payment_date")
   invoice_url      String        @map("invoice_url")
 
-  user User @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  user User? @relation(fields: [user_id], references: [id], onDelete: SetNull)
 
   @@map("transactions")
   @@index([user_id])
@@ -1006,11 +1004,6 @@ globs:
 
 - You are the AI Editor, responsible of coding a high quality code.
 
-# Language
-
-- Comments and code in English.
-- Labels and text in French.
-
 # Installation
 
 - Always use latest available version of packages.
@@ -1060,6 +1053,8 @@ globs: apps/frontend/**
 
 - Use versions from [package.json](mdc:apps/frontend/package.json)
 - use "/~" for root import.
+- Use English and domain language everywhere.
+- French language is use only in components for end-users.
 
 ## State
 
@@ -1133,12 +1128,41 @@ globs: apps/backend/**
 # Backend Rules
 
 - Check versions in [package.json](mdc:apps/backend/package.json) before generating code.
-
-## Rest API
-
+- Language is English for everything!
 - Use Node, never Express.
+
+## Rest API controllers
+
+- No CRUD, create use-cases.
+- DTOs implements its sibling in "shared-types".
+- Fully Document API using Swagger annotations with NestJS.
+- Use DTOs with Validation and APIProperties.
+- Use-cases must be linked to controllers.
+
+## Use-cases
+
+- Domain and feature focused.
+
+## Repository
+
+- For update and creation, use DTOs.
+
+## Mapping
+
+- No mapper, using mapped-types.
+- No ValueObject, use DTOs.
 
 ## Testing
 
 - Use Jest.
-```
+
+### Integration tests
+
+- Do not create anything, always use [seed.ts](mdc:apps/backend/prisma/seed.ts)
+- Always test use-cases.
+- Uso DTOs to instanciate object when testing use-cases.
+- Never use Prisma directly, no repositories, no Prisma services.
+
+## Examples
+
+- Use english examples.```

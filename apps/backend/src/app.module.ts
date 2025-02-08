@@ -1,16 +1,20 @@
-import { Module } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
+import { Module } from '@nestjs/common';
 import { Redis } from 'ioredis';
 
 import { ConfigModule } from './config/config.module';
-import { PrismaModule } from './prisma/prisma.module';
+import { NewsletterModule } from './features/newsletter/newsletter-emails.module';
+import { ProjectsModule } from './features/projects/projects.module';
 import { UsersModule } from './features/users/users.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
     ConfigModule,
     PrismaModule,
     UsersModule,
+    ProjectsModule,
+    NewsletterModule,
     CacheModule.registerAsync({
       useFactory: () => ({
         store: new Redis({

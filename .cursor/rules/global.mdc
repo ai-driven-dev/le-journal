@@ -6,11 +6,6 @@ globs:
 
 - You are the AI Editor, responsible of coding a high quality code.
 
-# Language
-
-- Comments and code in English.
-- Labels and text in French.
-
 # Installation
 
 - Always use latest available version of packages.
