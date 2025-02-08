@@ -19,5 +19,12 @@
   },
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
-  "prettier.semi": true
+  "prettier.semi": true,
+
+  "cursor.composer.collapsePaneInputBoxPills": true,
+  "markdown.extension.toc.levels": "2..6",
+  "workbench.editor.enablePreview": false,
+  "eslint.useFlatConfig": true,
+  "eslint.validate": ["javascript", "typescript"],
+  "eslint.format.enable": true
 }

@@ -28,5 +28,6 @@ class HeaderStore implements ITitleState, ITitleActions {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const createHeaderStore = (newsletterStore: NewsletterTableStore) =>
   new HeaderStore(newsletterStore);
