@@ -1,19 +1,12 @@
 'use client';
 
-import type { FC } from 'react';
-import { observer } from 'mobx-react-lite';
 import { Search, User } from 'lucide-react';
+import { observer } from 'mobx-react-lite';
+import type { FC } from 'react';
 
 import { dashboardStore } from '../../global/dashboard.store';
 
 import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu';
 import {
   Dialog,
   DialogContent,
@@ -23,6 +16,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '~/components/ui/dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu';
+import { Input } from '~/components/ui/input';
 
 export const Title: FC = observer(() => {
   const store = dashboardStore.title;
@@ -30,9 +30,6 @@ export const Title: FC = observer(() => {
   return (
     <header className="border-b">
       <div className="container mx-auto flex items-center justify-between h-16">
-        <Button variant="ghost" className="font-bold text-xl">
-          Le Journal
-        </Button>
         <div className="flex items-center space-x-4">
           <div className="relative">
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />

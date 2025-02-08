@@ -1,7 +1,7 @@
 'use client';
 
-import type { FC } from 'react';
 import { observer } from 'mobx-react-lite';
+import type { FC } from 'react';
 
 import { dashboardStore } from '../../global/dashboard.store';
 
@@ -15,7 +15,7 @@ export const UpgradeBanner: FC = observer(() => {
   }
 
   return (
-    <div className="fixed bottom-20 right-6 bg-blue-600 text-white p-4 rounded-lg shadow-lg">
+    <div className=" bg-blue-600 text-white p-4 rounded-lg shadow-lg">
       <p className="font-semibold mb-2">Unlock premium features!</p>
       <Button variant="secondary" size="sm" onClick={store.handleUpgradeClick}>
         Upgrade Now
