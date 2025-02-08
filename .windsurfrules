@@ -2,7 +2,7 @@
 
 ## When giving Instructions
 
-- Do not take care of cases in user's prompt (me).
+- Do not take care of cases in user s prompt (me).
 - Always follow that case:
   - kebab-case : folder names.
   - camelCase : store filenames, function and variable names.
@@ -16,6 +16,7 @@
 
 - Monorepo: Turborepo 2.4+
 - Frontend: Remix 2.5+, React v19
+  - ShadCN: 2.3
   - Vitest: 1.2+
   - Vite: 5.1+
   - MobX: 6.3+

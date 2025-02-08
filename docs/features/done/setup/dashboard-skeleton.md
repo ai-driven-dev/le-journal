@@ -4,13 +4,13 @@
 
 **Déplacer et renommer** les fichiers existants comme suit :
 
-| Fichier actuel | Nouveau chemin |
-|---------------|---------------|
-| `dashboard/components/Elements/ai-customization.tsx` | `features/dashboard/footer/ai-customization.component.tsx` |
-| `dashboard/components/Elements/newsletter-table.tsx` | `features/dashboard/main/newsletter-table.component.tsx` |
-| `dashboard/components/Elements/newsletter-status.tsx` | `features/dashboard/sidebar/status-list.component.tsx` |
-| `dashboard/components/Elements/header.tsx` | `features/dashboard/header/title.component.tsx` |
-| `dashboard/components/Elements/upgrade-banner.tsx` | `features/dashboard/sidebar/upgrade-banner.component.tsx` |
+| Fichier actuel                                        | Nouveau chemin                                             |
+| ----------------------------------------------------- | ---------------------------------------------------------- |
+| `dashboard/components/Elements/ai-customization.tsx`  | `features/dashboard/footer/ai-customization.component.tsx` |
+| `dashboard/components/Elements/newsletter-table.tsx`  | `features/dashboard/main/newsletter-table.component.tsx`   |
+| `dashboard/components/Elements/newsletter-status.tsx` | `features/dashboard/sidebar/status-list.component.tsx`     |
+| `dashboard/components/Elements/header.tsx`            | `features/dashboard/header/title.component.tsx`            |
+| `dashboard/components/Elements/upgrade-banner.tsx`    | `features/dashboard/sidebar/upgrade-banner.component.tsx`  |
 
 ---
 
@@ -93,18 +93,18 @@ Exemple pour **AI Customization** :
 
 ## 🔗 4. Création des Stores et Connexion à `dashboard.store.ts`
 
-- **Créer un store pour chaque fonctionnalité** (`ai-customization.store.ts`, `newsletter-table.store.ts`...).  
-- **`dashboard.store.ts`** doit **uniquement** contenir les sous-stores et les états globaux (ex. authentification).  
-- **Chaque store peut interagir avec d’autres via `dashboard.store.ts`**.  
-- **Éviter toute dépendance cyclique entre stores**.  
+- **Créer un store pour chaque fonctionnalité** (`ai-customization.store.ts`, `newsletter-table.store.ts`...).
+- **`dashboard.store.ts`** doit **uniquement** contenir les sous-stores et les états globaux (ex. authentification).
+- **Chaque store peut interagir avec d’autres via `dashboard.store.ts`**.
+- **Éviter toute dépendance cyclique entre stores**.
 
 ---
 
 ## 🔄 5. Mise à Jour des Imports et Références
 
-- **Mettre à jour les imports** des composants pour pointer vers la nouvelle structure.  
-- **Remplacer les références directes aux anciens fichiers**.  
-- **Corriger les chemins dans les fichiers TypeScript**.  
+- **Mettre à jour les imports** des composants pour pointer vers la nouvelle structure.
+- **Remplacer les références directes aux anciens fichiers**.
+- **Corriger les chemins dans les fichiers TypeScript**.
 
 ---
 
@@ -113,6 +113,6 @@ Exemple pour **AI Customization** :
 ✅ **Tous les fichiers sont bien déplacés et renommés**.  
 ✅ **Tous les stores sont indépendants et correctement connectés au `dashboard.store.ts`**.  
 ✅ **Tous les imports et références sont mis à jour**.  
-✅ **Le projet compile et fonctionne sans erreurs**.  
+✅ **Le projet compile et fonctionne sans erreurs**.
 
 🔥 **Lancer la refactorisation et s’assurer que tout fonctionne correctement !** 🚀

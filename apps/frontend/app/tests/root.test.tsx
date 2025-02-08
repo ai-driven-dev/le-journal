@@ -1,7 +1,8 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { createRemixStub, generateMetaArgs, render, waitFor } from '../../test/test-utils';
-import Root, { ErrorBoundary, links } from '../root';
+import { ErrorBoundary } from '../components/error-boundary';
+import Root, { links } from '../root';
 
 import { meta } from '~/routes/_index';
 
