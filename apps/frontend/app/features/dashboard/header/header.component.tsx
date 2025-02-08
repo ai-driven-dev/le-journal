@@ -1,10 +1,8 @@
-'use client';
-
 import { Search, User } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
-import { dashboardStore } from '../../global/dashboard.store';
+import { useDashboardStores } from '../dashboard.context';
 
 import { Button } from '~/components/ui/button';
 import {
@@ -25,7 +23,8 @@ import {
 import { Input } from '~/components/ui/input';
 
 export const Title: FC = observer(() => {
-  const store = dashboardStore.title;
+  const { dashboardStore } = useDashboardStores();
+  const store = dashboardStore.header;
 
   return (
     <header className="border-b">

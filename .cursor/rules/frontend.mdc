@@ -2,8 +2,67 @@
 description: Rules for frontend code.
 globs: 
 ---
+# Frontends Rules
 
-# Your rule content
+- Use versions from [package.json](mdc:apps/frontend/package.json)
+- use "/~" for root import.
 
-- You can @ files here
-- You can use markdown but dont have to
+## State
+
+- Use Smart/Dump component pattern:
+  - Smart : MobX for state.
+  - Dump : React Component, only the UI, minimal logic.
+- No React Hook only if stricly necessary.
+Use "mobx-react-lite" instead of "mobx-react".
+- Use "mobx" for core.
+- Use `makeAutoObservable`, no annotations.
+- Computed for Derived State.
+- Actions to Modify State.
+- runInAction for Side Effects (especially when async) and Reactions.
+- Split store in feature the more you can. No large stores, split by parent > children logic.
+
+
+## Architecture
+
+- A feature can contain sub-features. It follows same architectural folder structure.
+
+- Use feature based folder structure.
+ 
+Example:
+```text
+user-profile/
+| user-profile.component.tsx # minimal logic, only UI component
+| user-profile.store.ts # for actions, computed, reactions...
+| user-profile.hook.ts # if necessary
+| user-profile.context.ts # if necessary, for providers
+| user-profile.mock.ts # test data for UI
+| user-profile.type.ts # for store types: state, actions...
+```
+
+- Data types that transit backend <-> frontend must be in "shared-types"
+- Everything in the root near from [package.json](mdc:packages/shared-types/package.json) in `src`
+- Must export only 1 big entity type
+
+Example:
+```text
+newsletter.ts
+user.ts
+article.ts
+profile.ts
+```
+
+## Remix
+
+- Always use "Remix" instead of "NextJS".
+- Use "@remix-run/node" for server rendering.
+- Use "@remix-run/react" for client rendering.
+- Do not return json(), use plain objects instead.
+
+## Testing
+
+- Test with Vitest.
+
+## Config
+
+- Use "Vite" instead of "Webpack".
+- Use "eslint.config.js" with flat config when using Eslint.

@@ -3,6 +3,14 @@ description: Rules for backend changes.
 globs: 
 ---
 
-# Rules for backend
+# Backend Rules
 
 - Check versions in [package.json](mdc:apps/backend/package.json) before generating code.
+
+## Rest API
+
+- Use Node, never Express.
+
+## Testing
+
+- Use Jest.

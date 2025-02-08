@@ -1,26 +1,12 @@
-export interface IArticle {
-  subject: string;
-  description: string;
-  score: number;
-  link: string | null;
-}
+import type { Newsletter } from '@le-journal/shared-types';
 
-export interface INewsletter {
-  id: number;
-  title: string;
-  date: string;
-  subject: string;
-  status: 'completed' | 'processing' | 'failed';
-  articles: IArticle[];
-}
-
-export interface INewsletterTableState {
-  newsletters: INewsletter[];
+export interface NewsletterTableState {
+  newsletters: Newsletter[];
   selectedNewsletterId: string | null;
   isDrawerOpen: boolean;
 }
 
-export interface INewsletterTableActions {
+export interface NewsletterTableActions {
   setSelectedNewsletterId: (id: string | null) => void;
   setIsDrawerOpen: (isOpen: boolean) => void;
   handleOpenDrawer: (e: React.MouseEvent) => void;

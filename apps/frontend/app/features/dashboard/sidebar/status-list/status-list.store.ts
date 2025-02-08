@@ -1,27 +1,28 @@
 import { makeAutoObservable } from 'mobx';
 
-import type { DashboardStore } from '../../global/dashboard.store';
+import { mockStatusListState } from './status-list.mock';
+import type { StatusListState } from './status-list.type';
 
-import type { IStatusListActions, IStatusListState } from './status-list.type';
+export class StatusListStore implements StatusListState {
+  userAlias = mockStatusListState.userAlias;
+  isHoverCardOpen = mockStatusListState.isHoverCardOpen;
+  items = mockStatusListState.items;
 
-export class StatusListStore implements IStatusListState, IStatusListActions {
-  userAlias = 'user123@lejournal.ai';
-  isHoverCardOpen = false;
-
-  constructor(private readonly dashboardStore: DashboardStore) {
+  constructor() {
     makeAutoObservable(this);
   }
-
-  setIsHoverCardOpen = (isOpen: boolean): void => {
-    this.isHoverCardOpen = isOpen;
-  };
 
   copyToClipboard = async (): Promise<void> => {
     try {
       await navigator.clipboard.writeText(this.userAlias);
-      console.log('Copied to clipboard');
-    } catch (err) {
-      console.error('Failed to copy: ', err);
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
     }
   };
+
+  setIsHoverCardOpen = (isOpen: boolean): void => {
+    this.isHoverCardOpen = isOpen;
+  };
 }
+
+export const createStatusListStore = () => new StatusListStore();

@@ -1,5 +1,5 @@
 ---
-date: 2025-02-08 11:30:55
+date: 2025-02-08 13:39:51
 ---
 
 # Project Specifications "Knowledge Base"
@@ -132,9 +132,11 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 
 ### Paradigms
 
-- Use-case based architecture
-- Domain-driven design
-- Feature-driven development
+- Clean Architecture → Organize the system into clear layers (application, domain, infrastructure). Maintain modularity to ensure scalability, use-case based!
+- Feature-Driven Development (FDD) → Categorize and structure features efficiently, ensuring that they remain self-contained and manageable.
+- Domain-Driven Design (DDD) → Focus on business-driven architecture using Entities, Aggregates, Value Objects, Repositories, and Services to enforce domain consistency.
+- Behavior-Driven Development (BDD) → When working on user stories, test files, or Gherkin scenarios, focus on real-world user behavior to drive system design.
+- SOLID Principles → Maintain single responsibility, modularity, and decoupling to ensure long-term maintainability and flexibility.
 
 ### CI
 
@@ -502,7 +504,7 @@ BREAKING CHANGE: new user database structure
     "dev:docker": "docker-compose up --build -d --remove-orphans",
     "beautify": "pnpm run format:fix && pnpm run lint:fix",
     "lint": "eslint \"**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix",
+    "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix --fix-type problem,suggestion,layout,directive",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json,md}\"",
     "typecheck": "turbo run typecheck",
