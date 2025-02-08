@@ -6,6 +6,7 @@ It might not be update to date, always refer to code as source of truth.
 
 > Important: Some specifications are in french, and might not be implemented yet in the codebase.
 
+
 ## Description du projet
 
 Le projet consiste à développer un SaaS de veille automatisée qui permet de centraliser les newsletters reçues puis de les trier par pertinence avec un système de scoring.
@@ -18,6 +19,7 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 2. **Gain de temps significatif** : En moyenne, **20 à 30 minutes économisées par jour**, soit environ **3 heures par semaine** récupérées.
 3. **Expérience utilisateur "Wow"** : Dès l’identification, l’utilisateur configure rapidement ses newsletters, obtient un récapitulatif en fin de semaine, et bénéficie d’une interface simple et efficace.
 4. **Ciblage initial sur les développeurs** : Un point de départ stratégique avec une extension possible à d’autres publics professionnels à l’avenir.
+
 
 ## Features principales
 
@@ -77,6 +79,7 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 - **Sessions stockées en cookies HTTPOnly et sécurisées par Redis**
 - **JWT généré par NestJS** pour sécuriser les requêtes API entre le front et le back
 
+
 ## Initial Scope
 
 ### Version 0 (MVP)
@@ -114,6 +117,7 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
    - Suppression données, gestion tokens, réduction scopes.
 
 ---
+
 
 ## Choix initial des technologies
 
@@ -205,6 +209,7 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 
 - "shared-types" to share API types between backend API and frontend loaders
 
+
 ## Conventional Commit guide
 
 <https://github.com/BryanLomerio/conventional-commit-cheatsheet>
@@ -278,6 +283,7 @@ Example: deps: bump axios from 0.21.1 to 0.24.0
 **design**: UI or UX improvements
 
 Example: design(button): update hover effect
+
 
 ## Semantic Versioning
 
@@ -427,6 +433,7 @@ BREAKING CHANGE: new user database structure
    - Keep commits atomic
    - Document breaking changes clearly
 
+
 ## Frontend URLs
 
 - **Kebab-case** → URLs lisibles et optimisées (`/dashboard/:user-slug/:project-slug`).
@@ -465,13 +472,15 @@ BREAKING CHANGE: new user database structure
   2. **Admin** → Peut gérer les utilisateurs.
   3. **Public** → Accès limité aux routes publiques.
 
+
 ## Additional Files
 
 > ⚠️ **IMPORTANT**: These files must be taken very seriously as they represent the latest up-to-date versions of our codebase. You MUST rely on these versions and their content imperatively.
 
+
 ### package.json
 
-````json
+```json
 {
   "name": "le-journal",
   "version": "1.0.0",
@@ -528,7 +537,8 @@ BREAKING CHANGE: new user database structure
     "semantic-release": "^24.2.1",
     "turbo": "^2.4.0"
   }
-}```
+}
+```
 
 ### apps/frontend/package.json
 
@@ -590,7 +600,6 @@ BREAKING CHANGE: new user database structure
     "happy-dom": "^17.0.0",
     "postcss": "^8.4.38",
     "shadcn": "^2.3.0",
-    "shadcn-cli": "^0.0.6",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.1.6",
     "vite": "^5.1.0",
@@ -601,7 +610,7 @@ BREAKING CHANGE: new user database structure
     "node": ">=20.0.0"
   }
 }
-````
+```
 
 ### apps/backend/package.json
 
@@ -940,14 +949,14 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: lejournal
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   redis:
     image: redis:7-alpine
     ports:
-      - '6379:6379'
+      - "6379:6379"
     volumes:
       - redis_data:/data
 
