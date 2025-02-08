@@ -2,9 +2,9 @@ import { makeAutoObservable } from 'mobx';
 
 import type { DashboardStore } from '../../global/dashboard.store';
 
-import type { IStatusListState } from './status-list.type';
+import type { IStatusListActions, IStatusListState } from './status-list.type';
 
-export class StatusListStore implements IStatusListState {
+export class StatusListStore implements IStatusListState, IStatusListActions {
   userAlias = 'user123@lejournal.ai';
   isHoverCardOpen = false;
 
@@ -12,11 +12,11 @@ export class StatusListStore implements IStatusListState {
     makeAutoObservable(this);
   }
 
-  setIsHoverCardOpen = (isOpen: boolean) => {
+  setIsHoverCardOpen = (isOpen: boolean): void => {
     this.isHoverCardOpen = isOpen;
   };
 
-  copyToClipboard = async () => {
+  copyToClipboard = async (): Promise<void> => {
     try {
       await navigator.clipboard.writeText(this.userAlias);
       console.log('Copied to clipboard');

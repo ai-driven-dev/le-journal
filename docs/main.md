@@ -11,10 +11,10 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 ### Utilisateurs
 
 1. **Utilisateurs "finaux"** :
-    - Accès tableau de bord centralisé pour consulter leurs newsletters.
+   - Accès tableau de bord centralisé pour consulter leurs newsletters.
 2. **Administrateurs** :
-    - Accès tableau de bord admin pour gérer les utilisateurs.
-    - Accès aux comptes des utilisateurs.
+   - Accès tableau de bord admin pour gérer les utilisateurs.
+   - Accès aux comptes des utilisateurs.
 
 ### Features
 
@@ -31,5 +31,7 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 ### Current Architecture
 
 <!-- docs/project-structure.txt -->
+
 ```txt
+
 ```

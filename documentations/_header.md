@@ -1,4 +1,4 @@
-# Project Specifications
+# Project Specifications "Knowledge Base"
 
 This project specifications will help you understand the project architecture and features.
 

@@ -1,4 +1,3 @@
-
 ## Conventional Commit guide
 
 <https://github.com/BryanLomerio/conventional-commit-cheatsheet>
@@ -41,7 +40,7 @@ Each commit message follows this structure:
    Example: `ci(gitlab): update CI config for deployment pipeline`
 
 10. **perf**: Code changes that improve performance
-   Example: `perf(api): optimize database queries for faster responses`
+    Example: `perf(api): optimize database queries for faster responses`
 
 11. **env**: Changes related to environment setup or configuration
     Example: `env(docker): update Dockerfile for staging environment`

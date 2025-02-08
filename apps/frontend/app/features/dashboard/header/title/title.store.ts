@@ -2,9 +2,9 @@ import { makeAutoObservable } from 'mobx';
 
 import type { DashboardStore } from '../../global/dashboard.store';
 
-import type { ITitleState } from './title.type';
+import type { ITitleActions, ITitleState } from './title.type';
 
-export class TitleStore implements ITitleState {
+export class TitleStore implements ITitleState, ITitleActions {
   isLogoutDialogOpen = false;
   pendingNewslettersCount = 2;
 
@@ -12,11 +12,11 @@ export class TitleStore implements ITitleState {
     makeAutoObservable(this);
   }
 
-  setIsLogoutDialogOpen = (isOpen: boolean) => {
+  setIsLogoutDialogOpen = (isOpen: boolean): void => {
     this.isLogoutDialogOpen = isOpen;
   };
 
-  handleLogout = () => {
+  handleLogout = (): void => {
     // Implement your logout logic here
     console.log('Logging out...');
     this.setIsLogoutDialogOpen(false);

@@ -85,12 +85,12 @@
 
 ## ✅ **4. Conditions d’Envoi des Alertes**
 
-| Condition | Action |
-| --- | --- |
-| **10 erreurs API en moins de 5 minutes** | Envoi d’une alerte Discord |
-| **Erreur `500` en production** | Alerte immédiate |
-| **Base de données ou Redis down** | Alerte immédiate |
-| **Erreur `429 Too Many Requests` répétée** | Optionnel, si besoin |
+| Condition                                  | Action                     |
+| ------------------------------------------ | -------------------------- |
+| **10 erreurs API en moins de 5 minutes**   | Envoi d’une alerte Discord |
+| **Erreur `500` en production**             | Alerte immédiate           |
+| **Base de données ou Redis down**          | Alerte immédiate           |
+| **Erreur `429 Too Many Requests` répétée** | Optionnel, si besoin       |
 
 ---
 

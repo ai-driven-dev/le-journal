@@ -1,4 +1,4 @@
-# Project Specifications
+# Project Specifications "Knowledge Base"
 
 This project specifications will help you understand the project architecture and features.
 
@@ -24,49 +24,49 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 ### Utilisateurs de l'application
 
 1. **Utilisateur** :
-    - Authentification via Google OAuth 2.0.
-    - Création d’un label et d’un dossier par défaut via l’API Gmail.
-    - Configuration rapide avec un stepper pour ajouter des newsletters (alias et tutoriel visuel).
-    - Mise à jour automatique des données utilisateur dans le tableau de bord avec récupération et traitement des newsletters.
-    - Menu utilisateur avec options de déconnexion, révocation de compte Google, et gestion des paiements (accès au compte Stripe).
+   - Authentification via Google OAuth 2.0.
+   - Création d’un label et d’un dossier par défaut via l’API Gmail.
+   - Configuration rapide avec un stepper pour ajouter des newsletters (alias et tutoriel visuel).
+   - Mise à jour automatique des données utilisateur dans le tableau de bord avec récupération et traitement des newsletters.
+   - Menu utilisateur avec options de déconnexion, révocation de compte Google, et gestion des paiements (accès au compte Stripe).
 2. **Administrateur** :
-    - Accès à un tableau de bord pour gérer les utilisateurs.
-    - Suppression des utilisateurs et de toutes leurs données associées.
+   - Accès à un tableau de bord pour gérer les utilisateurs.
+   - Suppression des utilisateurs et de toutes leurs données associées.
 
 ### User-Stories principales
 
 #### Utilisateurs finaux
 
 1. **Authentification via Google** :
-    - En tant qu’utilisateur, je veux m’inscrire rapidement via Google Authentification pour commencer à utiliser l’application sans effort.
-    - En tant qu’utilisateur, je veux pouvoir me déconnecter facilement depuis le header.
-    - En tant qu’utilisateur, je veux pouvoir supprimer mon compte et toutes mes données depuis le header, en conformité avec le RGPD.
+   - En tant qu’utilisateur, je veux m’inscrire rapidement via Google Authentification pour commencer à utiliser l’application sans effort.
+   - En tant qu’utilisateur, je veux pouvoir me déconnecter facilement depuis le header.
+   - En tant qu’utilisateur, je veux pouvoir supprimer mon compte et toutes mes données depuis le header, en conformité avec le RGPD.
 2. **Configuration et ajout de newsletters (Stepper)** :
-    - En tant qu’utilisateur, je veux être guidé pas à pas après mon inscription pour configurer mon compte :
-        - Création automatique d’un projet par défaut.
-        - Attribution d’une adresse email alias dédiée pour centraliser mes newsletters.
-        - Tutoriel visuel (gif ou explications claires) pour utiliser cette adresse alias et l’ajouter sur les pages d’inscription des newsletters.
-    - En tant qu’utilisateur, je veux pouvoir passer facilement à l’étape suivante après avoir complété chaque partie de la configuration.
+   - En tant qu’utilisateur, je veux être guidé pas à pas après mon inscription pour configurer mon compte :
+     - Création automatique d’un projet par défaut.
+     - Attribution d’une adresse email alias dédiée pour centraliser mes newsletters.
+     - Tutoriel visuel (gif ou explications claires) pour utiliser cette adresse alias et l’ajouter sur les pages d’inscription des newsletters.
+   - En tant qu’utilisateur, je veux pouvoir passer facilement à l’étape suivante après avoir complété chaque partie de la configuration.
 3. **Gestion des newsletters (Dashboard)** :
-    - En tant qu’utilisateur, je veux voir toutes les newsletters que j’ai reçues organisées dans un tableau de bord avec les colonnes suivantes :
-        - **Date de réception** : Indique quand l’email a été reçu.
-        - **Sujet** : Affiche le sujet de l’email.
-        - **Récapitulatif** : Contenu très bref de l’email.
-        - **Statut** : Trois options : Non lu, Lu, ou Processé (par le système).
-        - **Bouton de visualisation** : Ouvre l’email complet.
-    - En tant qu’utilisateur, je veux que les newsletters pertinentes soient automatiquement analysées et triées dans une section dédiée à la curation :
-        - Titre, description, et lien vers une actualité mise en avant.
-    - En tant qu’utilisateur, je veux que le système identifie automatiquement les emails de confirmation et les valide à ma place (fonctionnalité clé du MVP).
+   - En tant qu’utilisateur, je veux voir toutes les newsletters que j’ai reçues organisées dans un tableau de bord avec les colonnes suivantes :
+     - **Date de réception** : Indique quand l’email a été reçu.
+     - **Sujet** : Affiche le sujet de l’email.
+     - **Récapitulatif** : Contenu très bref de l’email.
+     - **Statut** : Trois options : Non lu, Lu, ou Processé (par le système).
+     - **Bouton de visualisation** : Ouvre l’email complet.
+   - En tant qu’utilisateur, je veux que les newsletters pertinentes soient automatiquement analysées et triées dans une section dédiée à la curation :
+     - Titre, description, et lien vers une actualité mise en avant.
+   - En tant qu’utilisateur, je veux que le système identifie automatiquement les emails de confirmation et les valide à ma place (fonctionnalité clé du MVP).
 4. **Personnalisation des contenus extraits** :
-    - En tant qu’utilisateur, je veux disposer d’un champ de texte limité pour spécifier les informations que je veux extraire des newsletters.
-    - En tant qu’utilisateur, je veux que ce champ soit sécurisé contre les tentatives de prompt injection.
-    - En tant qu’utilisateur, je veux voir un avertissement clair (pop-in) avant de sauvegarder mes paramètres, expliquant les règles d’utilisation et les conséquences en cas de mauvais usage.
+   - En tant qu’utilisateur, je veux disposer d’un champ de texte limité pour spécifier les informations que je veux extraire des newsletters.
+   - En tant qu’utilisateur, je veux que ce champ soit sécurisé contre les tentatives de prompt injection.
+   - En tant qu’utilisateur, je veux voir un avertissement clair (pop-in) avant de sauvegarder mes paramètres, expliquant les règles d’utilisation et les conséquences en cas de mauvais usage.
 
 #### Administrateurs
 
 1. **Gestion des utilisateurs et des newsletters** :
-    - En tant qu’administrateur, je veux voir tous les utilisateurs inscrits avec leurs données associées (nombre de newsletters, paramètres enregistrés, etc.).
-    - En tant qu’administrateur, je veux pouvoir supprimer un utilisateur et toutes ses données associées.
+   - En tant qu’administrateur, je veux voir tous les utilisateurs inscrits avec leurs données associées (nombre de newsletters, paramètres enregistrés, etc.).
+   - En tant qu’administrateur, je veux pouvoir supprimer un utilisateur et toutes ses données associées.
 
 ### Implémentation technique
 
@@ -84,34 +84,34 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 **Fonctionnalités :**
 
 1. **Inscription et Onboarding :**
-    - Google OAuth 2.0.
-    - Création labels/filtres Gmail.
-    - Stepper configuration (alias, tutoriel).
+   - Google OAuth 2.0.
+   - Création labels/filtres Gmail.
+   - Stepper configuration (alias, tutoriel).
 2. **Tableau de bord :**
-    - Newsletters reçues :
-      - Date, sujet, récapitulatif, statut, bouton HTML.
-      - Liste actualités (Curation IA) :
-          - Titre, description, URL, score pertinence.
-          - Vérification doublons, fusion si nécessaire.
-    - Liste newsletters :
-        - Indicateur validation, affichage grisé si non traitée.
-    - Filtre contenu (texte simple).
+   - Newsletters reçues :
+     - Date, sujet, récapitulatif, statut, bouton HTML.
+     - Liste actualités (Curation IA) :
+       - Titre, description, URL, score pertinence.
+       - Vérification doublons, fusion si nécessaire.
+   - Liste newsletters :
+     - Indicateur validation, affichage grisé si non traitée.
+   - Filtre contenu (texte simple).
 3. **Paiement :**
-    - Limite 2 newsletters gratuites.
-    - Upgrade : pop-in bénéfices, Stripe.
+   - Limite 2 newsletters gratuites.
+   - Upgrade : pop-in bénéfices, Stripe.
 4. **Header :**
-    - Lien dashboard, infos utilisateur, menu (déconnexion, suppression, mise à jour).
+   - Lien dashboard, infos utilisateur, menu (déconnexion, suppression, mise à jour).
 5. **Landing Page :**
-    - Bénéfices, visuel dashboard, CTA inscription.
-    - Footer légal.
+   - Bénéfices, visuel dashboard, CTA inscription.
+   - Footer légal.
 6. **Automatisation :**
-    - Cron nocturne emails.
-    - Validation auto confirmations.
-    - Alerte Discord en cas d'erreurs répétées.
+   - Cron nocturne emails.
+   - Validation auto confirmations.
+   - Alerte Discord en cas d'erreurs répétées.
 7. **Personnalisation :**
-    - Champs extraction contenus spécifiques.
+   - Champs extraction contenus spécifiques.
 8. **Sécurité/RGPD :**
-    - Suppression données, gestion tokens, réduction scopes.
+   - Suppression données, gestion tokens, réduction scopes.
 
 ---
 
@@ -247,7 +247,7 @@ Each commit message follows this structure:
    Example: `ci(gitlab): update CI config for deployment pipeline`
 
 10. **perf**: Code changes that improve performance
-   Example: `perf(api): optimize database queries for faster responses`
+    Example: `perf(api): optimize database queries for faster responses`
 
 11. **env**: Changes related to environment setup or configuration
     Example: `env(docker): update Dockerfile for staging environment`
@@ -435,14 +435,14 @@ BREAKING CHANGE: new user database structure
 
 ### 🌍 Public (Accessible sans connexion)
 
-- `/` → **Landing Page** *(Présentation du service, inscription rapide)*
+- `/` → **Landing Page** _(Présentation du service, inscription rapide)_
 - `/onboarding/` → Inscription de l’utilisateur sur la plateforme.
   - `/onboarding/start` → Page d’accueil de l’onboarding (Bienvenue + Connexion Google).
   - `/onboarding/permissions` → Demande des autorisations Gmail via OAuth.
   - `/onboarding/setup` → Génération de l’alias email + Création du projet + Configuration automatique de Gmail (label + filtre).
   - `/onboarding/finish` → Résumé des configurations (alias email affiché + bouton d’accès au Dashboard).
 - `/legal` → **Mentions légales**
-- `/auth/callback` → **Callback Google OAuth** *(Stockage des tokens après connexion)*
+- `/auth/callback` → **Callback Google OAuth** _(Stockage des tokens après connexion)_
 
 ### 🔒 Privé (Accessible après connexion)
 
@@ -461,17 +461,17 @@ BREAKING CHANGE: new user database structure
 
 - **Guards NestJS** utilisés pour gérer les accès API.
 - **3 niveaux d’accès :**
-    1. **Utilisateur** → Accès à ses propres données uniquement.
-    2. **Admin** → Peut gérer les utilisateurs.
-    3. **Public** → Accès limité aux routes publiques.
+  1. **Utilisateur** → Accès à ses propres données uniquement.
+  2. **Admin** → Peut gérer les utilisateurs.
+  3. **Public** → Accès limité aux routes publiques.
 
 ## Additional Files
 
-> ⚠️ **IMPORTANT FOR AI**: These files must be taken very seriously as they represent the latest up-to-date versions of our codebase. You MUST rely on these versions and their content imperatively.
+> ⚠️ **IMPORTANT**: These files must be taken very seriously as they represent the latest up-to-date versions of our codebase. You MUST rely on these versions and their content imperatively.
 
 ### package.json
 
-```json
+````json
 {
   "name": "le-journal",
   "version": "1.0.0",
@@ -601,7 +601,7 @@ BREAKING CHANGE: new user database structure
     "node": ">=20.0.0"
   }
 }
-```
+````
 
 ### apps/backend/package.json
 
@@ -940,14 +940,14 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: lejournal
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      - '6379:6379'
     volumes:
       - redis_data:/data
 

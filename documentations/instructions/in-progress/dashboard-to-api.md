@@ -6,7 +6,7 @@
 5. Prompt pour clarifier les intentions - challenge IA ici.
 6. User-Story ULTRA COURTES pour parcours minimaliste.
 7. Actions back
-    - définition des routes sous forme de use-case
-    - swagger
+   - définition des routes sous forme de use-case
+   - swagger
 8. Relier le back et le front
 9. Exploiter Google Auth
