@@ -6,11 +6,41 @@ globs: apps/backend/**
 # Backend Rules
 
 - Check versions in [package.json](mdc:apps/backend/package.json) before generating code.
-
-## Rest API
-
+- Language is English for everything!
 - Use Node, never Express.
+
+## Rest API controllers
+
+- No CRUD, create use-cases.
+- DTOs implements its sibling in "shared-types".
+- Fully Document API using Swagger annotations with NestJS.
+- Use DTOs with Validation and APIProperties.
+- Use-cases must be linked to controllers.
+
+## Use-cases
+
+- Domain and feature focused.
+
+## Repository
+
+- For update and creation, use DTOs.
+
+## Mapping
+
+- No mapper, using mapped-types.
+- No ValueObject, use DTOs.
 
 ## Testing
 
 - Use Jest.
+
+### Integration tests
+
+- Do not create anything, always use [seed.ts](mdc:apps/backend/prisma/seed.ts)
+- Always test use-cases.
+- Uso DTOs to instanciate object when testing use-cases.
+- Never use Prisma directly, no repositories, no Prisma services.
+
+## Examples
+
+- Use english examples.

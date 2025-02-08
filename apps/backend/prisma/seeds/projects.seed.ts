@@ -19,6 +19,7 @@ export async function seedProjects(): Promise<Project[]> {
     project_number: 1,
     name: 'Project Standard',
     slug: 'project-standard',
+    newsletter_alias: 'project-standard-news',
     prompt_instruction: 'Default prompt instruction for standard project',
     user: { connect: { id: standardUser.id } },
   };
@@ -27,6 +28,7 @@ export async function seedProjects(): Promise<Project[]> {
     project_number: 2,
     name: 'Project Admin',
     slug: 'project-admin',
+    newsletter_alias: 'project-admin-news',
     prompt_instruction: 'Default prompt instruction for admin project',
     user: { connect: { id: adminUser.id } },
   };
@@ -35,6 +37,7 @@ export async function seedProjects(): Promise<Project[]> {
     project_number: 3,
     name: 'Project Premium',
     slug: 'project-premium',
+    newsletter_alias: 'project-premium-news',
     prompt_instruction: 'Default prompt instruction for premium project',
     user: { connect: { id: premiumUser.id } },
   };

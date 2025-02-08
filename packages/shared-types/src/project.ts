@@ -1,7 +1,7 @@
-export interface IProject {
+export interface Project {
   id: string;
   name: string;
   newsletterAlias: string;
+  projectNumber: number;
   createdAt: Date;
-  updatedAt: Date;
 }

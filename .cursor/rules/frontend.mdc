@@ -6,6 +6,8 @@ globs: apps/frontend/**
 
 - Use versions from [package.json](mdc:apps/frontend/package.json)
 - use "/~" for root import.
+- Use English and domain language everywhere.
+- French language is use only in components for end-users.
 
 ## State
 

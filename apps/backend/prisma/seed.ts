@@ -1,13 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 
-import {
-  seedEmails,
-  seedNews,
-  seedNewsletterEmailSubscriptions,
-  seedProjects,
-  seedTransactions,
-  seedUsers,
-} from './seeds';
+import { seedArticles } from './seeds/articles.seed';
+import { seedEmails } from './seeds/emails.seed';
+import { seedNewsletters } from './seeds/newsletters.seed';
+import { seedProjects } from './seeds/projects.seed';
+import { seedTransactions } from './seeds/transactions.seed';
+import { seedUsers } from './seeds/users.seed';
 
 const prisma = new PrismaClient();
 
@@ -18,9 +16,9 @@ async function main(): Promise<void> {
     // Create entities in the correct order to respect relationships
     await seedUsers();
     await seedProjects();
-    await seedNewsletterEmailSubscriptions();
+    await seedNewsletters();
     await seedEmails();
-    await seedNews();
+    await seedArticles();
     await seedTransactions();
 
     console.log('✅ Database seeding completed successfully');

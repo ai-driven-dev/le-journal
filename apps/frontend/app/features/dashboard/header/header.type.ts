@@ -1,8 +1,8 @@
-export interface ITitleState {
+export interface TitleState {
   isLogoutDialogOpen: boolean;
 }
 
-export interface ITitleActions {
+export interface TitleActions {
   setIsLogoutDialogOpen: (isOpen: boolean) => void;
   handleLogout: () => void;
 }

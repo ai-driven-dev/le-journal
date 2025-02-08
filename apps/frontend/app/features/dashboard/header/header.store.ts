@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 
-import type { ITitleActions, ITitleState } from './header.type';
+import type { TitleActions, TitleState } from './header.type';
 
-class HeaderStore implements ITitleState, ITitleActions {
+class HeaderStore implements TitleState, TitleActions {
   isLogoutDialogOpen = false;
 
   constructor() {

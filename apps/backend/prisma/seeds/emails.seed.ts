@@ -1,47 +1,44 @@
-import type { Email, NewsletterEmailSubscription, Prisma } from '@prisma/client';
+import type { Email, Prisma } from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-function createEmailsForSubscription(
-  subscriptionId: string,
-  projectId: string,
-): Prisma.EmailCreateInput[] {
-  return Array.from({ length: 3 }, (_, i) => ({
-    subject: `Email ${i + 1} for subscription ${subscriptionId}`,
-    raw_content: `This is the raw content for email ${i + 1}`,
-    status: 'RECEIVED',
-    project: { connect: { id: projectId } },
-    newsletter_subscription: { connect: { id: subscriptionId } },
-  }));
-}
-
 export async function seedEmails(): Promise<Email[]> {
   console.log('🌱 Seeding emails...');
 
-  type SubscriptionWithUser = NewsletterEmailSubscription & {
-    user: {
-      projects: { id: string }[];
-    };
-  };
+  const projects = await prisma.project.findMany();
+  const newsletters = await prisma.newsletter.findMany();
 
-  const subscriptions = await prisma.newsletterEmailSubscription.findMany({
-    include: {
-      user: {
-        include: {
-          projects: true,
-        },
-      },
+  if (!projects.length || !newsletters.length) {
+    throw new Error('Required projects and newsletters not found');
+  }
+
+  const emailsData: Prisma.EmailCreateInput[] = [
+    {
+      subject: 'First Newsletter Email',
+      raw_content: 'This is the content of the first newsletter email.',
+      status: 'RECEIVED',
+      project: { connect: { id: projects[0].id } },
+      newsletter: { connect: { id: newsletters[0].id } },
     },
-  });
+    {
+      subject: 'Second Newsletter Email',
+      raw_content: 'This is the content of the second newsletter email.',
+      status: 'PROCESSED',
+      project: { connect: { id: projects[0].id } },
+      newsletter: { connect: { id: newsletters[0].id } },
+    },
+    {
+      subject: 'Third Newsletter Email',
+      raw_content: 'This is the content of the third newsletter email.',
+      status: 'RECEIVED',
+      project: { connect: { id: projects[1].id } },
+      newsletter: { connect: { id: newsletters[1].id } },
+    },
+  ];
 
-  const emailsToCreate = subscriptions.flatMap((subscription: SubscriptionWithUser) => {
-    const projectId = subscription.user.projects[0].id;
-    return createEmailsForSubscription(subscription.id, projectId);
-  });
-
-  const emails: Email[] = await Promise.all(
-    emailsToCreate.map((email: Prisma.EmailCreateInput) => prisma.email.create({ data: email })),
+  const emails = await Promise.all(
+    emailsData.map((emailData) => prisma.email.create({ data: emailData })),
   );
 
   console.log('✅ Emails seeded');
