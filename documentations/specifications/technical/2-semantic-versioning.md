@@ -1,6 +1,4 @@
-# Semantic Versioning Guide
-
-## 📝 Basic Principles
+## Semantic Versioning
 
 ### Versions
 
@@ -8,7 +6,7 @@
 - **MINOR** (1.1.0) : Backwards-compatible new features
 - **PATCH** (1.0.1) : Backwards-compatible bug fixes
 
-## 🌳 Branch Structure
+### 🌳 Branch Structure
 
 ```bash
 main (production)
@@ -17,9 +15,9 @@ main (production)
   └── docs/api-reference
 ```
 
-## 📖 Commit Conventions
+### 📖 Commit Conventions
 
-### Commit Types
+#### Commit Types
 
 - `feat:` - New feature (MINOR)
 
@@ -67,7 +65,7 @@ feat: complete authentication system overhaul
 BREAKING CHANGE: new user database structure
 ```
 
-## 🔄 Development Workflow
+### 🔄 Development Workflow
 
 1. **Create a Branch**
 
@@ -94,7 +92,7 @@ BREAKING CHANGE: new user database structure
    - CHANGELOG is generated from commits
    - Git tags are created
 
-## 📋 Example Generated CHANGELOG
+### 📋 Example Generated CHANGELOG
 
 ```markdown
 # [2.0.0](https://github.com/user/repo/compare/v1.0.0...v2.0.0) (2025-01-29)
@@ -113,7 +111,7 @@ BREAKING CHANGE: new user database structure
 - new user database structure
 ```
 
-## ✅ Pull Request Checklist
+### ✅ Pull Request Checklist
 
 - [ ] Commits follow conventions
 - [ ] Each commit is atomic and meaningful
@@ -121,7 +119,7 @@ BREAKING CHANGE: new user database structure
 - [ ] Documentation is up to date
 - [ ] No commit squashing
 
-## 🤖 Automatic Version Bumps
+### 🤖 Automatic Version Bumps
 
 | Commit Type | Message Example                                | Version Bump  |
 | ----------- | ---------------------------------------------- | ------------- |
@@ -129,7 +127,7 @@ BREAKING CHANGE: new user database structure
 | feat        | `feat: new feature`                            | MINOR (1.1.0) |
 | BREAKING    | `feat: new api BREAKING CHANGE: new structure` | MAJOR (2.0.0) |
 
-## 📌 Important Notes
+### 📌 Important Notes
 
 1. **Commit Messages**
 

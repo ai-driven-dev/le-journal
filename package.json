@@ -9,6 +9,7 @@
     "packages/*"
   ],
   "scripts": {
+    "document": "sh ./documentations/knowledge.sh",
     "build": "turbo run build",
     "dev": "docker-compose up --build -d && turbo run dev",
     "dev:docker": "docker-compose up --build -d --remove-orphans",
