@@ -1,10 +1,10 @@
 import { Check, Clock, X } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';
-
 import { createNewsletterSubscriptionsStore } from './newsletter-subscriptions.store';
 import type { NewsletterWithStatus } from './newsletter-subscriptions.type';
+
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';
 
 const iconComponents = {
   Check,

@@ -10,7 +10,7 @@ export class NewsletterSubscriptionsStore implements NewsletterSubscriptionsStat
     makeAutoObservable(this);
   }
 
-  setIsHoverCardOpen = (isOpen: boolean): void => {
+  setIsHoverCardOpen = (): void => {
     // This method is kept for compatibility but might not be needed anymore
     console.warn('setIsHoverCardOpen is deprecated');
   };

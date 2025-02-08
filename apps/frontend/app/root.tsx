@@ -1,5 +1,6 @@
 import type { LinkDescriptor, LinksFunction, MetaFunction } from '@remix-run/node';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import { observer } from 'mobx-react-lite';
 
 import { ErrorBoundary } from '~/components/error-boundary';
 
@@ -22,7 +23,11 @@ export const links: LinksFunction = (): LinkDescriptor[] => [
   },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }): React.ReactNode {
+export const Layout = observer(function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.ReactNode {
   return (
     <html lang="en">
       <head>
@@ -38,10 +43,12 @@ export function Layout({ children }: { children: React.ReactNode }): React.React
       </body>
     </html>
   );
-}
+});
 
-export default function App(): React.ReactNode {
+const App = observer(function App(): React.ReactNode {
   return <Outlet />;
-}
+});
+
+export default App;
 
 export { ErrorBoundary };

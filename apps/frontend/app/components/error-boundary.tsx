@@ -6,8 +6,9 @@ import {
   ScrollRestoration,
   useRouteError,
 } from '@remix-run/react';
+import { observer } from 'mobx-react-lite';
 
-export function ErrorBoundary(): React.ReactNode {
+export const ErrorBoundary = observer(function ErrorBoundary(): React.ReactNode {
   const error = useRouteError();
 
   let message;
@@ -43,4 +44,4 @@ export function ErrorBoundary(): React.ReactNode {
       </body>
     </html>
   );
-}
+});

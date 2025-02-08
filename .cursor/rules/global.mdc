@@ -2,6 +2,15 @@
 description: Global rules when generating code or running commands.
 globs: 
 ---
+# Roles
+
+- You are the AI Editor, responsible of coding a high quality code.
+
+# Language
+
+- Comments and code in English.
+- Labels and text in French.
+
 # Installation
 
 - Always use latest available version of packages.
@@ -15,6 +24,12 @@ globs:
 - Use single responsibility principle.
 - Never generate anemic models.
 - Never comment code, except for complexe logic, interfaces, configuration.
+
+# Functions
+
+- Must reflect user actions.
+- Focus on use-case.
+- Avoid technical names like `set...()`
 
 # Bug finding
 

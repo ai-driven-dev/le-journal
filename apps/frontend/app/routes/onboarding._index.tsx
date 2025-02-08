@@ -5,7 +5,7 @@ import { type ReactNode } from 'react';
 import { StepForm } from '~/features/onboarding/components/StepForm';
 import { onboardingStore } from '~/features/onboarding/stores/onboardingStore';
 
-function OnboardingAlreadyDone(): ReactNode {
+const OnboardingAlreadyDone = observer(function OnboardingAlreadyDone(): ReactNode {
   return (
     <div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
       <h3 className="text-lg font-medium text-blue-900 mb-2">
@@ -30,9 +30,9 @@ function OnboardingAlreadyDone(): ReactNode {
       </div>
     </div>
   );
-}
+});
 
-function OnboardingWelcome(): ReactNode {
+const OnboardingWelcome = observer(function OnboardingWelcome(): ReactNode {
   return (
     <>
       <p className="text-lg">
@@ -43,7 +43,7 @@ function OnboardingWelcome(): ReactNode {
       <StepForm currentStep="welcome" />
     </>
   );
-}
+});
 
 export default observer(function OnboardingIndex(): ReactNode {
   return onboardingStore.isCompleted ? <OnboardingAlreadyDone /> : <OnboardingWelcome />;

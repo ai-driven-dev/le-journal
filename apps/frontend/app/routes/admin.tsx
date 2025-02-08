@@ -1,19 +1,20 @@
-import type { ApiUser } from '@le-journal/shared-types';
+import type { User } from '@le-journal/shared-types';
 import { useLoaderData } from '@remix-run/react';
+import { observer } from 'mobx-react-lite';
 
 import { apiFetch } from '~/utils/api/fetcher';
 
 type LoaderData = {
-  users: ApiUser[];
+  users: User[];
 };
 
 export const loader = async (): Promise<LoaderData> => {
-  const users = await apiFetch<ApiUser[]>({ endpoint: 'users' });
+  const users = await apiFetch<User[]>({ endpoint: 'users' });
 
   return { users };
 };
 
-export default function AdminIndex(): React.ReactElement {
+export const AdminIndex = observer(function AdminIndex(): React.ReactElement {
   const { users } = useLoaderData<typeof loader>();
 
   return (
@@ -53,4 +54,6 @@ export default function AdminIndex(): React.ReactElement {
       </div>
     </div>
   );
-}
+});
+
+export default AdminIndex;

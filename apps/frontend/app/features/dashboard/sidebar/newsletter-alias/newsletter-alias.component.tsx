@@ -2,10 +2,11 @@ import { Copy } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
+import { useDashboardStores } from '../../dashboard.context';
+
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';
-import { useDashboardStores } from '../../dashboard.context';
 
 export const NewsletterAlias: FC = observer(() => {
   const { dashboardStore } = useDashboardStores();
