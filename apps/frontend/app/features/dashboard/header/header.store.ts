@@ -1,21 +1,12 @@
 import { makeAutoObservable } from 'mobx';
 
-import type { NewsletterTableStore } from '../main/newsletter-table/newsletter-table.store';
-
 import type { ITitleActions, ITitleState } from './header.type';
 
 class HeaderStore implements ITitleState, ITitleActions {
   isLogoutDialogOpen = false;
 
-  newsletterStore: NewsletterTableStore; // Dépendance injectée
-
-  constructor(newsletterStore: NewsletterTableStore) {
-    this.newsletterStore = newsletterStore;
+  constructor() {
     makeAutoObservable(this);
-  }
-
-  get pendingNewslettersCount(): number {
-    return this.newsletterStore.newsletters.length;
   }
 
   setIsLogoutDialogOpen = (isOpen: boolean): void => {
@@ -29,5 +20,4 @@ class HeaderStore implements ITitleState, ITitleActions {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const createHeaderStore = (newsletterStore: NewsletterTableStore) =>
-  new HeaderStore(newsletterStore);
+export const createHeaderStore = () => new HeaderStore();

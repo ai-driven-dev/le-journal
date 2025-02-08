@@ -21,7 +21,7 @@ export const UpgradeBanner: FC = observer(() => {
       </p>
       <div className="flex justify-between items-center">
         <Button onClick={store.handleUpgrade}>Upgrade</Button>
-        <Button variant="ghost" size="sm" onClick={() => store.setIsVisible(false)}>
+        <Button disabled variant="ghost" size="sm" onClick={() => store.setIsVisible(false)}>
           Plus tard
         </Button>
       </div>

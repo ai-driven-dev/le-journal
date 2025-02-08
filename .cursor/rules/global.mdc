@@ -21,3 +21,15 @@ globs:
 - Alaways propose top 3 solutions.
 - Indicate confidence score.
 - Ask user to choose.
+
+# Common types
+
+- Data type that are used from backend api to frontend components must be in "packages/shared-types".
+- Must be focused on feature, small sub-types only are allowed.
+- Prefer one file per type.
+- Export must be made in [index.ts](mdc:packages/shared-types/src/index.ts).
+
+# Interfaces and Types
+
+- No prefix for interfaces (e.g. no `IUser`).
+- No suffix for types (e.g. no `UserType`)

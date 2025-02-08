@@ -1,5 +1,5 @@
 ---
-date: 2025-02-08 14:07:06
+date: 2025-02-08 16:14:08
 ---
 
 # Project Specifications "Knowledge Base"
@@ -601,7 +601,7 @@ BREAKING CHANGE: new user database structure
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^4.6.0",
     "happy-dom": "^17.0.0",
     "postcss": "^8.4.38",
