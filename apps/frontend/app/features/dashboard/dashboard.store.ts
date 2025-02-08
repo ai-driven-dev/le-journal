@@ -25,4 +25,5 @@ export class DashboardStore implements DashboardState {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const createDashboardStore = () => new DashboardStore();
