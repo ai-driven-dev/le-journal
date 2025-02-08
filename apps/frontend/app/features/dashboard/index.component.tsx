@@ -3,7 +3,12 @@
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
-import { Button } from '~/components/ui/button';
+import { AiCustomization } from './footer/ai-customization/ai-customization.component';
+import { Title } from './header/title/title.component';
+import { NewsletterTable } from './main/newsletter-table/newsletter-table.component';
+import { StatusList } from './sidebar/status-list/status-list.component';
+import { UpgradeBanner } from './sidebar/upgrade-banner/upgrade-banner.component';
+
 import {
   Sidebar,
   SidebarContent,
@@ -13,11 +18,7 @@ import {
   SidebarProvider,
   SidebarRail,
 } from '~/components/ui/sidebar';
-import { AiCustomization } from './footer/ai-customization/ai-customization.component';
-import { Title } from './header/title/title.component';
-import { NewsletterTable } from './main/newsletter-table/newsletter-table.component';
-import { StatusList } from './sidebar/status-list/status-list.component';
-import { UpgradeBanner } from './sidebar/upgrade-banner/upgrade-banner.component';
+import { Button } from '~/components/ui/button';
 
 export const Dashboard: FC = observer(() => {
   return (
