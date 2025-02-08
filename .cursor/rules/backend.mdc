@@ -1,6 +1,6 @@
 ---
 description: Rules for backend changes.
-globs: 
+globs: apps/backend/**
 ---
 
 # Backend Rules

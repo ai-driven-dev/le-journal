@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import {
   seedEmails,
   seedNews,
-  seedNewsletterSubscriptions,
+  seedNewsletterEmailSubscriptions,
   seedProjects,
   seedTransactions,
   seedUsers,
@@ -18,7 +18,7 @@ async function main(): Promise<void> {
     // Create entities in the correct order to respect relationships
     await seedUsers();
     await seedProjects();
-    await seedNewsletterSubscriptions();
+    await seedNewsletterEmailSubscriptions();
     await seedEmails();
     await seedNews();
     await seedTransactions();

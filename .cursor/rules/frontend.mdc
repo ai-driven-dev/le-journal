@@ -1,6 +1,6 @@
 ---
 description: Rules for frontend code.
-globs: 
+globs: apps/frontend/**
 ---
 # Frontends Rules
 

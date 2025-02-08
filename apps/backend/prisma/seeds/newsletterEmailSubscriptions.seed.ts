@@ -1,10 +1,10 @@
-import type { NewsletterSubscription, Prisma } from '@prisma/client';
+import type { NewsletterEmailSubscription, Prisma } from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function seedNewsletterSubscriptions(): Promise<NewsletterSubscription[]> {
-  console.log('🌱 Seeding newsletter subscriptions...');
+export async function seedNewsletterEmailSubscriptions(): Promise<NewsletterEmailSubscription[]> {
+  console.log('🌱 Seeding newsletter email subscriptions...');
 
   const users = await prisma.user.findMany({
     include: { projects: true },
@@ -19,7 +19,7 @@ export async function seedNewsletterSubscriptions(): Promise<NewsletterSubscript
   }
 
   // Standard user subscription (1)
-  const standardSubscription: Prisma.NewsletterSubscriptionCreateInput = {
+  const standardSubscription: Prisma.NewsletterEmailSubscriptionCreateInput = {
     newsletter_name: 'Standard Newsletter',
     newsletter_email: 'standard@newsletter.com',
     newsletter_url: 'https://newsletter.com/standard',
@@ -28,7 +28,7 @@ export async function seedNewsletterSubscriptions(): Promise<NewsletterSubscript
   };
 
   // Admin user subscriptions (3)
-  const adminSubscriptions: Prisma.NewsletterSubscriptionCreateInput[] = [
+  const adminSubscriptions: Prisma.NewsletterEmailSubscriptionCreateInput[] = [
     {
       newsletter_name: 'Admin Newsletter 1',
       newsletter_email: 'admin1@newsletter.com',
@@ -53,7 +53,7 @@ export async function seedNewsletterSubscriptions(): Promise<NewsletterSubscript
   ];
 
   // Premium user subscriptions (2)
-  const premiumSubscriptions: Prisma.NewsletterSubscriptionCreateInput[] = [
+  const premiumSubscriptions: Prisma.NewsletterEmailSubscriptionCreateInput[] = [
     {
       newsletter_name: 'Premium Newsletter 1',
       newsletter_email: 'premium1@newsletter.com',
@@ -71,11 +71,11 @@ export async function seedNewsletterSubscriptions(): Promise<NewsletterSubscript
   ];
 
   const subscriptions = await Promise.all([
-    prisma.newsletterSubscription.create({ data: standardSubscription }),
-    ...adminSubscriptions.map((sub) => prisma.newsletterSubscription.create({ data: sub })),
-    ...premiumSubscriptions.map((sub) => prisma.newsletterSubscription.create({ data: sub })),
+    prisma.newsletterEmailSubscription.create({ data: standardSubscription }),
+    ...adminSubscriptions.map((sub) => prisma.newsletterEmailSubscription.create({ data: sub })),
+    ...premiumSubscriptions.map((sub) => prisma.newsletterEmailSubscription.create({ data: sub })),
   ]);
 
-  console.log('✅ Newsletter subscriptions seeded');
+  console.log('✅ Newsletter email subscriptions seeded');
   return subscriptions;
 }
