@@ -6,7 +6,6 @@ import { DashboardProvider } from './dashboard.context';
 import { AiCustomization } from './footer/ai-customization/ai-customization.component';
 import { Title } from './header/header.component';
 import { NewsletterTable } from './main/newsletter-table/newsletter-table.component';
-import { StatusList } from './sidebar/status-list/status-list.component';
 import { UpgradeBanner } from './sidebar/upgrade-banner/upgrade-banner.component';
 
 import { Button } from '~/components/ui/button';
@@ -19,6 +18,8 @@ import {
   SidebarProvider,
   SidebarRail,
 } from '~/components/ui/sidebar';
+import { NewsletterAlias } from './sidebar/newsletter-alias/newsletter-alias.component';
+import NewsletterSubscriptions from './sidebar/newsletter-subscriptions/newsletter-subscriptions.component';
 
 export const Dashboard: FC = observer(() => {
   return (
@@ -34,7 +35,8 @@ export const Dashboard: FC = observer(() => {
               </SidebarHeader>
               <SidebarContent>
                 <aside className="col-span-3 space-y-6">
-                  <StatusList />
+                  <NewsletterAlias />
+                  <NewsletterSubscriptions />
                 </aside>
               </SidebarContent>
               <SidebarFooter>

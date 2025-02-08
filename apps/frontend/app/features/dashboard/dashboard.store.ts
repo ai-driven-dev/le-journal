@@ -5,7 +5,8 @@ import type { DashboardState } from './dashboard.type';
 import { createAiCustomizationStore } from './footer/ai-customization/ai-customization.store';
 import { createHeaderStore } from './header/header.store';
 import { createNewsletterTableStore } from './main/newsletter-table/newsletter-table.store';
-import { createStatusListStore } from './sidebar/status-list/status-list.store';
+import { createNewsletterAliasStore } from './sidebar/newsletter-alias/newsletter-alias.store';
+import { createNewsletterSubscriptionsStore } from './sidebar/newsletter-subscriptions/newsletter-subscriptions.store';
 import { createUpgradeBannerStore } from './sidebar/upgrade-banner/upgrade-banner.store';
 
 export class DashboardStore implements DashboardState {
@@ -16,9 +17,10 @@ export class DashboardStore implements DashboardState {
   // Child stores
   readonly aiCustomization = createAiCustomizationStore();
   readonly newsletterTable = createNewsletterTableStore();
-  readonly statusList = createStatusListStore();
+  readonly newsletterSubscriptions = createNewsletterSubscriptionsStore();
   readonly upgradeBanner = createUpgradeBannerStore();
-  readonly header = createHeaderStore(this.newsletterTable);
+  readonly header = createHeaderStore();
+  readonly newsletterAlias = createNewsletterAliasStore();
 
   constructor() {
     makeAutoObservable(this);

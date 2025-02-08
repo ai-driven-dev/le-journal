@@ -141,6 +141,10 @@ export default [
       'react/jsx-no-script-url': 'error',
       'react/no-danger': 'error',
 
+      /** MobX Rules */
+      'mobx/exhaustive-type-checking': 'error',
+      'react/display-name': ['error', { ignoreTranspilerName: false }],
+
       /* NestJS Rules */
       'nestjs/use-validation-pipe': 'warn',
     },

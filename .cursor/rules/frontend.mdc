@@ -21,11 +21,16 @@ Use "mobx-react-lite" instead of "mobx-react".
 - runInAction for Side Effects (especially when async) and Reactions.
 - Split store in feature the more you can. No large stores, split by parent > children logic.
 
+## Store creation
+
+- Remember to generate factory at the bottom of a store.
+  - Use that comment before: `// eslint-disable-next-line @typescript-eslint/explicit-function-return-type`
+- Inject that store in the parent.
+- Use static displayName when creating new component.
 
 ## Architecture
 
 - A feature can contain sub-features. It follows same architectural folder structure.
-
 - Use feature based folder structure.
  
 Example:
@@ -38,10 +43,6 @@ user-profile/
 | user-profile.mock.ts # test data for UI
 | user-profile.type.ts # for store types: state, actions...
 ```
-
-- Data types that transit backend <-> frontend must be in "shared-types"
-- Everything in the root near from [package.json](mdc:packages/shared-types/package.json) in `src`
-- Must export only 1 big entity type
 
 Example:
 ```text
