@@ -1,14 +1,13 @@
 import { makeAutoObservable } from 'mobx';
 
-import type { DashboardStore } from '../../global/dashboard.store';
+import { mockAiCustomizationState } from './ai-customization.mock';
+import type { AiCustomizationState } from './ai-customization.type';
 
-import type { IAiCustomizationActions, IAiCustomizationState } from './ai-customization.type';
+export class AiCustomizationStore implements AiCustomizationState {
+  customization = mockAiCustomizationState.customization;
+  isDialogOpen = mockAiCustomizationState.isDialogOpen;
 
-export class AiCustomizationStore implements IAiCustomizationState, IAiCustomizationActions {
-  customization = '';
-  isDialogOpen = false;
-
-  constructor(private readonly dashboardStore: DashboardStore) {
+  constructor() {
     makeAutoObservable(this);
   }
 
@@ -26,3 +25,5 @@ export class AiCustomizationStore implements IAiCustomizationState, IAiCustomiza
     this.setIsDialogOpen(false);
   };
 }
+
+export const createAiCustomizationStore = () => new AiCustomizationStore();

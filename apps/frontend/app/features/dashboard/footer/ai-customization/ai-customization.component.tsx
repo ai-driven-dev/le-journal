@@ -1,9 +1,7 @@
-'use client';
-
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
-import { dashboardStore } from '../../global/dashboard.store';
+import { useDashboardStores } from '../../dashboard.context';
 
 import { Button } from '~/components/ui/button';
 import {
@@ -18,39 +16,42 @@ import {
 import { Textarea } from '~/components/ui/textarea';
 
 export const AiCustomization: FC = observer(() => {
+  const { dashboardStore } = useDashboardStores();
+  const { customization, isDialogOpen } = dashboardStore.aiCustomization;
   const store = dashboardStore.aiCustomization;
 
   return (
     <div className="bg-white border-t p-4">
       <label htmlFor="ai-customization" className="block text-sm font-medium text-gray-700 mb-2">
-        How should we personalize your newsletter score? What do you want to see more or less?
+        Comment devrions-nous personnaliser votre score de newsletter ? Que souhaitez-vous voir plus
+        ou moins ?
       </label>
       <div className="flex space-x-4">
         <Textarea
           id="ai-customization"
-          value={store.customization}
+          value={customization}
           onChange={(e) => store.setCustomization(e.target.value)}
           className="flex-1"
-          placeholder="Enter your customization preferences..."
+          placeholder="Entrez vos préférences de personnalisation..."
         />
         <div className="flex flex-col justify-between">
-          <span className="text-sm text-gray-500">{store.customization.length}/200 tokens</span>
-          <Dialog open={store.isDialogOpen} onOpenChange={store.setIsDialogOpen}>
+          <span className="text-sm text-gray-500">{customization.length}/200 tokens</span>
+          <Dialog open={isDialogOpen} onOpenChange={store.setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button>Save</Button>
+              <Button>Enregistrer</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Confirm Customization</DialogTitle>
+                <DialogTitle>Confirmer la personnalisation</DialogTitle>
                 <DialogDescription>
-                  Are you sure you want to save these customization preferences?
+                  Êtes-vous sûr de vouloir enregistrer ces préférences de personnalisation ?
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
                 <Button variant="outline" onClick={() => store.setIsDialogOpen(false)}>
-                  Cancel
+                  Annuler
                 </Button>
-                <Button onClick={store.handleSave}>Confirm</Button>
+                <Button onClick={store.handleSave}>Confirmer</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

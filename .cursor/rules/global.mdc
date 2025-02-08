@@ -1,0 +1,23 @@
+---
+description: Global rules when generating code or running commands.
+globs: 
+---
+# Installation
+
+- Always use latest available version of packages.
+- Use PNPM
+- Always ask before installation new packages.
+
+# Code generation
+
+- **Strict Type for every variables, functions and components.**
+- Minimal file size.
+- Use single responsibility principle.
+- Never generate anemic models.
+- Never comment code, except for complexe logic, interfaces, configuration.
+
+# Bug finding
+
+- Alaways propose top 3 solutions.
+- Indicate confidence score.
+- Ask user to choose.

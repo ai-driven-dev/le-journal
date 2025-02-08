@@ -1,13 +1,11 @@
 import { makeAutoObservable } from 'mobx';
 
-import type { DashboardStore } from '../../global/dashboard.store';
+import type { UpgradeBannerState } from './upgrade-banner.type';
 
-import type { IUpgradeBannerActions, IUpgradeBannerState } from './upgrade-banner.type';
-
-export class UpgradeBannerStore implements IUpgradeBannerState, IUpgradeBannerActions {
+export class UpgradeBannerStore implements UpgradeBannerState {
   isVisible = true;
 
-  constructor(private readonly dashboardStore: DashboardStore) {
+  constructor() {
     makeAutoObservable(this);
   }
 
@@ -15,8 +13,11 @@ export class UpgradeBannerStore implements IUpgradeBannerState, IUpgradeBannerAc
     this.isVisible = isVisible;
   };
 
-  handleUpgradeClick = (): void => {
-    // Implement upgrade logic here
-    console.log('Upgrading...');
+  handleUpgrade = (): void => {
+    // Here you would typically handle the upgrade process
+    console.log('Handling upgrade...');
+    this.setIsVisible(false);
   };
 }
+
+export const createUpgradeBannerStore = () => new UpgradeBannerStore();

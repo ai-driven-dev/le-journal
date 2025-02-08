@@ -1,69 +1,56 @@
-'use client';
-
-import { Check, Clock, Copy, X } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
+import { Copy } from 'lucide-react';
 
-import { dashboardStore } from '../../global/dashboard.store';
+import { useDashboardStores } from '../../dashboard.context';
 
 import { Button } from '~/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';
 
 export const StatusList: FC = observer(() => {
+  const { dashboardStore } = useDashboardStores();
   const store = dashboardStore.statusList;
 
   return (
-    <div className="space-y-6">
-      <Card className="transition-shadow hover:shadow-md">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Your Newsletter Alias</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <HoverCard open={store.isHoverCardOpen} onOpenChange={store.setIsHoverCardOpen}>
-            <HoverCardTrigger asChild>
-              <Button variant="outline" className="w-full justify-between">
-                <span className="truncate">{store.userAlias}</span>
-                <Copy className="h-4 w-4 ml-2" />
-              </Button>
-            </HoverCardTrigger>
-            <HoverCardContent className="w-80">
-              <div className="space-y-2">
-                <h4 className="text-sm font-semibold">About Your Alias</h4>
-                <p className="text-sm">
-                  This is your unique newsletter alias. Use it to subscribe to newsletters without
-                  revealing your real email address.
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <HoverCard open={store.isHoverCardOpen} onOpenChange={store.setIsHoverCardOpen}>
+          <HoverCardTrigger asChild>
+            <Button variant="ghost" className="p-0 font-normal">
+              <span className="text-sm text-muted-foreground">{store.userAlias}</span>
+            </Button>
+          </HoverCardTrigger>
+          <HoverCardContent className="w-80">
+            <div className="flex justify-between space-x-4">
+              <div className="space-y-1">
+                <h4 className="text-sm font-semibold">Identifiant unique</h4>
+                <p className="text-sm text-muted-foreground">
+                  Utilisez cet identifiant pour référencer votre compte.
                 </p>
-                <p className="text-sm">
-                  Content: Your alias allows you to receive curated content from various sources,
-                  tailored to your interests. It helps manage your subscriptions and filter out
-                  unwanted emails.
-                </p>
-                <Button size="sm" onClick={store.copyToClipboard}>
-                  Copy to Clipboard
-                </Button>
               </div>
-            </HoverCardContent>
-          </HoverCard>
-        </CardContent>
-      </Card>
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Newsletter Status</h3>
-        <ul className="space-y-2">
-          <li className="flex items-center space-x-2">
-            <Check className="text-green-500" />
-            <span>Validated registrations</span>
-          </li>
-          <li className="flex items-center space-x-2">
-            <Clock className="text-yellow-500" />
-            <span>Pending validations</span>
-          </li>
-          <li className="flex items-center space-x-2 text-gray-400">
-            <X />
-            <span>Blocked newsletters</span>
-          </li>
-        </ul>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8"
+                onClick={store.copyToClipboard}
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
       </div>
+
+      <nav className="space-y-1">
+        {store.items.map((item) => (
+          <Button key={item.id} variant="ghost" className="w-full justify-start font-normal">
+            <div className="flex items-center justify-between w-full">
+              <span>{item.label}</span>
+              <span className="ml-auto text-muted-foreground">{item.count}</span>
+            </div>
+          </Button>
+        ))}
+      </nav>
     </div>
   );
 });

@@ -1,8 +1,8 @@
-export interface IUpgradeBannerState {
+export interface UpgradeBannerState {
   isVisible: boolean;
 }
 
-export interface IUpgradeBannerActions {
+export interface UpgradeBannerActions {
   setIsVisible: (isVisible: boolean) => void;
-  handleUpgradeClick: () => void;
+  handleUpgrade: () => void;
 }

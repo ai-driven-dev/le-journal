@@ -1,4 +1,4 @@
-# Frontend
+# Frontend : Refactoring du "dashboard"
 
 1. extraire les types de données dans le fichier type du répertoire correspondant.
 2. s'assurer qu'ils sont cohérents.

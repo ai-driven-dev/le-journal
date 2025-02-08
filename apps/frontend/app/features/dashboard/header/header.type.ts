@@ -1,6 +1,5 @@
 export interface ITitleState {
   isLogoutDialogOpen: boolean;
-  pendingNewslettersCount: number;
 }
 
 export interface ITitleActions {
