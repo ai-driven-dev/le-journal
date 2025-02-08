@@ -78,10 +78,18 @@ print_header "📚 Generating Documentation"
 log_info "Cleaning previous file..."
 rm -f "$OUTPUT_FILE"
 
+# Add YAML frontmatter with generation date
+{
+    echo "---"
+    echo "date: $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "---"
+    echo ""
+} > "$OUTPUT_FILE"
+
 # Step 1: Copy header
 log_info "Adding header file..."
 if [ -f "$HEADER_FILE" ]; then
-    cat "$HEADER_FILE" > "$OUTPUT_FILE"
+    cat "$HEADER_FILE" >> "$OUTPUT_FILE"
     printf "\n" >> "$OUTPUT_FILE"
     log_success "Header added successfully"
 else
