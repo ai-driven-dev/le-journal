@@ -1,5 +1,5 @@
 ---
-date: 2025-02-08 17:12:39
+date: 2025-02-08 20:54:33
 ---
 
 # Project Specifications "Knowledge Base"
@@ -629,10 +629,11 @@ BREAKING CHANGE: new user database structure
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "build": "nest build",
-    "prisma": "prisma generate && prisma migrate deploy",
-    "prisma:init": "prisma migrate dev --name init",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -645,8 +646,12 @@ BREAKING CHANGE: new user database structure
     "test:cov": "jest --config jest.config.ts --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --coverage",
+    "test:ci": "dotenv -e .env.test -- prisma migrate reset --force && jest --config jest.config.ts --coverage --runInBand",
     "typecheck": "tsc --noEmit",
-    "prisma:seed": "ts-node prisma/seed.ts"
+    "prisma": "prisma generate && prisma migrate deploy",
+    "prisma:init": "prisma migrate dev --name init",
+    "prisma:seed": "ts-node prisma/seed.ts",
+    "prisma:test:reset": "dotenv -e .env.test -- prisma migrate reset --force"
   },
   "dependencies": {
     "@le-journal/shared-types": "workspace:*",
@@ -720,6 +725,8 @@ enum SubscriptionPlan {
   FREE
   PREMIUM
   ENTERPRISE
+
+  @@map("subscription_plan")
 }
 
 enum SubscriptionStatus {
@@ -727,12 +734,16 @@ enum SubscriptionStatus {
   PENDING
   CANCELLED
   EXPIRED
+
+  @@map("subscription_status")
 }
 
 enum EmailStatus {
   RECEIVED
   PROCESSED
   FAILED
+
+  @@map("email_status")
 }
 
 enum PaymentStatus {
@@ -740,119 +751,116 @@ enum PaymentStatus {
   COMPLETED
   FAILED
   REFUNDED
+
+  @@map("payment_status")
 }
 
 enum PaymentMethod {
   CREDIT_CARD
   PAYPAL
   BANK_TRANSFER
+
+  @@map("payment_method")
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  email      String   @unique
+  name       String?
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
 
   // Relations
-  profile                 UserProfile?
-  projects               Project[]
-  newsletterSubscriptions NewsletterSubscription[]
-  transactions           Transaction[]
+  projects                     Project[]
+  newsletter_subscriptions     NewsletterEmailSubscription[] @relation("UserNewsletterSubscriptions")
+  transactions                 Transaction[]
 
+  @@map("users")
   @@index([email])
 }
 
 model Project {
-  id             String   @id @default(uuid())
-  user_id        String
-  project_number Int      @unique
-  name           String   @unique
-  slug           String   @unique
-  created_at     DateTime @default(now())
+  id                 String   @id @default(uuid())
+  user_id           String
+  project_number    Int      @unique
+  name              String   @unique
+  slug              String   @unique
+  prompt_instruction String? @db.Text @map("prompt_instruction")
+  created_at        DateTime @default(now()) @map("created_at")
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
 
+  @@map("projects")
   @@index([user_id])
 }
 
-model UserProfile {
-  id                      String           @id @default(uuid())
-  user_id                 String           @unique
-  subscription_plan       SubscriptionPlan
-  newsletter_email_alias  String
-  prompt_instruction      String           @db.Text
-  gmail_alias_folder_url  String
+model NewsletterEmailSubscription {
+  id                String             @id @default(uuid())
+  user_id          String
+  newsletter_name  String             @map("newsletter_name")
+  newsletter_email String             @map("newsletter_email")
+  newsletter_url   String             @map("newsletter_url")
+  status           SubscriptionStatus
+  subscribed_at    DateTime           @default(now()) @map("subscribed_at")
 
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user   User     @relation("UserNewsletterSubscriptions", fields: [user_id], references: [id], onDelete: Cascade)
+  emails Email[] @relation("NewsletterSubscriptionEmails")
 
-  @@index([user_id])
-}
-
-model NewsletterSubscription {
-  id                  String             @id @default(uuid())
-  user_id             String
-  newsletter_name     String
-  newsletter_email    String
-  newsletter_url      String
-  status              SubscriptionStatus
-  subscribed_at       DateTime           @default(now())
-
-  user   User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  emails Email[]
-
+  @@map("newsletter_email_subscriptions")
   @@index([user_id])
   @@index([newsletter_email])
 }
 
 model Email {
-  id                        String   @id @default(uuid())
-  project_id                String
-  newsletter_subscription_id String
-  subject                   String
-  raw_content               String   @db.Text
-  received_at               DateTime @default(now())
-  status                    EmailStatus
+  id                               String      @id @default(uuid())
+  project_id                       String
+  newsletter_email_subscription_id String      @map("newsletter_email_subscription_id")
+  subject                         String
+  raw_content                     String      @db.Text @map("raw_content")
+  received_at                     DateTime    @default(now()) @map("received_at")
+  status                          EmailStatus
 
-  project                 Project                @relation(fields: [project_id], references: [id], onDelete: Cascade)
-  newsletterSubscription  NewsletterSubscription @relation(fields: [newsletter_subscription_id], references: [id], onDelete: Cascade)
-  news                   News[]
+  project                       Project                     @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  newsletter_subscription       NewsletterEmailSubscription @relation("NewsletterSubscriptionEmails", fields: [newsletter_email_subscription_id], references: [id], onDelete: Cascade)
+  news                         News[]
 
+  @@map("emails")
   @@index([project_id])
-  @@index([newsletter_subscription_id])
+  @@index([newsletter_email_subscription_id])
   @@index([subject])
 }
 
 model News {
-  id                String   @id @default(uuid())
-  email_id          String
-  title             String
-  description       String   @db.Text
-  url               String
-  content           String   @db.Text
-  relevance_score   Float
-  extracted_at      DateTime @default(now())
+  id               String   @id @default(uuid())
+  email_id         String
+  title            String
+  description      String   @db.Text
+  url              String
+  content          String   @db.Text
+  relevance_score Float    @map("relevance_score")
+  extracted_at     DateTime @default(now()) @map("extracted_at")
 
   email Email @relation(fields: [email_id], references: [id], onDelete: Cascade)
 
+  @@map("news")
   @@index([email_id])
 }
 
 model Transaction {
   id                String        @id @default(uuid())
-  user_id           String
-  stripe_payment_id String
-  amount            Decimal
-  currency          String
-  status            PaymentStatus
-  payment_method    PaymentMethod
-  payment_date      DateTime      @default(now())
-  invoice_url       String
+  user_id          String
+  stripe_payment_id String        @map("stripe_payment_id")
+  amount           Decimal
+  currency         String
+  status           PaymentStatus
+  payment_method   PaymentMethod  @map("payment_method")
+  payment_date     DateTime       @default(now()) @map("payment_date")
+  invoice_url      String        @map("invoice_url")
 
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [id], onDelete: SetNull)
 
+  @@map("transactions")
   @@index([user_id])
   @@index([stripe_payment_id])
 }
@@ -985,4 +993,152 @@ volumes:
   postgres_data:
   redis_data:
   # meilisearch_data:
+```
+
+### .cursor/rules/global.mdc
+
+```mdc
+---
+description: Global rules when generating code or running commands.
+globs: 
+---
+# Roles
+
+- You are the AI Editor, responsible of coding a high quality code.
+
+# Language
+
+- Comments and code in English.
+- Labels and text in French.
+
+# Installation
+
+- Always use latest available version of packages.
+- Use PNPM
+- Always ask before installation new packages.
+
+# Code generation
+
+- **Strict Type for every variables, functions and components.**
+- Minimal file size.
+- Use single responsibility principle.
+- Never generate anemic models.
+- Never comment code, except for complexe logic, interfaces, configuration.
+
+# Functions
+
+- Must reflect user actions.
+- Focus on use-case.
+- Avoid technical names like `set...()`
+
+# Bug finding
+
+- Alaways propose top 3 solutions.
+- Indicate confidence score.
+- Ask user to choose.
+
+# Common types
+
+- Data type that are used from backend api to frontend components must be in "packages/shared-types".
+- Must be focused on feature, small sub-types only are allowed.
+- Prefer one file per type.
+- Export must be made in [index.ts](mdc:packages/shared-types/src/index.ts).
+
+# Interfaces and Types
+
+- No prefix for interfaces (e.g. no `IUser`).
+- No suffix for types (e.g. no `UserType`)```
+
+### .cursor/rules/frontend.mdc
+
+```mdc
+---
+description: Rules for frontend code.
+globs: apps/frontend/**
+---
+# Frontends Rules
+
+- Use versions from [package.json](mdc:apps/frontend/package.json)
+- use "/~" for root import.
+
+## State
+
+- Use Smart/Dump component pattern:
+  - Smart : MobX for state.
+  - Dump : React Component, only the UI, minimal logic.
+- No React Hook only if stricly necessary.
+Use "mobx-react-lite" instead of "mobx-react".
+- Use "mobx" for core.
+- Use `makeAutoObservable`, no annotations.
+- Computed for Derived State.
+- Actions to Modify State.
+- runInAction for Side Effects (especially when async) and Reactions.
+- Split store in feature the more you can. No large stores, split by parent > children logic.
+
+## Store creation
+
+- Remember to generate factory at the bottom of a store.
+  - Use that comment before: `// eslint-disable-next-line @typescript-eslint/explicit-function-return-type`
+- Inject that store in the parent.
+- Use static displayName when creating new component.
+
+## Architecture
+
+- A feature can contain sub-features. It follows same architectural folder structure.
+- Use feature based folder structure.
+ 
+Example:
+```text
+user-profile/
+| user-profile.component.tsx # minimal logic, only UI component
+| user-profile.store.ts # for actions, computed, reactions...
+| user-profile.hook.ts # if necessary
+| user-profile.context.ts # if necessary, for providers
+| user-profile.mock.ts # test data for UI
+| user-profile.type.ts # for store types: state, actions...
+```
+
+Example:
+```text
+newsletter.ts
+user.ts
+article.ts
+profile.ts
+```
+
+## Remix
+
+- Always use "Remix" instead of "NextJS".
+- Use "@remix-run/node" for server rendering.
+- Use "@remix-run/react" for client rendering.
+- Do not return json(), use plain objects instead.
+
+## Testing
+
+- Test with Vitest.
+
+## Config
+
+- Use "Vite" instead of "Webpack".
+- Use "eslint.config.js" with flat config when using Eslint.```
+
+### .cursor/rules/backend.mdc
+
+```mdc
+---
+description: Rules for backend changes.
+globs: apps/backend/**
+---
+
+# Backend Rules
+
+- Check versions in [package.json](mdc:apps/backend/package.json) before generating code.
+
+## Rest API
+
+- Use Node, never Express.
+
+## Testing
+
+- Use Jest.
 ```

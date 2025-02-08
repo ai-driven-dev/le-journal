@@ -1,11 +1,11 @@
 import { action, makeAutoObservable } from 'mobx';
 
-export type OnboardingStep = '' | 'welcome' | 'permissions' | 'setup' | 'finish';
+export type OnboardingStep = 'welcome' | 'permissions' | 'setup' | 'finish';
 
-const ONBOARDING_STEPS: OnboardingStep[] = ['', 'permissions', 'setup', 'finish'] as const;
+const ONBOARDING_STEPS: OnboardingStep[] = ['welcome', 'permissions', 'setup', 'finish'] as const;
 
 class OnboardingStore {
-  private currentStep: OnboardingStep = '';
+  private currentStep: OnboardingStep = 'welcome';
   private hasCompleted = false;
 
   constructor() {
@@ -33,7 +33,7 @@ class OnboardingStore {
   }
 
   get canNavigateBack(): boolean {
-    const isWelcomeStep = this.currentStep === 'welcome' || this.currentStep === '';
+    const isWelcomeStep = this.currentStep === 'welcome';
     const isLastStep = this.currentStep === ONBOARDING_STEPS[ONBOARDING_STEPS.length - 1];
     return !isWelcomeStep && !isLastStep;
   }
@@ -56,7 +56,6 @@ class OnboardingStore {
 
   getStepLabel(step: OnboardingStep | undefined): string {
     switch (step) {
-      case '':
       case undefined:
       case 'welcome':
         return 'Bienvenue';
@@ -76,7 +75,7 @@ class OnboardingStore {
   }
 
   resetOnboarding(): void {
-    this.currentStep = '';
+    this.currentStep = 'welcome';
     this.hasCompleted = false;
   }
 

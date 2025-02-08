@@ -5,10 +5,11 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "build": "nest build",
-    "prisma": "prisma generate && prisma migrate deploy",
-    "prisma:init": "prisma migrate dev --name init",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -21,8 +22,12 @@
     "test:cov": "jest --config jest.config.ts --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --coverage",
+    "test:ci": "dotenv -e .env.test -- prisma migrate reset --force && jest --config jest.config.ts --coverage --runInBand",
     "typecheck": "tsc --noEmit",
-    "prisma:seed": "ts-node prisma/seed.ts"
+    "prisma": "prisma generate && prisma migrate deploy",
+    "prisma:init": "prisma migrate dev --name init",
+    "prisma:seed": "ts-node prisma/seed.ts",
+    "prisma:test:reset": "dotenv -e .env.test -- prisma migrate reset --force"
   },
   "dependencies": {
     "@le-journal/shared-types": "workspace:*",

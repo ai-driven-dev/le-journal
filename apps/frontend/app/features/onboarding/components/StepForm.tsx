@@ -17,7 +17,6 @@ export const StepForm = observer(({ currentStep }: StepFormProps) => {
 
   const getStepComponent = (): ComponentType => {
     switch (currentStep) {
-      case '':
       case 'welcome':
         return StepWelcome;
       case 'permissions':

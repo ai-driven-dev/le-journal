@@ -17,6 +17,8 @@ enum SubscriptionPlan {
   FREE
   PREMIUM
   ENTERPRISE
+
+  @@map("subscription_plan")
 }
 
 enum SubscriptionStatus {
@@ -24,12 +26,16 @@ enum SubscriptionStatus {
   PENDING
   CANCELLED
   EXPIRED
+
+  @@map("subscription_status")
 }
 
 enum EmailStatus {
   RECEIVED
   PROCESSED
   FAILED
+
+  @@map("email_status")
 }
 
 enum PaymentStatus {
@@ -37,119 +43,116 @@ enum PaymentStatus {
   COMPLETED
   FAILED
   REFUNDED
+
+  @@map("payment_status")
 }
 
 enum PaymentMethod {
   CREDIT_CARD
   PAYPAL
   BANK_TRANSFER
+
+  @@map("payment_method")
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  email      String   @unique
+  name       String?
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
 
   // Relations
-  profile                 UserProfile?
-  projects               Project[]
-  newsletterSubscriptions NewsletterSubscription[]
-  transactions           Transaction[]
+  projects                     Project[]
+  newsletter_subscriptions     NewsletterEmailSubscription[] @relation("UserNewsletterSubscriptions")
+  transactions                 Transaction[]
 
+  @@map("users")
   @@index([email])
 }
 
 model Project {
-  id             String   @id @default(uuid())
-  user_id        String
-  project_number Int      @unique
-  name           String   @unique
-  slug           String   @unique
-  created_at     DateTime @default(now())
+  id                 String   @id @default(uuid())
+  user_id           String
+  project_number    Int      @unique
+  name              String   @unique
+  slug              String   @unique
+  prompt_instruction String? @db.Text @map("prompt_instruction")
+  created_at        DateTime @default(now()) @map("created_at")
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
 
+  @@map("projects")
   @@index([user_id])
 }
 
-model UserProfile {
-  id                      String           @id @default(uuid())
-  user_id                 String           @unique
-  subscription_plan       SubscriptionPlan
-  newsletter_email_alias  String
-  prompt_instruction      String           @db.Text
-  gmail_alias_folder_url  String
+model NewsletterEmailSubscription {
+  id                String             @id @default(uuid())
+  user_id          String
+  newsletter_name  String             @map("newsletter_name")
+  newsletter_email String             @map("newsletter_email")
+  newsletter_url   String             @map("newsletter_url")
+  status           SubscriptionStatus
+  subscribed_at    DateTime           @default(now()) @map("subscribed_at")
 
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user   User     @relation("UserNewsletterSubscriptions", fields: [user_id], references: [id], onDelete: Cascade)
+  emails Email[] @relation("NewsletterSubscriptionEmails")
 
-  @@index([user_id])
-}
-
-model NewsletterSubscription {
-  id                  String             @id @default(uuid())
-  user_id             String
-  newsletter_name     String
-  newsletter_email    String
-  newsletter_url      String
-  status              SubscriptionStatus
-  subscribed_at       DateTime           @default(now())
-
-  user   User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  emails Email[]
-
+  @@map("newsletter_email_subscriptions")
   @@index([user_id])
   @@index([newsletter_email])
 }
 
 model Email {
-  id                        String   @id @default(uuid())
-  project_id                String
-  newsletter_subscription_id String
-  subject                   String
-  raw_content               String   @db.Text
-  received_at               DateTime @default(now())
-  status                    EmailStatus
+  id                               String      @id @default(uuid())
+  project_id                       String
+  newsletter_email_subscription_id String      @map("newsletter_email_subscription_id")
+  subject                         String
+  raw_content                     String      @db.Text @map("raw_content")
+  received_at                     DateTime    @default(now()) @map("received_at")
+  status                          EmailStatus
 
-  project                 Project                @relation(fields: [project_id], references: [id], onDelete: Cascade)
-  newsletterSubscription  NewsletterSubscription @relation(fields: [newsletter_subscription_id], references: [id], onDelete: Cascade)
-  news                   News[]
+  project                       Project                     @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  newsletter_subscription       NewsletterEmailSubscription @relation("NewsletterSubscriptionEmails", fields: [newsletter_email_subscription_id], references: [id], onDelete: Cascade)
+  news                         News[]
 
+  @@map("emails")
   @@index([project_id])
-  @@index([newsletter_subscription_id])
+  @@index([newsletter_email_subscription_id])
   @@index([subject])
 }
 
 model News {
-  id                String   @id @default(uuid())
-  email_id          String
-  title             String
-  description       String   @db.Text
-  url               String
-  content           String   @db.Text
-  relevance_score   Float
-  extracted_at      DateTime @default(now())
+  id               String   @id @default(uuid())
+  email_id         String
+  title            String
+  description      String   @db.Text
+  url              String
+  content          String   @db.Text
+  relevance_score Float    @map("relevance_score")
+  extracted_at     DateTime @default(now()) @map("extracted_at")
 
   email Email @relation(fields: [email_id], references: [id], onDelete: Cascade)
 
+  @@map("news")
   @@index([email_id])
 }
 
 model Transaction {
   id                String        @id @default(uuid())
-  user_id           String
-  stripe_payment_id String
-  amount            Decimal
-  currency          String
-  status            PaymentStatus
-  payment_method    PaymentMethod
-  payment_date      DateTime      @default(now())
-  invoice_url       String
+  user_id          String
+  stripe_payment_id String        @map("stripe_payment_id")
+  amount           Decimal
+  currency         String
+  status           PaymentStatus
+  payment_method   PaymentMethod  @map("payment_method")
+  payment_date     DateTime       @default(now()) @map("payment_date")
+  invoice_url      String        @map("invoice_url")
 
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [id], onDelete: SetNull)
 
+  @@map("transactions")
   @@index([user_id])
   @@index([stripe_payment_id])
 }
