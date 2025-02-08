@@ -1,12 +1,13 @@
-import tsPlugin from '@typescript-eslint/eslint-plugin'
-import tsParser from '@typescript-eslint/parser'
-import imp from 'eslint-plugin-import'
-import jsxA11y from 'eslint-plugin-jsx-a11y'
-import nestjs from 'eslint-plugin-nestjs'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import security from 'eslint-plugin-security'
-import globals from 'globals'
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import imp from 'eslint-plugin-import';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import mobx from 'eslint-plugin-mobx';
+import nestjs from 'eslint-plugin-nestjs';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import security from 'eslint-plugin-security';
+import globals from 'globals';
 
 export default [
   // Global ignores
@@ -58,6 +59,9 @@ export default [
       },
     },
     settings: {
+      react: {
+        version: '19',
+      },
       'import/resolver': {
         typescript: {
           project: [
@@ -73,6 +77,7 @@ export default [
             './apps/*/tsconfig.build.json',
             './packages/*/tsconfig.json',
           ],
+          moduleDirectory: ['node_modules', 'apps/frontend/node_modules'],
         },
       },
       'import/parsers': {
@@ -87,6 +92,7 @@ export default [
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
       nestjs,
+      mobx: mobx,
     },
     rules: {
       /* TypeScript Rules */
@@ -142,7 +148,10 @@ export default [
       'react/no-danger': 'error',
 
       /** MobX Rules */
-      'mobx/exhaustive-type-checking': 'error',
+      'mobx/exhaustive-make-observable': 'warn',
+      'mobx/unconditional-make-observable': 'error',
+      'mobx/missing-make-observable': 'error',
+      'mobx/missing-observer': 'warn',
       'react/display-name': ['error', { ignoreTranspilerName: false }],
 
       /* NestJS Rules */

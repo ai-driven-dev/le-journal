@@ -1,12 +1,12 @@
+import { Root } from 'vaul';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { createRemixStub, generateMetaArgs, render, waitFor } from '../../test/test-utils';
 import { ErrorBoundary } from '../components/error-boundary';
-import Root, { links } from '../root';
 
+import { links } from '~/root';
 import { meta } from '~/routes/_index';
 
-// Mock console.error and console.warn to suppress hydration and React Router warnings in tests
 const originalConsoleError = console.error;
 const originalConsoleWarn = console.warn;
 

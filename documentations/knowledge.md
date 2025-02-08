@@ -1,5 +1,5 @@
 ---
-date: 2025-02-08 16:14:08
+date: 2025-02-08 17:07:02
 ---
 
 # Project Specifications "Knowledge Base"
@@ -511,7 +511,7 @@ BREAKING CHANGE: new user database structure
     "test": "turbo run test",
     "update:deps": "pnpm up -r --latest && pnpm install && pnpm run check && pnpm outdated -r ",
     "prepare": "husky && husky install",
-    "check": "pnpm run dev:docker && pnpm run lint:fix && pnpm run format:fix && pnpm typecheck && pnpm build && pnpm test",
+    "check": "pnpm run dev:docker && pnpm run lint:fix && pnpm run format:fix && pnpm build && pnpm typecheck &&  pnpm test",
     "renovate": "dotenv -- renovate --dry-run",
     "clean": "cd packages/shared-types && pnpm clean && pnpm build"
   },
@@ -578,6 +578,7 @@ BREAKING CHANGE: new user database structure
     "@remix-run/serve": "^2.15.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "eslint-plugin-mobx": "^0.0.13",
     "isbot": "^4.1.0",
     "lucide-react": "^0.475.0",
     "mobx": "^6.13.6",
@@ -651,7 +652,11 @@ BREAKING CHANGE: new user database structure
     "@le-journal/shared-types": "workspace:*",
     "@nestjs/common": "^11.0.7",
     "@nestjs/core": "^11.0.7",
+    "@nestjs/mapped-types": "^2.1.0",
     "@nestjs/platform-express": "^11.0.7",
+    "@nestjs/swagger": "^11.0.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },

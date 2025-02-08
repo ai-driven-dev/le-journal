@@ -27,6 +27,7 @@
     "@remix-run/serve": "^2.15.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "eslint-plugin-mobx": "^0.0.13",
     "isbot": "^4.1.0",
     "lucide-react": "^0.475.0",
     "mobx": "^6.13.6",

@@ -4,4 +4,4 @@ export interface IProject {
   newsletterAlias: string;
   createdAt: Date;
   updatedAt: Date;
-} 
+}

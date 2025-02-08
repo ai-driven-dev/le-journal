@@ -7,6 +7,8 @@ import { AiCustomization } from './footer/ai-customization/ai-customization.comp
 import { Title } from './header/header.component';
 import { NewsletterTable } from './main/newsletter-table/newsletter-table.component';
 import { UpgradeBanner } from './sidebar/upgrade-banner/upgrade-banner.component';
+import { NewsletterAlias } from './sidebar/newsletter-alias/newsletter-alias.component';
+import NewsletterSubscriptions from './sidebar/newsletter-subscriptions/newsletter-subscriptions.component';
 
 import { Button } from '~/components/ui/button';
 import {
@@ -18,8 +20,6 @@ import {
   SidebarProvider,
   SidebarRail,
 } from '~/components/ui/sidebar';
-import { NewsletterAlias } from './sidebar/newsletter-alias/newsletter-alias.component';
-import NewsletterSubscriptions from './sidebar/newsletter-subscriptions/newsletter-subscriptions.component';
 
 export const Dashboard: FC = observer(() => {
   return (

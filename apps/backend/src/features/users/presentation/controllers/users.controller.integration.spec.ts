@@ -1,14 +1,14 @@
-import type { CreateApiUser } from '@le-journal/shared-types';
 import type { INestApplication } from '@nestjs/common';
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
-import type { User } from '@prisma/client';
 
 import { PrismaService } from '../../../../prisma/prisma.service';
 import { CreateUserUseCase } from '../../application/use-cases/create-user.use-case';
 import { GetAllUsersUseCase } from '../../application/use-cases/get-all-users.use-case';
 import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
 import { PrismaUserRepository } from '../../infrastructure/repositories/prisma-user.repository';
+import type { CreateUserDto } from '../dtos/user.dto';
+import { UserDto } from '../dtos/user.dto';
 
 import { UsersController } from './users.controller';
 
@@ -50,23 +50,23 @@ describe('UsersController (Integration)', () => {
 
   describe('createUser', () => {
     it('should create a new user', async () => {
-      const createUserDto: CreateApiUser = {
+      const createUserDto: CreateUserDto = {
         email: 'test@example.com',
         name: 'Test User',
       };
 
-      const user: User = await controller.createUser(createUserDto);
+      const userDto = await controller.createUser(createUserDto);
 
-      expect(user).toBeDefined();
-      expect(user.email).toBe(createUserDto.email);
-      expect(user.name).toBe(createUserDto.name);
-      expect(user.id).toBeDefined();
-      expect(user.createdAt).toBeInstanceOf(Date);
-      expect(user.updatedAt).toBeInstanceOf(Date);
+      expect(userDto).toBeInstanceOf(UserDto);
+      expect(userDto.email).toBe(createUserDto.email);
+      expect(userDto.name).toBe(createUserDto.name);
+      expect(userDto.id).toBeDefined();
+      expect(new Date(userDto.createdAt)).toBeInstanceOf(Date);
+      expect(new Date(userDto.updatedAt)).toBeInstanceOf(Date);
     });
 
     it('should throw conflict exception when creating user with existing email', async () => {
-      const createUserDto: CreateApiUser = {
+      const createUserDto: CreateUserDto = {
         email: 'duplicate@example.com',
         name: 'Duplicate User',
       };
@@ -80,18 +80,18 @@ describe('UsersController (Integration)', () => {
   describe('getAllUsers', () => {
     it('should return all users', async () => {
       // Create test users
-      const testUsers: CreateApiUser[] = [
+      const testUsers: CreateUserDto[] = [
         { email: 'user1@example.com', name: 'User 1' },
         { email: 'user2@example.com', name: 'User 2' },
       ];
 
-      const createdUsers: User[] = [];
+      const createdUsers: UserDto[] = [];
       for (const userData of testUsers) {
         const user = await controller.createUser(userData);
         createdUsers.push(user);
       }
 
-      const users: User[] = await controller.getAllUsers();
+      const users = await controller.getAllUsers();
 
       expect(users).toHaveLength(testUsers.length);
       expect(users.map((u) => u.email)).toEqual(
@@ -100,20 +100,21 @@ describe('UsersController (Integration)', () => {
 
       // Verify user structure
       users.forEach((user) => {
+        expect(user).toBeInstanceOf(UserDto);
         expect(user).toEqual(
           expect.objectContaining({
             id: expect.any(String),
             email: expect.any(String),
             name: expect.any(String),
-            createdAt: expect.any(Date),
-            updatedAt: expect.any(Date),
+            createdAt: expect.any(String),
+            updatedAt: expect.any(String),
           }),
         );
       });
     });
 
     it('should return empty array when no users exist', async () => {
-      const users: User[] = await controller.getAllUsers();
+      const users = await controller.getAllUsers();
 
       expect(users).toHaveLength(0);
       expect(users).toEqual([]);

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-
 import type { IProject } from '@le-journal/shared-types';
+
 import { NEWSLETTER_ALIAS_MOCK } from './newsletter-alias.mock';
 import type { INewsletterAliasActions, INewsletterAliasState } from './newsletter-alias.type';
 
