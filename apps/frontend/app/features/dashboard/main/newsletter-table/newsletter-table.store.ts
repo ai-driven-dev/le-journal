@@ -2,7 +2,11 @@ import { makeAutoObservable } from 'mobx';
 
 import type { DashboardStore } from '../../global/dashboard.store';
 
-import type { INewsletter, INewsletterTableState } from './newsletter-table.type';
+import type {
+  INewsletter,
+  INewsletterTableActions,
+  INewsletterTableState,
+} from './newsletter-table.type';
 
 const MOCK_NEWSLETTERS: INewsletter[] = [
   {
@@ -58,7 +62,7 @@ const MOCK_NEWSLETTERS: INewsletter[] = [
   },
 ];
 
-export class NewsletterTableStore implements INewsletterTableState {
+export class NewsletterTableStore implements INewsletterTableState, INewsletterTableActions {
   newsletters = MOCK_NEWSLETTERS;
   selectedNewsletterId: string | null = null;
   isDrawerOpen = false;
@@ -67,15 +71,15 @@ export class NewsletterTableStore implements INewsletterTableState {
     makeAutoObservable(this);
   }
 
-  setSelectedNewsletterId = (id: string | null) => {
+  setSelectedNewsletterId = (id: string | null): void => {
     this.selectedNewsletterId = id;
   };
 
-  setIsDrawerOpen = (isOpen: boolean) => {
+  setIsDrawerOpen = (isOpen: boolean): void => {
     this.isDrawerOpen = isOpen;
   };
 
-  handleOpenDrawer = (e: React.MouseEvent) => {
+  handleOpenDrawer = (e: React.MouseEvent): void => {
     e.stopPropagation();
     this.setIsDrawerOpen(true);
   };
