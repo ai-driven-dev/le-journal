@@ -1,0 +1,7 @@
+package.json
+apps/frontend/package.json
+apps/backend/package.json
+apps/backend/prisma/schema.prisma
+.releaserc.json
+commitlint.config.js
+docker-compose.yml
