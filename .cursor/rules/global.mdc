@@ -8,9 +8,9 @@ globs:
 
 # Installation
 
-- Always use latest available version of packages.
+- Ask before installating new packages.
+- Use latest available version of packages.
 - Use PNPM
-- Always ask before installation new packages.
 
 # Code generation
 

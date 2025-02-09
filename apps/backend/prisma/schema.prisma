@@ -83,6 +83,7 @@ model Project {
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
+  newsletters Newsletter[] 
 
   @@unique([user_id, project_number])
   @@unique([user_id, slug])
@@ -94,10 +95,12 @@ model Project {
 model Newsletter {
   id           String   @id @default(uuid())
   user_id     String
+  project_id  String
   email       String
   subscribed_at DateTime @default(now()) @map("subscribed_at")
   subscription_status SubscriptionStatus @default(ACTIVE) @map("subscription_status")
 
+project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
 
