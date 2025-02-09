@@ -13,7 +13,7 @@
   - `/onboarding/setup` → Génération de l’alias email + Création du projet + Configuration automatique de Gmail (label + filtre).
   - `/onboarding/finish` → Résumé des configurations (alias email affiché + bouton d’accès au Dashboard).
 - `/legal` → **Mentions légales**
-- `/auth/callback` → **Callback Google OAuth** _(Stockage des tokens après connexion)_
+- `/auth/google/callback` → **Callback Google OAuth** _(Stockage des tokens après connexion)_
 
 ### 🔒 Privé (Accessible après connexion)
 

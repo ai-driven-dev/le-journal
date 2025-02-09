@@ -56,7 +56,8 @@ profile.ts
 
 ## Remix
 
-- Always use "Remix" instead of "NextJS".
+- NEVER USE "NextJS".
+- Remix only.
 - Use "@remix-run/node" for server rendering.
 - Use "@remix-run/react" for client rendering.
 

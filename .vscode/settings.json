@@ -26,5 +26,8 @@
   "workbench.editor.enablePreview": false,
   "eslint.useFlatConfig": true,
   "eslint.validate": ["javascript", "typescript"],
-  "eslint.format.enable": true
+  "eslint.format.enable": true,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }

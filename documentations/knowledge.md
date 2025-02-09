@@ -1,5 +1,5 @@
 ---
-date: 2025-02-09 16:21:47
+date: 2025-02-09 18:18:51
 ---
 
 # Project Specifications "Knowledge Base"
@@ -453,7 +453,7 @@ BREAKING CHANGE: new user database structure
   - `/onboarding/setup` → Génération de l’alias email + Création du projet + Configuration automatique de Gmail (label + filtre).
   - `/onboarding/finish` → Résumé des configurations (alias email affiché + bouton d’accès au Dashboard).
 - `/legal` → **Mentions légales**
-- `/auth/callback` → **Callback Google OAuth** _(Stockage des tokens après connexion)_
+- `/auth/google/callback` → **Callback Google OAuth** _(Stockage des tokens après connexion)_
 
 ### 🔒 Privé (Accessible après connexion)
 
@@ -790,6 +790,7 @@ model Project {
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
+  newsletters Newsletter[] 
 
   @@unique([user_id, project_number])
   @@unique([user_id, slug])
@@ -801,10 +802,12 @@ model Project {
 model Newsletter {
   id           String   @id @default(uuid())
   user_id     String
+  project_id  String
   email       String
   subscribed_at DateTime @default(now()) @map("subscribed_at")
   subscription_status SubscriptionStatus @default(ACTIVE) @map("subscription_status")
 
+project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
 
@@ -1009,9 +1012,9 @@ globs:
 
 # Installation
 
-- Always use latest available version of packages.
+- Ask before installating new packages.
+- Use latest available version of packages.
 - Use PNPM
-- Always ask before installation new packages.
 
 # Code generation
 
@@ -1127,7 +1130,8 @@ profile.ts
 
 ## Remix
 
-- Always use "Remix" instead of "NextJS".
+- NEVER USE "NextJS".
+- Remix only.
 - Use "@remix-run/node" for server rendering.
 - Use "@remix-run/react" for client rendering.
 
@@ -1201,4 +1205,4 @@ globs: apps/backend/**
 
 - Use english examples.```
 
-2025-02-09 16:21:47
+2025-02-09 18:18:51
