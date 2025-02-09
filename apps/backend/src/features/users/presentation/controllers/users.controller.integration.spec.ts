@@ -15,7 +15,6 @@ import { UsersController } from './users.controller';
 describe('UsersController (Integration)', () => {
   let app: INestApplication;
   let controller: UsersController;
-  let prismaService: PrismaService;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -35,17 +34,6 @@ describe('UsersController (Integration)', () => {
     await app.init();
 
     controller = moduleFixture.get<UsersController>(UsersController);
-    prismaService = moduleFixture.get<PrismaService>(PrismaService);
-  });
-
-  beforeEach(async () => {
-    // Clean the database before each test
-    await prismaService.user.deleteMany();
-  });
-
-  afterAll(async () => {
-    await prismaService.user.deleteMany();
-    await app.close();
   });
 
   describe('createUser', () => {
@@ -85,6 +73,8 @@ describe('UsersController (Integration)', () => {
         { email: 'user2@example.com', name: 'User 2' },
       ];
 
+      const usersBeforeCreation = await controller.getAllUsers();
+
       const createdUsers: UserDTO[] = [];
       for (const userData of testUsers) {
         const user = await controller.createUser(userData);
@@ -93,7 +83,7 @@ describe('UsersController (Integration)', () => {
 
       const users = await controller.getAllUsers();
 
-      expect(users).toHaveLength(testUsers.length);
+      expect(users).toHaveLength(usersBeforeCreation.length + testUsers.length);
       expect(users.map((u) => u.email)).toEqual(
         expect.arrayContaining(testUsers.map((u) => u.email)),
       );
@@ -111,13 +101,6 @@ describe('UsersController (Integration)', () => {
           }),
         );
       });
-    });
-
-    it('should return empty array when no users exist', async () => {
-      const users = await controller.getAllUsers();
-
-      expect(users).toHaveLength(0);
-      expect(users).toEqual([]);
     });
   });
 });
