@@ -15,8 +15,11 @@ export async function seedEmails(): Promise<Email[]> {
   });
   const newsletters = await prisma.newsletter.findMany();
 
-  if (project === null || !newsletters.length) {
-    throw new Error('Required projects and newsletters not found');
+  if (project === null) {
+    throw new Error('Required project not found');
+  }
+  if (!newsletters.length) {
+    throw new Error('Required newsletters not found');
   }
 
   const emailsData: Prisma.EmailCreateInput[] = [
