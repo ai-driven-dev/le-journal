@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { PrismaModule } from '../../prisma/prisma.module';
+import { UsersModule } from '../users/users.module';
 
 import { CreateProjectUseCase } from './application/use-cases/create-project.use-case';
 import { GetProjectUseCase } from './application/use-cases/get-project.use-case';
@@ -10,7 +11,7 @@ import { PrismaProjectRepository } from './infrastructure/repositories/prisma-pr
 import { ProjectsController } from './presentation/controllers/projects.controller';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, UsersModule],
   controllers: [ProjectsController],
   providers: [
     CreateProjectUseCase,

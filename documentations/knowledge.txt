@@ -8,3 +8,4 @@ docker-compose.yml
 .cursor/rules/global.mdc
 .cursor/rules/frontend.mdc
 .cursor/rules/backend.mdc
+apps/backend/swagger.json

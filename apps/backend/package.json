@@ -25,8 +25,9 @@
     "test:ci": "dotenv -e .env.test -- prisma migrate reset --force && jest --config jest.config.ts --coverage --runInBand",
     "typecheck": "tsc --noEmit",
     "prisma": "prisma generate && prisma migrate deploy",
-    "prisma:init": "prisma migrate dev --name init",
-    "prisma:seed": "ts-node prisma/seed.ts",
+    "prisma:studio": "prisma studio",
+    "prisma:migrate": "prisma migrate dev && prisma migrate deploy && prisma generate",
+    "prisma:seed": "prisma migrate reset --force",
     "prisma:test:reset": "dotenv -e .env.test -- prisma migrate reset --force"
   },
   "dependencies": {

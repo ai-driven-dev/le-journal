@@ -8,6 +8,8 @@ import {
 } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
+import { ApiError } from '~/utils/api/error';
+
 export const ErrorBoundary = observer(function ErrorBoundary(): React.ReactNode {
   const error = useRouteError();
 
@@ -17,6 +19,9 @@ export const ErrorBoundary = observer(function ErrorBoundary(): React.ReactNode 
   if (isRouteErrorResponse(error)) {
     message = error.status;
     details = error.statusText;
+  } else if (error instanceof ApiError) {
+    message = 'Erreur API';
+    details = error.toString();
   } else if (error instanceof Error) {
     message = 'Une erreur est survenue';
     details = error.message;
@@ -37,7 +42,11 @@ export const ErrorBoundary = observer(function ErrorBoundary(): React.ReactNode 
       <body>
         <main className="pt-16 p-4 container mx-auto">
           <h1 className="text-2xl font-bold mb-4">{message}</h1>
-          {details && <p className="mb-4">{details}</p>}
+          {details && (
+            <pre className="whitespace-pre-wrap bg-gray-100 p-4 rounded-lg overflow-auto">
+              {details}
+            </pre>
+          )}
         </main>
         <ScrollRestoration />
         <Scripts />

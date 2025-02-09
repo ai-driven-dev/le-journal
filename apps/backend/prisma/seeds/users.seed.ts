@@ -8,7 +8,7 @@ const standardUser: Prisma.UserCreateInput = {
   name: 'Standard User',
 };
 
-const adminUser: Prisma.UserCreateInput = {
+export const adminUser: Prisma.UserCreateInput = {
   email: 'admin.premium@example.com',
   name: 'Admin Premium',
 };

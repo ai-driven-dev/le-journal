@@ -8,6 +8,16 @@ import { ProjectRepository } from '../../domain/repositories/project.repository.
 export class PrismaProjectRepository implements ProjectRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  async findByUserIdAndProjectNumber(userId: string, projectNumber: number): Promise<Project[]> {
+    return this.prisma.project.findMany({
+      where: {
+        user_id: userId,
+        project_number: projectNumber,
+      },
+      take: 1,
+    });
+  }
+
   async create(data: {
     userId: string;
     name: string;
@@ -36,7 +46,18 @@ export class PrismaProjectRepository implements ProjectRepository {
 
   async findBySlug(slug: string): Promise<Project | null> {
     return this.prisma.project.findUnique({
-      where: { slug },
+      where: {
+        user_id_slug: {
+          user_id: slug,
+          slug,
+        },
+      },
+    });
+  }
+
+  async findByUserId(userId: string): Promise<Project[]> {
+    return this.prisma.project.findMany({
+      where: { user_id: userId },
     });
   }
 

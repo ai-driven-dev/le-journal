@@ -1,5 +1,5 @@
 ---
-date: 2025-02-08 22:24:31
+date: 2025-02-09 14:15:07
 ---
 
 # Project Specifications "Knowledge Base"
@@ -649,8 +649,9 @@ BREAKING CHANGE: new user database structure
     "test:ci": "dotenv -e .env.test -- prisma migrate reset --force && jest --config jest.config.ts --coverage --runInBand",
     "typecheck": "tsc --noEmit",
     "prisma": "prisma generate && prisma migrate deploy",
-    "prisma:init": "prisma migrate dev --name init",
-    "prisma:seed": "ts-node prisma/seed.ts",
+    "prisma:studio": "prisma studio",
+    "prisma:migrate": "prisma migrate dev && prisma migrate deploy && prisma generate",
+    "prisma:seed": "prisma migrate reset --force",
     "prisma:test:reset": "dotenv -e .env.test -- prisma migrate reset --force"
   },
   "dependencies": {
@@ -731,9 +732,9 @@ enum SubscriptionPlan {
 
 enum SubscriptionStatus {
   ACTIVE
+  IN_PROGRESS
   PENDING
-  CANCELLED
-  EXPIRED
+  FAILED
 
   @@map("subscription_status")
 }
@@ -782,9 +783,9 @@ model User {
 model Project {
   id                 String   @id @default(uuid())
   user_id           String
-  project_number    Int      @unique
-  name              String   @unique
-  slug              String   @unique
+  project_number    Int
+  name              String
+  slug              String
   newsletter_alias  String   @unique @map("newsletter_alias")
   prompt_instruction String? @db.Text @map("prompt_instruction")
   created_at        DateTime @default(now()) @map("created_at")
@@ -792,6 +793,9 @@ model Project {
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
 
+  @@unique([user_id, project_number])
+  @@unique([user_id, slug])
+  @@unique([user_id, name])
   @@map("projects")
   @@index([user_id])
 }
@@ -801,6 +805,7 @@ model Newsletter {
   user_id     String
   email       String
   subscribed_at DateTime @default(now()) @map("subscribed_at")
+  subscription_status SubscriptionStatus @default(ACTIVE) @map("subscription_status")
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
@@ -997,7 +1002,7 @@ volumes:
 
 ```mdc
 ---
-description: Global rules when generating code or running commands.
+description: Global rules when generating code.
 globs: 
 ---
 # Roles
@@ -1015,14 +1020,35 @@ globs:
 - **Strict Type for every variables, functions and components.**
 - Minimal file size.
 - Use single responsibility principle.
-- Never generate anemic models.
+- Never generate anemic models, `setId()`, `getId()` functions are forbidden.
 - Never comment code, except for complexe logic, interfaces, configuration.
+
+## Data fetching
+
+- Use loaders.
+- Use defer whenever possible.
+- Use [fetcher.ts](mdc:apps/frontend/app/utils/api/fetcher.ts) (add routes if necessary).
+
+# Tests
+
+- Never generate Retires!
+
+## Error
+
+- Type `catch(error: unknown)`
+- Use [error.ts](mdc:apps/frontend/app/utils/api/error.ts) to handle errors.
+
+## Lint
+
+- Respect `eslint@typescript-eslint/strict-boolean-expressions`, do not `if (!obj)`, prefer ` if (obj === null)`.
 
 # Functions
 
 - Must reflect user actions.
 - Focus on use-case.
-- Avoid technical names like `set...()`
+- Avoid technical names:
+  - No `setNewsletters()`, `loadNewsletters()` is a true user action
+  - Prefer domain actions.
 
 # Bug finding
 
@@ -1046,7 +1072,7 @@ globs:
 
 ```mdc
 ---
-description: Rules for frontend code.
+description: Rules for frontend code
 globs: apps/frontend/**
 ---
 # Frontends Rules
@@ -1106,7 +1132,11 @@ profile.ts
 - Always use "Remix" instead of "NextJS".
 - Use "@remix-run/node" for server rendering.
 - Use "@remix-run/react" for client rendering.
-- Do not return json(), use plain objects instead.
+
+### Remix Loaders
+
+- Loader are direct children of features (e.g. `features/dashboard/dashboard.loader.ts`)
+- Never return json(), return plain objects instead.
 
 ## Testing
 
@@ -1134,10 +1164,16 @@ globs: apps/backend/**
 ## Rest API controllers
 
 - No CRUD, create use-cases.
-- DTOs implements its sibling in "shared-types".
 - Fully Document API using Swagger annotations with NestJS.
-- Use DTOs with Validation and APIProperties.
 - Use-cases must be linked to controllers.
+
+### DTOs
+
+- Constructor is mapping data from Prisma to DTO type, not `Object.assign`, full mapping.
+- Use Prisma prefix when getting type (e.g. `import { Prisma, User as PrismaUser } from '@prisma/client';`).
+- DTOs implements its sibling in "shared-types".
+- Use DTOs with Validation and APIProperties from Swagger.
+- Swagger doc in english.
 
 ## Use-cases
 
@@ -1158,7 +1194,7 @@ globs: apps/backend/**
 
 ### Integration tests
 
-- Do not create anything, always use [seed.ts](mdc:apps/backend/prisma/seed.ts)
+- Do not create anything, always use [seed.ts](mdc:apps/backend/prisma/seed.ts).
 - Always test use-cases.
 - Uso DTOs to instanciate object when testing use-cases.
 - Never use Prisma directly, no repositories, no Prisma services.
@@ -1166,3 +1202,5 @@ globs: apps/backend/**
 ## Examples
 
 - Use english examples.```
+
+2025-02-09 14:15:07

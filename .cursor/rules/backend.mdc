@@ -12,10 +12,16 @@ globs: apps/backend/**
 ## Rest API controllers
 
 - No CRUD, create use-cases.
-- DTOs implements its sibling in "shared-types".
 - Fully Document API using Swagger annotations with NestJS.
-- Use DTOs with Validation and APIProperties.
 - Use-cases must be linked to controllers.
+
+### DTOs
+
+- Constructor is mapping data from Prisma to DTO type, not `Object.assign`, full mapping.
+- Use Prisma prefix when getting type (e.g. `import { Prisma, User as PrismaUser } from '@prisma/client';`).
+- DTOs implements its sibling in "shared-types".
+- Use DTOs with Validation and APIProperties from Swagger.
+- Swagger doc in english.
 
 ## Use-cases
 
@@ -36,7 +42,7 @@ globs: apps/backend/**
 
 ### Integration tests
 
-- Do not create anything, always use [seed.ts](mdc:apps/backend/prisma/seed.ts)
+- Do not create anything, always use [seed.ts](mdc:apps/backend/prisma/seed.ts).
 - Always test use-cases.
 - Uso DTOs to instanciate object when testing use-cases.
 - Never use Prisma directly, no repositories, no Prisma services.

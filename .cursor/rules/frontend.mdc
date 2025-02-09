@@ -1,5 +1,5 @@
 ---
-description: Rules for frontend code.
+description: Rules for frontend code
 globs: apps/frontend/**
 ---
 # Frontends Rules
@@ -59,7 +59,11 @@ profile.ts
 - Always use "Remix" instead of "NextJS".
 - Use "@remix-run/node" for server rendering.
 - Use "@remix-run/react" for client rendering.
-- Do not return json(), use plain objects instead.
+
+### Remix Loaders
+
+- Loader are direct children of features (e.g. `features/dashboard/dashboard.loader.ts`)
+- Never return json(), return plain objects instead.
 
 ## Testing
 

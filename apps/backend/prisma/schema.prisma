@@ -23,9 +23,9 @@ enum SubscriptionPlan {
 
 enum SubscriptionStatus {
   ACTIVE
+  IN_PROGRESS
   PENDING
-  CANCELLED
-  EXPIRED
+  FAILED
 
   @@map("subscription_status")
 }
@@ -74,9 +74,9 @@ model User {
 model Project {
   id                 String   @id @default(uuid())
   user_id           String
-  project_number    Int      @unique
-  name              String   @unique
-  slug              String   @unique
+  project_number    Int
+  name              String
+  slug              String
   newsletter_alias  String   @unique @map("newsletter_alias")
   prompt_instruction String? @db.Text @map("prompt_instruction")
   created_at        DateTime @default(now()) @map("created_at")
@@ -84,6 +84,9 @@ model Project {
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
 
+  @@unique([user_id, project_number])
+  @@unique([user_id, slug])
+  @@unique([user_id, name])
   @@map("projects")
   @@index([user_id])
 }
@@ -93,6 +96,7 @@ model Newsletter {
   user_id     String
   email       String
   subscribed_at DateTime @default(now()) @map("subscribed_at")
+  subscription_status SubscriptionStatus @default(ACTIVE) @map("subscription_status")
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]

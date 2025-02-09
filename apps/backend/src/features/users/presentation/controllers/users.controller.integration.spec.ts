@@ -8,7 +8,7 @@ import { GetAllUsersUseCase } from '../../application/use-cases/get-all-users.us
 import { USER_REPOSITORY } from '../../domain/repositories/user.repository.interface';
 import { PrismaUserRepository } from '../../infrastructure/repositories/prisma-user.repository';
 import type { CreateUserDto } from '../dtos/user.dto';
-import { UserDto } from '../dtos/user.dto';
+import { UserDTO } from '../dtos/user.dto';
 
 import { UsersController } from './users.controller';
 
@@ -57,7 +57,7 @@ describe('UsersController (Integration)', () => {
 
       const userDto = await controller.createUser(createUserDto);
 
-      expect(userDto).toBeInstanceOf(UserDto);
+      expect(userDto).toBeInstanceOf(UserDTO);
       expect(userDto.email).toBe(createUserDto.email);
       expect(userDto.name).toBe(createUserDto.name);
       expect(userDto.id).toBeDefined();
@@ -85,7 +85,7 @@ describe('UsersController (Integration)', () => {
         { email: 'user2@example.com', name: 'User 2' },
       ];
 
-      const createdUsers: UserDto[] = [];
+      const createdUsers: UserDTO[] = [];
       for (const userData of testUsers) {
         const user = await controller.createUser(userData);
         createdUsers.push(user);
@@ -100,7 +100,7 @@ describe('UsersController (Integration)', () => {
 
       // Verify user structure
       users.forEach((user) => {
-        expect(user).toBeInstanceOf(UserDto);
+        expect(user).toBeInstanceOf(UserDTO);
         expect(user).toEqual(
           expect.objectContaining({
             id: expect.any(String),

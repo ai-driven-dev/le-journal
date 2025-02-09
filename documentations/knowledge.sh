@@ -146,3 +146,6 @@ print_header "📊 Summary"
 log_success "$count specification files processed"
 [ "$additional_count" -gt 0 ] && log_success "$additional_count additional files processed"
 log_success "Documentation generated in: $OUTPUT_FILE"
+
+# Add timestamp at the end of the file
+printf "\n%s\n" "$(date '+%Y-%m-%d %H:%M:%S')" >> "$OUTPUT_FILE"
