@@ -1,5 +1,5 @@
 ---
-date: 2025-02-09 14:15:07
+date: 2025-02-09 15:05:55
 ---
 
 # Project Specifications "Knowledge Base"
@@ -119,8 +119,6 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
    - Champs extraction contenus spécifiques.
 8. **Sécurité/RGPD :**
    - Suppression données, gestion tokens, réduction scopes.
-
----
 
 
 ## Choix initial des technologies
@@ -642,7 +640,7 @@ BREAKING CHANGE: new user database structure
     "dev": "nest start --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "dotenv -e .env.test -- jest --config jest.config.ts --coverage",
-    "test:watch": "jest --config jest.config.ts --watch --coverage",
+    "test:watch": "jest --config jest.config.ts --watch --coverage --testPathIgnorePatterns=\"\\.integration\\.spec\\.ts$\"",
     "test:cov": "jest --config jest.config.ts --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --coverage",
@@ -701,8 +699,7 @@ BREAKING CHANGE: new user database structure
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.23.0"
   }
-}
-```
+}```
 
 ### apps/backend/prisma/schema.prisma
 
@@ -1203,4 +1200,4 @@ globs: apps/backend/**
 
 - Use english examples.```
 
-2025-02-09 14:15:07
+2025-02-09 15:05:55

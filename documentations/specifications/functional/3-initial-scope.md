@@ -33,5 +33,3 @@
    - Champs extraction contenus spécifiques.
 8. **Sécurité/RGPD :**
    - Suppression données, gestion tokens, réduction scopes.
-
----
