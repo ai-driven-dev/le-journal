@@ -13,13 +13,16 @@ export class GetProjectUseCase {
     private readonly projectRepository: ProjectRepository,
   ) {}
 
-  async execute(projectId: string): Promise<Project> {
-    const project = await this.projectRepository.findById(projectId);
+  async execute(userId: string, projectNumber: number): Promise<Project[]> {
+    const projects = await this.projectRepository.findByUserIdAndProjectNumber(
+      userId,
+      projectNumber,
+    );
 
-    if (!project) {
+    if (projects.length === 0) {
       throw new NotFoundException('Project not found');
     }
 
-    return project;
+    return projects;
   }
 }

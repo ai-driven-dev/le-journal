@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { Redis } from 'ioredis';
 
 import { ConfigModule } from './config/config.module';
-import { NewsletterModule } from './features/newsletter/newsletter-emails.module';
+import { NewsletterModule } from './features/newsletter/newsletter.module';
 import { ProjectsModule } from './features/projects/projects.module';
 import { UsersModule } from './features/users/users.module';
 import { PrismaModule } from './prisma/prisma.module';

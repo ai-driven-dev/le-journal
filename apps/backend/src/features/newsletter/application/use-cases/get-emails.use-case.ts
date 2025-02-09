@@ -1,10 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Email } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import {
   EMAIL_REPOSITORY,
   EmailRepository,
 } from '../../domain/repositories/email.repository.interface';
+
+type EmailWithArticles = Prisma.EmailGetPayload<{
+  include: { articles: true };
+}>;
 
 @Injectable()
 export class GetEmailsUseCase {
@@ -13,7 +17,7 @@ export class GetEmailsUseCase {
     private readonly emailRepository: EmailRepository,
   ) {}
 
-  async execute(userId: string): Promise<Email[]> {
-    return this.emailRepository.findByUserId(userId);
+  async execute(projectId: string): Promise<EmailWithArticles[]> {
+    return this.emailRepository.findByProjectId(projectId);
   }
 }

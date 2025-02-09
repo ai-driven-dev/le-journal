@@ -1,8 +1,12 @@
-import type { Email } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 export const EMAIL_REPOSITORY = 'EMAIL_REPOSITORY';
 
+export type EmailWithArticles = Prisma.EmailGetPayload<{
+  include: { articles: true };
+}>;
+
 export interface EmailRepository {
-  findByUserId(userId: string): Promise<Email[]>;
-  searchByUserIdAndTerm(userId: string, searchTerm: string): Promise<Email[]>;
+  searchByUserIdAndTerm(userId: string, searchTerm: string): Promise<EmailWithArticles[]>;
+  findByProjectId(projectId: string): Promise<EmailWithArticles[]>;
 }

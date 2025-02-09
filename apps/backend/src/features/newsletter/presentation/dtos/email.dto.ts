@@ -1,7 +1,10 @@
+import type { Email } from '@le-journal/shared-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { EmailStatus } from '@prisma/client';
+import { EmailStatus, Article as PrismaArticle, Email as PrismaEmail } from '@prisma/client';
 
-export class EmailDto {
+import { ArticleDto } from './article.dto';
+
+export class EmailDto implements Email {
   @ApiProperty({
     description: "ID unique de l'email",
     example: '123e4567-e89b-12d3-a456-426614174000',
@@ -45,7 +48,20 @@ export class EmailDto {
   })
   status!: EmailStatus;
 
-  constructor(partial: Partial<EmailDto>) {
-    Object.assign(this, partial);
+  @ApiProperty({
+    description: "Articles associés à l'email",
+    type: [ArticleDto],
+  })
+  articles!: ArticleDto[];
+
+  constructor(email: PrismaEmail & { articles: PrismaArticle[] }) {
+    this.id = email.id;
+    this.project_id = email.project_id;
+    this.newsletter_id = email.newsletter_id;
+    this.subject = email.subject;
+    this.raw_content = email.raw_content;
+    this.received_at = email.received_at;
+    this.status = email.status;
+    this.articles = email.articles.map((article: PrismaArticle) => new ArticleDto(article));
   }
 }

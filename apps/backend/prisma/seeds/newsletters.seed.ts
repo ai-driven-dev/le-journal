@@ -1,5 +1,5 @@
 import type { Newsletter, Prisma } from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, SubscriptionStatus } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -10,53 +10,43 @@ export async function seedNewsletters(): Promise<Newsletter[]> {
     include: { projects: true },
   });
 
-  const standardUser = users.find((u) => u.email === 'user.standard@example.com');
   const adminUser = users.find((u) => u.email === 'admin.premium@example.com');
-  const premiumUser = users.find((u) => u.email === 'user.premium@example.com');
+  const standardUser = users.find((u) => u.email === 'user.standard@example.com');
 
-  if (!standardUser || !adminUser || !premiumUser) {
-    throw new Error('Required users not found');
+  if (!adminUser) {
+    throw new Error('Required admin user not found');
   }
 
-  // Standard user newsletter
-  const standardNewsletter: Prisma.NewsletterCreateInput = {
-    email: 'standard@newsletter.com',
-    user: { connect: { id: standardUser.id } },
-  };
+  if (!standardUser) {
+    throw new Error('Required standard user not found');
+  }
 
-  // Admin user newsletters
-  const adminNewsletters: Prisma.NewsletterCreateInput[] = [
+  const newslettersData: Prisma.NewsletterCreateInput[] = [
     {
-      email: 'admin1@newsletter.com',
+      email: 'tech@newsletter.com',
       user: { connect: { id: adminUser.id } },
+      subscription_status: SubscriptionStatus.ACTIVE,
     },
     {
-      email: 'admin2@newsletter.com',
+      email: 'business@newsletter.com',
       user: { connect: { id: adminUser.id } },
+      subscription_status: SubscriptionStatus.IN_PROGRESS,
     },
     {
-      email: 'admin3@newsletter.com',
+      email: 'lifestyle@newsletter.com',
       user: { connect: { id: adminUser.id } },
+      subscription_status: SubscriptionStatus.FAILED,
+    },
+    {
+      email: 'lifestyle@newsletter.com',
+      user: { connect: { id: standardUser.id } },
+      subscription_status: SubscriptionStatus.ACTIVE,
     },
   ];
 
-  // Premium user newsletters
-  const premiumNewsletters: Prisma.NewsletterCreateInput[] = [
-    {
-      email: 'premium1@newsletter.com',
-      user: { connect: { id: premiumUser.id } },
-    },
-    {
-      email: 'premium2@newsletter.com',
-      user: { connect: { id: premiumUser.id } },
-    },
-  ];
-
-  const newsletters = await Promise.all([
-    prisma.newsletter.create({ data: standardNewsletter }),
-    ...adminNewsletters.map((newsletter) => prisma.newsletter.create({ data: newsletter })),
-    ...premiumNewsletters.map((newsletter) => prisma.newsletter.create({ data: newsletter })),
-  ]);
+  const newsletters = await Promise.all(
+    newslettersData.map((newsletter) => prisma.newsletter.create({ data: newsletter })),
+  );
 
   console.log('✅ Newsletters seeded');
   return newsletters;

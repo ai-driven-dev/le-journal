@@ -1,5 +1,5 @@
 ---
-description: Global rules when generating code or running commands.
+description: Global rules when generating code.
 globs: 
 ---
 # Roles
@@ -17,14 +17,35 @@ globs:
 - **Strict Type for every variables, functions and components.**
 - Minimal file size.
 - Use single responsibility principle.
-- Never generate anemic models.
+- Never generate anemic models, `setId()`, `getId()` functions are forbidden.
 - Never comment code, except for complexe logic, interfaces, configuration.
+
+## Data fetching
+
+- Use loaders.
+- Use defer whenever possible.
+- Use [fetcher.ts](mdc:apps/frontend/app/utils/api/fetcher.ts) (add routes if necessary).
+
+# Tests
+
+- Never generate Retires!
+
+## Error
+
+- Type `catch(error: unknown)`
+- Use [error.ts](mdc:apps/frontend/app/utils/api/error.ts) to handle errors.
+
+## Lint
+
+- Respect `eslint@typescript-eslint/strict-boolean-expressions`, do not `if (!obj)`, prefer ` if (obj === null)`.
 
 # Functions
 
 - Must reflect user actions.
 - Focus on use-case.
-- Avoid technical names like `set...()`
+- Avoid technical names:
+  - No `setNewsletters()`, `loadNewsletters()` is a true user action
+  - Prefer domain actions.
 
 # Bug finding
 

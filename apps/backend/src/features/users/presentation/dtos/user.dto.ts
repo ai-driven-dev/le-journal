@@ -17,7 +17,7 @@ export class CreateUserDto implements Prisma.UserCreateInput {
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
 
-export class UserDto implements User {
+export class UserDTO implements User {
   @ApiProperty({
     example: 'c123e456-789b-12d3-a456-426614174000',
     description: "ID de l'utilisateur",

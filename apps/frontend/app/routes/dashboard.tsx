@@ -1,15 +1,12 @@
-import { observer } from 'mobx-react-lite';
-import type { FC } from 'react';
+import type { LoaderFunction } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 
-import { Layout } from '~/components/Layout';
-import { Dashboard } from '~/features/dashboard/dashboard.component';
+export const loader: LoaderFunction = async ({ params }) => {
+  const projectNumber = params.projectNumber;
 
-const DashboardRoute: FC = observer(() => {
-  return (
-    <Layout>
-      <Dashboard />
-    </Layout>
-  );
-});
+  if (!projectNumber) {
+    return redirect('/dashboard/1');
+  }
 
-export default DashboardRoute;
+  return null;
+};

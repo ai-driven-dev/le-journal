@@ -17,27 +17,27 @@ export async function seedProjects(): Promise<Project[]> {
 
   const projectStandard: Prisma.ProjectCreateInput = {
     project_number: 1,
-    name: 'Project Standard',
-    slug: 'project-standard',
-    newsletter_alias: 'project-standard-news',
+    name: 'Default',
+    slug: 'default',
+    newsletter_alias: 'newsletter.standard@example.com',
     prompt_instruction: 'Default prompt instruction for standard project',
     user: { connect: { id: standardUser.id } },
   };
 
   const projectAdmin: Prisma.ProjectCreateInput = {
-    project_number: 2,
-    name: 'Project Admin',
-    slug: 'project-admin',
-    newsletter_alias: 'project-admin-news',
+    project_number: 1,
+    name: 'Default',
+    slug: 'default',
+    newsletter_alias: 'newsletter.admin@example.com',
     prompt_instruction: 'Default prompt instruction for admin project',
     user: { connect: { id: adminUser.id } },
   };
 
   const projectPremium: Prisma.ProjectCreateInput = {
-    project_number: 3,
-    name: 'Project Premium',
-    slug: 'project-premium',
-    newsletter_alias: 'project-premium-news',
+    project_number: 1,
+    name: 'Default',
+    slug: 'default',
+    newsletter_alias: 'newsletter.premium@example.com',
     prompt_instruction: 'Default prompt instruction for premium project',
     user: { connect: { id: premiumUser.id } },
   };

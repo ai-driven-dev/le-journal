@@ -12,7 +12,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CreateUserUseCase } from '../../application/use-cases/create-user.use-case';
 import { GetAllUsersUseCase } from '../../application/use-cases/get-all-users.use-case';
-import { CreateUserDto, UserDto } from '../dtos/user.dto';
+import { CreateUserDto, UserDTO } from '../dtos/user.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -29,7 +29,7 @@ export class UsersController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Utilisateur créé avec succès',
-    type: UserDto,
+    type: UserDTO,
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
@@ -42,9 +42,9 @@ export class UsersController {
       }),
     )
     createUserDto: CreateUserDto,
-  ): Promise<UserDto> {
+  ): Promise<UserDTO> {
     const user = await this.createUserUseCase.execute(createUserDto.email, createUserDto.name);
-    return new UserDto(user);
+    return new UserDTO(user);
   }
 
   @Get()
@@ -52,10 +52,10 @@ export class UsersController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Liste des utilisateurs récupérée avec succès',
-    type: [UserDto],
+    type: [UserDTO],
   })
-  async getAllUsers(): Promise<UserDto[]> {
+  async getAllUsers(): Promise<UserDTO[]> {
     const users = await this.getAllUsersUseCase.execute();
-    return users.map((user) => new UserDto(user));
+    return users.map((user) => new UserDTO(user));
   }
 }

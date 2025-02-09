@@ -2,8 +2,6 @@ import type { LinkDescriptor, LinksFunction, MetaFunction } from '@remix-run/nod
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { ErrorBoundary } from '~/components/error-boundary';
-
 import './tailwind.css';
 
 export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
@@ -51,4 +49,4 @@ const App = observer(function App(): React.ReactNode {
 
 export default App;
 
-export { ErrorBoundary };
+// export { ErrorBoundary };
