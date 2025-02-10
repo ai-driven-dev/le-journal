@@ -1,5 +1,5 @@
 ---
-date: 2025-02-10 08:56:42
+date: 2025-02-10 09:00:13
 ---
 
 # Project Specifications "Knowledge Base"
@@ -469,25 +469,20 @@ BREAKING CHANGE: new user database structure
   2. **Admin** → Peut gérer les utilisateurs.
   3. **Public** → Accès limité aux routes publiques.
 
-
 ## Additional Files
 
 > ⚠️ **IMPORTANT**: These files must be taken very seriously as they represent the latest up-to-date versions of our codebase. You MUST rely on these versions and their content imperatively.
 
-
 ### package.json
 
-````json
+```json
 {
   "name": "le-journal",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@8.14.1",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "shared": "pnpm --filter shared-types run",
     "front": "pnpm --filter frontend run",
@@ -538,11 +533,11 @@ BREAKING CHANGE: new user database structure
     "turbo": "^2.4.0"
   }
 }
-````
+```
 
 ### apps/frontend/package.json
 
-````json
+```json
 {
   "name": "frontend",
   "private": true,
@@ -611,12 +606,11 @@ BREAKING CHANGE: new user database structure
     "node": ">=20.0.0"
   }
 }
-
-````
+```
 
 ### apps/backend/package.json
 
-````json
+```json
 {
   "name": "backend",
   "version": "0.0.1",
@@ -697,12 +691,11 @@ BREAKING CHANGE: new user database structure
     "typescript-eslint": "^8.23.0"
   }
 }
-
-````
+```
 
 ### apps/backend/prisma/schema.prisma
 
-````prisma
+```prisma
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -788,7 +781,7 @@ model Project {
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
-  newsletters Newsletter[] 
+  newsletters Newsletter[]
 
   @@unique([user_id, project_number])
   @@unique([user_id, slug])
@@ -867,11 +860,11 @@ model Transaction {
   @@index([stripe_payment_id])
 }
 
-````
+```
 
 ### .releaserc.json
 
-````json
+```json
 {
   "branches": ["main"],
   "plugins": [
@@ -930,12 +923,11 @@ model Transaction {
     ]
   ]
 }
-
-````
+```
 
 ### commitlint.config.js
 
-````js
+```js
 export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
@@ -959,12 +951,11 @@ export default {
     'subject-case': [0, 'never'],
   },
 };
-
-````
+```
 
 ### docker-compose.yml
 
-````yml
+```yml
 services:
   postgres:
     image: postgres:16-alpine
@@ -973,14 +964,14 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: lejournal
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      - '6379:6379'
     volumes:
       - redis_data:/data
 
@@ -998,12 +989,11 @@ volumes:
   postgres_data:
   redis_data:
   # meilisearch_data:
-
-````
+```
 
 ### .cursor/rules/rule-backend-api-controllers.mdc
 
-````mdc
+```mdc
 ---
 description: "Backend API and controllers rules for NestJS. Apply them when creating or updating controllers in apps/backend."
 globs: "apps/backend/**"
@@ -1013,12 +1003,12 @@ File: rule-backend-api-controllers.mdc
 Backend API & Controllers
 - No direct CRUD, use domain-driven use-cases.
 - Document with Swagger (NestJS), in English.
-- Each controller matches a specific use-case. 
-````
+- Each controller matches a specific use-case.
+```
 
 ### .cursor/rules/rule-backend-dto.mdc
 
-````mdc
+```mdc
 ---
 description: "Backend DTO rules for NestJS. Apply them when creating or changing DTO structures in apps/backend."
 globs: "apps/backend/**"
@@ -1028,12 +1018,12 @@ File: rule-backend-dto.mdc
 Backend DTO
 - Map fields individually (avoid Object.assign).
 - Use DTO for validation and Swagger doc.
-- Prefix Prisma imports (PrismaUser). 
-````
+- Prefix Prisma imports (PrismaUser).
+```
 
 ### .cursor/rules/rule-backend-repository.mdc
 
-````mdc
+```mdc
 ---
 description: "Backend repository rules for NestJS. Apply them when implementing repositories in apps/backend."
 globs: "apps/backend/**"
@@ -1042,12 +1032,12 @@ File: rule-backend-repository.mdc
 
 Backend Repository
 - Use DTO for create/update.
-- No dedicated mapper, mapped-types allowed. 
-````
+- No dedicated mapper, mapped-types allowed.
+```
 
 ### .cursor/rules/rule-backend-tests.mdc
 
-````mdc
+```mdc
 ---
 description: "Backend testing rules. Apply them when creating or modifying tests in apps/backend."
 globs: "apps/backend/**"
@@ -1057,13 +1047,13 @@ Backend Tests
 - Jest for testing.
 - Integration tests must not create data directly (use seed.ts).
 - Always test use-cases.
-- Never call Prisma directly in tests. 
+- Never call Prisma directly in tests.
 - No "retries" in test generation.
-````
+```
 
 ### .cursor/rules/rule-backend-usecases.mdc
 
-````mdc
+```mdc
 ---
 description: "Backend use-cases rules for NestJS. Apply them when defining or modifying use-cases in apps/backend."
 globs: "apps/backend/**"
@@ -1072,8 +1062,8 @@ File: rule-backend-usecases.mdc
 
 Backend Use-Cases
 - Domain-focused logic, not simple CRUD.
-- Prefer DTO instead of heavy ValueObjects. 
-````
+- Prefer DTO instead of heavy ValueObjects.
+```
 
 ### .cursor/rules/rule-frontend-components.mdc
 
@@ -1084,7 +1074,7 @@ globs: "apps/frontend/**.ts, apps/frontend/**.tsx"
 ---
 
 Frontend Components:
-- Apply the Smart/Dumb pattern: 
+- Apply the Smart/Dumb pattern:
     - Smart components (stateful, using MobX stores)
     - Dumb components (pure UI).
 - Organize by feature in folders.
@@ -1114,7 +1104,7 @@ State Management (MobX)
 
 ### .cursor/rules/rule-frontend-global.mdc
 
-````mdc
+```mdc
 ---
 description: When doing any action in frontend.
 globs: "apps/frontend/**"
@@ -1123,23 +1113,23 @@ globs: "apps/frontend/**"
 - Root imports with /~.
 - Test with Vitest.
 - Use Vite, not Webpack.
-- ESLint with flat config. 
-````
+- ESLint with flat config.
+```
 
 ### .cursor/rules/rule-frontend-remix-loaders.mdc
 
-````mdc
+```mdc
 ---
 description: Frontend Remix loaders rules.
 globs: "apps/frontend/**"
 ---
 - Loaders must be used in routes.
 - Return plain objects instead of `json()`.
-````
+```
 
 ### .cursor/rules/rule-global-code-generation.mdc
 
-````mdc
+```mdc
 ---
 description: Global code generation rules to apply when generating any code.
 globs: "**/*.ts, **/*.tsx"
@@ -1161,18 +1151,18 @@ Comments:
 Focus on domain code generation:
 - Feature driven development (FDD).
 - No anemic models (avoid trivial getId/setId).
-- Function names follow user actions (avoid setSomething). 
-- No interface prefix (IUser) or type suffix (UserType). 
+- Function names follow user actions (avoid setSomething).
+- No interface prefix (IUser) or type suffix (UserType).
 
 Lint & Error
 - Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).
 - Catch errors with catch(error: unknown | Error).
-- On frontend, use apps/frontend/app/utils/api/error.ts to handle errors. 
-````
+- On frontend, use apps/frontend/app/utils/api/error.ts to handle errors.
+```
 
 ### .cursor/rules/rule-global-installation.mdc
 
-````mdc
+```mdc
 ---
 description: Global environment & installation rules for any code. Apply them when code involves setup or adding packages.
 globs: "**/*"
@@ -1184,12 +1174,12 @@ globs: "**/*"
     - pnpm
     - yarn
 - Ask before adding new packages.
-- Use PNPM with the latest version. 
-````
+- Use PNPM with the latest version.
+```
 
 ### .cursor/rules/rule-global-shared-types.mdc
 
-````mdc
+```mdc
 ---
 description: Global shared types rules to apply when sharing types between frontend and backend.
 globs: "**/*"
@@ -1198,11 +1188,11 @@ globs: "**/*"
 - Place shared data types in "packages/shared-types".
 - One file per type, export everything from index.ts.
 
-````
+```
 
 ### Project Structure
 
-````text
+```text
 .
 ./.cursor
 ./.cursor/rules
@@ -1575,7 +1565,6 @@ globs: "**/*"
 ./turbo.json
 
 118 directories, 252 files
-````
+```
 
-
-2025-02-10 08:56:42
+2025-02-10 09:00:13
