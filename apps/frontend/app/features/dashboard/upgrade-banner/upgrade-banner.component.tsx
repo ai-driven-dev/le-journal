@@ -14,7 +14,7 @@ export const UpgradeBanner: FC = observer(() => {
   }
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="mt-auto sticky bottom-0 bg-white border-t p-4 space-y-4">
       <h3 className="text-lg font-semibold">Passez à la version Pro</h3>
       <p className="text-sm text-gray-600">
         Accédez à toutes les fonctionnalités et personnalisez votre expérience.

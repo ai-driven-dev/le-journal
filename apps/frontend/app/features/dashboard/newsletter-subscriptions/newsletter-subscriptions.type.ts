@@ -13,5 +13,4 @@ export interface NewsletterSubscriptionsState {
 
 export interface NewsletterSubscriptionsActions {
   loadNewsletters: (newsletters: Newsletter[]) => void;
-  setIsHoverCardOpen: (isOpen: boolean) => void;
 }

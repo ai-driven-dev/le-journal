@@ -11,7 +11,6 @@ import { SearchEmailsUseCase } from '../../application/use-cases/search-emails.u
 import { EmailDto } from '../dtos/email.dto';
 import { NewsletterDto } from '../dtos/newsletter.dto';
 
-// TODO: À remplacer par un middleware d'authentification
 const TEMP_USER_EMAIL = 'user.standard@example.com';
 
 @ApiTags('Newsletters')
@@ -27,7 +26,9 @@ export class NewsletterController {
     private readonly getNewslettersUseCase: GetNewslettersUseCase,
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
-  ) {}
+  ) {
+    this.initializeUser();
+  }
 
   public async initializeUser(): Promise<void> {
     const user = await this.userRepository.findByEmail(this.userEmail);

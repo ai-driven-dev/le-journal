@@ -1,5 +1,5 @@
 ---
-date: 2025-02-10 08:23:21
+date: 2025-02-10 08:56:42
 ---
 
 # Project Specifications "Knowledge Base"
@@ -489,6 +489,9 @@ BREAKING CHANGE: new user database structure
     "packages/*"
   ],
   "scripts": {
+    "shared": "pnpm --filter shared-types run",
+    "front": "pnpm --filter frontend run",
+    "back": "pnpm --filter backend run",
     "document": "zsh ./documentations/knowledge.sh",
     "build": "turbo run build",
     "dev": "docker-compose up --build -d && turbo run dev",
@@ -1402,6 +1405,7 @@ globs: "**/*"
 ./apps/frontend/app/components/error-boundary.tsx
 ./apps/frontend/app/components/ui
 ./apps/frontend/app/components/ui/accordion.tsx
+./apps/frontend/app/components/ui/badge.tsx
 ./apps/frontend/app/components/ui/breadcrumb.tsx
 ./apps/frontend/app/components/ui/button.tsx
 ./apps/frontend/app/components/ui/card.tsx
@@ -1570,8 +1574,8 @@ globs: "**/*"
 ./tsconfig.json
 ./turbo.json
 
-118 directories, 251 files
+118 directories, 252 files
 ````
 
 
-2025-02-10 08:23:21
+2025-02-10 08:56:42

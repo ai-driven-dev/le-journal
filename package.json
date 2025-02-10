@@ -9,6 +9,9 @@
     "packages/*"
   ],
   "scripts": {
+    "shared": "pnpm --filter shared-types run",
+    "front": "pnpm --filter frontend run",
+    "back": "pnpm --filter backend run",
     "document": "zsh ./documentations/knowledge.sh",
     "build": "turbo run build",
     "dev": "docker-compose up --build -d && turbo run dev",

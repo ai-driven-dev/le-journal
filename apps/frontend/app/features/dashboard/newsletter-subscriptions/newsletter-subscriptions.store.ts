@@ -15,17 +15,8 @@ export class NewsletterSubscriptionsStore
     makeAutoObservable(this);
   }
 
-  setNewsletters(newsletters: Newsletter[]): void {
-    this.newsletters = newsletters;
-  }
-
   loadNewsletters = (newsletters: Newsletter[]): void => {
     this.newsletters = newsletters;
-  };
-
-  setIsHoverCardOpen = (): void => {
-    // This method is kept for compatibility but might not be needed anymore
-    console.warn('setIsHoverCardOpen is deprecated');
   };
 }
 
