@@ -18,7 +18,7 @@ export class ApiError extends Error {
   constructor(
     message: string,
     details?: ApiErrorDetails,
-    public cause?: unknown,
+    public cause?: Error,
   ) {
     super(message);
     this.name = 'ApiError';
@@ -59,10 +59,17 @@ export class ApiError extends Error {
   }
 }
 
-export function handleApiError(error: unknown, customMessage?: string): never {
+export function handleApiError(error: unknown | Error, customMessage?: string): never {
+  const errorMessage = customMessage ?? "Une erreur inattendue s'est produite";
+  console.error(errorMessage, error);
+
   if (error instanceof ApiError) {
     throw error;
   }
 
-  throw new ApiError(customMessage ?? 'An unexpected error occurred', undefined, error);
+  if (error instanceof Error) {
+    throw new ApiError(errorMessage, undefined, error);
+  }
+
+  throw new ApiError(errorMessage, undefined);
 }

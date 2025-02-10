@@ -34,21 +34,15 @@ export const Dashboard: FC = observer(() => {
 
     const { projects, newsletters, users, emails } = data;
 
+    // Optional data.
     if (emails.length > 0) {
       dashboardStore.emailsStore.loadEmails(emails);
     }
 
-    if (projects.length > 0) {
-      dashboardStore.projectStore.setCurrentProject(projects[0]);
-    }
-
-    if (newsletters.length > 0) {
-      dashboardStore.newslettersStore.loadNewsletters(newsletters);
-    }
-
-    if (users.length > 0) {
-      dashboardStore.headerProfileStore.loadUserInfo(users[0]);
-    }
+    // Required data.
+    dashboardStore.projectStore.setCurrentProject(projects[0]);
+    dashboardStore.newslettersStore.loadNewsletters(newsletters);
+    dashboardStore.headerProfileStore.loadUserInfo(users[0]);
   }, [dashboardStore, data]);
 
   return (

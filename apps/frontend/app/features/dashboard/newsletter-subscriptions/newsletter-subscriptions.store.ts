@@ -29,11 +29,6 @@ export class NewsletterSubscriptionsStore
   };
 }
 
-let store: NewsletterSubscriptionsStore | null = null;
-
-export function createNewsletterSubscriptionsStore(): NewsletterSubscriptionsStore {
-  if (!store) {
-    store = new NewsletterSubscriptionsStore();
-  }
-  return store;
-}
+export const createNewsletterSubscriptionsStore = (): NewsletterSubscriptionsStore => {
+  return new NewsletterSubscriptionsStore();
+};

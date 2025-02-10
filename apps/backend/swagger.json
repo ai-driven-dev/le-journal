@@ -31,7 +31,9 @@
           }
         },
         "summary": "Créer un nouvel utilisateur",
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       },
       "get": {
         "operationId": "UsersController_getAllUsers",
@@ -52,7 +54,9 @@
           }
         },
         "summary": "Récupérer tous les utilisateurs",
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       }
     },
     "/api/projects": {
@@ -82,7 +86,9 @@
           }
         },
         "summary": "Créer un nouveau projet",
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
       },
       "get": {
         "operationId": "ProjectsController_getProject",
@@ -109,7 +115,9 @@
           }
         },
         "summary": "Récupérer le projet de l'utilisateur",
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
       }
     },
     "/api/projects/{id}/prompt": {
@@ -138,7 +146,9 @@
           }
         },
         "summary": "Mettre à jour les instructions du prompt du projet",
-        "tags": ["Projects"]
+        "tags": [
+          "Projects"
+        ]
       }
     },
     "/api/newsletters": {
@@ -161,7 +171,9 @@
           }
         },
         "summary": "Get all newsletter subscriptions",
-        "tags": ["Newsletters"]
+        "tags": [
+          "Newsletters"
+        ]
       }
     },
     "/api/newsletters/emails": {
@@ -193,7 +205,9 @@
           }
         },
         "summary": "Récupérer tous les emails de la newsletter",
-        "tags": ["Newsletters"]
+        "tags": [
+          "Newsletters"
+        ]
       }
     },
     "/api/newsletters/emails/search": {
@@ -225,7 +239,9 @@
           }
         },
         "summary": "Rechercher des emails dans la newsletter",
-        "tags": ["Newsletters"]
+        "tags": [
+          "Newsletters"
+        ]
       }
     }
   },
@@ -260,7 +276,9 @@
             "description": "Nom de l'utilisateur"
           }
         },
-        "required": ["email"]
+        "required": [
+          "email"
+        ]
       },
       "UserDTO": {
         "type": "object",
@@ -291,7 +309,12 @@
             "description": "Date de mise à jour"
           }
         },
-        "required": ["id", "email", "createdAt", "updatedAt"]
+        "required": [
+          "id",
+          "email",
+          "createdAt",
+          "updatedAt"
+        ]
       },
       "CreateProjectDto": {
         "type": "object",
@@ -322,7 +345,13 @@
             "description": "Numéro du projet"
           }
         },
-        "required": ["name", "slug", "userId", "newsletterAlias", "projectNumber"]
+        "required": [
+          "name",
+          "slug",
+          "userId",
+          "newsletterAlias",
+          "projectNumber"
+        ]
       },
       "ProjectDto": {
         "type": "object",
@@ -401,11 +430,22 @@
           "subscription_status": {
             "type": "string",
             "description": "The current status of the newsletter subscription",
-            "enum": ["ACTIVE", "IN_PROGRESS", "PENDING", "FAILED"],
+            "enum": [
+              "ACTIVE",
+              "IN_PROGRESS",
+              "PENDING",
+              "FAILED"
+            ],
             "example": "ACTIVE"
           }
         },
-        "required": ["id", "user_id", "email", "subscribed_at", "subscription_status"]
+        "required": [
+          "id",
+          "user_id",
+          "email",
+          "subscribed_at",
+          "subscription_status"
+        ]
       },
       "ArticleDto": {
         "type": "object",
@@ -437,7 +477,13 @@
             "example": 0.95
           }
         },
-        "required": ["id", "subject", "description", "link", "score"]
+        "required": [
+          "id",
+          "subject",
+          "description",
+          "link",
+          "score"
+        ]
       },
       "EmailDto": {
         "type": "object",
@@ -476,7 +522,11 @@
           "status": {
             "type": "string",
             "description": "Statut de traitement de l'email",
-            "enum": ["RECEIVED", "PROCESSED", "FAILED"],
+            "enum": [
+              "RECEIVED",
+              "PROCESSED",
+              "FAILED"
+            ],
             "example": "RECEIVED"
           },
           "articles": {

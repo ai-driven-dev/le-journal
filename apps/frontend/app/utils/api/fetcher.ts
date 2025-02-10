@@ -66,7 +66,7 @@ export async function apiFetch<T>({ endpoint, init, searchParams }: FetcherConfi
     }
 
     return data;
-  } catch (error: unknown) {
+  } catch (error: unknown | Error) {
     if (error instanceof ApiError) {
       throw error;
     }
@@ -77,7 +77,7 @@ export async function apiFetch<T>({ endpoint, init, searchParams }: FetcherConfi
         url,
         method,
       },
-      error,
+      error as Error,
     );
   }
 }

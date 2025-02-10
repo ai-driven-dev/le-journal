@@ -23,7 +23,12 @@ export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoade
     };
   }
 
-  const requests = {
+  const requests: {
+    newsletters: () => Promise<Newsletter[]>;
+    users: () => Promise<User[]>;
+    projects: () => Promise<Project[]>;
+    emails?: () => Promise<Email[]>;
+  } = {
     newsletters: () => apiFetch<Newsletter[]>({ endpoint: API_ROUTES.newsletters }),
     users: () => apiFetch<User[]>({ endpoint: API_ROUTES.users }),
     projects: () =>
@@ -40,10 +45,13 @@ export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoade
       requests.projects(),
     ]);
 
-    const emails = await apiFetch<Email[]>({
-      endpoint: API_ROUTES.newsletterEmails,
-      searchParams: { projectId: projects[0].id },
-    });
+    requests.emails = () =>
+      apiFetch<Email[]>({
+        endpoint: API_ROUTES.newsletterEmails,
+        searchParams: { projectId: projects[0].id },
+      });
+
+    const emails = await requests.emails();
 
     return {
       newsletters,
@@ -52,17 +60,6 @@ export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoade
       emails,
     };
   } catch (error: unknown) {
-    // Retry each request individually to identify which one failed
-    for (const [name, request] of Object.entries(requests)) {
-      try {
-        await request();
-      } catch (requestError) {
-        const message = `Error fetching ${name}: ${(requestError as Error).message}`;
-        handleApiError(requestError, message);
-      }
-    }
-
-    // If we get here, it means the individual requests succeeded but the Promise.all failed
     handleApiError(error, "Une erreur inattendue s'est produite lors du chargement des données");
   }
 };
