@@ -178,3 +178,12 @@ log_success "Documentation generated in: $OUTPUT_FILE"
 
 # Add timestamp at the end of the file
 printf "\n%s\n" "$(date '+%Y-%m-%d %H:%M:%S')" >> "$OUTPUT_FILE"
+
+# Format the generated file with Prettier
+if command -v pnpm &> /dev/null; then
+    log_info "Formatting generated file with Prettier..."
+    cd "$PROJECT_ROOT" && pnpm prettier --write "$OUTPUT_FILE"
+    log_success "File formatted successfully"
+else
+    log_warning "pnpm not found, skipping formatting"
+fi
