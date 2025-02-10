@@ -3,9 +3,3 @@
 bash scripts/git-hooks/validate-branch-name.sh
 
 pnpm typecheck
-
-# Generate knowledge base
-pnpm run document
-
-# Add the generated file to git
-git add documentations/knowledge.md

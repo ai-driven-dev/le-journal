@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Generate knowledge base
+pnpm run document
+
+# Check if there are changes to knowledge.md
+if git diff --quiet documentations/knowledge.md; then
+    exit 0 # No changes, exit quietly
+fi
+
+# Stage and commit the knowledge.md changes with --no-verify to avoid hooks
+git add documentations/knowledge.md
+git add .windsurfrules
+git commit --no-verify -m "docs: update knowledge base [skip ci]" 

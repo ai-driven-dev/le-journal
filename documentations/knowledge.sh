@@ -85,6 +85,65 @@ process_file() {
     return 0
 }
 
+process_rules() {
+    local rules_dir=".cursor/rules"
+    local windsurfrules_file=".windsurfrules"
+    local temp_rules="/tmp/rules_content.md"
+    
+    log_info "Processing rules files..."
+    
+    # Create temporary file for rules content
+    echo "# Project rules" > "$temp_rules"
+    echo "" >> "$temp_rules"
+    
+    # Process all .mdc files in rules directory
+    cd "$PROJECT_ROOT"
+    if [ -d "$rules_dir" ]; then
+        for rule_file in "$rules_dir"/*.mdc; do
+            if [ -f "$rule_file" ]; then
+                local filename=$(basename "$rule_file")
+                log_info "Processing rule: $filename"
+                
+                # Extract content after frontmatter (skip lines between --- and ---)
+                awk '
+                    BEGIN { in_frontmatter=0; printed=0 }
+                    /^---$/ {
+                        if (in_frontmatter) {
+                            in_frontmatter=0
+                            next
+                        } else {
+                            in_frontmatter=1
+                            next
+                        }
+                    }
+                    !in_frontmatter && printed {
+                        print
+                    }
+                    !in_frontmatter && !printed {
+                        if (NF) {
+                            print
+                            printed=1
+                        }
+                    }
+                ' "$rule_file" >> "$temp_rules"
+                echo "" >> "$temp_rules"
+            fi
+        done
+        
+        # Update .windsurfrules file
+        if [ -f "$temp_rules" ]; then
+            cp "$temp_rules" "$windsurfrules_file"
+            log_success "Rules consolidated in $windsurfrules_file"
+        else
+            log_error "Failed to generate rules content"
+        fi
+    else
+        log_warning "Rules directory not found: $rules_dir"
+    fi
+    
+    cd "$SCRIPT_DIR"
+}
+
 # Script header
 print_header "📚 Generating Documentation"
 
@@ -132,6 +191,10 @@ for file in **/*.{md,mdx}(N.); do
     fi
 done
 cd "$SCRIPT_DIR"
+
+# After processing specification files
+print_header "📋 Processing Rules"
+process_rules
 
 # Step 3: Process additional files from knowledge.txt
 if [ ! -f "$KNOWLEDGE_LIST" ]; then
