@@ -24,7 +24,7 @@ export async function seedArticles(): Promise<Article[]> {
       description: `Detailed article about ${email.subject.toLowerCase()}`,
       url: `${baseUrl}${urlSlug}`,
       content: `${email.raw_content}\n\nThis article provides in-depth analysis and insights about ${email.subject.toLowerCase()}.`,
-      relevance_score: Math.random() * (1 - 0.7) + 0.7, // Score between 0.7 and 1
+      relevance_score: Math.random() * (1 - 0.1) + 0.1, // Score between 0.1 and 1
       email: { connect: { id: email.id } },
     };
   });

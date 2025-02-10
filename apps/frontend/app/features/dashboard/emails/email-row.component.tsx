@@ -36,9 +36,11 @@ export const EmailRow = observer(({ email }: { email: Email }): JSX.Element => {
       </AccordionTrigger>
       {hasArticles && (
         <AccordionContent className="bg-white px-4 pb-4 rounded-b-lg shadow">
-          {email.articles.map((article) => (
-            <ArticleRow key={article.id} article={article} />
-          ))}
+          <div className="space-y-4">
+            {email.articles.map((article) => (
+              <ArticleRow key={article.id} article={article} />
+            ))}
+          </div>
         </AccordionContent>
       )}
     </AccordionItem>

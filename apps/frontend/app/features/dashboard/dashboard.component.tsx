@@ -7,8 +7,8 @@ import { AiCustomization } from './custom-prompt/custom-prompt.component';
 import { useDashboardStores } from './dashboard.context';
 import type { DashboardLoaderData } from './dashboard.loader';
 import { NewsletterTable } from './emails/emails.component';
-import { Title } from './header-profile/header-profile.component';
-import NewsletterSubscriptions from './newsletter-subscriptions/newsletter-subscriptions.component';
+import { HeaderProfile } from './header-profile/header-profile.component';
+import { NewsletterSubscriptions } from './newsletter-subscriptions/newsletter-subscriptions.component';
 import { ProjectEmailAlias } from './project/project-alias.component';
 import { UpgradeBanner } from './upgrade-banner/upgrade-banner.component';
 
@@ -68,11 +68,7 @@ export const Dashboard: FC = observer(() => {
           </Sidebar>
 
           <SidebarInset className="flex-1">
-            <header className="flex h-16 shrink-0 items-center gap-2">
-              <div className="flex items-center gap-2 px-4">
-                <Title />
-              </div>
-            </header>
+            <HeaderProfile />
 
             <NewsletterTable />
             <AiCustomization />

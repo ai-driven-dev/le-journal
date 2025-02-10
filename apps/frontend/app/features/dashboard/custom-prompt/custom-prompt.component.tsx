@@ -21,7 +21,7 @@ export const AiCustomization: FC = observer(() => {
   const store = dashboardStore.createPromptStore;
 
   return (
-    <div className="bg-white border-t p-4">
+    <div className="mt-auto sticky bottom-0 bg-white border-t p-4">
       <label htmlFor="ai-customization" className="block text-sm font-medium text-gray-700 mb-2">
         Comment devrions-nous personnaliser votre score de newsletter ? Que souhaitez-vous voir plus
         ou moins ?

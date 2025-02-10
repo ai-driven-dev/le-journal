@@ -19,9 +19,7 @@ export const NewsletterTable = observer(({ className }: NewsletterTableProps) =>
   const isLoading = store.isLoading === true;
   const hasError = store.error !== null;
   const hasNoData = store.data === null || store.data.length === 0;
-  const defaultAccordionValues = store.data
-    ?.filter((email: Email) => email.articles.length > 0)
-    .map((email: Email) => email.id.toString());
+  const firstEmailId = store.data?.[0]?.id.toString() ?? '';
 
   if (isLoading) {
     return (
@@ -54,9 +52,11 @@ export const NewsletterTable = observer(({ className }: NewsletterTableProps) =>
   return (
     <div className={className}>
       <div className="space-y-4">
-        <Accordion type="multiple" defaultValue={defaultAccordionValues}>
+        <Accordion type="multiple" defaultValue={[firstEmailId]}>
           {store.data!.map((email: Email) => (
-            <EmailRow key={email.id} email={email} />
+            <div className="m-4">
+              <EmailRow key={email.id} email={email} />
+            </div>
           ))}
         </Accordion>
       </div>

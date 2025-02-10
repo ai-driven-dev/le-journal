@@ -24,27 +24,27 @@ export async function seedNewsletters(): Promise<Newsletter[]> {
   const newslettersData: Prisma.NewsletterCreateInput[] = [
     {
       email: 'tech@newsletter.com',
-      user: { connect: { id: adminUser.id } },
+      user: { connect: { id: standardUser.id } },
       subscription_status: SubscriptionStatus.ACTIVE,
-      project: { connect: { id: adminUser.projects[0].id } },
+      project: { connect: { id: standardUser.projects[0].id } },
     },
     {
       email: 'business@newsletter.com',
-      user: { connect: { id: adminUser.id } },
+      user: { connect: { id: standardUser.id } },
       subscription_status: SubscriptionStatus.IN_PROGRESS,
-      project: { connect: { id: adminUser.projects[0].id } },
-    },
-    {
-      email: 'lifestyle@newsletter.com',
-      user: { connect: { id: adminUser.id } },
-      subscription_status: SubscriptionStatus.FAILED,
-      project: { connect: { id: adminUser.projects[0].id } },
+      project: { connect: { id: standardUser.projects[0].id } },
     },
     {
       email: 'lifestyle@newsletter.com',
       user: { connect: { id: standardUser.id } },
-      subscription_status: SubscriptionStatus.ACTIVE,
+      subscription_status: SubscriptionStatus.PENDING,
       project: { connect: { id: standardUser.projects[0].id } },
+    },
+    {
+      email: 'tech.admin@newsletter.com',
+      user: { connect: { id: adminUser.id } },
+      subscription_status: SubscriptionStatus.ACTIVE,
+      project: { connect: { id: adminUser.projects[0].id } },
     },
   ];
 

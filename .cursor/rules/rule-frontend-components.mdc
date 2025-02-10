@@ -20,7 +20,7 @@ user-profile/
 | user-profile.type.ts # for store types: state, actions...
 ```
 - All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
-  - Do not over-interprate, e.g. this code in not necessary `const shouldShowContent = hasArticles; const articles = email.articles;`
+  - Do not overinterpret, e.g. this code in not necessary nor helpful `const shouldShowContent = hasArticles; const articles = email.articles;`
 
 State Management (MobX)
 - Use mobx-react-lite and makeAutoObservable.

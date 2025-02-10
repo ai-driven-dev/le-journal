@@ -1,14 +1,17 @@
 import type { SubscriptionStatus } from '@le-journal/shared-types';
 import { Check, Clock, X } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
+import type { FC } from 'react';
 
-import { createNewsletterSubscriptionsStore } from './newsletter-subscriptions.store';
+import { useDashboardStores } from '../dashboard.context';
+
 import type { NewsletterStatusDisplay } from './newsletter-subscriptions.type';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';
 
-export const NewsletterSubscriptionsComponent = observer(() => {
-  const store = createNewsletterSubscriptionsStore();
+export const NewsletterSubscriptions: FC = observer(() => {
+  const { dashboardStore } = useDashboardStores();
+  const store = dashboardStore.newslettersStore;
 
   const NEWSLETTER_STATUS_DISPLAY: Record<SubscriptionStatus, NewsletterStatusDisplay> = {
     ACTIVE: {
@@ -64,6 +67,4 @@ export const NewsletterSubscriptionsComponent = observer(() => {
   );
 });
 
-NewsletterSubscriptionsComponent.displayName = 'NewsletterSubscriptionsComponent';
-
-export default NewsletterSubscriptionsComponent;
+NewsletterSubscriptions.displayName = 'NewsletterSubscriptionsComponent';
