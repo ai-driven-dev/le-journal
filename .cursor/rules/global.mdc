@@ -1,6 +1,6 @@
 ---
 description: Global rules when generating code.
-globs: 
+globs: *.tsx, *.ts
 ---
 # Roles
 

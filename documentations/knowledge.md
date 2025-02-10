@@ -1,5 +1,5 @@
 ---
-date: 2025-02-09 18:18:51
+date: 2025-02-10 07:13:09
 ---
 
 # Project Specifications "Knowledge Base"
@@ -9,7 +9,6 @@ This project specifications will help you understand the project architecture an
 It might not be update to date, always refer to code as source of truth.
 
 > Important: Some specifications are in french, and might not be implemented yet in the codebase.
-
 
 ## Description du projet
 
@@ -23,7 +22,6 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 2. **Gain de temps significatif** : En moyenne, **20 à 30 minutes économisées par jour**, soit environ **3 heures par semaine** récupérées.
 3. **Expérience utilisateur "Wow"** : Dès l’identification, l’utilisateur configure rapidement ses newsletters, obtient un récapitulatif en fin de semaine, et bénéficie d’une interface simple et efficace.
 4. **Ciblage initial sur les développeurs** : Un point de départ stratégique avec une extension possible à d’autres publics professionnels à l’avenir.
-
 
 ## Features principales
 
@@ -83,7 +81,6 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 - **Sessions stockées en cookies HTTPOnly et sécurisées par Redis**
 - **JWT généré par NestJS** pour sécuriser les requêtes API entre le front et le back
 
-
 ## Initial Scope
 
 ### Version 0 (MVP)
@@ -119,7 +116,6 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
    - Champs extraction contenus spécifiques.
 8. **Sécurité/RGPD :**
    - Suppression données, gestion tokens, réduction scopes.
-
 
 ## Choix initial des technologies
 
@@ -213,7 +209,6 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 
 - "shared-types" to share API types between backend API and frontend loaders
 
-
 ## Conventional Commit guide
 
 <https://github.com/BryanLomerio/conventional-commit-cheatsheet>
@@ -287,7 +282,6 @@ Example: deps: bump axios from 0.21.1 to 0.24.0
 **design**: UI or UX improvements
 
 Example: design(button): update hover effect
-
 
 ## Semantic Versioning
 
@@ -437,7 +431,6 @@ BREAKING CHANGE: new user database structure
    - Keep commits atomic
    - Document breaking changes clearly
 
-
 ## Frontend URLs
 
 - **Kebab-case** → URLs lisibles et optimisées (`/dashboard/:user-slug/:project-slug`).
@@ -484,7 +477,7 @@ BREAKING CHANGE: new user database structure
 
 ### package.json
 
-```json
+````json
 {
   "name": "le-journal",
   "version": "1.0.0",
@@ -496,7 +489,7 @@ BREAKING CHANGE: new user database structure
     "packages/*"
   ],
   "scripts": {
-    "document": "sh ./documentations/knowledge.sh",
+    "document": "zsh ./documentations/knowledge.sh",
     "build": "turbo run build",
     "dev": "docker-compose up --build -d && turbo run dev",
     "dev:docker": "docker-compose up --build -d --remove-orphans",
@@ -542,11 +535,11 @@ BREAKING CHANGE: new user database structure
     "turbo": "^2.4.0"
   }
 }
-```
+````
 
 ### apps/frontend/package.json
 
-```json
+````json
 {
   "name": "frontend",
   "private": true,
@@ -615,11 +608,12 @@ BREAKING CHANGE: new user database structure
     "node": ">=20.0.0"
   }
 }
-```
+
+````
 
 ### apps/backend/package.json
 
-```json
+````json
 {
   "name": "backend",
   "version": "0.0.1",
@@ -700,11 +694,12 @@ BREAKING CHANGE: new user database structure
     "typescript-eslint": "^8.23.0"
   }
 }
-```
+
+````
 
 ### apps/backend/prisma/schema.prisma
 
-```prisma
+````prisma
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -868,11 +863,12 @@ model Transaction {
   @@index([user_id])
   @@index([stripe_payment_id])
 }
-```
+
+````
 
 ### .releaserc.json
 
-```json
+````json
 {
   "branches": ["main"],
   "plugins": [
@@ -931,11 +927,12 @@ model Transaction {
     ]
   ]
 }
-```
+
+````
 
 ### commitlint.config.js
 
-```js
+````js
 export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
@@ -959,11 +956,12 @@ export default {
     'subject-case': [0, 'never'],
   },
 };
-```
+
+````
 
 ### docker-compose.yml
 
-```yml
+````yml
 services:
   postgres:
     image: postgres:16-alpine
@@ -997,81 +995,69 @@ volumes:
   postgres_data:
   redis_data:
   # meilisearch_data:
-```
 
-### .cursor/rules/global.mdc
+````
 
-```mdc
+### .cursor/rules/backend.mdc
+
+````mdc
 ---
-description: Global rules when generating code.
-globs: 
+description: Rules for backend changes.
+globs: **/apps/backend/**
 ---
-# Roles
 
-- You are the AI Editor, responsible of coding a high quality code.
+# Backend Rules
 
-# Installation
+- Check versions in [package.json](mdc:apps/backend/package.json) before generating code.
+- Language is English for everything!
+- Use Node, never Express.
 
-- Ask before installating new packages.
-- Use latest available version of packages.
-- Use PNPM
+## Rest API controllers
 
-# Code generation
+- No CRUD, create use-cases.
+- Fully Document API using Swagger annotations with NestJS.
+- Use-cases must be linked to controllers.
 
-- **Strict Type for every variables, functions and components.**
-- Minimal file size.
-- Use single responsibility principle.
-- Never generate anemic models, `setId()`, `getId()` functions are forbidden.
-- Never comment code, except for complexe logic, interfaces, configuration.
+### DTOs
 
-## Data fetching
+- Constructor is mapping data from Prisma to DTO type, not `Object.assign`, full mapping.
+- Use Prisma prefix when getting type (e.g. `import { Prisma, User as PrismaUser } from '@prisma/client';`).
+- DTOs implements its sibling in "shared-types".
+- Use DTOs with Validation and APIProperties from Swagger.
+- Swagger doc in english.
 
-- Use loaders.
-- Use defer whenever possible.
-- Use [fetcher.ts](mdc:apps/frontend/app/utils/api/fetcher.ts) (add routes if necessary).
+## Use-cases
 
-# Tests
+- Domain and feature focused.
 
-- Never generate Retires!
+## Repository
 
-## Error
+- For update and creation, use DTOs.
 
-- Type `catch(error: unknown)`
-- Use [error.ts](mdc:apps/frontend/app/utils/api/error.ts) to handle errors.
+## Mapping
 
-## Lint
+- No mapper, using mapped-types.
+- No ValueObject, use DTOs.
 
-- Respect `eslint@typescript-eslint/strict-boolean-expressions`, do not `if (!obj)`, prefer ` if (obj === null)`.
+## Testing
 
-# Functions
+- Use Jest.
 
-- Must reflect user actions.
-- Focus on use-case.
-- Avoid technical names:
-  - No `setNewsletters()`, `loadNewsletters()` is a true user action
-  - Prefer domain actions.
+### Integration tests
 
-# Bug finding
+- Do not create anything, always use [seed.ts](mdc:apps/backend/prisma/seed.ts).
+- Always test use-cases.
+- Uso DTOs to instanciate object when testing use-cases.
+- Never use Prisma directly, no repositories, no Prisma services.
 
-- Alaways propose top 3 solutions.
-- Indicate confidence score.
-- Ask user to choose.
+## Examples
 
-# Common types
-
-- Data type that are used from backend api to frontend components must be in "packages/shared-types".
-- Must be focused on feature, small sub-types only are allowed.
-- Prefer one file per type.
-- Export must be made in [index.ts](mdc:packages/shared-types/src/index.ts).
-
-# Interfaces and Types
-
-- No prefix for interfaces (e.g. no `IUser`).
-- No suffix for types (e.g. no `UserType`)```
+- Use english examples.
+````
 
 ### .cursor/rules/frontend.mdc
 
-```mdc
+````mdc
 ---
 description: Rules for frontend code
 globs: apps/frontend/**
@@ -1147,62 +1133,444 @@ profile.ts
 ## Config
 
 - Use "Vite" instead of "Webpack".
-- Use "eslint.config.js" with flat config when using Eslint.```
+- Use "eslint.config.js" with flat config when using Eslint.
+````
 
-### .cursor/rules/backend.mdc
+### .cursor/rules/global.mdc
 
-```mdc
+````mdc
 ---
-description: Rules for backend changes.
-globs: apps/backend/**
+description: Global rules when generating code.
+globs: *.tsx, *.ts
 ---
+# Roles
 
-# Backend Rules
+- You are the AI Editor, responsible of coding a high quality code.
 
-- Check versions in [package.json](mdc:apps/backend/package.json) before generating code.
-- Language is English for everything!
-- Use Node, never Express.
+# Installation
 
-## Rest API controllers
+- Ask before installating new packages.
+- Use latest available version of packages.
+- Use PNPM
 
-- No CRUD, create use-cases.
-- Fully Document API using Swagger annotations with NestJS.
-- Use-cases must be linked to controllers.
+# Code generation
 
-### DTOs
+- **Strict Type for every variables, functions and components.**
+- Minimal file size.
+- Use single responsibility principle.
+- Never generate anemic models, `setId()`, `getId()` functions are forbidden.
+- Never comment code, except for complexe logic, interfaces, configuration.
 
-- Constructor is mapping data from Prisma to DTO type, not `Object.assign`, full mapping.
-- Use Prisma prefix when getting type (e.g. `import { Prisma, User as PrismaUser } from '@prisma/client';`).
-- DTOs implements its sibling in "shared-types".
-- Use DTOs with Validation and APIProperties from Swagger.
-- Swagger doc in english.
+## Data fetching
 
-## Use-cases
+- Use loaders.
+- Use defer whenever possible.
+- Use [fetcher.ts](mdc:apps/frontend/app/utils/api/fetcher.ts) (add routes if necessary).
 
-- Domain and feature focused.
+# Tests
 
-## Repository
+- Never generate Retires!
 
-- For update and creation, use DTOs.
+## Error
 
-## Mapping
+- Type `catch(error: unknown)`
+- Use [error.ts](mdc:apps/frontend/app/utils/api/error.ts) to handle errors.
 
-- No mapper, using mapped-types.
-- No ValueObject, use DTOs.
+## Lint
 
-## Testing
+- Respect `eslint@typescript-eslint/strict-boolean-expressions`, do not `if (!obj)`, prefer ` if (obj === null)`.
 
-- Use Jest.
+# Functions
 
-### Integration tests
+- Must reflect user actions.
+- Focus on use-case.
+- Avoid technical names:
+  - No `setNewsletters()`, `loadNewsletters()` is a true user action
+  - Prefer domain actions.
 
-- Do not create anything, always use [seed.ts](mdc:apps/backend/prisma/seed.ts).
-- Always test use-cases.
-- Uso DTOs to instanciate object when testing use-cases.
-- Never use Prisma directly, no repositories, no Prisma services.
+# Bug finding
 
-## Examples
+- Alaways propose top 3 solutions.
+- Indicate confidence score.
+- Ask user to choose.
 
-- Use english examples.```
+# Common types
 
-2025-02-09 18:18:51
+- Data type that are used from backend api to frontend components must be in "packages/shared-types".
+- Must be focused on feature, small sub-types only are allowed.
+- Prefer one file per type.
+- Export must be made in [index.ts](mdc:packages/shared-types/src/index.ts).
+
+# Interfaces and Types
+
+- No prefix for interfaces (e.g. no `IUser`).
+- No suffix for types (e.g. no `UserType`)
+````
+
+### Project Structure
+
+````text
+.
+./.cursor
+./.cursor/rules
+./.cursor/rules/backend.mdc
+./.cursor/rules/frontend.mdc
+./.cursor/rules/global.mdc
+./.cursorignore
+./.env
+./.env.example
+./.github
+./.github/workflows
+./.github/workflows/codeql-analysis.yml
+./.github/workflows/pr-checks.yml
+./.github/workflows/release.yml
+./.github/workflows/renovate.yml
+./.gitignore
+./.husky
+./.husky/_
+./.husky/_/.gitignore
+./.husky/_/applypatch-msg
+./.husky/_/commit-msg
+./.husky/_/h
+./.husky/_/husky.sh
+./.husky/_/post-applypatch
+./.husky/_/post-checkout
+./.husky/_/post-commit
+./.husky/_/post-merge
+./.husky/_/post-rewrite
+./.husky/_/pre-applypatch
+./.husky/_/pre-auto-gc
+./.husky/_/pre-commit
+./.husky/_/pre-merge-commit
+./.husky/_/pre-push
+./.husky/_/pre-rebase
+./.husky/_/prepare-commit-msg
+./.husky/commit-msg
+./.husky/pre-commit
+./.husky/pre-push
+./.prettierignore
+./.prettierrc
+./.releaserc.json
+./.vscode
+./.vscode/settings.json
+./.windsurfignore
+./.windsurfrules
+./CHANGELOG.md
+./README.md
+./apps
+./apps/backend
+./apps/backend/.env
+./apps/backend/.env.example
+./apps/backend/.env.test
+./apps/backend/.gitignore
+./apps/backend/README.md
+./apps/backend/jest.config.ts
+./apps/backend/nest-cli.json
+./apps/backend/package.json
+./apps/backend/prisma
+./apps/backend/prisma/generated
+./apps/backend/prisma/generated/client-test
+./apps/backend/prisma/generated/client-test/runtime
+./apps/backend/prisma/helpers
+./apps/backend/prisma/migrations
+./apps/backend/prisma/migrations/20250204193843_init
+./apps/backend/prisma/migrations/20250204193843_init/migration.sql
+./apps/backend/prisma/migrations/20250208191633_rename_newsletter_and_add_prompt
+./apps/backend/prisma/migrations/20250208191633_rename_newsletter_and_add_prompt/migration.sql
+./apps/backend/prisma/migrations/20250208193239_update_schema_conventions
+./apps/backend/prisma/migrations/20250208193239_update_schema_conventions/migration.sql
+./apps/backend/prisma/migrations/20250208200622_remove_newsletter_name_and_url
+./apps/backend/prisma/migrations/20250208200622_remove_newsletter_name_and_url/migration.sql
+./apps/backend/prisma/migrations/20250208201853_simplify_newsletter_model
+./apps/backend/prisma/migrations/20250208201853_simplify_newsletter_model/migration.sql
+./apps/backend/prisma/migrations/20250208202356_rename_news_to_article
+./apps/backend/prisma/migrations/20250208202356_rename_news_to_article/migration.sql
+./apps/backend/prisma/migrations/20250208203304_add_newsletter_alias_to_project
+./apps/backend/prisma/migrations/20250208203304_add_newsletter_alias_to_project/migration.sql
+./apps/backend/prisma/migrations/20250209075042_add_subscription_status
+./apps/backend/prisma/migrations/20250209075042_add_subscription_status/migration.sql
+./apps/backend/prisma/migrations/20250209075753_subscription_status
+./apps/backend/prisma/migrations/20250209075753_subscription_status/migration.sql
+./apps/backend/prisma/migrations/20250209090123_
+./apps/backend/prisma/migrations/20250209090123_/migration.sql
+./apps/backend/prisma/migrations/20250209093206_
+./apps/backend/prisma/migrations/20250209093206_/migration.sql
+./apps/backend/prisma/migrations/20250209171456_add_project_to_newsletter
+./apps/backend/prisma/migrations/20250209171456_add_project_to_newsletter/migration.sql
+./apps/backend/prisma/migrations/migration_lock.toml
+./apps/backend/prisma/migrations-test
+./apps/backend/prisma/schema.prisma
+./apps/backend/prisma/scripts
+./apps/backend/prisma/seed.ts
+./apps/backend/prisma/seeds
+./apps/backend/prisma/seeds/articles.seed.ts
+./apps/backend/prisma/seeds/emails.seed.ts
+./apps/backend/prisma/seeds/newsletters.seed.ts
+./apps/backend/prisma/seeds/projects.seed.ts
+./apps/backend/prisma/seeds/transactions.seed.ts
+./apps/backend/prisma/seeds/users.seed.ts
+./apps/backend/src
+./apps/backend/src/app.controller.spec.ts
+./apps/backend/src/app.controller.ts
+./apps/backend/src/app.module.ts
+./apps/backend/src/app.service.ts
+./apps/backend/src/config
+./apps/backend/src/config/config.module.ts
+./apps/backend/src/core
+./apps/backend/src/core/domain
+./apps/backend/src/core/domain/mapper.interface.ts
+./apps/backend/src/features
+./apps/backend/src/features/newsletter
+./apps/backend/src/features/newsletter/application
+./apps/backend/src/features/newsletter/application/use-cases
+./apps/backend/src/features/newsletter/application/use-cases/get-emails.use-case.ts
+./apps/backend/src/features/newsletter/application/use-cases/get-newsletters.use-case.ts
+./apps/backend/src/features/newsletter/application/use-cases/search-emails.use-case.ts
+./apps/backend/src/features/newsletter/domain
+./apps/backend/src/features/newsletter/domain/repositories
+./apps/backend/src/features/newsletter/domain/repositories/email.repository.interface.ts
+./apps/backend/src/features/newsletter/infrastructure
+./apps/backend/src/features/newsletter/infrastructure/repositories
+./apps/backend/src/features/newsletter/infrastructure/repositories/prisma-email.repository.ts
+./apps/backend/src/features/newsletter/newsletter.module.ts
+./apps/backend/src/features/newsletter/presentation
+./apps/backend/src/features/newsletter/presentation/controllers
+./apps/backend/src/features/newsletter/presentation/controllers/newsletter.controller.integration.spec.ts
+./apps/backend/src/features/newsletter/presentation/controllers/newsletter.controller.ts
+./apps/backend/src/features/newsletter/presentation/dtos
+./apps/backend/src/features/newsletter/presentation/dtos/article.dto.ts
+./apps/backend/src/features/newsletter/presentation/dtos/email.dto.ts
+./apps/backend/src/features/newsletter/presentation/dtos/newsletter.dto.ts
+./apps/backend/src/features/projects
+./apps/backend/src/features/projects/application
+./apps/backend/src/features/projects/application/use-cases
+./apps/backend/src/features/projects/application/use-cases/create-project.use-case.ts
+./apps/backend/src/features/projects/application/use-cases/get-project.use-case.ts
+./apps/backend/src/features/projects/application/use-cases/update-project-prompt.use-case.ts
+./apps/backend/src/features/projects/domain
+./apps/backend/src/features/projects/domain/repositories
+./apps/backend/src/features/projects/domain/repositories/project.repository.interface.ts
+./apps/backend/src/features/projects/infrastructure
+./apps/backend/src/features/projects/infrastructure/repositories
+./apps/backend/src/features/projects/infrastructure/repositories/prisma-project.repository.ts
+./apps/backend/src/features/projects/presentation
+./apps/backend/src/features/projects/presentation/controllers
+./apps/backend/src/features/projects/presentation/controllers/projects.controller.ts
+./apps/backend/src/features/projects/presentation/dtos
+./apps/backend/src/features/projects/presentation/dtos/project.dto.ts
+./apps/backend/src/features/projects/projects.module.ts
+./apps/backend/src/features/users
+./apps/backend/src/features/users/application
+./apps/backend/src/features/users/application/use-cases
+./apps/backend/src/features/users/application/use-cases/create-user.use-case.ts
+./apps/backend/src/features/users/application/use-cases/get-all-users.use-case.ts
+./apps/backend/src/features/users/application/use-cases/get-user.use-case.ts
+./apps/backend/src/features/users/application/use-cases/update-user.use-case.ts
+./apps/backend/src/features/users/domain
+./apps/backend/src/features/users/domain/repositories
+./apps/backend/src/features/users/domain/repositories/user.repository.interface.ts
+./apps/backend/src/features/users/infrastructure
+./apps/backend/src/features/users/infrastructure/repositories
+./apps/backend/src/features/users/infrastructure/repositories/prisma-user.repository.ts
+./apps/backend/src/features/users/presentation
+./apps/backend/src/features/users/presentation/controllers
+./apps/backend/src/features/users/presentation/controllers/users.controller.integration.spec.ts
+./apps/backend/src/features/users/presentation/controllers/users.controller.ts
+./apps/backend/src/features/users/presentation/dtos
+./apps/backend/src/features/users/presentation/dtos/user.dto.ts
+./apps/backend/src/features/users/users.module.ts
+./apps/backend/src/main.ts
+./apps/backend/src/modules
+./apps/backend/src/modules/auth
+./apps/backend/src/prisma
+./apps/backend/src/prisma/prisma.module.ts
+./apps/backend/src/prisma/prisma.service.ts
+./apps/backend/swagger.json
+./apps/backend/test
+./apps/backend/test/app.e2e-spec.ts
+./apps/backend/test/jest-e2e.json
+./apps/backend/tsconfig.build.json
+./apps/backend/tsconfig.json
+./apps/frontend
+./apps/frontend/.dockerignore
+./apps/frontend/.env
+./apps/frontend/.env.example
+./apps/frontend/.gitignore
+./apps/frontend/Dockerfile
+./apps/frontend/README.md
+./apps/frontend/app
+./apps/frontend/app/components
+./apps/frontend/app/components/Layout.tsx
+./apps/frontend/app/components/error-boundary.tsx
+./apps/frontend/app/components/ui
+./apps/frontend/app/components/ui/accordion.tsx
+./apps/frontend/app/components/ui/breadcrumb.tsx
+./apps/frontend/app/components/ui/button.tsx
+./apps/frontend/app/components/ui/card.tsx
+./apps/frontend/app/components/ui/dialog.tsx
+./apps/frontend/app/components/ui/drawer.tsx
+./apps/frontend/app/components/ui/dropdown-menu.tsx
+./apps/frontend/app/components/ui/hover-card.tsx
+./apps/frontend/app/components/ui/input.tsx
+./apps/frontend/app/components/ui/separator.tsx
+./apps/frontend/app/components/ui/sheet.tsx
+./apps/frontend/app/components/ui/sidebar.tsx
+./apps/frontend/app/components/ui/skeleton.tsx
+./apps/frontend/app/components/ui/table.tsx
+./apps/frontend/app/components/ui/textarea.tsx
+./apps/frontend/app/components/ui/tooltip.tsx
+./apps/frontend/app/entry.client.tsx
+./apps/frontend/app/entry.server.tsx
+./apps/frontend/app/features
+./apps/frontend/app/features/dashboard
+./apps/frontend/app/features/dashboard/custom-prompt
+./apps/frontend/app/features/dashboard/custom-prompt/custom-prompt.component.tsx
+./apps/frontend/app/features/dashboard/custom-prompt/custom-prompt.store.ts
+./apps/frontend/app/features/dashboard/custom-prompt/custom-prompt.type.ts
+./apps/frontend/app/features/dashboard/dashboard.component.tsx
+./apps/frontend/app/features/dashboard/dashboard.context.tsx
+./apps/frontend/app/features/dashboard/dashboard.loader.ts
+./apps/frontend/app/features/dashboard/dashboard.store.ts
+./apps/frontend/app/features/dashboard/emails
+./apps/frontend/app/features/dashboard/emails/emails.component.tsx
+./apps/frontend/app/features/dashboard/emails/emails.store.ts
+./apps/frontend/app/features/dashboard/emails/emails.type.ts
+./apps/frontend/app/features/dashboard/header-profile
+./apps/frontend/app/features/dashboard/header-profile/header-profile.component.tsx
+./apps/frontend/app/features/dashboard/header-profile/header-profile.store.ts
+./apps/frontend/app/features/dashboard/header-profile/header-profile.type.ts
+./apps/frontend/app/features/dashboard/newsletter-subscriptions
+./apps/frontend/app/features/dashboard/newsletter-subscriptions/newsletter-subscriptions.component.tsx
+./apps/frontend/app/features/dashboard/newsletter-subscriptions/newsletter-subscriptions.store.ts
+./apps/frontend/app/features/dashboard/newsletter-subscriptions/newsletter-subscriptions.type.ts
+./apps/frontend/app/features/dashboard/project
+./apps/frontend/app/features/dashboard/project/project-alias.component.tsx
+./apps/frontend/app/features/dashboard/project/project.store.ts
+./apps/frontend/app/features/dashboard/project/project.type.ts
+./apps/frontend/app/features/dashboard/upgrade-banner
+./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.component.tsx
+./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.store.ts
+./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.type.ts
+./apps/frontend/app/features/onboarding
+./apps/frontend/app/features/onboarding/components
+./apps/frontend/app/features/onboarding/components/StepForm.tsx
+./apps/frontend/app/features/onboarding/components/StepNavigation.tsx
+./apps/frontend/app/features/onboarding/components/StepProgression.tsx
+./apps/frontend/app/features/onboarding/components/steps
+./apps/frontend/app/features/onboarding/components/steps/StepFinish.tsx
+./apps/frontend/app/features/onboarding/components/steps/StepPermissions.tsx
+./apps/frontend/app/features/onboarding/components/steps/StepSetup.tsx
+./apps/frontend/app/features/onboarding/components/steps/StepWelcome.tsx
+./apps/frontend/app/features/onboarding/components/steps/index.ts
+./apps/frontend/app/features/onboarding/stores
+./apps/frontend/app/features/onboarding/stores/onboardingStore.ts
+./apps/frontend/app/features/users
+./apps/frontend/app/hooks
+./apps/frontend/app/hooks/use-mobile.tsx
+./apps/frontend/app/lib
+./apps/frontend/app/lib/utils.ts
+./apps/frontend/app/root.tsx
+./apps/frontend/app/routes
+./apps/frontend/app/routes/_index.tsx
+./apps/frontend/app/routes/admin.tsx
+./apps/frontend/app/routes/dashboard.$projectNumber.tsx
+./apps/frontend/app/routes/dashboard.tsx
+./apps/frontend/app/routes/onboarding.$step.tsx
+./apps/frontend/app/routes/onboarding._index.tsx
+./apps/frontend/app/routes/settings.tsx
+./apps/frontend/app/stores
+./apps/frontend/app/stores/globalStore.ts
+./apps/frontend/app/tailwind.css
+./apps/frontend/app/tests
+./apps/frontend/app/tests/_index.test.tsx
+./apps/frontend/app/tests/root.test.tsx
+./apps/frontend/app/types
+./apps/frontend/app/types/loadable.ts
+./apps/frontend/app/utils
+./apps/frontend/app/utils/api
+./apps/frontend/app/utils/api/error.ts
+./apps/frontend/app/utils/api/fetcher.ts
+./apps/frontend/components.json
+./apps/frontend/mobx.config.ts
+./apps/frontend/package.json
+./apps/frontend/postcss.config.js
+./apps/frontend/public
+./apps/frontend/public/favicon.ico
+./apps/frontend/src
+./apps/frontend/src/components
+./apps/frontend/src/routes
+./apps/frontend/tailwind.config.ts
+./apps/frontend/test
+./apps/frontend/test/setup.ts
+./apps/frontend/test/test-utils.ts
+./apps/frontend/tsconfig.json
+./apps/frontend/vite.config.ts
+./apps/frontend/vitest.config.ts
+./commitlint.config.js
+./config.js
+./docker-compose.yml
+./documentations
+./documentations/_header.md
+./documentations/instructions
+./documentations/instructions/done
+./documentations/instructions/done/database
+./documentations/instructions/done/database/generate-entities.md
+./documentations/instructions/done/database/generate-seed-untested.md
+./documentations/instructions/done/database/generated-seed.md
+./documentations/instructions/done/setup
+./documentations/instructions/done/setup/dashboard-skeleton.md
+./documentations/instructions/done/setup/security-features.md
+./documentations/instructions/done/setup/setup-linter.md
+./documentations/instructions/done/setup/setup-monorepo.md
+./documentations/instructions/done/setup/setup-versionning.md
+./documentations/instructions/done/shared-knowledge-base.md
+./documentations/instructions/done/wireframe-en.md
+./documentations/instructions/done/wireframe-fr.md
+./documentations/instructions/in-progress
+./documentations/instructions/in-progress/.gitkeep
+./documentations/instructions/in-progress/dashboard-to-api.md
+./documentations/instructions/todo
+./documentations/instructions/todo/.gitkeep
+./documentations/instructions/todo/event-and-async.md
+./documentations/knowledge.md
+./documentations/knowledge.sh
+./documentations/knowledge.txt
+./documentations/libs
+./documentations/libs/remix-2.5-documentation.md
+./documentations/specifications
+./documentations/specifications/functional
+./documentations/specifications/functional/1-project-description.md
+./documentations/specifications/functional/2-main-features.md
+./documentations/specifications/functional/3-initial-scope.md
+./documentations/specifications/technical
+./documentations/specifications/technical/0-tech-choices.md
+./documentations/specifications/technical/1-commit.md
+./documentations/specifications/technical/2-semantic-versioning.md
+./documentations/specifications/technical/3-urls.md
+./eslint.config.js
+./package.json
+./packages
+./packages/shared-types
+./packages/shared-types/package.json
+./packages/shared-types/src
+./packages/shared-types/src/article.ts
+./packages/shared-types/src/email.ts
+./packages/shared-types/src/index.ts
+./packages/shared-types/src/newsletter.ts
+./packages/shared-types/src/project.ts
+./packages/shared-types/src/user.ts
+./packages/shared-types/tsconfig.json
+./pnpm-lock.yaml
+./pnpm-workspace.yaml
+./scripts
+./scripts/git-hooks
+./scripts/git-hooks/validate-branch-name.sh
+./specifications
+./tsconfig.json
+./turbo.json
+
+117 directories, 241 files
+````
+
+
+2025-02-10 07:13:09

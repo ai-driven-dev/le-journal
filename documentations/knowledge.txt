@@ -5,7 +5,5 @@ apps/backend/prisma/schema.prisma
 .releaserc.json
 commitlint.config.js
 docker-compose.yml
-.cursor/rules/global.mdc
-.cursor/rules/frontend.mdc
-.cursor/rules/backend.mdc
+.cursor/rules/*.mdc
 apps/backend/swagger.json

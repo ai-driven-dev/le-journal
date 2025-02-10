@@ -1,15 +1,25 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Set script directory as working directory
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR=${0:a:h}
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Source zsh profile to get environment variables and PATH
+if [ -f "$HOME/.zshrc" ]; then
+    source "$HOME/.zshrc"
+fi
+
 cd "$SCRIPT_DIR" || exit 1
 
 # Configuration
-OUTPUT_FILE="knowledge.md"
-HEADER_FILE="_header.md"
+OUTPUT_FILE="$SCRIPT_DIR/knowledge.md"
+HEADER_FILE="$SCRIPT_DIR/_header.md"
 SPECS_DIR="specifications"
-KNOWLEDGE_LIST="knowledge.txt"
+KNOWLEDGE_LIST="$SCRIPT_DIR/knowledge.txt"
+
+# Initialize counters
+count=0
+additional_count=0
 
 # Colors and formatting
 GREEN='\033[0;32m'
@@ -52,22 +62,26 @@ get_file_extension() {
 }
 
 process_file() {
-    local file=$1
-    local full_path="$PROJECT_ROOT/$file"
-
-    if [ ! -f "$full_path" ]; then
-        log_error "❌ Required file not found: $file
-Please make sure this file exists at: $full_path"
-    fi
-
-    local ext=$(get_file_extension "$file")
-    log_info "Processing: $file"
-    {
-        printf "\n### %s\n\n" "$file"
-        printf "\`\`\`%s\n" "$ext"
-        cat "$full_path"
-        printf "\`\`\`\n"
-    } >> "$OUTPUT_FILE"
+    local pattern=$1
+    
+    cd "$PROJECT_ROOT"
+    # Use zsh globbing
+    for file in $~pattern; do
+        if [ -f "$file" ]; then
+            local relative_path="${file#./}"
+            local full_path="$PROJECT_ROOT/$relative_path"
+            local ext=$(get_file_extension "$relative_path")
+            log_info "Processing: $relative_path"
+            {
+                printf "\n### %s\n\n" "$relative_path"
+                printf "\`\`\`\`%s\n" "$ext"
+                cat "$full_path"
+                printf "\n\`\`\`\`\n"
+            } >> "$OUTPUT_FILE"
+        fi
+    done
+    cd "$SCRIPT_DIR"
+    
     return 0
 }
 
@@ -99,35 +113,42 @@ fi
 # Step 2: Process specification files
 print_header "📂 Processing Specification Files"
 
-# Create a temporary file to store the file list
-temp_file=$(mktemp)
-trap 'rm -f "$temp_file"' EXIT
+# Create specifications directory if it doesn't exist
+if [ ! -d "$SPECS_DIR" ]; then
+    mkdir -p "$SPECS_DIR"
+    log_info "Created specifications directory"
+fi
 
-# Find and sort files first
-find "$SPECS_DIR" -type f -name "*.md" -o -name "*.mdx" | \
-    grep -v "$OUTPUT_FILE" | \
-    sort > "$temp_file"
-
-# Process specification files
-count=0
-while IFS= read -r file; do
-    relative_path="${file#./}"
-    log_info "Processing: $relative_path"
-    {
-        printf "\n"
-        cat "$file"
-        printf "\n"
-    } >> "$OUTPUT_FILE"
-    ((count++))
-done < "$temp_file"
+# Process specification files using zsh globbing
+cd "$SPECS_DIR"
+for file in **/*.{md,mdx}(N.); do
+    if [ -f "$file" ]; then
+        log_info "Processing: $file"
+        {
+            cat "$file"
+            printf "\n"
+        } >> "$OUTPUT_FILE"
+        ((count++))
+    fi
+done
+cd "$SCRIPT_DIR"
 
 # Step 3: Process additional files from knowledge.txt
+if [ ! -f "$KNOWLEDGE_LIST" ]; then
+    # Create knowledge.txt if it doesn't exist
+    touch "$KNOWLEDGE_LIST"
+    echo "# Add files to include in the documentation" > "$KNOWLEDGE_LIST"
+    echo "# Example:" >> "$KNOWLEDGE_LIST"
+    echo "# .cursor/rules/*.mdc" >> "$KNOWLEDGE_LIST"
+    echo "# apps/backend/package.json" >> "$KNOWLEDGE_LIST"
+    log_info "Created $KNOWLEDGE_LIST template file"
+fi
+
 if [ -f "$KNOWLEDGE_LIST" ]; then
     print_header "📦 Processing Additional Files"
     printf "\n## Additional Files\n\n" >> "$OUTPUT_FILE"
     printf "> ⚠️ **IMPORTANT**: These files must be taken very seriously as they represent the latest up-to-date versions of our codebase. You MUST rely on these versions and their content imperatively.\n\n" >> "$OUTPUT_FILE"
     
-    additional_count=0
     while IFS= read -r file; do
         # Skip empty lines and comments
         if [ ! -z "$file" ] && [[ ! "$file" =~ ^#.*$ ]]; then
@@ -137,9 +158,17 @@ if [ -f "$KNOWLEDGE_LIST" ]; then
             ((additional_count++))
         fi
     done < "$KNOWLEDGE_LIST"
-else
-    log_warning "Knowledge list file not found ($KNOWLEDGE_LIST)"
 fi
+
+# Add project structure at the end
+print_header "🌳 Project Structure"
+{
+    printf "\n### Project Structure\n\n"
+    printf "\`\`\`\`text\n"
+    cd "$PROJECT_ROOT" && aidd-tree "dist|build|coverage|archives|.DS_Store"
+    printf "\`\`\`\`\n\n"
+} >> "$OUTPUT_FILE"
+log_success "Project structure added successfully"
 
 # Summary
 print_header "📊 Summary"
