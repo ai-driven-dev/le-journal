@@ -1,136 +1,98 @@
 # Project rules
 
-## When giving Instructions
+Backend API & Controllers
+- No direct CRUD, use domain-driven use-cases.
+- Document with Swagger (NestJS), in English.
+- Each controller matches a specific use-case. 
 
-- Do not take care of cases in user s prompt (me).
-- Always follow that case:
-  - kebab-case : folder names.
-  - camelCase : store filenames, function and variable names.
-  - PascalCase : Components and class names.
-  - snake_case : environment variables.
-  - Constants: UPPERCASE
-  - Interface : Precise "I"
-- Focus only on changes you mentioned, do NOT over-interpret.
+Backend DTO
+- Map fields individually (avoid Object.assign).
+- Use DTO for validation and Swagger doc.
+- Prefix Prisma imports (PrismaUser). 
 
-## Current projet versions
+Backend Repository
+- Use DTO for create/update.
+- No dedicated mapper, mapped-types allowed. 
 
-- Monorepo: Turborepo 2.4+
-- Frontend: Remix 2.5+, React v19
-  - ShadCN: 2.3
-  - Vitest: 1.2+
-  - Vite: 5.1+
-  - MobX: 6.3+
-- Backend: NestJS v11+ with Node LTS 22
-  - Prisma :6.3+
-  - Jest: 29+ with @nestjs/testing
+Backend Tests
+- Jest for testing.
+- Integration tests must not create data directly (use seed.ts).
+- Always test use-cases.
+- Never call Prisma directly in tests. 
+- No "retries" in test generation.
 
-## On package installation
+Backend Use-Cases
+- Domain-focused logic, not simple CRUD.
+- Prefer DTO instead of heavy ValueObjects. 
 
-- Always use latest available version of packages.
-- Use PNPM instead of NPM.
-- Never install package globally, use pnpm -D for development dependencies instead.
-- Never auto-install packages without my confirmation.
-
-## Global code generation rules
-
-- **Strict Type for every variables, functions and components.**
-- Minimal file size.
-- Use single responsibility principle.
-- Never generate anemic models.
-- Never comment code, except for complexe logic, interfaces, configuration.
-
-### Before coding
-
-1. Generate a plan overview of what you are going to do.
-2. Print the lib versions explicitly to make sure you are on the right one.
-3. Check officiel documentation.
-
-### After coding
-
-1. Check for best practices.
-2. Assert no duplicate code or dead code.
-3. Check online documentation to assert correctness.
-4. Verify your work, propose user to run checks if needed.
-
-## Frontend coding rules
-
-- Test with Vitest.
-- Use "Vite" instead of "Webpack".
-- Use "eslint.config.js" with flat config when using Eslint.
-
-### Remix
-
-- Always use "Remix" instead of "NextJS".
-- Use "@remix-run/node" for server rendering.
-- Use "@remix-run/react" for client rendering.
-- Do not return json(), use plain objects instead.
-
-#### Remix Routing
-
-- `app/routes` must be used.
-- Follow the official documentation for routing:
-
-```text
-app/
-├── routes/
-│   ├── _index/
-│   │   ├── signup-form.tsx
-│   │   └── route.tsx
-│   ├── about/
-│   │   ├── header.tsx
-│   │   └── route.tsx
-│   ├── concerts/
-│   │   ├── favorites-cookie.ts
-│   │   └── route.tsx
-│   ├── concerts.$city/
-│   │   └── route.tsx
-│   ├── concerts._index/
-│   │   ├── featured.tsx
-│   │   └── route.tsx
-│   └── concerts.trending/
-│       ├── card.tsx
-│       ├── route.tsx
-│       └── sponsored.tsx
-└── root.tsx
-```
-
-### Import 
-
-- use "/~" for root import.
-
-### Frontend Architecture
-
-- Feature based folder structure.
-Example 
+Frontend Components:
+- Apply the Smart/Dumb pattern: 
+    - Smart components (stateful, using MobX stores)
+    - Dumb components (pure UI).
+- Organize by feature in folders.
+Example for a user profile component:
 ```text
 user-profile/
-| user-profile.component.tsx
-| user-profile.store.ts
-| user-profile.hook.ts
-| user-profile.type.ts
+| user-profile.component.tsx # minimal logic, only UI component
+| user-profile-menu.component.tsx # minimal logic, only UI component
+| user-profile.store.ts # for actions, computed, reactions...
+| user-profile.hook.ts # if necessary
+| user-profile.context.ts # if necessary, for providers
+| user-profile.mock.ts # test data for UI
+| user-profile.type.ts # for store types: state, actions...
 ```
+- All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
+  - Do not overinterpret, e.g. this code in not necessary nor helpful `const shouldShowContent = hasArticles; const articles = email.articles;`
 
-### Component generation with MobX
+State Management (MobX)
+- Use mobx-react-lite and makeAutoObservable.
+- Use runInAction for async or reactive effects.
+- Use computed properties for derived state and actions for modifications.
+- Create a factory at the bottom of each store (e.g. `export const createProjectStore = (): ProjectStore => new ProjectStore();`)
+- Inject the store into the parent component to facilitate state management.
 
-- Use "mobx-react-lite" instead of "mobx-react".
-- Use "mobx" for core.
-- Behavior based store, focused on domain, semantical.
-- Use `makeAutoObservable`, no annotations.
-- Prefer computed for Derived State.
-- Always Use Actions to Modify State.
-- Use runInAction for Side Effects (especially when async).
-- Avoid Overusing Observables in Large Stores, split by parent > children logic.
-- Use reaction for Side Effects.
 
-## Backend rules
+- Remix only, no NextJS.
+- Root imports with /~.
+- Test with Vitest.
+- Use Vite, not Webpack.
+- ESLint with flat config. 
 
-- Never user "Express".
-- Use types generated from Prisma when looking for database typing.
-- DDD and clean architecture for backend.
-- Prisma types are used for entities.
+- Loaders must be used in routes.
+- Return plain objects instead of `json()`.
 
-### Backend tests
+Language:
+- English for everything.
+- French only in UI (labels, texts...)
 
-- Use Jest.
-- Prisma uses its own migrations in tests-migrations.
-- Prisma uses its own sqlite in tests, migrations are played when starting tests.
+Global Code Generation
+- Strict TypeScript.
+- Minimal file size.
+- One file per feature, split responsibility across files (SRP).
+
+Comments:
+- No comments by default.
+- Comments only for complex logic or interfaces.
+
+Focus on domain code generation:
+- Feature driven development (FDD).
+- No anemic models (avoid trivial getId/setId).
+- Function names follow user actions (avoid setSomething). 
+- No interface prefix (IUser) or type suffix (UserType). 
+
+Lint & Error
+- Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).
+- Catch errors with catch(error: unknown | Error).
+- On frontend, use apps/frontend/app/utils/api/error.ts to handle errors. 
+
+- Use Node, never Express.
+- Check all packages versions every time:
+    - npm
+    - pnpm
+    - yarn
+- Ask before adding new packages.
+- Use PNPM with the latest version. 
+
+- Place shared data types in "packages/shared-types".
+- One file per type, export everything from index.ts.
+
