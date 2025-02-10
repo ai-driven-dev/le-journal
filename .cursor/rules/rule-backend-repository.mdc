@@ -1,0 +1,9 @@
+---
+description: "Backend repository rules for NestJS. Apply them when implementing repositories in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-repository.mdc
+---
+
+Backend Repository
+- Use DTO for create/update.
+- No dedicated mapper, mapped-types allowed. 

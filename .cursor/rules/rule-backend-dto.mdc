@@ -1,0 +1,10 @@
+---
+description: "Backend DTO rules for NestJS. Apply them when creating or changing DTO structures in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-dto.mdc
+---
+
+Backend DTO
+- Map fields individually (avoid Object.assign).
+- Use DTO for validation and Swagger doc.
+- Prefix Prisma imports (PrismaUser). 

@@ -1,0 +1,10 @@
+---
+description: "Backend API and controllers rules for NestJS. Apply them when creating or updating controllers in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-api-controllers.mdc
+---
+
+Backend API & Controllers
+- No direct CRUD, use domain-driven use-cases.
+- Document with Swagger (NestJS), in English.
+- Each controller matches a specific use-case. 

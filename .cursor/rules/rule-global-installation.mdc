@@ -1,0 +1,12 @@
+---
+description: Global environment & installation rules for any code. Apply them when code involves setup or adding packages.
+globs: "**/*"
+---
+
+- Use Node, never Express.
+- Check all packages versions every time:
+    - npm
+    - pnpm
+    - yarn
+- Ask before adding new packages.
+- Use PNPM with the latest version. 

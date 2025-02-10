@@ -1,0 +1,9 @@
+---
+description: "Backend use-cases rules for NestJS. Apply them when defining or modifying use-cases in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-usecases.mdc
+---
+
+Backend Use-Cases
+- Domain-focused logic, not simple CRUD.
+- Prefer DTO instead of heavy ValueObjects. 

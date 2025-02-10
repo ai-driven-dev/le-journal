@@ -1,5 +1,5 @@
 ---
-date: 2025-02-10 07:13:09
+date: 2025-02-10 08:10:06
 ---
 
 # Project Specifications "Knowledge Base"
@@ -998,213 +998,203 @@ volumes:
 
 ````
 
-### .cursor/rules/backend.mdc
+### .cursor/rules/rule-backend-api-controllers.mdc
 
 ````mdc
 ---
-description: Rules for backend changes.
-globs: **/apps/backend/**
+description: "Backend API and controllers rules for NestJS. Apply them when creating or updating controllers in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-api-controllers.mdc
 ---
 
-# Backend Rules
-
-- Check versions in [package.json](mdc:apps/backend/package.json) before generating code.
-- Language is English for everything!
-- Use Node, never Express.
-
-## Rest API controllers
-
-- No CRUD, create use-cases.
-- Fully Document API using Swagger annotations with NestJS.
-- Use-cases must be linked to controllers.
-
-### DTOs
-
-- Constructor is mapping data from Prisma to DTO type, not `Object.assign`, full mapping.
-- Use Prisma prefix when getting type (e.g. `import { Prisma, User as PrismaUser } from '@prisma/client';`).
-- DTOs implements its sibling in "shared-types".
-- Use DTOs with Validation and APIProperties from Swagger.
-- Swagger doc in english.
-
-## Use-cases
-
-- Domain and feature focused.
-
-## Repository
-
-- For update and creation, use DTOs.
-
-## Mapping
-
-- No mapper, using mapped-types.
-- No ValueObject, use DTOs.
-
-## Testing
-
-- Use Jest.
-
-### Integration tests
-
-- Do not create anything, always use [seed.ts](mdc:apps/backend/prisma/seed.ts).
-- Always test use-cases.
-- Uso DTOs to instanciate object when testing use-cases.
-- Never use Prisma directly, no repositories, no Prisma services.
-
-## Examples
-
-- Use english examples.
+Backend API & Controllers
+- No direct CRUD, use domain-driven use-cases.
+- Document with Swagger (NestJS), in English.
+- Each controller matches a specific use-case. 
 ````
 
-### .cursor/rules/frontend.mdc
+### .cursor/rules/rule-backend-dto.mdc
 
 ````mdc
 ---
-description: Rules for frontend code
-globs: apps/frontend/**
+description: "Backend DTO rules for NestJS. Apply them when creating or changing DTO structures in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-dto.mdc
 ---
-# Frontends Rules
 
-- Use versions from [package.json](mdc:apps/frontend/package.json)
-- use "/~" for root import.
-- Use English and domain language everywhere.
-- French language is use only in components for end-users.
+Backend DTO
+- Map fields individually (avoid Object.assign).
+- Use DTO for validation and Swagger doc.
+- Prefix Prisma imports (PrismaUser). 
+````
 
-## State
+### .cursor/rules/rule-backend-repository.mdc
 
-- Use Smart/Dump component pattern:
-  - Smart : MobX for state.
-  - Dump : React Component, only the UI, minimal logic.
-- No React Hook only if stricly necessary.
-Use "mobx-react-lite" instead of "mobx-react".
-- Use "mobx" for core.
-- Use `makeAutoObservable`, no annotations.
-- Computed for Derived State.
-- Actions to Modify State.
-- runInAction for Side Effects (especially when async) and Reactions.
-- Split store in feature the more you can. No large stores, split by parent > children logic.
+````mdc
+---
+description: "Backend repository rules for NestJS. Apply them when implementing repositories in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-repository.mdc
+---
 
-## Store creation
+Backend Repository
+- Use DTO for create/update.
+- No dedicated mapper, mapped-types allowed. 
+````
 
-- Remember to generate factory at the bottom of a store.
-  - Use that comment before: `// eslint-disable-next-line @typescript-eslint/explicit-function-return-type`
-- Inject that store in the parent.
-- Use static displayName when creating new component.
+### .cursor/rules/rule-backend-tests.mdc
 
-## Architecture
+````mdc
+---
+description: "Backend testing rules. Apply them when creating or modifying tests in apps/backend."
+globs: "apps/backend/**"
+---
 
-- A feature can contain sub-features. It follows same architectural folder structure.
-- Use feature based folder structure.
- 
-Example:
+Backend Tests
+- Jest for testing.
+- Integration tests must not create data directly (use seed.ts).
+- Always test use-cases.
+- Never call Prisma directly in tests. 
+- No "retries" in test generation.
+````
+
+### .cursor/rules/rule-backend-usecases.mdc
+
+````mdc
+---
+description: "Backend use-cases rules for NestJS. Apply them when defining or modifying use-cases in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-usecases.mdc
+---
+
+Backend Use-Cases
+- Domain-focused logic, not simple CRUD.
+- Prefer DTO instead of heavy ValueObjects. 
+````
+
+### .cursor/rules/rule-frontend-components.mdc
+
+````mdc
+---
+description: Frontend feature code generation: components, stores etc.
+globs: "apps/frontend/**.ts, apps/frontend/**.tsx"
+---
+
+Frontend Components:
+- Apply the Smart/Dumb pattern: 
+    - Smart components (stateful, using MobX stores)
+    - Dumb components (pure UI).
+- Organize by feature in folders.
+Example for a user profile component:
 ```text
 user-profile/
 | user-profile.component.tsx # minimal logic, only UI component
+| user-profile-menu.component.tsx # minimal logic, only UI component
 | user-profile.store.ts # for actions, computed, reactions...
 | user-profile.hook.ts # if necessary
 | user-profile.context.ts # if necessary, for providers
 | user-profile.mock.ts # test data for UI
 | user-profile.type.ts # for store types: state, actions...
 ```
+- All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
+  - Do not over-interprate, e.g. this code in not necessary `const shouldShowContent = hasArticles; const articles = email.articles;`
 
-Example:
-```text
-newsletter.ts
-user.ts
-article.ts
-profile.ts
-```
+State Management (MobX)
+- Use mobx-react-lite and makeAutoObservable.
+- Use runInAction for async or reactive effects.
+- Use computed properties for derived state and actions for modifications.
+- Create a factory at the bottom of each store (e.g. `export const createProjectStore = (): ProjectStore => new ProjectStore();`)
+- Inject the store into the parent component to facilitate state management.
 
-## Remix
 
-- NEVER USE "NextJS".
-- Remix only.
-- Use "@remix-run/node" for server rendering.
-- Use "@remix-run/react" for client rendering.
-
-### Remix Loaders
-
-- Loader are direct children of features (e.g. `features/dashboard/dashboard.loader.ts`)
-- Never return json(), return plain objects instead.
-
-## Testing
-
-- Test with Vitest.
-
-## Config
-
-- Use "Vite" instead of "Webpack".
-- Use "eslint.config.js" with flat config when using Eslint.
 ````
 
-### .cursor/rules/global.mdc
+### .cursor/rules/rule-frontend-global.mdc
 
 ````mdc
 ---
-description: Global rules when generating code.
-globs: *.tsx, *.ts
+description: When doing any action in frontend.
+globs: "apps/frontend/**"
 ---
-# Roles
+- Remix only, no NextJS.
+- Root imports with /~.
+- Test with Vitest.
+- Use Vite, not Webpack.
+- ESLint with flat config. 
+````
 
-- You are the AI Editor, responsible of coding a high quality code.
+### .cursor/rules/rule-frontend-remix-loaders.mdc
 
-# Installation
+````mdc
+---
+description: Frontend Remix loaders rules.
+globs: "apps/frontend/**"
+---
+- Loaders must be used in routes.
+- Return plain objects instead of `json()`.
+````
 
-- Ask before installating new packages.
-- Use latest available version of packages.
-- Use PNPM
+### .cursor/rules/rule-global-code-generation.mdc
 
-# Code generation
+````mdc
+---
+description: Global code generation rules to apply when generating any code.
+globs: "**/*.ts, **/*.tsx"
+---
 
-- **Strict Type for every variables, functions and components.**
+Language:
+- English for everything.
+- French only in UI (labels, texts...)
+
+Global Code Generation
+- Strict TypeScript.
 - Minimal file size.
-- Use single responsibility principle.
-- Never generate anemic models, `setId()`, `getId()` functions are forbidden.
-- Never comment code, except for complexe logic, interfaces, configuration.
+- One file per feature, split responsibility across files (SRP).
 
-## Data fetching
+Comments:
+- No comments by default.
+- Comments only for complex logic or interfaces.
 
-- Use loaders.
-- Use defer whenever possible.
-- Use [fetcher.ts](mdc:apps/frontend/app/utils/api/fetcher.ts) (add routes if necessary).
+Focus on domain code generation:
+- Feature driven development (FDD).
+- No anemic models (avoid trivial getId/setId).
+- Function names follow user actions (avoid setSomething). 
+- No interface prefix (IUser) or type suffix (UserType). 
 
-# Tests
+Lint & Error
+- Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).
+- Catch errors with catch(error: unknown | Error).
+- On frontend, use apps/frontend/app/utils/api/error.ts to handle errors. 
+````
 
-- Never generate Retires!
+### .cursor/rules/rule-global-installation.mdc
 
-## Error
+````mdc
+---
+description: Global environment & installation rules for any code. Apply them when code involves setup or adding packages.
+globs: "**/*"
+---
 
-- Type `catch(error: unknown)`
-- Use [error.ts](mdc:apps/frontend/app/utils/api/error.ts) to handle errors.
+- Use Node, never Express.
+- Check all packages versions every time:
+    - npm
+    - pnpm
+    - yarn
+- Ask before adding new packages.
+- Use PNPM with the latest version. 
+````
 
-## Lint
+### .cursor/rules/rule-global-shared-types.mdc
 
-- Respect `eslint@typescript-eslint/strict-boolean-expressions`, do not `if (!obj)`, prefer ` if (obj === null)`.
+````mdc
+---
+description: Global shared types rules to apply when sharing types between frontend and backend.
+globs: "**/*"
+---
 
-# Functions
+- Place shared data types in "packages/shared-types".
+- One file per type, export everything from index.ts.
 
-- Must reflect user actions.
-- Focus on use-case.
-- Avoid technical names:
-  - No `setNewsletters()`, `loadNewsletters()` is a true user action
-  - Prefer domain actions.
-
-# Bug finding
-
-- Alaways propose top 3 solutions.
-- Indicate confidence score.
-- Ask user to choose.
-
-# Common types
-
-- Data type that are used from backend api to frontend components must be in "packages/shared-types".
-- Must be focused on feature, small sub-types only are allowed.
-- Prefer one file per type.
-- Export must be made in [index.ts](mdc:packages/shared-types/src/index.ts).
-
-# Interfaces and Types
-
-- No prefix for interfaces (e.g. no `IUser`).
-- No suffix for types (e.g. no `UserType`)
 ````
 
 ### Project Structure
@@ -1213,9 +1203,17 @@ globs: *.tsx, *.ts
 .
 ./.cursor
 ./.cursor/rules
-./.cursor/rules/backend.mdc
-./.cursor/rules/frontend.mdc
-./.cursor/rules/global.mdc
+./.cursor/rules/rule-backend-api-controllers.mdc
+./.cursor/rules/rule-backend-dto.mdc
+./.cursor/rules/rule-backend-repository.mdc
+./.cursor/rules/rule-backend-tests.mdc
+./.cursor/rules/rule-backend-usecases.mdc
+./.cursor/rules/rule-frontend-components.mdc
+./.cursor/rules/rule-frontend-global.mdc
+./.cursor/rules/rule-frontend-remix-loaders.mdc
+./.cursor/rules/rule-global-code-generation.mdc
+./.cursor/rules/rule-global-installation.mdc
+./.cursor/rules/rule-global-shared-types.mdc
 ./.cursorignore
 ./.env
 ./.env.example
@@ -1432,6 +1430,9 @@ globs: *.tsx, *.ts
 ./apps/frontend/app/features/dashboard/dashboard.loader.ts
 ./apps/frontend/app/features/dashboard/dashboard.store.ts
 ./apps/frontend/app/features/dashboard/emails
+./apps/frontend/app/features/dashboard/emails/articles
+./apps/frontend/app/features/dashboard/emails/articles/article-row.component.tsx
+./apps/frontend/app/features/dashboard/emails/email-row.component.tsx
 ./apps/frontend/app/features/dashboard/emails/emails.component.tsx
 ./apps/frontend/app/features/dashboard/emails/emails.store.ts
 ./apps/frontend/app/features/dashboard/emails/emails.type.ts
@@ -1569,8 +1570,8 @@ globs: *.tsx, *.ts
 ./tsconfig.json
 ./turbo.json
 
-117 directories, 241 files
+118 directories, 251 files
 ````
 
 
-2025-02-10 07:13:09
+2025-02-10 08:10:06

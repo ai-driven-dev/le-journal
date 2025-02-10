@@ -1,0 +1,31 @@
+---
+description: Frontend feature code generation: components, stores etc.
+globs: "apps/frontend/**.ts, apps/frontend/**.tsx"
+---
+
+Frontend Components:
+- Apply the Smart/Dumb pattern: 
+    - Smart components (stateful, using MobX stores)
+    - Dumb components (pure UI).
+- Organize by feature in folders.
+Example for a user profile component:
+```text
+user-profile/
+| user-profile.component.tsx # minimal logic, only UI component
+| user-profile-menu.component.tsx # minimal logic, only UI component
+| user-profile.store.ts # for actions, computed, reactions...
+| user-profile.hook.ts # if necessary
+| user-profile.context.ts # if necessary, for providers
+| user-profile.mock.ts # test data for UI
+| user-profile.type.ts # for store types: state, actions...
+```
+- All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
+  - Do not over-interprate, e.g. this code in not necessary `const shouldShowContent = hasArticles; const articles = email.articles;`
+
+State Management (MobX)
+- Use mobx-react-lite and makeAutoObservable.
+- Use runInAction for async or reactive effects.
+- Use computed properties for derived state and actions for modifications.
+- Create a factory at the bottom of each store (e.g. `export const createProjectStore = (): ProjectStore => new ProjectStore();`)
+- Inject the store into the parent component to facilitate state management.
+

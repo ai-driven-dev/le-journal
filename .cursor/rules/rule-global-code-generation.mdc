@@ -1,0 +1,28 @@
+---
+description: Global code generation rules to apply when generating any code.
+globs: "**/*.ts, **/*.tsx"
+---
+
+Language:
+- English for everything.
+- French only in UI (labels, texts...)
+
+Global Code Generation
+- Strict TypeScript.
+- Minimal file size.
+- One file per feature, split responsibility across files (SRP).
+
+Comments:
+- No comments by default.
+- Comments only for complex logic or interfaces.
+
+Focus on domain code generation:
+- Feature driven development (FDD).
+- No anemic models (avoid trivial getId/setId).
+- Function names follow user actions (avoid setSomething). 
+- No interface prefix (IUser) or type suffix (UserType). 
+
+Lint & Error
+- Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).
+- Catch errors with catch(error: unknown | Error).
+- On frontend, use apps/frontend/app/utils/api/error.ts to handle errors. 

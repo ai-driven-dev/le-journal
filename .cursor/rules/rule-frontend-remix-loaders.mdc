@@ -1,0 +1,6 @@
+---
+description: Frontend Remix loaders rules.
+globs: "apps/frontend/**"
+---
+- Loaders must be used in routes.
+- Return plain objects instead of `json()`.

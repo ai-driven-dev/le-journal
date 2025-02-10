@@ -1,0 +1,11 @@
+---
+description: "Backend testing rules. Apply them when creating or modifying tests in apps/backend."
+globs: "apps/backend/**"
+---
+
+Backend Tests
+- Jest for testing.
+- Integration tests must not create data directly (use seed.ts).
+- Always test use-cases.
+- Never call Prisma directly in tests. 
+- No "retries" in test generation.
