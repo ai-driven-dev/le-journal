@@ -1,5 +1,14 @@
 #!/bin/sh
 
+# Define the auto-commit message
+AUTO_COMMIT_MESSAGE="docs: update knowledge base [skip docs]"
+
+# Check if this is an auto-generated commit
+commit_msg=$(git log -1 --pretty=%B)
+if [ "$commit_msg" = "$AUTO_COMMIT_MESSAGE" ]; then
+    exit 0
+fi
+
 # Generate knowledge base
 pnpm run document
 
@@ -8,7 +17,7 @@ if git diff --quiet documentations/knowledge.md; then
     exit 0 # No changes, exit quietly
 fi
 
-# Stage and commit the knowledge.md changes with --no-verify to avoid hooks
+# Stage and commit the knowledge.md changes
 git add documentations/knowledge.md
 git add .windsurfrules
-git commit --no-verify -m "docs: update knowledge base [skip ci]" 
+git commit --no-verify -m "$AUTO_COMMIT_MESSAGE" 
