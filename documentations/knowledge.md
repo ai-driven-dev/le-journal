@@ -1,5 +1,5 @@
 ---
-date: 2025-02-10 09:20:12
+date: 2025-02-10 09:30:39
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1262,8 +1262,6 @@ globs: "**/*"
 ./apps/backend/prisma
 ./apps/backend/prisma/generated
 ./apps/backend/prisma/generated/client-test
-./apps/backend/prisma/generated/client-test/runtime
-./apps/backend/prisma/helpers
 ./apps/backend/prisma/migrations
 ./apps/backend/prisma/migrations/20250204193843_init
 ./apps/backend/prisma/migrations/20250204193843_init/migration.sql
@@ -1290,9 +1288,7 @@ globs: "**/*"
 ./apps/backend/prisma/migrations/20250209171456_add_project_to_newsletter
 ./apps/backend/prisma/migrations/20250209171456_add_project_to_newsletter/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
-./apps/backend/prisma/migrations-test
 ./apps/backend/prisma/schema.prisma
-./apps/backend/prisma/scripts
 ./apps/backend/prisma/seed.ts
 ./apps/backend/prisma/seeds
 ./apps/backend/prisma/seeds/articles.seed.ts
@@ -1372,8 +1368,6 @@ globs: "**/*"
 ./apps/backend/src/features/users/presentation/dtos/user.dto.ts
 ./apps/backend/src/features/users/users.module.ts
 ./apps/backend/src/main.ts
-./apps/backend/src/modules
-./apps/backend/src/modules/auth
 ./apps/backend/src/prisma
 ./apps/backend/src/prisma/prisma.module.ts
 ./apps/backend/src/prisma/prisma.service.ts
@@ -1460,7 +1454,6 @@ globs: "**/*"
 ./apps/frontend/app/features/onboarding/components/steps/index.ts
 ./apps/frontend/app/features/onboarding/stores
 ./apps/frontend/app/features/onboarding/stores/onboardingStore.ts
-./apps/frontend/app/features/users
 ./apps/frontend/app/hooks
 ./apps/frontend/app/hooks/use-mobile.tsx
 ./apps/frontend/app/lib
@@ -1486,15 +1479,13 @@ globs: "**/*"
 ./apps/frontend/app/utils/api
 ./apps/frontend/app/utils/api/error.ts
 ./apps/frontend/app/utils/api/fetcher.ts
+./apps/frontend/app/utils/assertions.ts
 ./apps/frontend/components.json
 ./apps/frontend/mobx.config.ts
 ./apps/frontend/package.json
 ./apps/frontend/postcss.config.js
 ./apps/frontend/public
 ./apps/frontend/public/favicon.ico
-./apps/frontend/src
-./apps/frontend/src/components
-./apps/frontend/src/routes
 ./apps/frontend/tailwind.config.ts
 ./apps/frontend/test
 ./apps/frontend/test/setup.ts
@@ -1561,11 +1552,10 @@ globs: "**/*"
 ./scripts
 ./scripts/git-hooks
 ./scripts/git-hooks/validate-branch-name.sh
-./specifications
 ./tsconfig.json
 ./turbo.json
 
-118 directories, 253 files
+107 directories, 254 files
 ```
 
-2025-02-10 09:20:12
+2025-02-10 09:30:39
