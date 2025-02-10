@@ -3,6 +3,7 @@ import type { LoaderFunction } from '@remix-run/node';
 
 import { handleApiError } from '~/utils/api/error';
 import { API_ROUTES, apiFetch } from '~/utils/api/fetcher';
+import { assert } from '~/utils/assertions';
 
 export interface DashboardLoaderData {
   newsletters: Newsletter[];
@@ -44,6 +45,9 @@ export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoade
       requests.users(),
       requests.projects(),
     ]);
+
+    assert.notEmpty(users, "Aucun utilisateur n'a été trouvé");
+    assert.notEmpty(projects, `Aucun projet n'a été trouvé avec ce numéro ${projectNumber}`);
 
     requests.emails = () =>
       apiFetch<Email[]>({
