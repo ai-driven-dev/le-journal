@@ -6,6 +6,9 @@ globs: **/apps/backend/**/*.ts
 
 > When creating or updating backend code, please follow those rules:
 
+### Versions
+- NestJS 11
+
 ### Controllers
 - No direct CRUD, use domain-driven use-cases.
 - Document with Swagger, in English.

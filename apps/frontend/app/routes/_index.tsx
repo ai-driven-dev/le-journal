@@ -2,6 +2,8 @@ import type { MetaFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
+import { GoogleSignIn } from '~/features/auth/components/google-sign-in.component';
+
 export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
   return [
     { title: 'Le Journal - Accueil' },
@@ -22,6 +24,10 @@ export default observer(function Index(): React.ReactNode {
             Gagnez 3h / semaine en laissant l'IA vous trier vos newsletters pour en retirer
             l'essentiel.
           </p>
+
+          <div className="w-full max-w-sm">
+            <GoogleSignIn />
+          </div>
 
           <div className="space-y-4">
             <Link

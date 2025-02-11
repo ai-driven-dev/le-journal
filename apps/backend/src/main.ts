@@ -2,6 +2,7 @@ import * as fs from 'fs';
 
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './infrastructure/logging/logger.filter';
@@ -41,6 +42,8 @@ async function bootstrap(): Promise<void> {
 
     fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));
   }
+
+  app.use(cookieParser());
 
   await app.listen(8080);
 }

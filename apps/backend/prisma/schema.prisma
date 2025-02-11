@@ -59,6 +59,8 @@ model User {
   id         String   @id @default(uuid())
   email      String   @unique
   name       String?
+  google_id  String?  @unique @map("google_id")
+  avatar     String?
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
 
@@ -69,6 +71,7 @@ model User {
 
   @@map("users")
   @@index([email])
+  @@index([google_id])
 }
 
 model Project {

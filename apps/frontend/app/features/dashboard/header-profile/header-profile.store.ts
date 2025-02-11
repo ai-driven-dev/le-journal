@@ -3,6 +3,8 @@ import { makeAutoObservable } from 'mobx';
 
 import type { TitleActions, TitleState } from './header-profile.type';
 
+import { authStore } from '~/features/auth/stores/auth.store';
+
 class HeaderProfileStore implements TitleState, TitleActions {
   user: User | null = null;
   isLogoutDialogOpen = false;
@@ -19,8 +21,8 @@ class HeaderProfileStore implements TitleState, TitleActions {
     this.isLogoutDialogOpen = isOpen;
   };
 
-  handleLogout = (): void => {
-    // TODO: Implement logout logic here
+  handleLogout = async (): Promise<void> => {
+    await authStore.logout();
   };
 }
 
