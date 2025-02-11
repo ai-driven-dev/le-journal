@@ -1,5 +1,5 @@
 ---
-date: 2025-02-11 06:35:06
+date: 2025-02-11 07:13:39
 ---
 
 # Project Specifications "Knowledge Base"
@@ -652,8 +652,10 @@ BREAKING CHANGE: new user database structure
     "@nestjs/swagger": "^11.0.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "nest-winston": "^1.10.2",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -991,9 +993,9 @@ volumes:
   # meilisearch_data:
 ```
 
-### .cursor/rules/rule-backend-api-controllers.mdc
+### .cursor/rules/rule-backend-code-generation.mdc
 
-```mdc
+````mdc
 ---
 description: When generating any backend code.
 globs: apps/backend/**/*.ts
@@ -1001,37 +1003,49 @@ globs: apps/backend/**/*.ts
 API & Controllers:
 - No direct CRUD, use domain-driven use-cases.
 - Document with Swagger (NestJS), in English.
-- Each controller matches a specific use-case.
+- Each controller matches a specific domain use-case.
+- Swagger annotations.
+- Validate received data with `ValidationPipe` and `transform`
+- API always returns DTOs.
+
+Exceptions:
+- Throw exception the more you can.
+- Always be specific, error message must contain input parameters for easy debuging.
+- Use NestJS or the framework exceptions when technical.
+- Create custom exceptions when domain specific.
+
+Logging:
+- Avoid "logger.error()", throw Exception instead (because logger catchs exceptions).
+- Log every use-cases: input and output with debug.
+
+Loging use-case example:
+```ts
+
 ```
 
-### .cursor/rules/rule-backend-dto.mdc
+DTO:
+<!-- - No dedicated mapper, `mapped-types` allowed.  -->
+- Prisma Model is imported with `Model` suffix (e.g `import { Prisma, User as UserModel } from '@prisma/client';`)
+- Create and Update DTOs are always implementing Prisma's corresponding interface (e.g. `export class CreateUserDto implements Prisma.UserCreateInput`)
+- Map fields individually (e.g `this.id = user.id` in constructor), no `Object.assign` etc.
+- Use `class-validator` and `Swagger` documentation with annotations on fields.
 
-```mdc
----
-description: "Backend DTO rules for NestJS. Apply them when creating or changing DTO structures in apps/backend."
-globs: "apps/backend/**"
-File: rule-backend-dto.mdc
----
-
-Backend DTO
-- Map fields individually (avoid Object.assign).
-- Use DTO for validation and Swagger doc.
-- Prefix Prisma imports (PrismaUser).
+Example of files structure:
+```text
+├── application
+│   ├── create-project.use-case.ts
+│   ├── get-project.use-case.ts
+│   └── update-project-prompt.use-case.ts
+├── domain
+│   └── project.repository.interface.ts
+├── infrastructure
+│   └── prisma-project.repository.ts
+├── presentation
+│   ├── projects.controller.ts
+│   └── project.dto.ts
+└── projects.module.ts
 ```
-
-### .cursor/rules/rule-backend-repository.mdc
-
-```mdc
----
-description: "Backend repository rules for NestJS. Apply them when implementing repositories in apps/backend."
-globs: "apps/backend/**"
-File: rule-backend-repository.mdc
----
-
-Backend Repository
-- Use DTO for create/update.
-- No dedicated mapper, mapped-types allowed.
-```
+````
 
 ### .cursor/rules/rule-backend-tests.mdc
 
@@ -1046,20 +1060,6 @@ Backend Tests:
 - Always test use-cases.
 - Never call Prisma directly in tests.
 - No "retries" in test generation.
-```
-
-### .cursor/rules/rule-backend-usecases.mdc
-
-```mdc
----
-description: "Backend use-cases rules for NestJS. Apply them when defining or modifying use-cases in apps/backend."
-globs: "apps/backend/**"
-File: rule-backend-usecases.mdc
----
-
-Backend Use-Cases
-- Domain-focused logic, not simple CRUD.
-- Prefer DTO instead of heavy ValueObjects.
 ```
 
 ### .cursor/rules/rule-frontend-components.mdc
@@ -1117,6 +1117,7 @@ globs: apps/frontend/**
 - Test with Vitest.
 - Use Vite, not Webpack.
 - ESLint with flat config.
+- Use versions in [package.json](mdc:apps/frontend/package.json).
 ```
 
 ### .cursor/rules/rule-frontend-remix-loaders.mdc
@@ -1170,11 +1171,10 @@ Comments:
 - No comments by default.
 - Comments only for complex logic or interfaces.
 
-Focus on domain code generation:
-- Feature driven development (FDD).
-- No anemic models (avoid trivial getId/setId).
-- Function names follow user actions (avoid setSomething).
-- No interface prefix (IUser) or type suffix (UserType).
+Forbidden:
+- Anemic models (avoid trivial getId/setId).
+- Function names with no actions (avoid `setUsers`, prefer `loadUsers`).
+- No interface prefix `IUser` or type suffix `UserType`.
 
 Lint & Error
 - Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).
@@ -1197,19 +1197,6 @@ globs: **/*.json
     - shared-types: [package.json](mdc:packages/shared-types/package.json)
 - Ask before adding new packages.
 - Use PNPM with the latest version.
-```
-
-### .cursor/rules/rule-global-shared-types.mdc
-
-```mdc
----
-description: Global shared types rules to apply when sharing types between frontend and backend.
-globs: "**/*"
----
-
-- Place shared data types in "packages/shared-types".
-- One file per type, export everything from index.ts.
-
 ```
 
 ### Project Structure
@@ -1270,11 +1257,16 @@ globs: "**/*"
 ./apps
 ./apps/backend
 ./apps/backend/.env
+./apps/backend/.env.development
 ./apps/backend/.env.example
+./apps/backend/.env.production
 ./apps/backend/.env.test
 ./apps/backend/.gitignore
 ./apps/backend/README.md
 ./apps/backend/jest.config.ts
+./apps/backend/logs
+./apps/backend/logs/debug.log
+./apps/backend/logs/error.log
 ./apps/backend/nest-cli.json
 ./apps/backend/package.json
 ./apps/backend/prisma
@@ -1382,6 +1374,12 @@ globs: "**/*"
 ./apps/backend/src/features/users/presentation/dtos
 ./apps/backend/src/features/users/presentation/dtos/user.dto.ts
 ./apps/backend/src/features/users/users.module.ts
+./apps/backend/src/infrastructure
+./apps/backend/src/infrastructure/logging
+./apps/backend/src/infrastructure/logging/logger.config.ts
+./apps/backend/src/infrastructure/logging/logger.filter.ts
+./apps/backend/src/infrastructure/logging/logger.module.ts
+./apps/backend/src/infrastructure/logging/logger.service.ts
 ./apps/backend/src/main.ts
 ./apps/backend/src/prisma
 ./apps/backend/src/prisma/prisma.module.ts
@@ -1571,7 +1569,7 @@ globs: "**/*"
 ./tsconfig.json
 ./turbo.json
 
-118 directories, 251 files
+108 directories, 258 files
 ```
 
-2025-02-10 08:23:21
+2025-02-11 07:13:39
