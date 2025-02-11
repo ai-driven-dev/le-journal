@@ -1,5 +1,4 @@
 import { Project } from '@le-journal/shared-types';
-import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
 import { Project as PrismaProject } from '@prisma/client';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
@@ -30,8 +29,6 @@ export class CreateProjectDto {
   @IsNotEmpty()
   projectNumber!: number;
 }
-
-export class UpdateProjectDto extends PartialType(CreateProjectDto) {}
 
 export class ProjectDto implements Project {
   @ApiProperty({

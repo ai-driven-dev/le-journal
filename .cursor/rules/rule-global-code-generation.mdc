@@ -1,26 +1,44 @@
 ---
-description: Global code generation rules to apply when generating any code.
-globs: "**/*.ts, **/*.tsx"
+description: When generating any code in any context.
+globs: "**/*.ts, **/*.tsx
 ---
 
 Language:
 - English for everything.
 - French only in UI (labels, texts...)
 
-Global Code Generation
-- Strict TypeScript.
-- Minimal file size.
+Sharing code:
+- Place shared data types in `packages/shared-types`.
+- One file per type, export everything from [index.ts](mdc:packages/shared-types/src/index.ts).
+
+Simplified code:
+- Use explicit constants instead of magic numbers.
+- Write clear and simple conditions, avoid double negatives.
+- Prioritize readable variable names, even if long.
+- Simplify loops using map(), filter(), or reduce().
+- Type safe code.
+
+Feature focus code:
+- Reflect business needs in the code.
+- Avoid technical function names, favor domain language.
+- Model objects closely to business concepts.
+
+Sizes:
+- Functions: Max 20-30 lines.
+- Classes/Files: Max 200-300 lines.
+- Folders: Max 7-10 files.
+
+Responsability:
 - One file per feature, split responsibility across files (SRP).
 
 Comments:
 - No comments by default.
 - Comments only for complex logic or interfaces.
 
-Focus on domain code generation:
-- Feature driven development (FDD).
-- No anemic models (avoid trivial getId/setId).
-- Function names follow user actions (avoid setSomething). 
-- No interface prefix (IUser) or type suffix (UserType). 
+Forbidden:
+- Anemic models (avoid trivial getId/setId).
+- Function names with no actions (avoid `setUsers`, prefer `loadUsers`). 
+- No interface prefix `IUser` or type suffix `UserType`. 
 
 Lint & Error
 - Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).

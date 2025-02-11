@@ -1,12 +1,12 @@
 ---
-description: Global environment & installation rules for any code. Apply them when code involves setup or adding packages.
-globs: "**/*"
+description: When installating of adding new packages.
+globs: **/*.json
 ---
-
 - Use Node, never Express.
 - Check all packages versions every time:
-    - npm
-    - pnpm
-    - yarn
+    - root monorepo: [package.json](mdc:package.json)
+    - backend: [package.json](mdc:apps/backend/package.json)
+    - frontend: [package.json](mdc:apps/frontend/package.json)
+    - shared-types: [package.json](mdc:packages/shared-types/package.json)
 - Ask before adding new packages.
-- Use PNPM with the latest version. 
+- Use PNPM with the latest version.

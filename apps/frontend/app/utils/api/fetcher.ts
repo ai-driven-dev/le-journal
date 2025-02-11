@@ -39,45 +39,25 @@ export async function apiFetch<T>({ endpoint, init, searchParams }: FetcherConfi
   }
 
   const method = init?.method || 'GET';
+  const response = await fetch(url, {
+    ...init,
+    headers: {
+      'Content-Type': 'application/json',
+      ...init?.headers,
+    },
+  });
 
-  console.log('Calling API:', { url, method, searchParams });
+  const data = await response.json();
 
-  try {
-    const response = await fetch(url, {
-      ...init,
-      headers: {
-        'Content-Type': 'application/json',
-        ...init?.headers,
-      },
+  if (!response.ok) {
+    throw new ApiError(`API request failed for ${endpoint}`, {
+      url,
+      method,
+      statusCode: response.status,
+      statusText: response.statusText,
+      responseBody: data,
     });
-
-    const data = await response.json();
-
-    console.log(data, data);
-
-    if (!response.ok) {
-      throw new ApiError(`API request failed for ${endpoint}`, {
-        url,
-        method,
-        statusCode: response.status,
-        statusText: response.statusText,
-        responseBody: data,
-      });
-    }
-
-    return data;
-  } catch (error: unknown | Error) {
-    if (error instanceof ApiError) {
-      throw error;
-    }
-
-    throw new ApiError(
-      'API request failed',
-      {
-        url,
-        method,
-      },
-      error as Error,
-    );
   }
+
+  return data;  
 }

@@ -1,9 +1,10 @@
 ---
 description: When doing any action in frontend.
-globs: "apps/frontend/**"
+globs: apps/frontend/**
 ---
 - Remix only, no NextJS.
 - Root imports with /~.
 - Test with Vitest.
 - Use Vite, not Webpack.
 - ESLint with flat config. 
+- Use versions in [package.json](mdc:apps/frontend/package.json).

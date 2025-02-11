@@ -19,10 +19,16 @@ user-profile/
 | user-profile.mock.ts # test data for UI
 | user-profile.type.ts # for store types: state, actions...
 ```
+- No default export for components.
+- Export static `displayName` at the bottom.
 - All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
   - Do not overinterpret, e.g. this code in not necessary nor helpful `const shouldShowContent = hasArticles; const articles = email.articles;`
 
-State Management (MobX)
+Frontend Remix Loaders:
+- Loaders must be used in routes.
+- Return plain objects instead of `json()`.
+
+Frontend State Management (MobX):
 - Use mobx-react-lite and makeAutoObservable.
 - Use runInAction for async or reactive effects.
 - Use computed properties for derived state and actions for modifications.
