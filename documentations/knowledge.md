@@ -1,5 +1,5 @@
 ---
-date: 2025-02-11 08:13:31
+date: 2025-02-11 09:04:10
 ---
 
 # Project Specifications "Knowledge Base"
@@ -997,24 +997,29 @@ volumes:
 
 ````mdc
 ---
-description: When generating any backend code.
-globs: apps/backend/**/*.ts
+description: Backend code generation
+globs: **/apps/backend/**/*.ts
 ---
-API & Controllers:
-- No direct CRUD, use domain-driven use-cases.
-- Document with Swagger (NestJS), in English.
-- Each controller matches a specific domain use-case.
-- Swagger annotations.
-- Validate received data with `ValidationPipe` and `transform`
-- API always returns DTOs.
+## Backend code generation
 
-Exceptions:
+> When creating or updating backend code, please follow those rules:
+
+### Controllers
+- No direct CRUD, use domain-driven use-cases.
+- Document with Swagger, in English.
+- Validate received data with `ValidationPipe` and `transform`
+- Always returns DTOs.
+
+### Exceptions
 - Throw exception the more you can.
 - Always be specific, error message must contain input parameters for easy debuging.
 - Use NestJS or the framework exceptions when technical.
 - Create custom exceptions when domain specific.
 
-Logging:
+### Backend : Use-cases
+-
+
+### Logging
 - Avoid "logger.error()", throw Exception instead (because logger catchs exceptions).
 - On use-cases: log `debug` the input, log `success` the output.
 
@@ -1043,10 +1048,12 @@ Loging use-case example:
   }
 ```
 
-DTO:
-<!-- - No dedicated mapper, `mapped-types` allowed.  -->
+### DTO
+- Everything in subclass
 - Prisma Model is imported with `Model` suffix (e.g `import { Prisma, User as UserModel } from '@prisma/client';`)
 - Create and Update DTOs are always implementing Prisma's corresponding interface (e.g. `export class CreateUserDto implements Prisma.UserCreateInput`)
+- - Document with Swagger (NestJS), in English.
+- Only use DTO for creations, updates, no "output or response DTO"
 - Map fields individually (e.g `this.id = user.id` in constructor), no `Object.assign` etc.
 - Use `class-validator` and `Swagger` documentation with annotations on fields.
 - DTOs always implements interfaces in `shared-types` to ensure frontend <-> backend type coherence.
@@ -1066,6 +1073,8 @@ Example of files structure:
 │   └── project.dto.ts
 └── projects.module.ts
 ```
+
+
 ````
 
 ### .cursor/rules/rule-backend-tests.mdc
@@ -1092,15 +1101,20 @@ Backend tests with data:
 
 ````mdc
 ---
-description: Frontend feature code generation: components, stores etc.
-globs: "apps/frontend/**.ts, apps/frontend/**.tsx"
+description: Frontend : Coding components, stores,  etc.
+globs: apps/frontend/**.ts, apps/frontend/**.tsx
 ---
-
-Frontend Components:
+## Frontend : Components rules
 - Apply the Smart/Dumb pattern:
-    - Smart components (stateful, using MobX stores)
-    - Dumb components (pure UI).
-- Organize by feature in folders.
+  - Smart components (stateful, using MobX stores)
+  - Dumb components (pure UI).
+- No default export for components.
+- Export static `displayName` at the bottom.
+- All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
+  - Do not overinterpret, e.g. this code in not necessary nor helpful `const shouldShowContent = hasArticles; const articles = email.articles;`
+
+## Frontend : Files architecture
+- Structure: Organize by feature in folders.
 Example for a user profile component:
 ```text
 user-profile/
@@ -1112,16 +1126,8 @@ user-profile/
 | user-profile.mock.ts # test data for UI
 | user-profile.type.ts # for store types: state, actions...
 ```
-- No default export for components.
-- Export static `displayName` at the bottom.
-- All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
-  - Do not overinterpret, e.g. this code in not necessary nor helpful `const shouldShowContent = hasArticles; const articles = email.articles;`
 
-Frontend Remix Loaders:
-- Loaders must be used in routes.
-- Return plain objects instead of `json()`.
-
-Frontend State Management (MobX):
+## Frontend State Management (MobX)
 - Use mobx-react-lite and makeAutoObservable.
 - Use runInAction for async or reactive effects.
 - Use computed properties for derived state and actions for modifications.
@@ -1135,7 +1141,7 @@ Frontend State Management (MobX):
 
 ```mdc
 ---
-description: When doing any action in frontend.
+description: Frontend : Always apply those rules
 globs: apps/frontend/**
 ---
 - Remix only, no NextJS.
@@ -1150,8 +1156,8 @@ globs: apps/frontend/**
 
 ```mdc
 ---
-description: When generating frontend Remix
-globs: "apps/frontend/**"
+description: Frontend : Remix Loaders
+globs: apps/frontend/**/*.ts
 ---
 - Loaders must be used in routes.
 - Return plain objects instead of `json()`.
@@ -1161,8 +1167,8 @@ globs: "apps/frontend/**"
 
 ```mdc
 ---
-description: When generating any code in any context.
-globs: "**/*.ts, **/*.tsx
+description: Global : Code generation
+globs: **/*.ts, **/*.tsx
 ---
 
 Language:
@@ -1212,7 +1218,7 @@ Lint & Error
 
 ```mdc
 ---
-description: When installating of adding new packages.
+description: Global : Package installations
 globs: **/*.json
 ---
 - Use Node, never Express.
@@ -1290,9 +1296,6 @@ globs: **/*.json
 ./apps/backend/.gitignore
 ./apps/backend/README.md
 ./apps/backend/jest.config.ts
-./apps/backend/logs
-./apps/backend/logs/debug.log
-./apps/backend/logs/error.log
 ./apps/backend/nest-cli.json
 ./apps/backend/package.json
 ./apps/backend/prisma
@@ -1381,7 +1384,6 @@ globs: **/*.json
 ./apps/backend/src/features/projects/presentation/controllers/projects.controller.ts
 ./apps/backend/src/features/projects/presentation/dtos
 ./apps/backend/src/features/projects/presentation/dtos/project.dto.ts
-./apps/backend/src/features/projects/presentation/dtos/update-project-prompt.dto.ts
 ./apps/backend/src/features/projects/projects.module.ts
 ./apps/backend/src/features/users
 ./apps/backend/src/features/users/application
@@ -1598,7 +1600,7 @@ globs: **/*.json
 ./tsconfig.json
 ./turbo.json
 
-109 directories, 260 files
+108 directories, 257 files
 ```
 
-2025-02-11 08:13:31
+2025-02-11 09:04:10
