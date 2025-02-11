@@ -5,9 +5,14 @@ type ApiEndpoint =
   | 'projects'
   | 'newsletters'
   | 'newsletters/emails'
-  | 'newsletters/emails/search';
+  | 'newsletters/emails/search'
+  | 'projects/prompt';
 
-export const API_ROUTES = {
+export const API_ROUTES_PUT = {
+  projects: 'projects/prompt',
+} as const;
+
+export const API_ROUTES_GET = {
   users: 'users',
   projects: 'projects',
   newsletters: 'newsletters',
@@ -21,17 +26,17 @@ interface FetcherConfig {
   searchParams?: Record<string, string>;
 }
 
-function getApiUrl(): string {
-  const apiUrl = process.env.API_URL;
-  if (!apiUrl) {
-    throw new Error('API_URL environment variable is not set');
+export function getApiUrl(endpoint: ApiEndpoint): string {
+  const apiUrl = import.meta.env.PUBLIC_API_URL;
+  if (apiUrl === undefined) {
+    throw new Error('PUBLIC_API_URL environment variable is not set');
   }
-  return apiUrl;
+  console.log('apiUrl', apiUrl);
+  return `${apiUrl}/${endpoint}`;
 }
 
 export async function apiFetch<T>({ endpoint, init, searchParams }: FetcherConfig): Promise<T> {
-  const apiUrl = getApiUrl();
-  let url = `${apiUrl}/${endpoint}`;
+  let url = getApiUrl(endpoint);
 
   if (searchParams) {
     const params = new URLSearchParams(searchParams);

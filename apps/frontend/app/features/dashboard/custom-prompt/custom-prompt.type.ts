@@ -1,10 +1,13 @@
-export interface CustomPromptState {
-  customization: string;
+export interface PromptInstruction {
+  id: string;
+  prompt: string;
+}
+
+export interface CustomPromptState extends PromptInstruction {
   isDialogOpen: boolean;
 }
 
 export interface CustomPromptActions {
-  setCustomization: (value: string) => void;
+  initializePrompt: (prompt: PromptInstruction) => void;
   setIsDialogOpen: (isOpen: boolean) => void;
-  handleSave: () => void;
 }
