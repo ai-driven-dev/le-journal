@@ -1,5 +1,5 @@
 ---
-date: 2025-02-11 09:04:10
+date: 2025-02-11 10:41:03
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1296,6 +1296,9 @@ globs: **/*.json
 ./apps/backend/.gitignore
 ./apps/backend/README.md
 ./apps/backend/jest.config.ts
+./apps/backend/logs
+./apps/backend/logs/debug.log
+./apps/backend/logs/error.log
 ./apps/backend/nest-cli.json
 ./apps/backend/package.json
 ./apps/backend/prisma
@@ -1600,7 +1603,7 @@ globs: **/*.json
 ./tsconfig.json
 ./turbo.json
 
-108 directories, 257 files
+109 directories, 259 files
 ```
 
-2025-02-11 09:04:10
+2025-02-11 10:41:03
