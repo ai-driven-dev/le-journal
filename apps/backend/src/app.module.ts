@@ -6,6 +6,7 @@ import { ConfigModule } from './config/config.module';
 import { NewsletterModule } from './features/newsletter/newsletter.module';
 import { ProjectsModule } from './features/projects/projects.module';
 import { UsersModule } from './features/users/users.module';
+import { LoggerModule } from './infrastructure/logging/logger.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -15,6 +16,7 @@ import { PrismaModule } from './prisma/prisma.module';
     UsersModule,
     ProjectsModule,
     NewsletterModule,
+    LoggerModule,
     CacheModule.registerAsync({
       useFactory: () => ({
         store: new Redis({

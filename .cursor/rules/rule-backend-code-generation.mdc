@@ -10,6 +10,21 @@ API & Controllers:
 - Validate received data with `ValidationPipe` and `transform`
 - API always returns DTOs.
 
+Exceptions:
+- Throw exception the more you can.
+- Always be specific, error message must contain input parameters for easy debuging.
+- Use NestJS or the framework exceptions when technical.
+- Create custom exceptions when domain specific.
+
+Logging:
+- Avoid "logger.error()", throw Exception instead (because logger catchs exceptions).
+- Log every use-cases: input and output with debug.
+
+Loging use-case example:
+```ts
+
+```
+
 DTO:
 <!-- - No dedicated mapper, `mapped-types` allowed.  -->
 - Prisma Model is imported with `Model` suffix (e.g `import { Prisma, User as UserModel } from '@prisma/client';`)

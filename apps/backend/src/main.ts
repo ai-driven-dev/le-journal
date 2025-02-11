@@ -4,10 +4,19 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './infrastructure/logging/logger.filter';
+import { AppLogger } from './infrastructure/logging/logger.service';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    // Catch logs when initializing the app, so we do not miss any logs when app starts.
+    bufferLogs: true,
+  });
   app.setGlobalPrefix('api');
+
+  const logger = app.get(AppLogger);
+  app.useLogger(logger);
+  app.useGlobalFilters(new AllExceptionsFilter(logger));
 
   // Configuration de Swagger
   if (process.env.NODE_ENV !== 'production') {
