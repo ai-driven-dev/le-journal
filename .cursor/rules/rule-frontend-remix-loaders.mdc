@@ -1,5 +1,5 @@
 ---
-description: Frontend Remix loaders rules.
+description: When generating frontend Remix
 globs: "apps/frontend/**"
 ---
 - Loaders must be used in routes.

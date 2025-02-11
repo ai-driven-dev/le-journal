@@ -86,8 +86,6 @@ export class ProjectsController implements OnModuleInit {
   @ApiResponse({ status: 200, type: ProjectDto })
   async getProject(@Query('projectNumber') projectNumber: number): Promise<ProjectDto[]> {
     const projects = await this.getProjectUseCase.execute(this.userId, +projectNumber);
-
-    console.log(projects, projects);
     return projects.map((project) => new ProjectDto(project));
   }
 

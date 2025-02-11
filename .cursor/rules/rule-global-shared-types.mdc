@@ -1,7 +1,0 @@
----
-description: Global shared types rules to apply when sharing types between frontend and backend.
-globs: "**/*"
----
-
-- Place shared data types in "packages/shared-types".
-- One file per type, export everything from index.ts.

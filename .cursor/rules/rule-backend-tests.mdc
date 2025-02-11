@@ -1,9 +1,8 @@
 ---
-description: "Backend testing rules. Apply them when creating or modifying tests in apps/backend."
-globs: "apps/backend/**"
+description: Apply them when creating or modifying tests
+globs: apps/backend/**/*.ts
 ---
-
-Backend Tests
+Backend Tests:
 - Jest for testing.
 - Integration tests must not create data directly (use seed.ts).
 - Always test use-cases.
