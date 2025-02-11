@@ -991,9 +991,9 @@ volumes:
   # meilisearch_data:
 ```
 
-### .cursor/rules/rule-backend-code-generation.mdc
+### .cursor/rules/rule-backend-api-controllers.mdc
 
-````mdc
+```mdc
 ---
 description: When generating any backend code.
 globs: apps/backend/**/*.ts
@@ -1001,34 +1001,37 @@ globs: apps/backend/**/*.ts
 API & Controllers:
 - No direct CRUD, use domain-driven use-cases.
 - Document with Swagger (NestJS), in English.
-- Each controller matches a specific domain use-case.
-- Swagger annotations.
-- Validate received data with `ValidationPipe` and `transform`
-- API always returns DTOs.
-
-DTO:
-<!-- - No dedicated mapper, `mapped-types` allowed.  -->
-- Prisma Model is imported with `Model` suffix (e.g `import { Prisma, User as UserModel } from '@prisma/client';`)
-- Create and Update DTOs are always implementing Prisma's corresponding interface (e.g. `export class CreateUserDto implements Prisma.UserCreateInput`)
-- Map fields individually (e.g `this.id = user.id` in constructor), no `Object.assign` etc.
-- Use `class-validator` and `Swagger` documentation with annotations on fields.
-
-Example of files structure:
-```text
-├── application
-│   ├── create-project.use-case.ts
-│   ├── get-project.use-case.ts
-│   └── update-project-prompt.use-case.ts
-├── domain
-│   └── project.repository.interface.ts
-├── infrastructure
-│   └── prisma-project.repository.ts
-├── presentation
-│   ├── projects.controller.ts
-│   └── project.dto.ts
-└── projects.module.ts
+- Each controller matches a specific use-case.
 ```
-````
+
+### .cursor/rules/rule-backend-dto.mdc
+
+```mdc
+---
+description: "Backend DTO rules for NestJS. Apply them when creating or changing DTO structures in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-dto.mdc
+---
+
+Backend DTO
+- Map fields individually (avoid Object.assign).
+- Use DTO for validation and Swagger doc.
+- Prefix Prisma imports (PrismaUser).
+```
+
+### .cursor/rules/rule-backend-repository.mdc
+
+```mdc
+---
+description: "Backend repository rules for NestJS. Apply them when implementing repositories in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-repository.mdc
+---
+
+Backend Repository
+- Use DTO for create/update.
+- No dedicated mapper, mapped-types allowed.
+```
 
 ### .cursor/rules/rule-backend-tests.mdc
 
@@ -1043,6 +1046,20 @@ Backend Tests:
 - Always test use-cases.
 - Never call Prisma directly in tests.
 - No "retries" in test generation.
+```
+
+### .cursor/rules/rule-backend-usecases.mdc
+
+```mdc
+---
+description: "Backend use-cases rules for NestJS. Apply them when defining or modifying use-cases in apps/backend."
+globs: "apps/backend/**"
+File: rule-backend-usecases.mdc
+---
+
+Backend Use-Cases
+- Domain-focused logic, not simple CRUD.
+- Prefer DTO instead of heavy ValueObjects.
 ```
 
 ### .cursor/rules/rule-frontend-components.mdc
@@ -1100,7 +1117,6 @@ globs: apps/frontend/**
 - Test with Vitest.
 - Use Vite, not Webpack.
 - ESLint with flat config.
-- Use versions in [package.json](mdc:apps/frontend/package.json).
 ```
 
 ### .cursor/rules/rule-frontend-remix-loaders.mdc
@@ -1154,10 +1170,11 @@ Comments:
 - No comments by default.
 - Comments only for complex logic or interfaces.
 
-Forbidden:
-- Anemic models (avoid trivial getId/setId).
-- Function names with no actions (avoid `setUsers`, prefer `loadUsers`).
-- No interface prefix `IUser` or type suffix `UserType`.
+Focus on domain code generation:
+- Feature driven development (FDD).
+- No anemic models (avoid trivial getId/setId).
+- Function names follow user actions (avoid setSomething).
+- No interface prefix (IUser) or type suffix (UserType).
 
 Lint & Error
 - Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).
@@ -1180,6 +1197,19 @@ globs: **/*.json
     - shared-types: [package.json](mdc:packages/shared-types/package.json)
 - Ask before adding new packages.
 - Use PNPM with the latest version.
+```
+
+### .cursor/rules/rule-global-shared-types.mdc
+
+```mdc
+---
+description: Global shared types rules to apply when sharing types between frontend and backend.
+globs: "**/*"
+---
+
+- Place shared data types in "packages/shared-types".
+- One file per type, export everything from index.ts.
+
 ```
 
 ### Project Structure
@@ -1541,7 +1571,7 @@ globs: **/*.json
 ./tsconfig.json
 ./turbo.json
 
-105 directories, 250 files
+118 directories, 251 files
 ```
 
-2025-02-11 06:35:06
+2025-02-10 08:23:21
