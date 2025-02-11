@@ -1,7 +1,8 @@
 import { Project } from '@le-journal/shared-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { Project as PrismaProject } from '@prisma/client';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Project as ProjectModel } from '@prisma/client';
+import { Pick } from '@prisma/client/runtime/library';
+import { IsNotEmpty, IsNumber, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
 export class CreateProjectDto {
   @ApiProperty({ example: 'Mon super projet', description: 'Nom du projet' })
@@ -30,6 +31,39 @@ export class CreateProjectDto {
   projectNumber!: number;
 }
 
+export class UpdateProjectPromptDto implements Pick<Project, 'id' | 'promptInstruction'> {
+  @ApiProperty({
+    example: 'c123e456-789b-12d3-a456-426614174000',
+    description: 'ID du projet',
+  })
+  @IsString()
+  @IsNotEmpty()
+  id!: string;
+
+  @ApiProperty({
+    description: 'The instruction prompt for the project',
+    example: 'Write a blog post about AI and its impact on society',
+    minLength: 10,
+    maxLength: 200,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(10, {
+    message: 'Prompt instruction must be at least 10 characters long',
+  })
+  @MaxLength(200)
+  @Matches(/^[^<>{}]*$/, {
+    message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
+  })
+  promptInstruction!: string;
+
+  // TODO: Add external API security validation in the future
+  // This could include:
+  // - Content moderation
+  // - Profanity checks
+  // - Semantic analysis for malicious content
+}
+
 export class ProjectDto implements Project {
   @ApiProperty({
     example: 'c123e456-789b-12d3-a456-426614174000',
@@ -55,7 +89,13 @@ export class ProjectDto implements Project {
   @ApiProperty({ example: '2024-02-08T12:00:00.000Z', description: 'Date de création' })
   createdAt: Date;
 
-  constructor(project: PrismaProject) {
+  @ApiProperty({
+    example: 'Write a blog post about AI and its impact on society',
+    description: 'Instruction pour le projet',
+  })
+  promptInstruction: string;
+
+  constructor(project: ProjectModel) {
     this.id = project.id;
     this.name = project.name;
     this.slug = project.slug;
@@ -63,5 +103,6 @@ export class ProjectDto implements Project {
     this.newsletterAlias = project.newsletter_alias;
     this.projectNumber = project.project_number;
     this.createdAt = project.created_at;
+    this.promptInstruction = project.prompt_instruction;
   }
 }

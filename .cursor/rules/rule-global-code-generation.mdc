@@ -1,6 +1,6 @@
 ---
-description: When generating any code in any context.
-globs: "**/*.ts, **/*.tsx
+description: Global : Code generation
+globs: **/*.ts, **/*.tsx
 ---
 
 Language:

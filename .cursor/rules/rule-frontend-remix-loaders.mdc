@@ -1,6 +1,6 @@
 ---
-description: When generating frontend Remix
-globs: "apps/frontend/**"
+description: Frontend : Remix Loaders
+globs: apps/frontend/**/*.ts
 ---
 - Loaders must be used in routes.
 - Return plain objects instead of `json()`.

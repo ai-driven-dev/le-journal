@@ -4,14 +4,13 @@ import {
   Get,
   Inject,
   OnModuleInit,
-  Param,
   Post,
   Put,
   Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import {
   USER_REPOSITORY,
@@ -24,7 +23,7 @@ import {
   PROJECT_REPOSITORY,
   ProjectRepository,
 } from '../../domain/repositories/project.repository.interface';
-import { CreateProjectDto, ProjectDto } from '../dtos/project.dto';
+import { CreateProjectDto, ProjectDto, UpdateProjectPromptDto } from '../dtos/project.dto';
 
 // TODO: À remplacer par un middleware d'authentification
 const TEMP_USER_EMAIL = 'user.standard@example.com';
@@ -83,20 +82,25 @@ export class ProjectsController implements OnModuleInit {
 
   @Get()
   @ApiOperation({ summary: "Récupérer le projet de l'utilisateur" })
+  @ApiQuery({ name: 'projectNumber', required: false, type: Number, default: 1 })
   @ApiResponse({ status: 200, type: ProjectDto })
   async getProject(@Query('projectNumber') projectNumber: number): Promise<ProjectDto[]> {
     const projects = await this.getProjectUseCase.execute(this.userId, +projectNumber);
     return projects.map((project) => new ProjectDto(project));
   }
 
-  @Put(':id/prompt')
+  @Put('prompt')
   @ApiOperation({ summary: 'Mettre à jour les instructions du prompt du projet' })
   @ApiResponse({ status: 200, type: ProjectDto })
   async updateProjectPrompt(
-    @Param('id') id: string,
-    @Body('promptInstruction') promptInstruction: string,
+    @Body(
+      new ValidationPipe({
+        transform: true,
+      }),
+    )
+    updateProjectPromptDto: UpdateProjectPromptDto,
   ): Promise<ProjectDto> {
-    const project = await this.updateProjectPromptUseCase.execute(id, promptInstruction);
+    const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
     return new ProjectDto(project);
   }
 }

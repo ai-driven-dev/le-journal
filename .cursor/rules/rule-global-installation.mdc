@@ -1,5 +1,5 @@
 ---
-description: When installating of adding new packages.
+description: Global : Package installations
 globs: **/*.json
 ---
 - Use Node, never Express.
