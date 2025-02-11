@@ -1,5 +1,5 @@
 ---
-date: 2025-02-11 07:13:39
+date: 2025-02-11 08:13:31
 ---
 
 # Project Specifications "Knowledge Base"
@@ -778,7 +778,7 @@ model Project {
   name              String
   slug              String
   newsletter_alias  String   @unique @map("newsletter_alias")
-  prompt_instruction String? @db.Text @map("prompt_instruction")
+  prompt_instruction String   @default("") @db.Text @map("prompt_instruction")
   created_at        DateTime @default(now()) @map("created_at")
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -1016,11 +1016,31 @@ Exceptions:
 
 Logging:
 - Avoid "logger.error()", throw Exception instead (because logger catchs exceptions).
-- Log every use-cases: input and output with debug.
+- On use-cases: log `debug` the input, log `success` the output.
 
 Loging use-case example:
 ```ts
+  async execute(projectId: string, promptInstruction: string): Promise<Project> {
+    this.logger.debug(`Updating Project Prompt`, this.constructor.name, {
+      projectId,
+      promptInstruction,
+    });
 
+    const project = await this.projectRepository.findById(projectId);
+
+    if (project === null) {
+      throw new NotFoundException(`Project with id ${projectId} not found`);
+    }
+
+    const updatedProject = await this.projectRepository.update(projectId, { promptInstruction });
+
+    this.logger.success(`Project Prompt Updated`, this.constructor.name, {
+      projectId,
+      promptInstruction: updatedProject.prompt_instruction,
+    });
+
+    return updatedProject;
+  }
 ```
 
 DTO:
@@ -1029,6 +1049,7 @@ DTO:
 - Create and Update DTOs are always implementing Prisma's corresponding interface (e.g. `export class CreateUserDto implements Prisma.UserCreateInput`)
 - Map fields individually (e.g `this.id = user.id` in constructor), no `Object.assign` etc.
 - Use `class-validator` and `Swagger` documentation with annotations on fields.
+- DTOs always implements interfaces in `shared-types` to ensure frontend <-> backend type coherence.
 
 Example of files structure:
 ```text
@@ -1054,12 +1075,17 @@ Example of files structure:
 description: Apply them when creating or modifying tests
 globs: apps/backend/**/*.ts
 ---
-Backend Tests:
+Backend tests rules:
 - Jest for testing.
 - Integration tests must not create data directly (use seed.ts).
-- Always test use-cases.
-- Never call Prisma directly in tests.
-- No "retries" in test generation.
+- No "retries".
+
+Backend tests (integration):
+- Always test controller to have the max coverrage.
+
+Backend tests with data:
+- Seed are used as fixtures, data already set up.
+- Never call Prisma directly in tests, use repository if needed.
 ```
 
 ### .cursor/rules/rule-frontend-components.mdc
@@ -1297,6 +1323,8 @@ globs: **/*.json
 ./apps/backend/prisma/migrations/20250209093206_/migration.sql
 ./apps/backend/prisma/migrations/20250209171456_add_project_to_newsletter
 ./apps/backend/prisma/migrations/20250209171456_add_project_to_newsletter/migration.sql
+./apps/backend/prisma/migrations/20250211071055_empty_instructions_by_default
+./apps/backend/prisma/migrations/20250211071055_empty_instructions_by_default/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/prisma/seed.ts
@@ -1353,6 +1381,7 @@ globs: **/*.json
 ./apps/backend/src/features/projects/presentation/controllers/projects.controller.ts
 ./apps/backend/src/features/projects/presentation/dtos
 ./apps/backend/src/features/projects/presentation/dtos/project.dto.ts
+./apps/backend/src/features/projects/presentation/dtos/update-project-prompt.dto.ts
 ./apps/backend/src/features/projects/projects.module.ts
 ./apps/backend/src/features/users
 ./apps/backend/src/features/users/application
@@ -1569,7 +1598,7 @@ globs: **/*.json
 ./tsconfig.json
 ./turbo.json
 
-108 directories, 258 files
+109 directories, 260 files
 ```
 
-2025-02-11 07:13:39
+2025-02-11 08:13:31

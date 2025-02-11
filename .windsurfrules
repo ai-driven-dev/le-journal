@@ -16,11 +16,31 @@ Exceptions:
 
 Logging:
 - Avoid "logger.error()", throw Exception instead (because logger catchs exceptions).
-- Log every use-cases: input and output with debug.
+- On use-cases: log `debug` the input, log `success` the output.
 
 Loging use-case example:
 ```ts
+  async execute(projectId: string, promptInstruction: string): Promise<Project> {
+    this.logger.debug(`Updating Project Prompt`, this.constructor.name, {
+      projectId,
+      promptInstruction,
+    });
 
+    const project = await this.projectRepository.findById(projectId);
+
+    if (project === null) {
+      throw new NotFoundException(`Project with id ${projectId} not found`);
+    }
+
+    const updatedProject = await this.projectRepository.update(projectId, { promptInstruction });
+
+    this.logger.success(`Project Prompt Updated`, this.constructor.name, {
+      projectId,
+      promptInstruction: updatedProject.prompt_instruction,
+    });
+
+    return updatedProject;
+  }
 ```
 
 DTO:
@@ -29,6 +49,7 @@ DTO:
 - Create and Update DTOs are always implementing Prisma's corresponding interface (e.g. `export class CreateUserDto implements Prisma.UserCreateInput`)
 - Map fields individually (e.g `this.id = user.id` in constructor), no `Object.assign` etc.
 - Use `class-validator` and `Swagger` documentation with annotations on fields.
+- DTOs always implements interfaces in `shared-types` to ensure frontend <-> backend type coherence.
 
 Example of files structure:
 ```text
@@ -46,12 +67,17 @@ Example of files structure:
 └── projects.module.ts
 ```
 
-Backend Tests:
+Backend tests rules:
 - Jest for testing.
 - Integration tests must not create data directly (use seed.ts).
-- Always test use-cases.
-- Never call Prisma directly in tests. 
-- No "retries" in test generation.
+- No "retries".
+
+Backend tests (integration):
+- Always test controller to have the max coverrage.
+
+Backend tests with data:
+- Seed are used as fixtures, data already set up.
+- Never call Prisma directly in tests, use repository if needed.
 
 Frontend Components:
 - Apply the Smart/Dumb pattern: 
