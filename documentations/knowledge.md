@@ -1,5 +1,5 @@
 ---
-date: 2025-02-10 09:30:39
+date: 2025-02-11 06:35:06
 ---
 
 # Project Specifications "Knowledge Base"
@@ -991,78 +991,58 @@ volumes:
   # meilisearch_data:
 ```
 
-### .cursor/rules/rule-backend-api-controllers.mdc
+### .cursor/rules/rule-backend-code-generation.mdc
 
-```mdc
+````mdc
 ---
-description: "Backend API and controllers rules for NestJS. Apply them when creating or updating controllers in apps/backend."
-globs: "apps/backend/**"
-File: rule-backend-api-controllers.mdc
+description: When generating any backend code.
+globs: apps/backend/**/*.ts
 ---
-
-Backend API & Controllers
+API & Controllers:
 - No direct CRUD, use domain-driven use-cases.
 - Document with Swagger (NestJS), in English.
-- Each controller matches a specific use-case.
+- Each controller matches a specific domain use-case.
+- Swagger annotations.
+- Validate received data with `ValidationPipe` and `transform`
+- API always returns DTOs.
+
+DTO:
+<!-- - No dedicated mapper, `mapped-types` allowed.  -->
+- Prisma Model is imported with `Model` suffix (e.g `import { Prisma, User as UserModel } from '@prisma/client';`)
+- Create and Update DTOs are always implementing Prisma's corresponding interface (e.g. `export class CreateUserDto implements Prisma.UserCreateInput`)
+- Map fields individually (e.g `this.id = user.id` in constructor), no `Object.assign` etc.
+- Use `class-validator` and `Swagger` documentation with annotations on fields.
+
+Example of files structure:
+```text
+├── application
+│   ├── create-project.use-case.ts
+│   ├── get-project.use-case.ts
+│   └── update-project-prompt.use-case.ts
+├── domain
+│   └── project.repository.interface.ts
+├── infrastructure
+│   └── prisma-project.repository.ts
+├── presentation
+│   ├── projects.controller.ts
+│   └── project.dto.ts
+└── projects.module.ts
 ```
-
-### .cursor/rules/rule-backend-dto.mdc
-
-```mdc
----
-description: "Backend DTO rules for NestJS. Apply them when creating or changing DTO structures in apps/backend."
-globs: "apps/backend/**"
-File: rule-backend-dto.mdc
----
-
-Backend DTO
-- Map fields individually (avoid Object.assign).
-- Use DTO for validation and Swagger doc.
-- Prefix Prisma imports (PrismaUser).
-```
-
-### .cursor/rules/rule-backend-repository.mdc
-
-```mdc
----
-description: "Backend repository rules for NestJS. Apply them when implementing repositories in apps/backend."
-globs: "apps/backend/**"
-File: rule-backend-repository.mdc
----
-
-Backend Repository
-- Use DTO for create/update.
-- No dedicated mapper, mapped-types allowed.
-```
+````
 
 ### .cursor/rules/rule-backend-tests.mdc
 
 ```mdc
 ---
-description: "Backend testing rules. Apply them when creating or modifying tests in apps/backend."
-globs: "apps/backend/**"
+description: Apply them when creating or modifying tests
+globs: apps/backend/**/*.ts
 ---
-
-Backend Tests
+Backend Tests:
 - Jest for testing.
 - Integration tests must not create data directly (use seed.ts).
 - Always test use-cases.
 - Never call Prisma directly in tests.
 - No "retries" in test generation.
-```
-
-### .cursor/rules/rule-backend-usecases.mdc
-
-```mdc
----
-description: "Backend use-cases rules for NestJS. Apply them when defining or modifying use-cases in apps/backend."
-globs: "apps/backend/**"
-File: rule-backend-usecases.mdc
----
-
-Backend Use-Cases
-- Domain-focused logic, not simple CRUD.
-- Prefer DTO instead of heavy ValueObjects.
 ```
 
 ### .cursor/rules/rule-frontend-components.mdc
@@ -1089,10 +1069,16 @@ user-profile/
 | user-profile.mock.ts # test data for UI
 | user-profile.type.ts # for store types: state, actions...
 ```
+- No default export for components.
+- Export static `displayName` at the bottom.
 - All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
   - Do not overinterpret, e.g. this code in not necessary nor helpful `const shouldShowContent = hasArticles; const articles = email.articles;`
 
-State Management (MobX)
+Frontend Remix Loaders:
+- Loaders must be used in routes.
+- Return plain objects instead of `json()`.
+
+Frontend State Management (MobX):
 - Use mobx-react-lite and makeAutoObservable.
 - Use runInAction for async or reactive effects.
 - Use computed properties for derived state and actions for modifications.
@@ -1107,20 +1093,21 @@ State Management (MobX)
 ```mdc
 ---
 description: When doing any action in frontend.
-globs: "apps/frontend/**"
+globs: apps/frontend/**
 ---
 - Remix only, no NextJS.
 - Root imports with /~.
 - Test with Vitest.
 - Use Vite, not Webpack.
 - ESLint with flat config.
+- Use versions in [package.json](mdc:apps/frontend/package.json).
 ```
 
 ### .cursor/rules/rule-frontend-remix-loaders.mdc
 
 ```mdc
 ---
-description: Frontend Remix loaders rules.
+description: When generating frontend Remix
 globs: "apps/frontend/**"
 ---
 - Loaders must be used in routes.
@@ -1131,28 +1118,46 @@ globs: "apps/frontend/**"
 
 ```mdc
 ---
-description: Global code generation rules to apply when generating any code.
-globs: "**/*.ts, **/*.tsx"
+description: When generating any code in any context.
+globs: "**/*.ts, **/*.tsx
 ---
 
 Language:
 - English for everything.
 - French only in UI (labels, texts...)
 
-Global Code Generation
-- Strict TypeScript.
-- Minimal file size.
+Sharing code:
+- Place shared data types in `packages/shared-types`.
+- One file per type, export everything from [index.ts](mdc:packages/shared-types/src/index.ts).
+
+Simplified code:
+- Use explicit constants instead of magic numbers.
+- Write clear and simple conditions, avoid double negatives.
+- Prioritize readable variable names, even if long.
+- Simplify loops using map(), filter(), or reduce().
+- Type safe code.
+
+Feature focus code:
+- Reflect business needs in the code.
+- Avoid technical function names, favor domain language.
+- Model objects closely to business concepts.
+
+Sizes:
+- Functions: Max 20-30 lines.
+- Classes/Files: Max 200-300 lines.
+- Folders: Max 7-10 files.
+
+Responsability:
 - One file per feature, split responsibility across files (SRP).
 
 Comments:
 - No comments by default.
 - Comments only for complex logic or interfaces.
 
-Focus on domain code generation:
-- Feature driven development (FDD).
-- No anemic models (avoid trivial getId/setId).
-- Function names follow user actions (avoid setSomething).
-- No interface prefix (IUser) or type suffix (UserType).
+Forbidden:
+- Anemic models (avoid trivial getId/setId).
+- Function names with no actions (avoid `setUsers`, prefer `loadUsers`).
+- No interface prefix `IUser` or type suffix `UserType`.
 
 Lint & Error
 - Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).
@@ -1164,30 +1169,17 @@ Lint & Error
 
 ```mdc
 ---
-description: Global environment & installation rules for any code. Apply them when code involves setup or adding packages.
-globs: "**/*"
+description: When installating of adding new packages.
+globs: **/*.json
 ---
-
 - Use Node, never Express.
 - Check all packages versions every time:
-    - npm
-    - pnpm
-    - yarn
+    - root monorepo: [package.json](mdc:package.json)
+    - backend: [package.json](mdc:apps/backend/package.json)
+    - frontend: [package.json](mdc:apps/frontend/package.json)
+    - shared-types: [package.json](mdc:packages/shared-types/package.json)
 - Ask before adding new packages.
 - Use PNPM with the latest version.
-```
-
-### .cursor/rules/rule-global-shared-types.mdc
-
-```mdc
----
-description: Global shared types rules to apply when sharing types between frontend and backend.
-globs: "**/*"
----
-
-- Place shared data types in "packages/shared-types".
-- One file per type, export everything from index.ts.
-
 ```
 
 ### Project Structure
@@ -1196,17 +1188,13 @@ globs: "**/*"
 .
 ./.cursor
 ./.cursor/rules
-./.cursor/rules/rule-backend-api-controllers.mdc
-./.cursor/rules/rule-backend-dto.mdc
-./.cursor/rules/rule-backend-repository.mdc
+./.cursor/rules/rule-backend-code-generation.mdc
 ./.cursor/rules/rule-backend-tests.mdc
-./.cursor/rules/rule-backend-usecases.mdc
 ./.cursor/rules/rule-frontend-components.mdc
 ./.cursor/rules/rule-frontend-global.mdc
 ./.cursor/rules/rule-frontend-remix-loaders.mdc
 ./.cursor/rules/rule-global-code-generation.mdc
 ./.cursor/rules/rule-global-installation.mdc
-./.cursor/rules/rule-global-shared-types.mdc
 ./.cursorignore
 ./.env
 ./.env.example
@@ -1304,9 +1292,6 @@ globs: "**/*"
 ./apps/backend/src/app.service.ts
 ./apps/backend/src/config
 ./apps/backend/src/config/config.module.ts
-./apps/backend/src/core
-./apps/backend/src/core/domain
-./apps/backend/src/core/domain/mapper.interface.ts
 ./apps/backend/src/features
 ./apps/backend/src/features/newsletter
 ./apps/backend/src/features/newsletter/application
@@ -1500,6 +1485,7 @@ globs: "**/*"
 ./documentations/_header.md
 ./documentations/instructions
 ./documentations/instructions/done
+./documentations/instructions/done/dashboard-to-api.md
 ./documentations/instructions/done/database
 ./documentations/instructions/done/database/generate-entities.md
 ./documentations/instructions/done/database/generate-seed-untested.md
@@ -1515,7 +1501,7 @@ globs: "**/*"
 ./documentations/instructions/done/wireframe-fr.md
 ./documentations/instructions/in-progress
 ./documentations/instructions/in-progress/.gitkeep
-./documentations/instructions/in-progress/dashboard-to-api.md
+./documentations/instructions/in-progress/form-and-security.md
 ./documentations/instructions/todo
 ./documentations/instructions/todo/.gitkeep
 ./documentations/instructions/todo/event-and-async.md
@@ -1555,7 +1541,7 @@ globs: "**/*"
 ./tsconfig.json
 ./turbo.json
 
-107 directories, 254 files
+105 directories, 250 files
 ```
 
-2025-02-10 09:30:39
+2025-02-11 06:35:06

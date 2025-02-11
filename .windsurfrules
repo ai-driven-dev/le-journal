@@ -1,43 +1,49 @@
 # Project rules
 
-Backend API & Controllers
-
+API & Controllers:
 - No direct CRUD, use domain-driven use-cases.
 - Document with Swagger (NestJS), in English.
-- Each controller matches a specific use-case.
+- Each controller matches a specific domain use-case.
+- Swagger annotations.
+- Validate received data with `ValidationPipe` and `transform`
+- API always returns DTOs.
 
-Backend DTO
+DTO:
+<!-- - No dedicated mapper, `mapped-types` allowed.  -->
+- Prisma Model is imported with `Model` suffix (e.g `import { Prisma, User as UserModel } from '@prisma/client';`)
+- Create and Update DTOs are always implementing Prisma's corresponding interface (e.g. `export class CreateUserDto implements Prisma.UserCreateInput`)
+- Map fields individually (e.g `this.id = user.id` in constructor), no `Object.assign` etc.
+- Use `class-validator` and `Swagger` documentation with annotations on fields.
 
-- Map fields individually (avoid Object.assign).
-- Use DTO for validation and Swagger doc.
-- Prefix Prisma imports (PrismaUser).
+Example of files structure:
+```text
+├── application
+│   ├── create-project.use-case.ts
+│   ├── get-project.use-case.ts
+│   └── update-project-prompt.use-case.ts
+├── domain
+│   └── project.repository.interface.ts
+├── infrastructure
+│   └── prisma-project.repository.ts
+├── presentation
+│   ├── projects.controller.ts
+│   └── project.dto.ts
+└── projects.module.ts
+```
 
-Backend Repository
-
-- Use DTO for create/update.
-- No dedicated mapper, mapped-types allowed.
-
-Backend Tests
-
+Backend Tests:
 - Jest for testing.
 - Integration tests must not create data directly (use seed.ts).
 - Always test use-cases.
-- Never call Prisma directly in tests.
+- Never call Prisma directly in tests. 
 - No "retries" in test generation.
 
-Backend Use-Cases
-
-- Domain-focused logic, not simple CRUD.
-- Prefer DTO instead of heavy ValueObjects.
-
 Frontend Components:
-
-- Apply the Smart/Dumb pattern:
-  - Smart components (stateful, using MobX stores)
-  - Dumb components (pure UI).
+- Apply the Smart/Dumb pattern: 
+    - Smart components (stateful, using MobX stores)
+    - Dumb components (pure UI).
 - Organize by feature in folders.
 Example for a user profile component:
-
 ```text
 user-profile/
 | user-profile.component.tsx # minimal logic, only UI component
@@ -48,63 +54,81 @@ user-profile/
 | user-profile.mock.ts # test data for UI
 | user-profile.type.ts # for store types: state, actions...
 ```
-
+- No default export for components.
+- Export static `displayName` at the bottom.
 - All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
   - Do not overinterpret, e.g. this code in not necessary nor helpful `const shouldShowContent = hasArticles; const articles = email.articles;`
 
-State Management (MobX)
+Frontend Remix Loaders:
+- Loaders must be used in routes.
+- Return plain objects instead of `json()`.
 
+Frontend State Management (MobX):
 - Use mobx-react-lite and makeAutoObservable.
 - Use runInAction for async or reactive effects.
 - Use computed properties for derived state and actions for modifications.
 - Create a factory at the bottom of each store (e.g. `export const createProjectStore = (): ProjectStore => new ProjectStore();`)
 - Inject the store into the parent component to facilitate state management.
 
+
 - Remix only, no NextJS.
 - Root imports with /~.
 - Test with Vitest.
 - Use Vite, not Webpack.
-- ESLint with flat config.
+- ESLint with flat config. 
+- Use versions in [package.json](mdc:apps/frontend/package.json).
 
 - Loaders must be used in routes.
 - Return plain objects instead of `json()`.
 
 Language:
-
 - English for everything.
 - French only in UI (labels, texts...)
 
-Global Code Generation
+Sharing code:
+- Place shared data types in `packages/shared-types`.
+- One file per type, export everything from [index.ts](mdc:packages/shared-types/src/index.ts).
 
-- Strict TypeScript.
-- Minimal file size.
+Simplified code:
+- Use explicit constants instead of magic numbers.
+- Write clear and simple conditions, avoid double negatives.
+- Prioritize readable variable names, even if long.
+- Simplify loops using map(), filter(), or reduce().
+- Type safe code.
+
+Feature focus code:
+- Reflect business needs in the code.
+- Avoid technical function names, favor domain language.
+- Model objects closely to business concepts.
+
+Sizes:
+- Functions: Max 20-30 lines.
+- Classes/Files: Max 200-300 lines.
+- Folders: Max 7-10 files.
+
+Responsability:
 - One file per feature, split responsibility across files (SRP).
 
 Comments:
-
 - No comments by default.
 - Comments only for complex logic or interfaces.
 
-Focus on domain code generation:
-
-- Feature driven development (FDD).
-- No anemic models (avoid trivial getId/setId).
-- Function names follow user actions (avoid setSomething).
-- No interface prefix (IUser) or type suffix (UserType).
+Forbidden:
+- Anemic models (avoid trivial getId/setId).
+- Function names with no actions (avoid `setUsers`, prefer `loadUsers`). 
+- No interface prefix `IUser` or type suffix `UserType`. 
 
 Lint & Error
-
 - Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).
 - Catch errors with catch(error: unknown | Error).
-- On frontend, use apps/frontend/app/utils/api/error.ts to handle errors.
+- On frontend, use apps/frontend/app/utils/api/error.ts to handle errors. 
 
 - Use Node, never Express.
 - Check all packages versions every time:
-  - npm
-  - pnpm
-  - yarn
+    - root monorepo: [package.json](mdc:package.json)
+    - backend: [package.json](mdc:apps/backend/package.json)
+    - frontend: [package.json](mdc:apps/frontend/package.json)
+    - shared-types: [package.json](mdc:packages/shared-types/package.json)
 - Ask before adding new packages.
 - Use PNPM with the latest version.
 
-- Place shared data types in "packages/shared-types".
-- One file per type, export everything from index.ts.
