@@ -1,28 +1,37 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
-import type { CustomPromptActions, CustomPromptState } from './custom-prompt.type';
+import type {
+  CustomPromptActions,
+  CustomPromptState,
+  PromptInstruction,
+} from './custom-prompt.type';
 
 export class CustomPromptStore implements CustomPromptState, CustomPromptActions {
-  customization = '';
+  id = '';
+  prompt = '';
   isDialogOpen = false;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setCustomization = (value: string): void => {
-    this.customization = value;
+  get currentPrompt(): PromptInstruction {
+    return {
+      id: this.id,
+      prompt: this.prompt,
+    };
+  }
+
+  initializePrompt = (prompt: PromptInstruction): void => {
+    runInAction(() => {
+      this.id = prompt.id;
+      this.prompt = prompt.prompt;
+    });
   };
 
   setIsDialogOpen = (isOpen: boolean): void => {
     this.isDialogOpen = isOpen;
   };
-
-  handleSave = (): void => {
-    // TODO: Here you would typically send the customization to your backend
-    this.setIsDialogOpen(false);
-  };
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const createCustomPromptStore = () => new CustomPromptStore();
+export const createCustomPromptStore = (): CustomPromptStore => new CustomPromptStore();

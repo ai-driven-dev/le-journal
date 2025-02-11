@@ -12,11 +12,20 @@ async function bootstrap(): Promise<void> {
     // Catch logs when initializing the app, so we do not miss any logs when app starts.
     bufferLogs: true,
   });
-  app.setGlobalPrefix('api');
 
+  // Logging
   const logger = app.get(AppLogger);
   app.useLogger(logger);
   app.useGlobalFilters(new AllExceptionsFilter(logger));
+
+  // API
+  app.setGlobalPrefix('api');
+  app.enableCors({
+    origin: ['http://localhost:3000'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
+  });
 
   // Configuration de Swagger
   if (process.env.NODE_ENV !== 'production') {

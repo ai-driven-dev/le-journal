@@ -2,7 +2,7 @@ import type { Email, Newsletter, Project, User } from '@le-journal/shared-types'
 import type { LoaderFunction } from '@remix-run/node';
 
 import { handleApiError } from '~/utils/api/error';
-import { API_ROUTES, apiFetch } from '~/utils/api/fetcher';
+import { API_ROUTES_GET, apiFetch } from '~/utils/api/fetcher';
 import { assert } from '~/utils/assertions';
 
 export interface DashboardLoaderData {
@@ -30,11 +30,11 @@ export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoade
     projects: () => Promise<Project[]>;
     emails?: () => Promise<Email[]>;
   } = {
-    newsletters: () => apiFetch<Newsletter[]>({ endpoint: API_ROUTES.newsletters }),
-    users: () => apiFetch<User[]>({ endpoint: API_ROUTES.users }),
+    newsletters: () => apiFetch<Newsletter[]>({ endpoint: API_ROUTES_GET.newsletters }),
+    users: () => apiFetch<User[]>({ endpoint: API_ROUTES_GET.users }),
     projects: () =>
       apiFetch<Project[]>({
-        endpoint: API_ROUTES.projects,
+        endpoint: API_ROUTES_GET.projects,
         searchParams: { projectNumber },
       }),
   };
@@ -51,7 +51,7 @@ export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoade
 
     requests.emails = () =>
       apiFetch<Email[]>({
-        endpoint: API_ROUTES.newsletterEmails,
+        endpoint: API_ROUTES_GET.newsletterEmails,
         searchParams: { projectId: projects[0].id },
       });
 

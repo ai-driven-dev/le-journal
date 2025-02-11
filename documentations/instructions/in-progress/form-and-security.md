@@ -11,12 +11,18 @@
 
 ## Backend
 
-- [ ] windston et logs de tout en mode debug
+- [x] windston et logs de tout en mode debug
 - [ ] Security prompt après validation et test
 - [ ] formulaires et validation
 
 ## Frontend
 
 - [ ] Prompt de test pour le use case
-
 - [ ] Requête HTTP dans le loader avec rules
+
+## Growth
+
+- NotePad :vidéo
+- Melvyn Fichiers règles
+- X et Reddit pour les cursor rules elles ne s'appliquent pas toujours
+- [ ] Class Validator à comprendre !!!-  définir la stratégie même si je dois faire des mappers.
