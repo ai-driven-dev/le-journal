@@ -6,7 +6,9 @@ type ApiEndpoint =
   | 'newsletters'
   | 'newsletters/emails'
   | 'newsletters/emails/search'
-  | 'projects/prompt';
+  | 'projects/prompt'
+  | 'auth/google'
+  | 'auth/logout';
 
 export const API_ROUTES_PUT = {
   projects: 'projects/prompt',
@@ -18,6 +20,8 @@ export const API_ROUTES_GET = {
   newsletters: 'newsletters',
   newsletterEmails: 'newsletters/emails',
   newsletterEmailsSearch: 'newsletters/emails/search',
+  authGoogle: 'auth/google',
+  authLogout: 'auth/logout',
 } as const;
 
 interface FetcherConfig {

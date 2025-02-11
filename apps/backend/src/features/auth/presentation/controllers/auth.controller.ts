@@ -1,17 +1,11 @@
 import { Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
+import type { Profile } from 'passport-google-oauth20';
 
 import { AuthService } from '../../application/auth.service';
 import { GoogleAuthGuard } from '../../guards/google-auth.guard';
-
-interface GoogleUser {
-  email: string;
-  name: string;
-  avatar: string;
-  googleId: string;
-  accessToken: string;
-}
+import { GoogleProfileDto } from '../dtos/google-profile.dto';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -30,10 +24,11 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   async googleAuthCallback(
-    @Req() req: Request & { user: GoogleUser },
+    @Req() req: Request & { user: Profile & { refreshToken: string } },
     @Res() res: Response,
   ): Promise<void> {
-    const { accessToken, user } = await this.authService.handleGoogleAuth(req.user);
+    const googleProfile = new GoogleProfileDto(req.user);
+    const { accessToken } = await this.authService.handleGoogleAuth(googleProfile);
 
     // Set JWT token in cookie
     res.cookie('access_token', accessToken, {

@@ -61,6 +61,7 @@ model User {
   name       String?
   google_id  String?  @unique @map("google_id")
   avatar     String?
+  refresh_token String?   @map("refresh_token")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
 

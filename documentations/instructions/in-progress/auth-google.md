@@ -14,9 +14,9 @@ Implement Google OAuth 2.0 authentication on the backend using NestJS. The front
 - `apps/backend/src/features/auth/guards/google-auth.guard.ts`
 - `apps/backend/prisma/schema.prisma`
 
-## Tasks  
+## Tasks
 
-### Backend: Implement Google OAuth  
+### Backend: Implement Google OAuth
 
 > Set up Google OAuth in NestJS and handle user authentication.
 
@@ -43,3 +43,13 @@ Implement Google OAuth 2.0 authentication on the backend using NestJS. The front
 - Refresh token is stored and can be used to generate a new access token.
 - Authenticated routes are protected using JWT guards.
 - User can log out and the refresh token is invalidated.
+
+## Review o1
+
+🛠 Résumé des corrections recommandées :
+🔐 Sécuriser le refresh token (hash en base avec bcrypt).
+⌛ Réduire la durée de vie du JWT (passer de 1d à 15m).
+🛑 Vérifier que googleId et email sont bien définis avant de créer un user.
+🔄 Implémenter /auth/refresh pour renouveler un access token.
+💥 Ajouter des erreurs explicites dans JwtStrategy et AuthController.
+✔️ Vérifier FRONTEND_URL dès le chargement de l’application.

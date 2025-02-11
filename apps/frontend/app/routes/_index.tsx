@@ -2,7 +2,7 @@ import type { MetaFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { GoogleSignIn } from '~/features/auth/components/google-sign-in.component';
+import { GoogleSignIn } from '~/features/auth/auth-button.component';
 
 export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
   return [
