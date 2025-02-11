@@ -4,6 +4,9 @@
 
 > When creating or updating backend code, please follow those rules:
 
+### Versions
+- NestJS 11
+
 ### Controllers
 - No direct CRUD, use domain-driven use-cases.
 - Document with Swagger, in English.
@@ -141,7 +144,9 @@ Simplified code:
 - Write clear and simple conditions, avoid double negatives.
 - Prioritize readable variable names, even if long.
 - Simplify loops using map(), filter(), or reduce().
-- Type safe code.
+
+Type safe code:
+- Always type function params and returns.
 
 Feature focus code:
 - Reflect business needs in the code.

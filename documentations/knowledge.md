@@ -1,5 +1,5 @@
 ---
-date: 2025-02-11 10:47:54
+date: 2025-02-11 13:29:43
 ---
 
 # Project Specifications "Knowledge Base"
@@ -647,12 +647,21 @@ BREAKING CHANGE: new user database structure
     "@le-journal/shared-types": "workspace:*",
     "@nestjs/common": "^11.0.7",
     "@nestjs/core": "^11.0.7",
+    "@nestjs/jwt": "^11.0.0",
     "@nestjs/mapped-types": "^2.1.0",
+    "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.7",
     "@nestjs/swagger": "^11.0.3",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/passport-google-oauth20": "^2.0.16",
+    "@types/passport-jwt": "^4.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "cookie-parser": "^1.4.7",
     "nest-winston": "^1.10.2",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "winston": "^3.17.0"
@@ -759,6 +768,8 @@ model User {
   id         String   @id @default(uuid())
   email      String   @unique
   name       String?
+  google_id  String?  @unique @map("google_id")
+  avatar     String?
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
 
@@ -769,6 +780,7 @@ model User {
 
   @@map("users")
   @@index([email])
+  @@index([google_id])
 }
 
 model Project {
@@ -1004,6 +1016,9 @@ globs: **/apps/backend/**/*.ts
 
 > When creating or updating backend code, please follow those rules:
 
+### Versions
+- NestJS 11
+
 ### Controllers
 - No direct CRUD, use domain-driven use-cases.
 - Document with Swagger, in English.
@@ -1184,7 +1199,9 @@ Simplified code:
 - Write clear and simple conditions, avoid double negatives.
 - Prioritize readable variable names, even if long.
 - Simplify loops using map(), filter(), or reduce().
-- Type safe code.
+
+Type safe code:
+- Always type function params and returns.
 
 Feature focus code:
 - Reflect business needs in the code.
@@ -1331,6 +1348,8 @@ globs: **/*.json
 ./apps/backend/prisma/migrations/20250209171456_add_project_to_newsletter/migration.sql
 ./apps/backend/prisma/migrations/20250211071055_empty_instructions_by_default
 ./apps/backend/prisma/migrations/20250211071055_empty_instructions_by_default/migration.sql
+./apps/backend/prisma/migrations/20250211115308_
+./apps/backend/prisma/migrations/20250211115308_/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/prisma/seed.ts
@@ -1349,6 +1368,19 @@ globs: **/*.json
 ./apps/backend/src/config
 ./apps/backend/src/config/config.module.ts
 ./apps/backend/src/features
+./apps/backend/src/features/auth
+./apps/backend/src/features/auth/application
+./apps/backend/src/features/auth/application/auth.service.ts
+./apps/backend/src/features/auth/auth.module.ts
+./apps/backend/src/features/auth/guards
+./apps/backend/src/features/auth/guards/google-auth.guard.ts
+./apps/backend/src/features/auth/guards/jwt.guard.ts
+./apps/backend/src/features/auth/presentation
+./apps/backend/src/features/auth/presentation/controllers
+./apps/backend/src/features/auth/presentation/controllers/auth.controller.ts
+./apps/backend/src/features/auth/strategies
+./apps/backend/src/features/auth/strategies/google.strategy.ts
+./apps/backend/src/features/auth/strategies/jwt.strategy.ts
 ./apps/backend/src/features/newsletter
 ./apps/backend/src/features/newsletter/application
 ./apps/backend/src/features/newsletter/application/use-cases
@@ -1456,6 +1488,13 @@ globs: **/*.json
 ./apps/frontend/app/entry.client.tsx
 ./apps/frontend/app/entry.server.tsx
 ./apps/frontend/app/features
+./apps/frontend/app/features/auth
+./apps/frontend/app/features/auth/components
+./apps/frontend/app/features/auth/components/google-sign-in.component.tsx
+./apps/frontend/app/features/auth/pages
+./apps/frontend/app/features/auth/pages/login.component.tsx
+./apps/frontend/app/features/auth/stores
+./apps/frontend/app/features/auth/stores/auth.store.ts
 ./apps/frontend/app/features/dashboard
 ./apps/frontend/app/features/dashboard/custom-prompt
 ./apps/frontend/app/features/dashboard/custom-prompt/custom-prompt.component.tsx
@@ -1511,6 +1550,7 @@ globs: **/*.json
 ./apps/frontend/app/routes/admin.tsx
 ./apps/frontend/app/routes/dashboard.$projectNumber.tsx
 ./apps/frontend/app/routes/dashboard.tsx
+./apps/frontend/app/routes/login.tsx
 ./apps/frontend/app/routes/onboarding.$step.tsx
 ./apps/frontend/app/routes/onboarding._index.tsx
 ./apps/frontend/app/routes/settings.tsx
@@ -1563,6 +1603,7 @@ globs: **/*.json
 ./documentations/instructions/done/wireframe-fr.md
 ./documentations/instructions/in-progress
 ./documentations/instructions/in-progress/.gitkeep
+./documentations/instructions/in-progress/auth-google.md
 ./documentations/instructions/in-progress/form-and-security.md
 ./documentations/instructions/todo
 ./documentations/instructions/todo/.gitkeep
@@ -1603,7 +1644,7 @@ globs: **/*.json
 ./tsconfig.json
 ./turbo.json
 
-109 directories, 259 files
+120 directories, 272 files
 ```
 
-2025-02-11 10:47:54
+2025-02-11 13:29:43
