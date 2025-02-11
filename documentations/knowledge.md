@@ -1,5 +1,5 @@
 ---
-date: 2025-02-11 13:29:43
+date: 2025-02-11 14:02:07
 ---
 
 # Project Specifications "Knowledge Base"
@@ -770,6 +770,7 @@ model User {
   name       String?
   google_id  String?  @unique @map("google_id")
   avatar     String?
+  refresh_token String?   @map("refresh_token")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
 
@@ -1350,6 +1351,8 @@ globs: **/*.json
 ./apps/backend/prisma/migrations/20250211071055_empty_instructions_by_default/migration.sql
 ./apps/backend/prisma/migrations/20250211115308_
 ./apps/backend/prisma/migrations/20250211115308_/migration.sql
+./apps/backend/prisma/migrations/20250211124226_google_auth_refresh_token
+./apps/backend/prisma/migrations/20250211124226_google_auth_refresh_token/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/prisma/seed.ts
@@ -1378,6 +1381,8 @@ globs: **/*.json
 ./apps/backend/src/features/auth/presentation
 ./apps/backend/src/features/auth/presentation/controllers
 ./apps/backend/src/features/auth/presentation/controllers/auth.controller.ts
+./apps/backend/src/features/auth/presentation/dtos
+./apps/backend/src/features/auth/presentation/dtos/google-profile.dto.ts
 ./apps/backend/src/features/auth/strategies
 ./apps/backend/src/features/auth/strategies/google.strategy.ts
 ./apps/backend/src/features/auth/strategies/jwt.strategy.ts
@@ -1489,12 +1494,9 @@ globs: **/*.json
 ./apps/frontend/app/entry.server.tsx
 ./apps/frontend/app/features
 ./apps/frontend/app/features/auth
-./apps/frontend/app/features/auth/components
-./apps/frontend/app/features/auth/components/google-sign-in.component.tsx
-./apps/frontend/app/features/auth/pages
-./apps/frontend/app/features/auth/pages/login.component.tsx
-./apps/frontend/app/features/auth/stores
-./apps/frontend/app/features/auth/stores/auth.store.ts
+./apps/frontend/app/features/auth/auth-button.component.tsx
+./apps/frontend/app/features/auth/auth.context.tsx
+./apps/frontend/app/features/auth/auth.store.ts
 ./apps/frontend/app/features/dashboard
 ./apps/frontend/app/features/dashboard/custom-prompt
 ./apps/frontend/app/features/dashboard/custom-prompt/custom-prompt.component.tsx
@@ -1550,7 +1552,6 @@ globs: **/*.json
 ./apps/frontend/app/routes/admin.tsx
 ./apps/frontend/app/routes/dashboard.$projectNumber.tsx
 ./apps/frontend/app/routes/dashboard.tsx
-./apps/frontend/app/routes/login.tsx
 ./apps/frontend/app/routes/onboarding.$step.tsx
 ./apps/frontend/app/routes/onboarding._index.tsx
 ./apps/frontend/app/routes/settings.tsx
@@ -1644,7 +1645,7 @@ globs: **/*.json
 ./tsconfig.json
 ./turbo.json
 
-120 directories, 272 files
+119 directories, 273 files
 ```
 
-2025-02-11 13:29:43
+2025-02-11 14:02:07
