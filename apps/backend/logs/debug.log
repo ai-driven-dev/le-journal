@@ -418,3 +418,27 @@
 2025-02-11T06:12:46.084Z [INFO]: Mapped {/api/newsletters/emails, GET} route
 2025-02-11T06:12:46.084Z [INFO]: Mapped {/api/newsletters/emails/search, GET} route
 2025-02-11T06:12:46.084Z [INFO]: Nest application successfully started
+2025-02-11T06:14:52.575Z [INFO]: Starting Nest application...
+2025-02-11T06:14:52.575Z [INFO]: AppModule dependencies initialized
+2025-02-11T06:14:52.575Z [INFO]: ConfigModule dependencies initialized
+2025-02-11T06:14:52.576Z [INFO]: PrismaModule dependencies initialized
+2025-02-11T06:14:52.576Z [INFO]: ConfigHostModule dependencies initialized
+2025-02-11T06:14:52.576Z [INFO]: WinstonModule dependencies initialized
+2025-02-11T06:14:52.576Z [INFO]: CacheModule dependencies initialized
+2025-02-11T06:14:52.576Z [INFO]: ConfigModule dependencies initialized
+2025-02-11T06:14:52.576Z [INFO]: LoggerModule dependencies initialized
+2025-02-11T06:14:52.576Z [INFO]: UsersModule dependencies initialized
+2025-02-11T06:14:52.576Z [INFO]: NewsletterModule dependencies initialized
+2025-02-11T06:14:52.576Z [INFO]: ProjectsModule dependencies initialized
+2025-02-11T06:14:52.576Z [INFO]: UsersController {/api/users}:
+2025-02-11T06:14:52.576Z [INFO]: Mapped {/api/users, POST} route
+2025-02-11T06:14:52.576Z [INFO]: Mapped {/api/users, GET} route
+2025-02-11T06:14:52.576Z [INFO]: ProjectsController {/api/projects}:
+2025-02-11T06:14:52.576Z [INFO]: Mapped {/api/projects, POST} route
+2025-02-11T06:14:52.576Z [INFO]: Mapped {/api/projects, GET} route
+2025-02-11T06:14:52.576Z [INFO]: Mapped {/api/projects/:id/prompt, PUT} route
+2025-02-11T06:14:52.576Z [INFO]: NewsletterController {/api/newsletters}:
+2025-02-11T06:14:52.577Z [INFO]: Mapped {/api/newsletters, GET} route
+2025-02-11T06:14:52.577Z [INFO]: Mapped {/api/newsletters/emails, GET} route
+2025-02-11T06:14:52.577Z [INFO]: Mapped {/api/newsletters/emails/search, GET} route
+2025-02-11T06:14:52.577Z [INFO]: Nest application successfully started
