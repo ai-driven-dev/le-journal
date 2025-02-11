@@ -78,7 +78,7 @@ model Project {
   name              String
   slug              String
   newsletter_alias  String   @unique @map("newsletter_alias")
-  prompt_instruction String? @db.Text @map("prompt_instruction")
+  prompt_instruction String   @default("") @db.Text @map("prompt_instruction")
   created_at        DateTime @default(now()) @map("created_at")
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)

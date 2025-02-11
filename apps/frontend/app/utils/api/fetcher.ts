@@ -59,5 +59,5 @@ export async function apiFetch<T>({ endpoint, init, searchParams }: FetcherConfi
     });
   }
 
-  return data;  
+  return data;
 }

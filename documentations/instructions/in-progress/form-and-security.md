@@ -2,12 +2,12 @@
 
 ## Prompts
 
-- [ ] Prompt : Quelles seraient les meilleures bonnes pratiques pour … use case en DDD avec www ?
-- [ ] Prompt extract rules
+- [x] Prompt : Quelles seraient les meilleures bonnes pratiques pour … use case en DDD avec www ?
+- [x] Prompt extract rules
 
 ## Rules
 
-- [ ] Règles Cursor pour loguer d’abord puis vérifier que ça fonctionne en envoyant le payload du front
+- [x] Règles Cursor pour loguer d’abord puis vérifier que ça fonctionne en envoyant le payload du front
 
 ## Backend
 

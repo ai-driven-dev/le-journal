@@ -17,14 +17,14 @@ export class AppLogger implements LoggerService {
     this.logger.warn(message, context);
   }
 
-  debug(message: string, from: string, context?: Record<string, unknown>): void {
+  debug(message: string, from: string, context: Record<string, unknown>): void {
     if (this.logger.debug) {
       const formattedMessage = `\x1b[34m${from}: ${message}\x1b[0m`;
       this.logger.debug(formattedMessage, context);
     }
   }
 
-  success(message: string, from: string, context?: Record<string, unknown>): void {
+  success(message: string, from: string, context: Record<string, unknown>): void {
     const formattedMessage = `\x1b[32m${from}: ${message}\x1b[0m`;
     this.logger.log(formattedMessage, context);
   }
