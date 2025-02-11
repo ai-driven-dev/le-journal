@@ -95,9 +95,10 @@
         "parameters": [
           {
             "name": "projectNumber",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
+              "default": 1,
               "type": "number"
             }
           }
@@ -120,19 +121,20 @@
         ]
       }
     },
-    "/api/projects/{id}/prompt": {
+    "/api/projects/prompt": {
       "put": {
         "operationId": "ProjectsController_updateProjectPrompt",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProjectPromptDto"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "",
@@ -391,6 +393,11 @@
             "type": "string",
             "example": "2024-02-08T12:00:00.000Z",
             "description": "Date de création"
+          },
+          "promptInstruction": {
+            "type": "string",
+            "example": "Write a blog post about AI and its impact on society",
+            "description": "Instruction pour le projet"
           }
         },
         "required": [
@@ -400,7 +407,29 @@
           "userId",
           "newsletterAlias",
           "projectNumber",
-          "createdAt"
+          "createdAt",
+          "promptInstruction"
+        ]
+      },
+      "UpdateProjectPromptDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "c123e456-789b-12d3-a456-426614174000",
+            "description": "ID du projet"
+          },
+          "promptInstruction": {
+            "type": "string",
+            "description": "The instruction prompt for the project",
+            "example": "Write a blog post about AI and its impact on society",
+            "minLength": 10,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "id",
+          "promptInstruction"
         ]
       },
       "NewsletterDto": {

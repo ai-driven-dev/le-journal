@@ -1,5 +1,5 @@
 ---
-description: When doing any action in frontend.
+description: Frontend : Always apply those rules
 globs: apps/frontend/**
 ---
 - Remix only, no NextJS.

@@ -19,13 +19,13 @@ export class AppLogger implements LoggerService {
 
   debug(message: string, from: string, context: Record<string, unknown>): void {
     if (this.logger.debug) {
-      const formattedMessage = `\x1b[34m${from}: ${message}\x1b[0m`;
+      const formattedMessage = `\x1b[34m${from}\x1b[0m: ${message}`;
       this.logger.debug(formattedMessage, context);
     }
   }
 
   success(message: string, from: string, context: Record<string, unknown>): void {
-    const formattedMessage = `\x1b[32m${from}: ${message}\x1b[0m`;
+    const formattedMessage = `\x1b[32m${from}\x1b[0m: ${message}`;
     this.logger.log(formattedMessage, context);
   }
 }

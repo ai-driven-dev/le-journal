@@ -5,6 +5,7 @@ import {
   PROJECT_REPOSITORY,
   ProjectRepository,
 } from '../../domain/repositories/project.repository.interface';
+import { UpdateProjectPromptDto } from '../../presentation/dtos/project.dto';
 
 import { AppLogger } from 'src/infrastructure/logging/logger.service';
 
@@ -16,24 +17,26 @@ export class UpdateProjectPromptUseCase {
     private readonly logger: AppLogger,
   ) {}
 
-  async execute(projectId: string, promptInstruction: string): Promise<Project> {
-    this.logger.debug(
-      `Updating Project Prompt - projectId: ${projectId}, newPrompt: ${promptInstruction}`,
-      'UpdateProjectPromptUseCase',
-    );
+  async execute(dto: UpdateProjectPromptDto): Promise<Project> {
+    this.logger.debug('Updating Project Prompt', this.constructor.name, {
+      projectId: dto.id,
+      promptInstruction: dto.promptInstruction,
+    });
 
-    const project = await this.projectRepository.findById(projectId);
+    const project = await this.projectRepository.findById(dto.id);
 
     if (project === null) {
-      throw new NotFoundException(`Project with id ${projectId} not found`);
+      throw new NotFoundException(`Project with id ${dto.id} not found`);
     }
 
-    const updatedProject = await this.projectRepository.update(projectId, { promptInstruction });
+    const updatedProject = await this.projectRepository.update(dto.id, {
+      prompt_instruction: dto.promptInstruction,
+    });
 
-    this.logger.success(
-      `Project Prompt Updated - projectId: ${projectId}, newPrompt: ${updatedProject.prompt_instruction}`,
-      'UpdateProjectPromptUseCase',
-    );
+    this.logger.success('Project Prompt Updated', this.constructor.name, {
+      projectId: dto.id,
+      promptInstruction: updatedProject.prompt_instruction,
+    });
 
     return updatedProject;
   }

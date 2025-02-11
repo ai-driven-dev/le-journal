@@ -61,10 +61,7 @@ export class PrismaProjectRepository implements ProjectRepository {
     });
   }
 
-  async update(
-    id: string,
-    data: { name?: string; slug?: string; promptInstruction?: string },
-  ): Promise<Project> {
+  async update(id: string, data: Partial<Project>): Promise<Project> {
     return this.prisma.project.update({
       where: { id },
       data,

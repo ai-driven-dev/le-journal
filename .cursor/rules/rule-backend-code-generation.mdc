@@ -1,22 +1,27 @@
 ---
-description: When generating any backend code.
-globs: apps/backend/**/*.ts
+description: Backend code generation
+globs: **/apps/backend/**/*.ts
 ---
-API & Controllers:
-- No direct CRUD, use domain-driven use-cases.
-- Document with Swagger (NestJS), in English.
-- Each controller matches a specific domain use-case.
-- Swagger annotations.
-- Validate received data with `ValidationPipe` and `transform`
-- API always returns DTOs.
+## Backend code generation
 
-Exceptions:
+> When creating or updating backend code, please follow those rules:
+
+### Controllers
+- No direct CRUD, use domain-driven use-cases.
+- Document with Swagger, in English.
+- Validate received data with `ValidationPipe` and `transform`
+- Always returns DTOs.
+
+### Exceptions
 - Throw exception the more you can.
 - Always be specific, error message must contain input parameters for easy debuging.
 - Use NestJS or the framework exceptions when technical.
 - Create custom exceptions when domain specific.
 
-Logging:
+### Backend : Use-cases
+- 
+
+### Logging
 - Avoid "logger.error()", throw Exception instead (because logger catchs exceptions).
 - On use-cases: log `debug` the input, log `success` the output.
 
@@ -45,10 +50,12 @@ Loging use-case example:
   }
 ```
 
-DTO:
-<!-- - No dedicated mapper, `mapped-types` allowed.  -->
+### DTO
+- Everything in subclass
 - Prisma Model is imported with `Model` suffix (e.g `import { Prisma, User as UserModel } from '@prisma/client';`)
 - Create and Update DTOs are always implementing Prisma's corresponding interface (e.g. `export class CreateUserDto implements Prisma.UserCreateInput`)
+- - Document with Swagger (NestJS), in English.
+- Only use DTO for creations, updates, no "output or response DTO"
 - Map fields individually (e.g `this.id = user.id` in constructor), no `Object.assign` etc.
 - Use `class-validator` and `Swagger` documentation with annotations on fields.
 - DTOs always implements interfaces in `shared-types` to ensure frontend <-> backend type coherence.
@@ -68,3 +75,4 @@ Example of files structure:
 │   └── project.dto.ts
 └── projects.module.ts
 ```
+

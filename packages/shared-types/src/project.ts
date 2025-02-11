@@ -4,4 +4,5 @@ export interface Project {
   newsletterAlias: string;
   projectNumber: number;
   createdAt: Date;
+  promptInstruction: string;
 }

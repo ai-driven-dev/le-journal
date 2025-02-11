@@ -1,13 +1,18 @@
 ---
-description: Frontend feature code generation: components, stores etc.
-globs: "apps/frontend/**.ts, apps/frontend/**.tsx"
+description: Frontend : Coding components, stores,  etc.
+globs: apps/frontend/**.ts, apps/frontend/**.tsx
 ---
-
-Frontend Components:
+## Frontend : Components rules
 - Apply the Smart/Dumb pattern: 
-    - Smart components (stateful, using MobX stores)
-    - Dumb components (pure UI).
-- Organize by feature in folders.
+  - Smart components (stateful, using MobX stores)
+  - Dumb components (pure UI).
+- No default export for components.
+- Export static `displayName` at the bottom.
+- All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
+  - Do not overinterpret, e.g. this code in not necessary nor helpful `const shouldShowContent = hasArticles; const articles = email.articles;`
+
+## Frontend : Files architecture
+- Structure: Organize by feature in folders.
 Example for a user profile component:
 ```text
 user-profile/
@@ -19,16 +24,8 @@ user-profile/
 | user-profile.mock.ts # test data for UI
 | user-profile.type.ts # for store types: state, actions...
 ```
-- No default export for components.
-- Export static `displayName` at the bottom.
-- All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
-  - Do not overinterpret, e.g. this code in not necessary nor helpful `const shouldShowContent = hasArticles; const articles = email.articles;`
 
-Frontend Remix Loaders:
-- Loaders must be used in routes.
-- Return plain objects instead of `json()`.
-
-Frontend State Management (MobX):
+## Frontend State Management (MobX)
 - Use mobx-react-lite and makeAutoObservable.
 - Use runInAction for async or reactive effects.
 - Use computed properties for derived state and actions for modifications.
