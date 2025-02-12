@@ -1,3 +1,14 @@
+---
+description: Rules for Shared Types between frontend and backend
+globs: packages/shared-types/**/*.ts
+---
+- most of the validation is done here with `class-validator`
+- this type is used "as-is" in frontend.
+- this type is extended in backend's Domain models.
+- for frontend, 'sub-types' can be created picking types from main type.
+
+Example `packages/shared-types/src/project.type.ts`:
+```typescript
 import { PickType } from '@nestjs/mapped-types';
 import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
@@ -36,3 +47,4 @@ export class ProjectType {
 }
 
 export class ProjectPromptType extends PickType(ProjectType, ['id', 'promptInstruction']) {}
+```

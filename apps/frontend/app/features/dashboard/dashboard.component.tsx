@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 
-import { AiCustomization } from './custom-prompt/custom-prompt.component';
+import { CustomInstructions } from './custom-instructions/custom-instructions.component';
 import { useDashboardStores } from './dashboard.context';
 import type { DashboardLoaderData } from './dashboard.loader';
 import { NewsletterTable } from './emails/emails.component';
@@ -43,7 +43,7 @@ export const Dashboard: FC = observer(() => {
 
     // Required data.
     dashboardStore.projectStore.init(currentProject);
-    dashboardStore.createPromptStore.init({
+    dashboardStore.customInstructions.init({
       id: currentProject.id,
       promptInstruction: currentProject.promptInstruction,
     });
@@ -77,7 +77,7 @@ export const Dashboard: FC = observer(() => {
             <HeaderProfile />
 
             <NewsletterTable />
-            <AiCustomization />
+            <CustomInstructions />
           </SidebarInset>
         </div>
       </SidebarProvider>

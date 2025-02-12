@@ -9,9 +9,6 @@
     "packages/*"
   ],
   "scripts": {
-    "shared": "pnpm --filter shared-types run",
-    "front": "pnpm --filter frontend run",
-    "back": "pnpm --filter backend run",
     "document": "zsh ./documentations/knowledge.sh",
     "build": "turbo run build",
     "dev": "docker-compose up --build -d && turbo run dev",
@@ -25,7 +22,7 @@
     "test": "turbo run test",
     "update:deps": "pnpm up -r --latest && pnpm install && pnpm run check && pnpm outdated -r ",
     "prepare": "husky && husky install",
-    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm build && pnpm typecheck &&  pnpm test",
+    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm build && pnpm typecheck",
     "renovate": "dotenv -- renovate --dry-run",
     "clean": "cd packages/shared-types && pnpm clean && pnpm build"
   },

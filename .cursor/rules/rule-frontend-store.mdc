@@ -1,0 +1,5 @@
+---
+description: Frontend store with MobX for logic.
+globs: apps/frontend/**
+---
+

@@ -1,8 +1,4 @@
-/**
- * Newsletter-related types shared between frontend and backend
- */
-
-export type SubscriptionStatus = 'ACTIVE' | 'IN_PROGRESS' | 'PENDING' | 'FAILED';
+import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 export const SubscriptionStatus = {
   ACTIVE: 'ACTIVE' as const,
@@ -11,10 +7,26 @@ export const SubscriptionStatus = {
   FAILED: 'FAILED' as const,
 } as const;
 
-export interface Newsletter {
-  id: string;
-  user_id: string;
-  email: string;
-  subscribed_at: Date;
-  subscription_status: SubscriptionStatus;
+export type SubscriptionStatusType = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus];
+
+export class Newsletter {
+  @IsString()
+  @IsNotEmpty()
+  id!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  user_id!: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email!: string;
+
+  @IsDate()
+  @IsNotEmpty()
+  subscribed_at!: Date;
+
+  @IsEnum(SubscriptionStatus)
+  @IsNotEmpty()
+  subscription_status!: SubscriptionStatusType;
 }

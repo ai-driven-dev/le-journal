@@ -1,4 +1,4 @@
-import type { SubscriptionStatus } from '@le-journal/shared-types';
+import type { SubscriptionStatusType } from '@le-journal/shared-types';
 import { Check, Clock, X } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
@@ -13,7 +13,7 @@ export const NewsletterSubscriptions: FC = observer(() => {
   const { dashboardStore } = useDashboardStores();
   const store = dashboardStore.newslettersStore;
 
-  const NEWSLETTER_STATUS_DISPLAY: Record<SubscriptionStatus, NewsletterStatusDisplay> = {
+  const NEWSLETTER_STATUS_DISPLAY: Record<SubscriptionStatusType, NewsletterStatusDisplay> = {
     ACTIVE: {
       icon: Check,
       description: 'La souscription est active et fonctionne correctement',

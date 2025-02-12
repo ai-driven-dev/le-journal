@@ -1,0 +1,36 @@
+---
+description: Backend logic when using controllers from REST API.
+globs: apps/backend/**/*.ts
+---
+- no `ValidationPipe` needed, `main.ts` uses `useGlobalPipes`.
+- input is Domain object, output is Domain object too.
+- call the use-cases which will handle domain logic.
+- use domain mapper from current domain.
+- use Swagger annotations the more you can to be details on API specs.
+
+Example `projects/presentation/project.mapper.ts`:
+```typescript
+@ApiTags('Projects')
+@Controller('projects')
+export class ProjectsController {
+
+  constructor(
+    private readonly updateProjectPromptUseCase: UpdateProjectPromptUseCase,
+    private readonly projectMapper: ProjectMapper,
+  ) {}
+
+  @Put('prompt')
+  @ApiOperation({ summary: 'Update prompt instructions of a project.' })
+  @ApiResponse({ status: 200, type: ProjectUpdate })
+  async updateProjectPrompt(
+    @Body()
+    updateProjectPromptDto: ProjectUpdate,
+  ): Promise<ProjectUpdate> {
+    const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
+
+    return this.projectMapper.toDomain(project);
+  }
+}
+
+
+```

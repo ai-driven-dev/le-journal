@@ -1,3 +1,13 @@
+---
+description: Backend logic when need to map object from model (database) to domain object.
+globs: apps/backend/**/*.ts
+---
+- use NestJS dependency injection.
+- import type from Prisma suffixed by "Model".
+- implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>
+
+Example `projects/presentation/project.mapper.ts`:
+```typescript
 import { Injectable } from '@nestjs/common';
 import { Project as ProjectModel } from '@prisma/client';
 
@@ -33,3 +43,4 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
     };
   }
 }
+```

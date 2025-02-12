@@ -1,7 +1,7 @@
 import type { User } from '@le-journal/shared-types';
 import { makeAutoObservable, runInAction } from 'mobx';
 
-import { getApiUrl } from '~/utils/api/fetcher';
+import { getApiUrl } from '~/lib/api-fetcher';
 
 export class AuthStore {
   user: User | null = null;

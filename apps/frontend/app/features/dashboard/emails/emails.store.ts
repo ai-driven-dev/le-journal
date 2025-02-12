@@ -1,17 +1,16 @@
 import type { Email } from '@le-journal/shared-types';
 import { makeAutoObservable } from 'mobx';
 
-import type { ProjectStore } from '../project/project.store';
+import type { ProjectStore } from '../project/project-alias.store';
 
 import type { EmailActions, EmailState } from './emails.type';
 
-import type { LoadableState } from '~/types/loadable';
-import { initialLoadableState } from '~/types/loadable';
+import type { Loadable } from '~/interfaces/loadable.interface';
 
-export class EmailStore implements EmailState, EmailActions, LoadableState<Email[]> {
-  isLoading = initialLoadableState.isLoading;
-  error = initialLoadableState.error;
-  data: Email[] | null = initialLoadableState.data;
+export class EmailStore implements EmailState, EmailActions, Loadable<Email[]> {
+  state: Email[] | null = null;
+  isLoading = true;
+  isSubmitting = false;
   selectedEmailId: string | null = null;
   isDrawerOpen = false;
 
@@ -20,7 +19,8 @@ export class EmailStore implements EmailState, EmailActions, LoadableState<Email
   }
 
   loadEmails = (emails: Email[]): void => {
-    this.data = emails;
+    this.state = emails;
+    this.isLoading = false;
   };
 
   selectEmail = (id: string | null): void => {

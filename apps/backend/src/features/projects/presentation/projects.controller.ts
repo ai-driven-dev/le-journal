@@ -74,18 +74,18 @@ export class ProjectsController implements OnModuleInit {
   async getProject(@Query('projectNumber') projectNumber: number): Promise<Project[]> {
     const projects = await this.getProjectUseCase.execute(this.userId, +projectNumber);
 
-    return projects.map(this.projectMapper.toDto);
+    return projects.map(this.projectMapper.toDomain);
   }
 
   @Put('prompt')
   @ApiOperation({ summary: 'Mettre à jour les instructions du prompt du projet' })
-  @ApiResponse({ status: 200, type: Project })
+  @ApiResponse({ status: 200, type: ProjectUpdate })
   async updateProjectPrompt(
     @Body()
     updateProjectPromptDto: ProjectUpdate,
   ): Promise<ProjectUpdate> {
     const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
 
-    return this.projectMapper.toDto(project);
+    return this.projectMapper.toDomain(project);
   }
 }

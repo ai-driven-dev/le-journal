@@ -8,7 +8,7 @@ import {
 } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { ApiError } from '~/utils/api/error';
+import { ApiError } from '~/lib/api-error';
 
 export const ErrorBoundary = observer(function ErrorBoundary(): React.ReactNode {
   const error = useRouteError();

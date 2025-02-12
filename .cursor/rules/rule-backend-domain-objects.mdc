@@ -1,17 +1,47 @@
 ---
-description: When using DTOs in backend
+description: Backend logic when using domain object.
 globs: apps/backend/**/*.ts
 ---
+- use Swagger annotations (`APIProperty` at least, propose more if relevant).
+- extends validated type (also with `class-validator`) only with current properties using `PickType`.
+- properties use `!` because no constructor.
+- language in english.
+- use `class-validator` annotations if data needs to be validation backend only.
 
-## Example
+Example:
 ```typescript
-this.logger.log('Payment processed', {
-  service: 'PaymentService',
-  method: 'processPayment',
-  correlationId: 'order-123',
-  metadata: {
-    orderId: order.id,
-    amount: payment.amount
-  }
-});
+import { ProjectType } from '@le-journal/shared-types';
+import { ApiProperty, PickType } from '@nestjs/swagger';
+import { IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+
+const MIN_LENGTH = 10;
+const MAX_LENGTH = 200;
+const VALIDATION = /^[^<>{}]*$/;
+
+export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstruction']) {
+  @ApiProperty({
+    example: 'c123e456-789b-12d3-a456-426614174000',
+    description: 'ID du projet',
+  })
+  id!: string;
+
+  @ApiProperty({
+    description: 'The instruction prompt for the project',
+    example: 'Write a blog post about AI and its impact on society',
+    minLength: MIN_LENGTH,
+    maxLength: MAX_LENGTH,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(MIN_LENGTH, {
+    message: `Prompt instruction must be at least ${MIN_LENGTH} characters long`,
+  })
+  @MaxLength(MAX_LENGTH, {
+    message: `Prompt instruction must be at most ${MAX_LENGTH} characters long`,
+  })
+  @Matches(VALIDATION, {
+    message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
+  })
+  promptInstruction!: string;
+}
 ```

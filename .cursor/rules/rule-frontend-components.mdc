@@ -1,5 +1,5 @@
 ---
-description: Frontend : Coding components, stores,  etc.
+description: Frontend components generation linked with MobX Store, UI only
 globs: apps/frontend/**.ts, apps/frontend/**.tsx
 ---
 ## Frontend : Components rules

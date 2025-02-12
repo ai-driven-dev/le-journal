@@ -1,53 +1,20 @@
-import type { ProjectType } from '@le-journal/shared-types';
-import { useFetcher } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 import { type FC } from 'react';
 
 import { useDashboardStores } from '../dashboard.context';
 
 import { Button } from '~/components/ui/button';
+import { Skeleton } from '~/components/ui/skeleton';
 import { Textarea } from '~/components/ui/textarea';
-import { API_ROUTES_PUT, getApiUrl } from '~/utils/api/fetcher';
 
-export const AiCustomization: FC = observer(() => {
-  const fetcher = useFetcher<ProjectType>();
+export const CustomInstructions: FC = observer(() => {
   const { dashboardStore } = useDashboardStores();
-  const store = dashboardStore.createPromptStore;
+  const store = dashboardStore.customInstructions;
   const state = store.state;
 
-  if (state === null) {
-    return null;
+  if (state === null || store.isLoading) {
+    return <Skeleton className="h-[200px]" />;
   }
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const response = await fetch(getApiUrl(API_ROUTES_PUT.projects), {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: formData.get('id'),
-        promptInstruction: formData.get('prompt'),
-      }),
-    });
-
-    if (response.ok) {
-      const updatedPrompt = await response.json();
-      // VALIDATE and use same type
-      store.init({
-        id: updatedPrompt.id,
-        promptInstruction: updatedPrompt.promptInstruction,
-      });
-    } else {
-      console.error('Erreur lors de la mise à jour du prompt');
-    }
-  };
-
-  const isSubmitting = fetcher.state === 'submitting';
-  const formAction = getApiUrl(API_ROUTES_PUT.projects);
 
   return (
     <div className="mt-auto sticky bottom-0 bg-white border-t p-4">
@@ -55,29 +22,26 @@ export const AiCustomization: FC = observer(() => {
         Comment devrions-nous personnaliser votre score de newsletter ? Que souhaitez-vous voir plus
         ou moins ?
       </label>
-      <fetcher.Form
-        method="put"
-        action={formAction}
-        onSubmit={handleSubmit}
-        className="flex space-x-4"
-      >
+      <form method="put" action="#" onSubmit={store.save} className="flex space-x-4">
         <div className="flex space-x-4">
           <input type="hidden" name="id" value={state.id} />
           <Textarea
-            name="prompt"
-            disabled={isSubmitting}
+            name="promptInstruction"
+            disabled={store.isSubmitting}
             id="ai-customization"
             value={state.promptInstruction}
-            onChange={(e) => store.init({ id: state.id, promptInstruction: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              store.changeInstruction(e.target.value)
+            }
             className="flex-1"
             placeholder="Entrez vos préférences de personnalisation..."
           />
           <div className="flex flex-col justify-between">
             <span className="text-sm text-gray-500">
-              {state.promptInstruction?.length}/200 tokens
+              {state.promptInstruction.length}/200 tokens
             </span>
 
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={store.isSubmitting}>
               Confirmer
             </Button>
             {/* <Dialog open={isDialogOpen} onOpenChange={store.setIsDialogOpen}>
@@ -107,7 +71,7 @@ export const AiCustomization: FC = observer(() => {
             </Dialog> */}
           </div>
         </div>
-      </fetcher.Form>
+      </form>
     </div>
   );
 });

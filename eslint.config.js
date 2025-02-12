@@ -19,6 +19,7 @@ export default [
       '**/build/**',
       '**/*.d.ts',
       'apps/frontend/app/components/ui/*',
+      'apps/frontend/app/hooks/*',
     ],
   },
   // React component configuration

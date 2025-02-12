@@ -1,9 +1,9 @@
 import type { Email, Newsletter, ProjectType, User } from '@le-journal/shared-types';
 import type { LoaderFunction } from '@remix-run/node';
 
-import { handleApiError } from '~/utils/api/error';
-import { API_ROUTES_GET, apiFetch } from '~/utils/api/fetcher';
-import { assert } from '~/utils/assertions';
+import { handleApiError } from '~/lib/api-error';
+import { API_ROUTES_GET } from '~/lib/api-fetcher';
+import { serverFetch } from '~/lib/api-fetcher.server';
 
 export interface DashboardLoaderData {
   newsletters: Newsletter[];
@@ -30,10 +30,10 @@ export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoade
     projects: () => Promise<ProjectType[]>;
     emails?: () => Promise<Email[]>;
   } = {
-    newsletters: () => apiFetch<Newsletter[]>({ endpoint: API_ROUTES_GET.newsletters }),
-    users: () => apiFetch<User[]>({ endpoint: API_ROUTES_GET.users }),
+    newsletters: () => serverFetch<Newsletter[]>({ endpoint: API_ROUTES_GET.newsletters }),
+    users: () => serverFetch<User[]>({ endpoint: API_ROUTES_GET.users }),
     projects: () =>
-      apiFetch<ProjectType[]>({
+      serverFetch<ProjectType[]>({
         endpoint: API_ROUTES_GET.projects,
         searchParams: { projectNumber },
       }),
@@ -46,11 +46,8 @@ export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoade
       requests.projects(),
     ]);
 
-    assert.notEmpty(users, "Aucun utilisateur n'a été trouvé");
-    assert.notEmpty(projects, `Aucun projet n'a été trouvé avec ce numéro ${projectNumber}`);
-
     requests.emails = () =>
-      apiFetch<Email[]>({
+      serverFetch<Email[]>({
         endpoint: API_ROUTES_GET.newsletterEmails,
         searchParams: { projectId: projects[0].id },
       });
