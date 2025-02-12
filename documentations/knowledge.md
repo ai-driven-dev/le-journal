@@ -1,5 +1,5 @@
 ---
-date: 2025-02-12 09:41:54
+date: 2025-02-12 10:53:50
 ---
 
 # Project Specifications "Knowledge Base"
@@ -563,6 +563,7 @@ BREAKING CHANGE: new user database structure
     "@remix-run/node": "^2.15.3",
     "@remix-run/react": "^2.15.3",
     "@remix-run/serve": "^2.15.3",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -1005,93 +1006,6 @@ volumes:
   # meilisearch_data:
 ```
 
-### .cursor/rules/rule-backend-code-generation.mdc
-
-````mdc
----
-description: Backend code generation
-globs: **/apps/backend/**/*.ts
----
-## Backend code generation
-
-> When creating or updating backend code, please follow those rules:
-
-### Versions
-- NestJS 11
-
-### Controllers
-- No direct CRUD, use domain-driven use-cases.
-- Document with Swagger, in English.
-- Validate received data with `ValidationPipe` and `transform`
-- Always returns DTOs.
-
-### Exceptions
-- Throw exception the more you can.
-- Always be specific, error message must contain input parameters for easy debuging.
-- Use NestJS or the framework exceptions when technical.
-- Create custom exceptions when domain specific.
-
-### Backend : Use-cases
--
-
-### Logging
-- Avoid "logger.error()", throw Exception instead (because logger catchs exceptions).
-- On use-cases: log `debug` the input, log `success` the output.
-
-Loging use-case example:
-```ts
-  async execute(projectId: string, promptInstruction: string): Promise<Project> {
-    this.logger.debug(`Updating Project Prompt`, this.constructor.name, {
-      projectId,
-      promptInstruction,
-    });
-
-    const project = await this.projectRepository.findById(projectId);
-
-    if (project === null) {
-      throw new NotFoundException(`Project with id ${projectId} not found`);
-    }
-
-    const updatedProject = await this.projectRepository.update(projectId, { promptInstruction });
-
-    this.logger.success(`Project Prompt Updated`, this.constructor.name, {
-      projectId,
-      promptInstruction: updatedProject.prompt_instruction,
-    });
-
-    return updatedProject;
-  }
-```
-
-### DTO
-- Everything in subclass
-- Prisma Model is imported with `Model` suffix (e.g `import { Prisma, User as UserModel } from '@prisma/client';`)
-- Create and Update DTOs are always implementing Prisma's corresponding interface (e.g. `export class CreateUserDto implements Prisma.UserCreateInput`)
-- - Document with Swagger (NestJS), in English.
-- Only use DTO for creations, updates, no "output or response DTO"
-- Map fields individually (e.g `this.id = user.id` in constructor), no `Object.assign` etc.
-- Use `class-validator` and `Swagger` documentation with annotations on fields.
-- DTOs always implements interfaces in `shared-types` to ensure frontend <-> backend type coherence.
-
-Example of files structure:
-```text
-├── application
-│   ├── create-project.use-case.ts
-│   ├── get-project.use-case.ts
-│   └── update-project-prompt.use-case.ts
-├── domain
-│   └── project.repository.interface.ts
-├── infrastructure
-│   └── prisma-project.repository.ts
-├── presentation
-│   ├── projects.controller.ts
-│   └── project.dto.ts
-└── projects.module.ts
-```
-
-
-````
-
 ### .cursor/rules/rule-backend-controller.mdc
 
 ````mdc
@@ -1183,6 +1097,40 @@ export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstructi
   promptInstruction!: string;
 }
 ```
+````
+
+### .cursor/rules/rule-backend-global.mdc
+
+````mdc
+---
+description: Backend global code, always keep in mind
+globs: apps/backend/**/*.ts
+---
+- Libs: NestJS 11, RxJS 8 mandatory.
+- Throw exception early with descriptive names and params.
+- Create custom exceptions when domain specific.
+- Focus on domain logic.
+
+Example structure `src/features/projects`:
+```text
+├── application
+│   ├── create-project.use-case.ts
+│   ├── get-project.use-case.ts
+│   └── update-project-prompt.use-case.ts
+├── domain
+│   ├── project-create.ts
+│   ├── project-update.ts
+│   ├── project.repository.interface.ts
+│   └── project.ts
+├── infrastructure
+│   └── prisma-project.repository.ts
+├── presentation
+│   ├── project.mapper.ts
+│   └── projects.controller.ts
+└── projects.module.ts
+```
+
+
 ````
 
 ### .cursor/rules/rule-backend-logging-use-case.mdc
@@ -1304,44 +1252,81 @@ Backend tests with data:
 - Never call Prisma directly in tests, use repository if needed.
 ```
 
-### .cursor/rules/rule-frontend-components.mdc
+### .cursor/rules/rule-frontend-component.mdc
 
 ````mdc
 ---
-description: Frontend components generation linked with MobX Store, UI only
+description: Frontend component
 globs: apps/frontend/**.ts, apps/frontend/**.tsx
 ---
-## Frontend : Components rules
-- Apply the Smart/Dumb pattern:
-  - Smart components (stateful, using MobX stores)
-  - Dumb components (pure UI).
+- Use observer from mobx-react-lite on React components to track state changes.
+- Dump component, no logic, logics is in store [rule-frontend-store.mdc](mdc:.cursor/rules/rule-frontend-store.mdc) .
 - No default export for components.
 - Export static `displayName` at the bottom.
-- All actions, computations, and transformations (such as filtering, must be stored in variables at the top of the file (expect for className).
-  - Do not overinterpret, e.g. this code in not necessary nor helpful `const shouldShowContent = hasArticles; const articles = email.articles;`
+- const at the top.
+- Separate with line jumb `hooks` and regular const.
+- Early returns.
+- Strong typing.
+- Use ShadCN from `~/components/ui`.
+-
 
-## Frontend : Files architecture
-- Structure: Organize by feature in folders.
-Example for a user profile component:
-```text
-user-profile/
-| user-profile.component.tsx # minimal logic, only UI component
-| user-profile-menu.component.tsx # minimal logic, only UI component
-| user-profile.store.ts # for actions, computed, reactions...
-| user-profile.hook.ts # if necessary
-| user-profile.context.ts # if necessary, for providers
-| user-profile.mock.ts # test data for UI
-| user-profile.type.ts # for store types: state, actions...
+Example child component (`features/dashboard/custom-instructions/custom-instructions-confirmation.component.tsx`):
+```typescript
+
 ```
 
-## Frontend State Management (MobX)
-- Use mobx-react-lite and makeAutoObservable.
-- Use runInAction for async or reactive effects.
-- Use computed properties for derived state and actions for modifications.
-- Create a factory at the bottom of each store (e.g. `export const createProjectStore = (): ProjectStore => new ProjectStore();`)
-- Inject the store into the parent component to facilitate state management.
+Example main component (`features/dashboard/custom-instructions/custom-instructions.component.tsx`):
+```typescript
+import { PROJECT_MAX_LENGTH, PROJECT_MIN_LENGTH } from '@le-journal/shared-types';
+import { observer } from 'mobx-react-lite';
+import { useRef, type FC } from 'react';
 
+import { useDashboardStores } from '../dashboard.context';
 
+import { Skeleton } from '~/components/ui/skeleton';
+import { Textarea } from '~/components/ui/textarea';
+
+export const CustomInstructions: FC = observer(() => {
+  const formRef = useRef<HTMLFormElement>(null);
+  const { dashboardStore } = useDashboardStores();
+
+  const store = dashboardStore.customInstructions;
+  const state = store.state;
+
+  if (state === null || store.isLoading) {
+    return <Skeleton className="h-[200px]" />;
+  }
+
+  return (
+    <div className="mt-auto sticky bottom-0 bg-white border-t p-4">
+      <label htmlFor="ai-customization" className="block text-sm font-medium text-gray-700 mb-2">
+        Comment devrions-nous personnaliser votre score de newsletter ? Que souhaitez-vous voir plus
+        ou moins ?
+      </label>
+      <form ref={formRef} onSubmit={store.save} className="space-y-4">
+        <div className="flex space-x-4">
+          <input type="hidden" name="id" value={state.id} />
+          <Textarea
+            name="promptInstruction"
+            disabled={store.isSubmitting}
+            value={state.promptInstruction}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              store.changeInstruction(e.target.value)
+            }
+            minLength={PROJECT_MIN_LENGTH}
+            maxLength={PROJECT_MAX_LENGTH}
+            className="flex-1"
+            placeholder="Entrez vos préférences de personnalisation..."
+          />
+        </div>
+      </form>
+    </div>
+  );
+});
+
+CustomInstructions.displayName = 'CustomInstructions';
+
+```
 ````
 
 ### .cursor/rules/rule-frontend-global.mdc
@@ -1372,14 +1357,104 @@ globs: apps/frontend/**/*.ts
 
 ### .cursor/rules/rule-frontend-store.mdc
 
-```mdc
+````mdc
 ---
 description: Frontend store with MobX for logic.
 globs: apps/frontend/**
 ---
+- Never use technical function (e.g. `setDialogOpen`), prefer user actions (`openDialog`, `closeDialog`).
+- Always validate state before afting using [validator.ts](mdc:apps/frontend/app/lib/validator.ts)
+- Use `makeAutoObservable` in the store constructor.
+- Wrap state mutations inside runInAction().
+- Use `computed properties` for all derived values, even small (e.g., `instructionLength`).
+- Ensure async functions use runInAction() when modifying state.
+- Inject the store into the parent component for better state management.
+- Separate logic (store) from UI (component).
+- Implement [loadable.interface.ts](mdc:apps/frontend/app/interfaces/loadable.interface.ts) is component have a state loadable from API.
 
+Interface Example `features/dashboard/custom-instructions/custom-instructions.type.ts`:
+```typescript
+import type { ProjectPromptType } from '@le-journal/shared-types';
 
+import type { Actionable, Statable } from '~/interfaces/component.interface';
+import type { Loadable } from '~/interfaces/loadable.interface';
+
+interface CustomInstructionsState extends Statable<ProjectPromptType> {
+  isDialogOpen: boolean;
+}
+
+interface CustomInstructionsActions extends Actionable<ProjectPromptType> {
+  openDialog: () => void;
+  closeDialog: () => void;
+}
+
+export interface CustomInstructions
+  extends CustomInstructionsState,
+    CustomInstructionsActions,
+    Loadable<ProjectPromptType> {}
 ```
+
+Store Example `features/dashboard/custom-instructions/custom-instructions.store.ts`:
+```typescript
+import type { ProjectPromptType } from '@le-journal/shared-types';
+import { makeAutoObservable, runInAction } from 'mobx';
+
+import type { CustomInstructions } from './custom-instructions.type';
+
+import type { Loadable } from '~/interfaces/loadable.interface';
+import { clientFetch } from '~/lib/api-fetcher.client';
+import { verify } from '~/lib/validator';
+
+export class CustomInstructionsStore implements CustomInstructions, Loadable<ProjectPromptType> {
+  state: ProjectPromptType | null = null;
+
+  isDialogOpen = false;
+  isLoading = true;
+  isSubmitting = false;
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  init = (prompt: ProjectPromptType): void => {
+    verify(prompt);
+
+    runInAction(() => {
+      this.state = prompt;
+      this.isLoading = false;
+    });
+  };
+
+  save = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const updatedState = await clientFetch<ProjectPromptType>(event, this.state);
+
+    this.init(updatedState);
+  };
+
+  changeInstruction = (instruction: string): void => {
+    if (this.state === null) {
+      throw new Error('State is null');
+    }
+
+    runInAction(() => {
+      this.state!.promptInstruction = instruction;
+    });
+  };
+
+  openDialog = (): void => {
+    this.isDialogOpen = true;
+  };
+
+  closeDialog = (): void => {
+    this.isDialogOpen = false;
+  };
+
+  get instructionLength(): number {
+    return this.state?.promptInstruction.length ?? 0;
+  }
+}
+```
+````
 
 ### .cursor/rules/rule-global-code-generation.mdc
 
@@ -1388,7 +1463,6 @@ globs: apps/frontend/**
 description: Global : Code generation
 globs: **/*.ts, **/*.tsx
 ---
-
 Language:
 - English for everything.
 - French only in UI (labels, texts...)
@@ -1512,13 +1586,13 @@ export class ProjectPromptType extends PickType(ProjectType, ['id', 'promptInstr
 .
 ./.cursor
 ./.cursor/rules
-./.cursor/rules/rule-backend-code-generation.mdc
 ./.cursor/rules/rule-backend-controller.mdc
 ./.cursor/rules/rule-backend-domain-objects.mdc
+./.cursor/rules/rule-backend-global.mdc
 ./.cursor/rules/rule-backend-logging-use-case.mdc
 ./.cursor/rules/rule-backend-mapper.mdc
 ./.cursor/rules/rule-backend-tests.mdc
-./.cursor/rules/rule-frontend-components.mdc
+./.cursor/rules/rule-frontend-component.mdc
 ./.cursor/rules/rule-frontend-global.mdc
 ./.cursor/rules/rule-frontend-remix-loaders.mdc
 ./.cursor/rules/rule-frontend-store.mdc
@@ -1769,6 +1843,7 @@ export class ProjectPromptType extends PickType(ProjectType, ['id', 'promptInstr
 ./apps/frontend/app/features/auth/auth.store.ts
 ./apps/frontend/app/features/dashboard
 ./apps/frontend/app/features/dashboard/custom-instructions
+./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions-confirmation.component.tsx
 ./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.component.tsx
 ./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.store.ts
 ./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.type.ts
@@ -1917,7 +1992,7 @@ export class ProjectPromptType extends PickType(ProjectType, ['id', 'promptInstr
 ./tsconfig.json
 ./turbo.json
 
-114 directories, 293 files
+114 directories, 294 files
 ```
 
-2025-02-12 09:41:54
+2025-02-12 10:53:50
