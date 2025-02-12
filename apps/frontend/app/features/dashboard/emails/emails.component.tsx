@@ -45,8 +45,8 @@ export const NewsletterTable = observer(({ className }: NewsletterTableProps) =>
       <div className="space-y-4">
         <Accordion type="multiple" defaultValue={[firstEmailId]}>
           {store.state!.map((email: Email) => (
-            <div className="m-4">
-              <EmailRow key={email.id} email={email} />
+            <div key={email.id} className="m-4">
+              <EmailRow email={email} />
             </div>
           ))}
         </Accordion>

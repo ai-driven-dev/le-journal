@@ -11,7 +11,6 @@ globs: apps/frontend/**.ts, apps/frontend/**.tsx
 - Early returns.
 - Strong typing.
 - Use ShadCN from `~/components/ui`.
-- 
 
 Example child component (`features/dashboard/custom-instructions/custom-instructions-confirmation.component.tsx`):
 ```typescript
