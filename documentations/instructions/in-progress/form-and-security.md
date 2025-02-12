@@ -17,8 +17,8 @@
 
 ## Frontend
 
-- [ ] Prompt de test pour le use case
-- [ ] Requête HTTP dans le loader avec rules
+- [x] Prompt de test pour le use case
+- [x] Requête HTTP dans le loader avec rules
 
 ## Growth
 
@@ -35,3 +35,7 @@
 • 🔄 Implémenter /auth/refresh pour renouveler un access token.
 • 💥 Ajouter des erreurs explicites dans JwtStrategy et AuthController.
 • ✔️ Vérifier FRONTEND_URL dès le chargement de l’application.
+
+- [ ] Check Domain and types against prisma (name required in domain, not in prisma)
+
+- envoyer toutes les règles dans o1 et s'assurer que les règles sont ok avec DDD et clean archi

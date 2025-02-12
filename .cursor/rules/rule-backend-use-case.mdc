@@ -1,0 +1,29 @@
+---
+description: Backend use-case
+globs: apps/backend/**/*.ts
+---
+- must match domain: this is a user action .
+- bridge between domain, infrastructure (database) and presentation (controller).
+
+Example:
+```typescript
+import { Inject, Injectable } from '@nestjs/common';
+
+import { UserDomain } from '../../domain/user.domain';
+import { USER_REPOSITORY, UserRepository } from '../../domain/user.repository.interface';
+import { UserMapper } from '../../presentation/user.mapper';
+
+@Injectable()
+export class GetAllUsersUseCase {
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
+    private readonly userMapper: UserMapper,
+  ) {}
+
+  async execute(): Promise<UserDomain[]> {
+    const users = await this.userRepository.findAll();
+    return users.map((user) => this.userMapper.toDomain(user));
+  }
+}
+```

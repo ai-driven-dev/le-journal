@@ -1,25 +1,13 @@
----
-description: Backend mapper
-globs: apps/backend/**/*.ts
----
-- use NestJS dependency injection.
-- import type from Prisma suffixed by "Model".
-- implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
-- must reassign every props.
-- always return plain objects, no instances.
-
-Example `projects/presentation/project.mapper.ts`:
-```typescript
 import { Injectable } from '@nestjs/common';
-import { Project as ProjectModel } from '@prisma/client';
 
-import { Project } from '../domain/project';
+import { ProjectDomain } from '../domain/project';
 
 import { Mapper } from 'src/presentation/mapper.interface';
+import { ProjectModel } from 'src/prisma/prisma.types';
 
 @Injectable()
-export class ProjectMapper implements Mapper<Project, ProjectModel> {
-  toModel(domain: Project): ProjectModel {
+export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
+  toModel(domain: ProjectDomain): ProjectModel {
     return {
       id: domain.id,
       name: domain.name,
@@ -32,7 +20,7 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
     };
   }
 
-  toDomain(model: ProjectModel): Project {
+  toDomain(model: ProjectModel): ProjectDomain {
     return {
       id: model.id,
       name: model.name,
@@ -45,4 +33,3 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
     };
   }
 }
-```

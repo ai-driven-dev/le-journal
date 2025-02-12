@@ -1,4 +1,4 @@
-import type { SubscriptionStatusType } from '@le-journal/shared-types';
+import type { NewsletterStatusType } from '@le-journal/shared-types';
 import { Check, Clock, X } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
@@ -9,37 +9,37 @@ import type { NewsletterStatusDisplay } from './newsletter-subscriptions.type';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';
 
+const NEWSLETTER_STATUS_DISPLAY: Record<NewsletterStatusType, NewsletterStatusDisplay> = {
+  ACTIVE: {
+    icon: Check,
+    description: 'La souscription est active et fonctionne correctement',
+    color: 'success',
+  },
+  IN_PROGRESS: {
+    icon: Clock,
+    description: 'La souscription est en cours de traitement',
+    color: 'info',
+  },
+  PENDING: {
+    icon: Clock,
+    description: 'La souscription est en attente de validation',
+    color: 'warning',
+  },
+  FAILED: {
+    icon: X,
+    description: 'La souscription a échoué ou a été annulée',
+    color: 'error',
+  },
+} as const;
+
 export const NewsletterSubscriptions: FC = observer(() => {
   const { dashboardStore } = useDashboardStores();
   const store = dashboardStore.newslettersStore;
 
-  const NEWSLETTER_STATUS_DISPLAY: Record<SubscriptionStatusType, NewsletterStatusDisplay> = {
-    ACTIVE: {
-      icon: Check,
-      description: 'La souscription est active et fonctionne correctement',
-      color: 'success',
-    },
-    IN_PROGRESS: {
-      icon: Clock,
-      description: 'La souscription est en cours de traitement',
-      color: 'info',
-    },
-    PENDING: {
-      icon: Clock,
-      description: 'La souscription est en attente de validation',
-      color: 'warning',
-    },
-    FAILED: {
-      icon: X,
-      description: 'La souscription a échoué ou a été annulée',
-      color: 'error',
-    },
-  } as const;
-
   return (
     <div className="space-y-4">
       {store.newsletters.map((newsletter) => {
-        const statusDisplay = NEWSLETTER_STATUS_DISPLAY[newsletter.subscription_status];
+        const statusDisplay = NEWSLETTER_STATUS_DISPLAY[newsletter.subscriptionStatus];
 
         return (
           <div

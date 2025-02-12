@@ -8,7 +8,7 @@ import { ArticleRow } from './articles/article-row.component';
 export const EmailRow = observer(({ email }: { email: Email }): JSX.Element => {
   // Computations and transformations at the top
   const hasArticles = email.articles.length > 0;
-  const receivedAt = new Date(email.received_at);
+  const receivedAt = new Date(email.receivedAt);
   const receivedAtFormatted = receivedAt.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',

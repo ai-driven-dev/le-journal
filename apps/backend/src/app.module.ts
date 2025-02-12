@@ -3,12 +3,12 @@ import { Logger, Module } from '@nestjs/common';
 import { Redis } from 'ioredis';
 
 import { ConfigModule } from './config/config.module';
-import { AuthModule } from './features/auth/auth.module';
-import { NewsletterModule } from './features/newsletter/newsletter.module';
-import { ProjectsModule } from './features/projects/projects.module';
-import { UsersModule } from './features/users/users.module';
 import { FiltersModule } from './infrastructure/filters/filters.module';
 import { LoggerModule } from './infrastructure/logger/logger.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { NewsletterModule } from './modules/newsletter/newsletter.module';
+import { ProjectsModule } from './modules/projects/projects.module';
+import { UsersModule } from './modules/users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
