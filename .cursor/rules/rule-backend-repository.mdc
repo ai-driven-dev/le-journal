@@ -1,0 +1,70 @@
+---
+description: Backend repositories
+globs: apps/backend/**/*.ts
+---
+- repository must have its interface.
+- always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
+
+Example usage in controller/use-case:
+```typescript
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
+    private readonly userMapper: UserMapper,
+  ) {}
+```
+
+Example usage in modules:
+```typescript
+@Module({
+  imports: [PrismaModule],
+  controllers: [UsersController],
+  providers: [
+    GetAllUsersUseCase,
+    UserMapper,
+    {
+      provide: USER_REPOSITORY,
+      useClass: PrismaUserRepository,
+    },
+  ],
+  exports: [GetAllUsersUseCase, USER_REPOSITORY],
+})
+export class UsersModule {}
+```
+
+Example interface `features/users/domain/user.repository.interface.ts`:
+```typescript
+import type { User } from '@prisma/client';
+
+export const USER_REPOSITORY = 'USER_REPOSITORY';
+
+export interface UserRepository {
+  findByEmail(email: string): Promise<User | null>;
+  findAll(): Promise<User[]>;
+}
+```
+
+Example integration `features/users/infrastructure/prisma-user.repository.ts`:
+```typescript
+import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
+
+import { PrismaService } from '../../../prisma/prisma.service';
+import { UserRepository } from '../domain/user.repository.interface';
+
+@Injectable()
+export class PrismaUserRepository implements UserRepository {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.prisma.user.findMany();
+  }
+}
+
+```

@@ -1062,7 +1062,7 @@ globs: apps/backend/**/*.ts
 
 Example:
 ```typescript
-import { ProjectType } from '@le-journal/shared-types';
+import { Project } from '@le-journal/shared-types';
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
@@ -1070,7 +1070,7 @@ const MIN_LENGTH = 10;
 const MAX_LENGTH = 200;
 const VALIDATION = /^[^<>{}]*$/;
 
-export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstruction']) {
+export class ProjectUpdate extends PickType(Project, ['id', 'promptInstruction']) {
   @ApiProperty({
     example: 'c123e456-789b-12d3-a456-426614174000',
     description: 'ID du projet',
@@ -1539,7 +1539,7 @@ Example `packages/shared-types/src/project.type.ts`:
 import { PickType } from '@nestjs/mapped-types';
 import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class ProjectType {
+export class Project {
   @IsString()
   @IsNotEmpty()
   id!: string;

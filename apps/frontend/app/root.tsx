@@ -2,6 +2,7 @@ import type { LinkDescriptor, LinksFunction, MetaFunction } from '@remix-run/nod
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
+import { Toaster } from '~/components/ui/toaster';
 import { AuthProvider } from '~/features/auth/auth.context';
 
 import './tailwind.css';
@@ -38,6 +39,7 @@ export const Layout = observer(function Layout({
       </head>
       <body>
         <AuthProvider>{children}</AuthProvider>
+        <Toaster />
         <ScrollRestoration />
         <Scripts />
       </body>

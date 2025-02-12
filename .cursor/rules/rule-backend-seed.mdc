@@ -1,0 +1,7 @@
+---
+description: Backend mapper
+globs: apps/backend/**/*.ts
+---
+- must call repositories.
+- must use types [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts) .
+- 

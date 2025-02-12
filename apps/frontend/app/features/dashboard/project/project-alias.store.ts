@@ -1,14 +1,14 @@
-import type { ProjectType } from '@le-journal/shared-types';
+import type { Project } from '@le-journal/shared-types';
 import { makeAutoObservable } from 'mobx';
 
 export class ProjectStore implements ProjectStore {
-  state: ProjectType | null = null;
+  state: Project | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  init(project: ProjectType): void {
+  init(project: Project): void {
     this.state = project;
   }
 

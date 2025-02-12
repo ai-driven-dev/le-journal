@@ -3,10 +3,12 @@ import { makeAutoObservable, runInAction } from 'mobx';
 
 import type { CustomInstructions } from './custom-instructions.type';
 
+import { toast } from '~/hooks/use-toast';
+import type { Loadable } from '~/interfaces/loadable.interface';
 import { clientFetch } from '~/lib/api-fetcher.client';
 import { verify } from '~/lib/validator';
 
-export class CustomInstructionsStore implements CustomInstructions {
+export class CustomInstructionsStore implements CustomInstructions, Loadable<ProjectPromptType> {
   state: ProjectPromptType | null = null;
 
   isDialogOpen = false;
@@ -27,9 +29,22 @@ export class CustomInstructionsStore implements CustomInstructions {
   };
 
   save = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    const updatedState = await clientFetch<ProjectPromptType>(event, this.state);
+    try {
+      const updatedState = await clientFetch<ProjectPromptType>(event, this.state);
+      this.init(updatedState);
 
-    this.init(updatedState);
+      toast({
+        title: 'Instructions sauvegardées',
+        description: 'Vos préférences de personnalisation ont été mises à jour.',
+      });
+    } catch (error: unknown) {
+      toast({
+        variant: 'destructive',
+        title: 'Erreur',
+        description: 'Une erreur est survenue lors de la sauvegarde de vos préférences.',
+      });
+      throw error;
+    }
   };
 
   changeInstruction = (instruction: string): void => {

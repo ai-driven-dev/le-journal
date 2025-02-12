@@ -462,14 +462,12 @@
           "id": {
             "type": "string",
             "example": "c123e456-789b-12d3-a456-426614174000",
-            "description": "ID du projet"
+            "description": "Project ID"
           },
           "promptInstruction": {
             "type": "string",
             "description": "The instruction prompt for the project",
-            "example": "Write a blog post about AI and its impact on society",
-            "minLength": 10,
-            "maxLength": 200
+            "example": "Write a blog post about AI and its impact on society"
           }
         },
         "required": [

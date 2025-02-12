@@ -86,7 +86,6 @@ model Project {
   created_at        DateTime @default(now()) @map("created_at")
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  emails Email[]
   newsletters Newsletter[] 
 
   @@unique([user_id, project_number])
@@ -104,7 +103,7 @@ model Newsletter {
   subscribed_at DateTime @default(now()) @map("subscribed_at")
   subscription_status SubscriptionStatus @default(ACTIVE) @map("subscription_status")
 
-project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
 
@@ -115,19 +114,16 @@ project Project @relation(fields: [project_id], references: [id], onDelete: Casc
 
 model Email {
   id           String      @id @default(uuid())
-  project_id   String
   newsletter_id String      @map("newsletter_id")
   subject      String
   raw_content  String      @db.Text @map("raw_content")
   received_at  DateTime    @default(now()) @map("received_at")
   status       EmailStatus
 
-  project    Project    @relation(fields: [project_id], references: [id], onDelete: Cascade)
   newsletter Newsletter @relation(fields: [newsletter_id], references: [id], onDelete: Cascade)
   articles   Article[]
 
   @@map("emails")
-  @@index([project_id])
   @@index([newsletter_id])
   @@index([subject])
 }
@@ -138,7 +134,6 @@ model Article {
   title            String
   description      String   @db.Text
   url              String
-  content          String   @db.Text
   relevance_score Float    @map("relevance_score")
   extracted_at     DateTime @default(now()) @map("extracted_at")
 

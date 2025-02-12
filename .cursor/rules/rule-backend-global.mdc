@@ -7,7 +7,7 @@ globs: apps/backend/**/*.ts
 - Create custom exceptions when domain specific.
 - Focus on domain logic.
 
-Example structure `src/features/projects`:
+Example structure `src/modules/projects`:
 ```text
 ├── application
 │   ├── create-project.use-case.ts
