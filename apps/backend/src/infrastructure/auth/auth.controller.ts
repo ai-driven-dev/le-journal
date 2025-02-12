@@ -1,11 +1,11 @@
 import { Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
-
-import { AuthService } from '../../application/auth.service';
-import { GoogleAuthGuard } from '../../guards/google-auth.guard';
-import { GoogleProfileDto } from '../dtos/google-profile.dto';
 import { Profile } from 'passport-google-oauth20';
+
+import { AuthService } from './auth.service';
+import { GoogleProfileDto } from './google-profile.dto';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -17,26 +17,33 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   async googleAuth(): Promise<void> {
     // Guard redirects to Google
+    // Handled by GoogleStrategy
+    // Do not touch
   }
 
   @ApiOperation({ summary: 'Handle Google OAuth callback' })
-  @ApiResponse({ status: 200, description: 'Successfully authenticated' })
+  @ApiResponse({ status: 302, description: 'Redirect to frontend with JWT cookie' })
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   async googleAuthCallback(
     @Req() req: Request & { user: Profile & { refreshToken: string } },
     @Res() res: Response,
   ): Promise<void> {
-    console.log('req', req.user);
-
-    const { accessToken } = await this.authService.handleGoogleAuth(
+    const { jwt } = await this.authService.handleGoogleAuth(
       req.user as unknown as GoogleProfileDto,
     );
 
     // Set JWT token in cookie
-    res.cookie('access_token', accessToken, {
-      httpOnly: true,
+    res.cookie('access_token', jwt, {
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
+    });
+
+    res.cookie('alex', jwt, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
     });
 
     if (process.env.FRONTEND_URL === undefined) {

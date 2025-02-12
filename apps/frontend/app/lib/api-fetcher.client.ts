@@ -41,6 +41,7 @@ export async function clientFetch<T extends object>(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(objectToValidate),
+    credentials: 'include',
   });
 
   if (!response.ok) {

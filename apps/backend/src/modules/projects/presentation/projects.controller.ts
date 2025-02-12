@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Put, Query } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Put, Query, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { GetProjectUseCase } from '../application/get-project.use-case';
 import { UpdateProjectPromptUseCase } from '../application/update-project-prompt.use-case';
@@ -8,8 +8,12 @@ import { ProjectUpdate } from '../domain/project-update';
 
 import { ProjectMapper } from './project.mapper';
 
+import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
+
 @ApiTags('Projects')
 @Controller('api/projects')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class ProjectsController {
   constructor(
     private readonly getProjectUseCase: GetProjectUseCase,

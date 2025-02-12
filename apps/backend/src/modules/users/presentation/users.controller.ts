@@ -1,13 +1,17 @@
-import { Controller, Get, HttpStatus } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, HttpStatus, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { GetAllUsersUseCase } from '../application/use-cases/get-all-users.use-case';
 import { UserDomain } from '../domain/user.domain';
 
 import { UserMapper } from './user.mapper';
 
+import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
+
 @ApiTags('Users')
 @Controller('api/users')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class UsersController {
   constructor(
     private readonly getAllUsersUseCase: GetAllUsersUseCase,

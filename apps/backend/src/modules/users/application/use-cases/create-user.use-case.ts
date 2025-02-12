@@ -4,7 +4,7 @@ import { UserDomain } from '../../domain/user.domain';
 import { USER_REPOSITORY, UserRepository } from '../../domain/user.repository.interface';
 import { UserMapper } from '../../presentation/user.mapper';
 
-import { GoogleProfileDto } from 'src/modules/auth/presentation/dtos/google-profile.dto';
+import { GoogleProfileDto } from 'src/infrastructure/auth/google-profile.dto';
 
 @Injectable()
 export class CreateUserUseCase {

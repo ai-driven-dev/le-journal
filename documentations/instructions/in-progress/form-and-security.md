@@ -39,3 +39,8 @@
 - [ ] Check Domain and types against prisma (name required in domain, not in prisma)
 
 - envoyer toutes les règles dans o1 et s'assurer que les règles sont ok avec DDD et clean archi
+
+- [ ] Auth Google refactoring
+- [ ] Rules
+- [ ] Seed ok
+- [x] Auth Ok avec utilisateur connecté sur le front

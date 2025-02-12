@@ -20,6 +20,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Récupérer tous les utilisateurs",
         "tags": [
           "Users"
@@ -52,6 +57,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Récupérer le projet de l'utilisateur",
         "tags": [
           "Projects"
@@ -84,6 +94,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Mettre à jour les instructions du prompt du projet",
         "tags": [
           "Projects"
@@ -109,6 +124,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Get all newsletter subscriptions",
         "tags": [
           "Newsletters"
@@ -143,6 +163,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "summary": "Get all newsletter emails",
         "tags": [
           "Newsletters"
@@ -169,8 +194,8 @@
         "operationId": "AuthController_googleAuthCallback",
         "parameters": [],
         "responses": {
-          "200": {
-            "description": "Successfully authenticated"
+          "302": {
+            "description": "Redirect to frontend with JWT cookie"
           }
         },
         "summary": "Handle Google OAuth callback",
