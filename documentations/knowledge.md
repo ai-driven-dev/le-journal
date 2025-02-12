@@ -1,5 +1,5 @@
 ---
-date: 2025-02-11 14:02:07
+date: 2025-02-12 06:24:08
 ---
 
 # Project Specifications "Knowledge Base"
@@ -500,7 +500,7 @@ BREAKING CHANGE: new user database structure
     "test": "turbo run test",
     "update:deps": "pnpm up -r --latest && pnpm install && pnpm run check && pnpm outdated -r ",
     "prepare": "husky && husky install",
-    "check": "pnpm run dev:docker && pnpm run lint:fix && pnpm run format:fix && pnpm build && pnpm typecheck &&  pnpm test",
+    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm build && pnpm typecheck &&  pnpm test",
     "renovate": "dotenv -- renovate --dry-run",
     "clean": "cd packages/shared-types && pnpm clean && pnpm build"
   },
@@ -1093,6 +1093,54 @@ Example of files structure:
 
 ````
 
+### .cursor/rules/rule-backend-logging-use-case.mdc
+
+````mdc
+---
+description: Logging any business logic call (like use-cases), input, then output
+globs: apps/backend/**/*.ts
+---
+## Logging Levels
+- Use only 4 logging methods: debug(), log(), warn(), error()
+- debug(): Use for technical details and development information
+- log(): Use for important business events and successes
+- warn(): Use for abnormal but non-critical situations
+- error(): Use for exceptions and critical failures
+
+## Context Structure
+- Always provide service and method names
+- Include metadata for business data
+- Pass Error objects directly in error context
+- Use correlationId for tracing related operations
+- Structure all logs in JSON format
+
+## Example: Error Logging
+```typescript
+this.logger.error('User creation failed', {
+  service: 'UserService',
+  method: 'createUser',
+  metadata: {
+    email: user.email,
+    role: user.role
+  },
+  error: error
+});
+```
+
+## Example: Business Event
+```typescript
+this.logger.log('Payment processed', {
+  service: 'PaymentService',
+  method: 'processPayment',
+  correlationId: 'order-123',
+  metadata: {
+    orderId: order.id,
+    amount: payment.amount
+  }
+});
+```
+````
+
 ### .cursor/rules/rule-backend-tests.mdc
 
 ```mdc
@@ -1256,6 +1304,7 @@ globs: **/*.json
 ./.cursor
 ./.cursor/rules
 ./.cursor/rules/rule-backend-code-generation.mdc
+./.cursor/rules/rule-backend-logging-use-case.mdc
 ./.cursor/rules/rule-backend-tests.mdc
 ./.cursor/rules/rule-frontend-components.mdc
 ./.cursor/rules/rule-frontend-global.mdc
@@ -1446,11 +1495,15 @@ globs: **/*.json
 ./apps/backend/src/features/users/presentation/dtos/user.dto.ts
 ./apps/backend/src/features/users/users.module.ts
 ./apps/backend/src/infrastructure
-./apps/backend/src/infrastructure/logging
-./apps/backend/src/infrastructure/logging/logger.config.ts
-./apps/backend/src/infrastructure/logging/logger.filter.ts
-./apps/backend/src/infrastructure/logging/logger.module.ts
-./apps/backend/src/infrastructure/logging/logger.service.ts
+./apps/backend/src/infrastructure/filters
+./apps/backend/src/infrastructure/filters/filter.http-exception.service.ts
+./apps/backend/src/infrastructure/filters/filter.logging.service.ts
+./apps/backend/src/infrastructure/filters/filters.module.ts
+./apps/backend/src/infrastructure/logger
+./apps/backend/src/infrastructure/logger/logger.config.ts
+./apps/backend/src/infrastructure/logger/logger.module.ts
+./apps/backend/src/infrastructure/logger/logger.service.ts
+./apps/backend/src/infrastructure/logger/logger.type.ts
 ./apps/backend/src/main.ts
 ./apps/backend/src/prisma
 ./apps/backend/src/prisma/prisma.module.ts
@@ -1645,7 +1698,7 @@ globs: **/*.json
 ./tsconfig.json
 ./turbo.json
 
-119 directories, 273 files
+120 directories, 277 files
 ```
 
-2025-02-11 14:02:07
+2025-02-12 06:24:08
