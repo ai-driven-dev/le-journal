@@ -78,6 +78,19 @@ Example of files structure:
 ```
 
 
+## Example
+```typescript
+this.logger.log('Payment processed', {
+  service: 'PaymentService',
+  method: 'processPayment',
+  correlationId: 'order-123',
+  metadata: {
+    orderId: order.id,
+    amount: payment.amount
+  }
+});
+```
+
 ## Logging Levels
 - Use only 4 logging methods: debug(), log(), warn(), error()
 - debug(): Use for technical details and development information
