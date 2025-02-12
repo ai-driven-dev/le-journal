@@ -29,6 +29,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     refreshToken: string,
     profile: Profile,
   ): Promise<GoogleProfileDto> {
-    return new GoogleProfileDto({ ...profile, refreshToken });
+    console.log('profile', profile, accessToken, refreshToken);
+    return new GoogleProfileDto(profile, refreshToken);
   }
 }

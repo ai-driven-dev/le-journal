@@ -1,29 +1,33 @@
 import { IsEmail, IsOptional, IsString } from 'class-validator';
-import type { Profile } from 'passport-google-oauth20';
+import { Profile } from 'passport-google-oauth20';
 
 export class GoogleProfileDto {
   @IsEmail()
-  email: string;
+  email!: string;
 
   @IsString()
-  @IsOptional()
-  name?: string;
+  name!: string;
 
   @IsString()
   @IsOptional()
   avatar?: string;
 
   @IsString()
-  googleId: string;
+  googleId!: string;
 
   @IsString()
-  refreshToken: string;
+  refreshToken!: string;
 
-  constructor(profile: Profile & { refreshToken: string }) {
-    this.email = profile.emails?.[0]?.value ?? '';
-    this.name = profile.name?.givenName;
-    this.avatar = profile.photos?.[0]?.value;
-    this.googleId = profile.id;
-    this.refreshToken = profile.refreshToken;
+  constructor(profile: Profile, refreshToken: string) {
+    const email = profile.emails?.[0]?.value ?? '';
+    const name = profile.name?.givenName ?? '';
+    const avatar = profile.photos?.[0]?.value ?? '';
+    const googleId = profile.id ?? '';
+
+    this.email = email;
+    this.name = name;
+    this.avatar = avatar;
+    this.googleId = googleId;
+    this.refreshToken = refreshToken;
   }
 }
