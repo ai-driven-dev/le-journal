@@ -23,18 +23,10 @@
 ## Growth
 
 - NotePad :vidéo
-- Aller lire la doc Remix sur les actions, fetcher, laoder... uniquement avec les routes. Ils font chier avec les backend dans le front.
-- Melvyn Fichiers règles
-- X et Reddit pour les cursor rules elles ne s'appliquent pas toujours
-- [ ] Class Validator à comprendre !!!- définir la stratégie même si je dois faire des mappers.
+- Rules propres pour moi + doc dans le Notion (melvyn)
+
 - [ ] Test sur les règles de Cursor suivant le contexte. Vérifie qu'elle sont bien appliquées.
-- [ ] Class Validator partagé à valider dans un type partagé ? Comme au début finalement... Je pourrais faire une abstraction de class pour mapper l'API ?
-  - [ ] Obligatoire d'avoir une validation front des types reçues au load + à l'update
-  - [ ] Idem pour le backend
-  - [ ] Clarifier la logique du DTO en entrée (qui est un type partagé), DTO ensuite pour API Property qui implement Type partagé validé, conversion jouer avec Prisma, puis retour au DTO en sortie (validé à nouveau par le type partagé )
-    - [ ] Ici ne pas avoir peut de faire des mappers (même si c'est chiant) - si c'est la bonne pratique on les fera générer à l'IA.
-- [ ] Me mettre sur le front, demander la modif d'un composant, véirifer quelles règles (global, front) sont appelé avec une instructions.
-- repartir tutorial et faire un prompt : extract steps and apply dans - web de cursor
+  - [ ] Me mettre sur le front, demander la modif d'un composant, véirifer quelles règles (global, front) sont appelé avec une instructions.
 
 🛠 Résumé des corrections recommandées :
 • 🔐 Sécuriser le refresh token (hash en base avec bcrypt).

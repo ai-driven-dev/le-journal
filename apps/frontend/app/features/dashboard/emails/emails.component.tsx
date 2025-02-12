@@ -17,9 +17,8 @@ export const NewsletterTable = observer(({ className }: NewsletterTableProps) =>
   const store = dashboardStore.emailsStore;
 
   const isLoading = store.isLoading === true;
-  const hasError = store.error !== null;
-  const hasNoData = store.data === null || store.data.length === 0;
-  const firstEmailId = store.data?.[0]?.id.toString() ?? '';
+  const hasNoData = store.state === null || store.state.length === 0;
+  const firstEmailId = store.state?.[0]?.id.toString() ?? '';
 
   if (isLoading) {
     return (
@@ -29,14 +28,6 @@ export const NewsletterTable = observer(({ className }: NewsletterTableProps) =>
             <Skeleton key={i} className="h-12 w-full" />
           ))}
         </div>
-      </div>
-    );
-  }
-
-  if (hasError) {
-    return (
-      <div className={className}>
-        <div className="text-red-500">Error: {store.error}</div>
       </div>
     );
   }
@@ -53,7 +44,7 @@ export const NewsletterTable = observer(({ className }: NewsletterTableProps) =>
     <div className={className}>
       <div className="space-y-4">
         <Accordion type="multiple" defaultValue={[firstEmailId]}>
-          {store.data!.map((email: Email) => (
+          {store.state!.map((email: Email) => (
             <div className="m-4">
               <EmailRow key={email.id} email={email} />
             </div>

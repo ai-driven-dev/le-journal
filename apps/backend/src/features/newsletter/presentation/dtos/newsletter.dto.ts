@@ -1,4 +1,4 @@
-import type { Newsletter, SubscriptionStatus } from '@le-journal/shared-types';
+import type { Newsletter, SubscriptionStatusType } from '@le-journal/shared-types';
 import { ApiProperty } from '@nestjs/swagger';
 import { Newsletter as PrismaNewsletter } from '@prisma/client';
 
@@ -32,7 +32,7 @@ export class NewsletterDto implements Newsletter {
     enum: ['ACTIVE', 'IN_PROGRESS', 'PENDING', 'FAILED'],
     example: 'ACTIVE',
   })
-  subscription_status: SubscriptionStatus;
+  subscription_status: SubscriptionStatusType;
 
   constructor(newsletter: PrismaNewsletter) {
     this.id = newsletter.id;

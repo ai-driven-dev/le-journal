@@ -2,14 +2,14 @@ import type { User } from '@le-journal/shared-types';
 import { useLoaderData } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { apiFetch } from '~/utils/api/fetcher';
+import { serverFetch } from '~/lib/api-fetcher.server';
 
 type LoaderData = {
   users: User[];
 };
 
 export const loader = async (): Promise<LoaderData> => {
-  const users = await apiFetch<User[]>({ endpoint: 'users' });
+  const users = await serverFetch<User[]>({ endpoint: 'users' });
 
   return { users };
 };

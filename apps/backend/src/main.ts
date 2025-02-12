@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
@@ -18,16 +19,16 @@ async function bootstrap(): Promise<void> {
   app.useLogger(logger);
 
   // Global Validation Pipe
-  // app.useGlobalPipes(
-  //   new ValidationPipe({
-  //     transform: true, // Active la transformation automatique
-  //     whitelist: true, // Supprime les propriétés non décorées
-  //     forbidNonWhitelisted: true, // Rejette les requêtes avec des propriétés non décorées
-  //     transformOptions: {
-  //       enableImplicitConversion: true, // Permet la conversion implicite des types
-  //     },
-  //   }),
-  // );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true, // Active la transformation automatique
+      whitelist: true, // Supprime les propriétés non décorées
+      forbidNonWhitelisted: true, // Rejette les requêtes avec des propriétés non décorées
+      transformOptions: {
+        enableImplicitConversion: true, // Permet la conversion implicite des types
+      },
+    }),
+  );
 
   // API
   app.setGlobalPrefix('api');

@@ -1,12 +1,12 @@
 import { ProjectType } from '@le-journal/shared-types';
 import { ApiProperty, PickType } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateProjectDto extends PickType(ProjectType, [
   'name',
   'slug',
   'newsletterAlias',
   'projectNumber',
+  'userId',
 ]) {
   @ApiProperty({ example: 'Mon super projet', description: 'Nom du projet' })
   name!: string;
@@ -15,8 +15,6 @@ export class CreateProjectDto extends PickType(ProjectType, [
   slug!: string;
 
   @ApiProperty({ example: 'user-123', description: 'ID du propriétaire du projet' })
-  @IsString()
-  @IsNotEmpty()
   userId!: string;
 
   @ApiProperty({ example: 'mon-alias', description: 'Alias unique pour les newsletters' })
