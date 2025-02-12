@@ -25,7 +25,7 @@
     "test": "turbo run test",
     "update:deps": "pnpm up -r --latest && pnpm install && pnpm run check && pnpm outdated -r ",
     "prepare": "husky && husky install",
-    "check": "pnpm run dev:docker && pnpm run lint:fix && pnpm run format:fix && pnpm build && pnpm typecheck &&  pnpm test",
+    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm build && pnpm typecheck &&  pnpm test",
     "renovate": "dotenv -- renovate --dry-run",
     "clean": "cd packages/shared-types && pnpm clean && pnpm build"
   },

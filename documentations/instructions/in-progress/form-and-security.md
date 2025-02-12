@@ -34,3 +34,12 @@
   - [ ] Clarifier la logique du DTO en entrée (qui est un type partagé), DTO ensuite pour API Property qui implement Type partagé validé, conversion jouer avec Prisma, puis retour au DTO en sortie (validé à nouveau par le type partagé )
     - [ ] Ici ne pas avoir peut de faire des mappers (même si c'est chiant) - si c'est la bonne pratique on les fera générer à l'IA.
 - [ ] Me mettre sur le front, demander la modif d'un composant, véirifer quelles règles (global, front) sont appelé avec une instructions.
+- repartir tutorial et faire un prompt : extract steps and apply dans - web de cursor
+
+🛠 Résumé des corrections recommandées :
+ • 🔐 Sécuriser le refresh token (hash en base avec bcrypt).
+ • ⌛ Réduire la durée de vie du JWT (passer de 1d à 15m).
+ • 🛑 Vérifier que googleId et email sont bien définis avant de créer un user.
+ • 🔄 Implémenter /auth/refresh pour renouveler un access token.
+ • 💥 Ajouter des erreurs explicites dans JwtStrategy et AuthController.
+ • ✔️ Vérifier FRONTEND_URL dès le chargement de l’application.
