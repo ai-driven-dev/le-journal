@@ -1,5 +1,5 @@
 ---
-date: 2025-02-12 11:27:17
+date: 2025-02-12 17:38:36
 ---
 
 # Project Specifications "Knowledge Base"
@@ -795,7 +795,6 @@ model Project {
   created_at        DateTime @default(now()) @map("created_at")
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  emails Email[]
   newsletters Newsletter[]
 
   @@unique([user_id, project_number])
@@ -813,7 +812,7 @@ model Newsletter {
   subscribed_at DateTime @default(now()) @map("subscribed_at")
   subscription_status SubscriptionStatus @default(ACTIVE) @map("subscription_status")
 
-project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
 
@@ -824,19 +823,16 @@ project Project @relation(fields: [project_id], references: [id], onDelete: Casc
 
 model Email {
   id           String      @id @default(uuid())
-  project_id   String
   newsletter_id String      @map("newsletter_id")
   subject      String
   raw_content  String      @db.Text @map("raw_content")
   received_at  DateTime    @default(now()) @map("received_at")
   status       EmailStatus
 
-  project    Project    @relation(fields: [project_id], references: [id], onDelete: Cascade)
   newsletter Newsletter @relation(fields: [newsletter_id], references: [id], onDelete: Cascade)
   articles   Article[]
 
   @@map("emails")
-  @@index([project_id])
   @@index([newsletter_id])
   @@index([subject])
 }
@@ -847,7 +843,6 @@ model Article {
   title            String
   description      String   @db.Text
   url              String
-  content          String   @db.Text
   relevance_score Float    @map("relevance_score")
   extracted_at     DateTime @default(now()) @map("extracted_at")
 
@@ -1047,7 +1042,7 @@ export class ProjectsController {
 ```
 ````
 
-### .cursor/rules/rule-backend-domain-objects.mdc
+### .cursor/rules/rule-backend-domain.mdc
 
 ````mdc
 ---
@@ -1062,7 +1057,7 @@ globs: apps/backend/**/*.ts
 
 Example:
 ```typescript
-import { Project } from '@le-journal/shared-types';
+import { ProjectType } from '@le-journal/shared-types';
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
@@ -1070,7 +1065,7 @@ const MIN_LENGTH = 10;
 const MAX_LENGTH = 200;
 const VALIDATION = /^[^<>{}]*$/;
 
-export class ProjectUpdate extends PickType(Project, ['id', 'promptInstruction']) {
+export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstruction']) {
   @ApiProperty({
     example: 'c123e456-789b-12d3-a456-426614174000',
     description: 'ID du projet',
@@ -1111,7 +1106,7 @@ globs: apps/backend/**/*.ts
 - Create custom exceptions when domain specific.
 - Focus on domain logic.
 
-Example structure `src/features/projects`:
+Example structure `src/modules/projects`:
 ```text
 ├── application
 │   ├── create-project.use-case.ts
@@ -1133,64 +1128,18 @@ Example structure `src/features/projects`:
 
 ````
 
-### .cursor/rules/rule-backend-logging-use-case.mdc
-
-````mdc
----
-description: Logging any business logic call (like use-cases), input, then output
-globs: apps/backend/**/*.ts
----
-## Logging Levels
-- Use only 4 logging methods: debug(), log(), warn(), error()
-- debug(): Use for technical details and development information
-- log(): Use for important business events and successes
-- warn(): Use for abnormal but non-critical situations
-- error(): Use for exceptions and critical failures
-
-## Context Structure
-- Always provide service and method names
-- Include metadata for business data
-- Pass Error objects directly in error context
-- Use correlationId for tracing related operations
-- Structure all logs in JSON format
-
-## Example: Error Logging
-```typescript
-this.logger.error('User creation failed', {
-  service: 'UserService',
-  method: 'createUser',
-  metadata: {
-    email: user.email,
-    role: user.role
-  },
-  error: error
-});
-```
-
-## Example: Business Event
-```typescript
-this.logger.log('Payment processed', {
-  service: 'PaymentService',
-  method: 'processPayment',
-  correlationId: 'order-123',
-  metadata: {
-    orderId: order.id,
-    amount: payment.amount
-  }
-});
-```
-````
-
 ### .cursor/rules/rule-backend-mapper.mdc
 
 ````mdc
 ---
-description: Backend logic when need to map object from model (database) to domain object.
+description: Backend mapper
 globs: apps/backend/**/*.ts
 ---
 - use NestJS dependency injection.
 - import type from Prisma suffixed by "Model".
-- implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>
+- implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
+- must reassign every props.
+- always return plain objects, no instances.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript
@@ -1232,6 +1181,93 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
 ```
 ````
 
+### .cursor/rules/rule-backend-repository.mdc
+
+````mdc
+---
+description: Backend repositories
+globs: apps/backend/**/*.ts
+---
+- repository must have its interface.
+- always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
+
+Example usage in controller/use-case:
+```typescript
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
+    private readonly userMapper: UserMapper,
+  ) {}
+```
+
+Example usage in modules:
+```typescript
+@Module({
+  imports: [PrismaModule],
+  controllers: [UsersController],
+  providers: [
+    GetAllUsersUseCase,
+    UserMapper,
+    {
+      provide: USER_REPOSITORY,
+      useClass: PrismaUserRepository,
+    },
+  ],
+  exports: [GetAllUsersUseCase, USER_REPOSITORY],
+})
+export class UsersModule {}
+```
+
+Example interface `features/users/domain/user.repository.interface.ts`:
+```typescript
+import type { User } from '@prisma/client';
+
+export const USER_REPOSITORY = 'USER_REPOSITORY';
+
+export interface UserRepository {
+  findByEmail(email: string): Promise<User | null>;
+  findAll(): Promise<User[]>;
+}
+```
+
+Example integration `features/users/infrastructure/prisma-user.repository.ts`:
+```typescript
+import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
+
+import { PrismaService } from '../../../prisma/prisma.service';
+import { UserRepository } from '../domain/user.repository.interface';
+
+@Injectable()
+export class PrismaUserRepository implements UserRepository {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.prisma.user.findMany();
+  }
+}
+
+```
+````
+
+### .cursor/rules/rule-backend-seed.mdc
+
+```mdc
+---
+description: Backend mapper
+globs: apps/backend/**/*.ts
+---
+- must call repositories.
+- must use types [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts) .
+-
+```
+
 ### .cursor/rules/rule-backend-tests.mdc
 
 ```mdc
@@ -1251,6 +1287,40 @@ Backend tests with data:
 - Seed are used as fixtures, data already set up.
 - Never call Prisma directly in tests, use repository if needed.
 ```
+
+### .cursor/rules/rule-backend-use-case.mdc
+
+````mdc
+---
+description: Backend use-case
+globs: apps/backend/**/*.ts
+---
+- must match domain: this is a user action .
+- bridge between domain, infrastructure (database) and presentation (controller).
+
+Example:
+```typescript
+import { Inject, Injectable } from '@nestjs/common';
+
+import { UserDomain } from '../../domain/user.domain';
+import { USER_REPOSITORY, UserRepository } from '../../domain/user.repository.interface';
+import { UserMapper } from '../../presentation/user.mapper';
+
+@Injectable()
+export class GetAllUsersUseCase {
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
+    private readonly userMapper: UserMapper,
+  ) {}
+
+  async execute(): Promise<UserDomain[]> {
+    const users = await this.userRepository.findAll();
+    return users.map((user) => this.userMapper.toDomain(user));
+  }
+}
+```
+````
 
 ### .cursor/rules/rule-frontend-component.mdc
 
@@ -1539,7 +1609,7 @@ Example `packages/shared-types/src/project.type.ts`:
 import { PickType } from '@nestjs/mapped-types';
 import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class Project {
+export class ProjectType {
   @IsString()
   @IsNotEmpty()
   id!: string;
@@ -1582,11 +1652,13 @@ export class Project {
 ./.cursor
 ./.cursor/rules
 ./.cursor/rules/rule-backend-controller.mdc
-./.cursor/rules/rule-backend-domain-objects.mdc
+./.cursor/rules/rule-backend-domain.mdc
 ./.cursor/rules/rule-backend-global.mdc
-./.cursor/rules/rule-backend-logging-use-case.mdc
 ./.cursor/rules/rule-backend-mapper.mdc
+./.cursor/rules/rule-backend-repository.mdc
+./.cursor/rules/rule-backend-seed.mdc
 ./.cursor/rules/rule-backend-tests.mdc
+./.cursor/rules/rule-backend-use-case.mdc
 ./.cursor/rules/rule-frontend-component.mdc
 ./.cursor/rules/rule-frontend-global.mdc
 ./.cursor/rules/rule-frontend-remix-loaders.mdc
@@ -1686,6 +1758,8 @@ export class Project {
 ./apps/backend/prisma/migrations/20250211115308_/migration.sql
 ./apps/backend/prisma/migrations/20250211124226_google_auth_refresh_token
 ./apps/backend/prisma/migrations/20250211124226_google_auth_refresh_token/migration.sql
+./apps/backend/prisma/migrations/20250212125601_articles_emails_structure
+./apps/backend/prisma/migrations/20250212125601_articles_emails_structure/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/prisma/seed.ts
@@ -1703,79 +1777,6 @@ export class Project {
 ./apps/backend/src/app.service.ts
 ./apps/backend/src/config
 ./apps/backend/src/config/config.module.ts
-./apps/backend/src/features
-./apps/backend/src/features/auth
-./apps/backend/src/features/auth/application
-./apps/backend/src/features/auth/application/auth.service.ts
-./apps/backend/src/features/auth/auth.module.ts
-./apps/backend/src/features/auth/guards
-./apps/backend/src/features/auth/guards/google-auth.guard.ts
-./apps/backend/src/features/auth/guards/jwt.guard.ts
-./apps/backend/src/features/auth/presentation
-./apps/backend/src/features/auth/presentation/controllers
-./apps/backend/src/features/auth/presentation/controllers/auth.controller.ts
-./apps/backend/src/features/auth/presentation/dtos
-./apps/backend/src/features/auth/presentation/dtos/google-profile.dto.ts
-./apps/backend/src/features/auth/strategies
-./apps/backend/src/features/auth/strategies/google.strategy.ts
-./apps/backend/src/features/auth/strategies/jwt.strategy.ts
-./apps/backend/src/features/newsletter
-./apps/backend/src/features/newsletter/application
-./apps/backend/src/features/newsletter/application/use-cases
-./apps/backend/src/features/newsletter/application/use-cases/get-emails.use-case.ts
-./apps/backend/src/features/newsletter/application/use-cases/get-newsletters.use-case.ts
-./apps/backend/src/features/newsletter/application/use-cases/search-emails.use-case.ts
-./apps/backend/src/features/newsletter/domain
-./apps/backend/src/features/newsletter/domain/repositories
-./apps/backend/src/features/newsletter/domain/repositories/email.repository.interface.ts
-./apps/backend/src/features/newsletter/infrastructure
-./apps/backend/src/features/newsletter/infrastructure/repositories
-./apps/backend/src/features/newsletter/infrastructure/repositories/prisma-email.repository.ts
-./apps/backend/src/features/newsletter/newsletter.module.ts
-./apps/backend/src/features/newsletter/presentation
-./apps/backend/src/features/newsletter/presentation/controllers
-./apps/backend/src/features/newsletter/presentation/controllers/newsletter.controller.integration.spec.ts
-./apps/backend/src/features/newsletter/presentation/controllers/newsletter.controller.ts
-./apps/backend/src/features/newsletter/presentation/dtos
-./apps/backend/src/features/newsletter/presentation/dtos/article.dto.ts
-./apps/backend/src/features/newsletter/presentation/dtos/email.dto.ts
-./apps/backend/src/features/newsletter/presentation/dtos/newsletter.dto.ts
-./apps/backend/src/features/projects
-./apps/backend/src/features/projects/application
-./apps/backend/src/features/projects/application/create-project.use-case.ts
-./apps/backend/src/features/projects/application/get-project.use-case.ts
-./apps/backend/src/features/projects/application/update-project-prompt.use-case.ts
-./apps/backend/src/features/projects/domain
-./apps/backend/src/features/projects/domain/project-create.ts
-./apps/backend/src/features/projects/domain/project-update.ts
-./apps/backend/src/features/projects/domain/project.repository.interface.ts
-./apps/backend/src/features/projects/domain/project.ts
-./apps/backend/src/features/projects/infrastructure
-./apps/backend/src/features/projects/infrastructure/prisma-project.repository.ts
-./apps/backend/src/features/projects/presentation
-./apps/backend/src/features/projects/presentation/project.mapper.ts
-./apps/backend/src/features/projects/presentation/projects.controller.ts
-./apps/backend/src/features/projects/projects.module.ts
-./apps/backend/src/features/users
-./apps/backend/src/features/users/application
-./apps/backend/src/features/users/application/use-cases
-./apps/backend/src/features/users/application/use-cases/create-user.use-case.ts
-./apps/backend/src/features/users/application/use-cases/get-all-users.use-case.ts
-./apps/backend/src/features/users/application/use-cases/get-user.use-case.ts
-./apps/backend/src/features/users/application/use-cases/update-user.use-case.ts
-./apps/backend/src/features/users/domain
-./apps/backend/src/features/users/domain/repositories
-./apps/backend/src/features/users/domain/repositories/user.repository.interface.ts
-./apps/backend/src/features/users/infrastructure
-./apps/backend/src/features/users/infrastructure/repositories
-./apps/backend/src/features/users/infrastructure/repositories/prisma-user.repository.ts
-./apps/backend/src/features/users/presentation
-./apps/backend/src/features/users/presentation/controllers
-./apps/backend/src/features/users/presentation/controllers/users.controller.integration.spec.ts
-./apps/backend/src/features/users/presentation/controllers/users.controller.ts
-./apps/backend/src/features/users/presentation/dtos
-./apps/backend/src/features/users/presentation/dtos/user.dto.ts
-./apps/backend/src/features/users/users.module.ts
 ./apps/backend/src/infrastructure
 ./apps/backend/src/infrastructure/filters
 ./apps/backend/src/infrastructure/filters/filter.http-exception.service.ts
@@ -1787,11 +1788,78 @@ export class Project {
 ./apps/backend/src/infrastructure/logger/logger.service.ts
 ./apps/backend/src/infrastructure/logger/logger.type.ts
 ./apps/backend/src/main.ts
+./apps/backend/src/modules
+./apps/backend/src/modules/auth
+./apps/backend/src/modules/auth/application
+./apps/backend/src/modules/auth/application/auth.service.ts
+./apps/backend/src/modules/auth/auth.module.ts
+./apps/backend/src/modules/auth/guards
+./apps/backend/src/modules/auth/guards/google-auth.guard.ts
+./apps/backend/src/modules/auth/guards/jwt.guard.ts
+./apps/backend/src/modules/auth/presentation
+./apps/backend/src/modules/auth/presentation/controllers
+./apps/backend/src/modules/auth/presentation/controllers/auth.controller.ts
+./apps/backend/src/modules/auth/presentation/dtos
+./apps/backend/src/modules/auth/presentation/dtos/google-profile.dto.ts
+./apps/backend/src/modules/auth/strategies
+./apps/backend/src/modules/auth/strategies/google.strategy.ts
+./apps/backend/src/modules/auth/strategies/jwt.strategy.ts
+./apps/backend/src/modules/newsletter
+./apps/backend/src/modules/newsletter/application
+./apps/backend/src/modules/newsletter/application/get-emails.use-case.ts
+./apps/backend/src/modules/newsletter/application/get-newsletters.use-case.ts
+./apps/backend/src/modules/newsletter/domain
+./apps/backend/src/modules/newsletter/domain/article.domain.ts
+./apps/backend/src/modules/newsletter/domain/email.domain.ts
+./apps/backend/src/modules/newsletter/domain/email.repository.interface.ts
+./apps/backend/src/modules/newsletter/domain/newsletter.domain.ts
+./apps/backend/src/modules/newsletter/domain/newsletter.repository.ts
+./apps/backend/src/modules/newsletter/infrastructure
+./apps/backend/src/modules/newsletter/infrastructure/prisma-email.repository.ts
+./apps/backend/src/modules/newsletter/infrastructure/prisma-newsletter.repository.ts
+./apps/backend/src/modules/newsletter/newsletter.module.ts
+./apps/backend/src/modules/newsletter/presentation
+./apps/backend/src/modules/newsletter/presentation/article.mapper.ts
+./apps/backend/src/modules/newsletter/presentation/email.mapper.ts
+./apps/backend/src/modules/newsletter/presentation/newsletter.controller.ts
+./apps/backend/src/modules/newsletter/presentation/newsletter.mapper.ts
+./apps/backend/src/modules/projects
+./apps/backend/src/modules/projects/application
+./apps/backend/src/modules/projects/application/create-project.use-case.ts
+./apps/backend/src/modules/projects/application/get-project.use-case.ts
+./apps/backend/src/modules/projects/application/update-project-prompt.use-case.ts
+./apps/backend/src/modules/projects/domain
+./apps/backend/src/modules/projects/domain/project-create.ts
+./apps/backend/src/modules/projects/domain/project-update.ts
+./apps/backend/src/modules/projects/domain/project.repository.interface.ts
+./apps/backend/src/modules/projects/domain/project.ts
+./apps/backend/src/modules/projects/infrastructure
+./apps/backend/src/modules/projects/infrastructure/prisma-project.repository.ts
+./apps/backend/src/modules/projects/presentation
+./apps/backend/src/modules/projects/presentation/project.mapper.ts
+./apps/backend/src/modules/projects/presentation/projects.controller.ts
+./apps/backend/src/modules/projects/projects.module.ts
+./apps/backend/src/modules/users
+./apps/backend/src/modules/users/application
+./apps/backend/src/modules/users/application/use-cases
+./apps/backend/src/modules/users/application/use-cases/get-all-users.use-case.ts
+./apps/backend/src/modules/users/domain
+./apps/backend/src/modules/users/domain/user.domain.ts
+./apps/backend/src/modules/users/domain/user.repository.interface.ts
+./apps/backend/src/modules/users/infrastructure
+./apps/backend/src/modules/users/infrastructure/guards
+./apps/backend/src/modules/users/infrastructure/prisma-user.repository.ts
+./apps/backend/src/modules/users/infrastructure/strategies
+./apps/backend/src/modules/users/presentation
+./apps/backend/src/modules/users/presentation/user.mapper.ts
+./apps/backend/src/modules/users/presentation/users.controller.ts
+./apps/backend/src/modules/users/users.module.ts
 ./apps/backend/src/presentation
 ./apps/backend/src/presentation/mapper.interface.ts
 ./apps/backend/src/prisma
 ./apps/backend/src/prisma/prisma.module.ts
 ./apps/backend/src/prisma/prisma.service.ts
+./apps/backend/src/prisma/prisma.types.ts
 ./apps/backend/swagger.json
 ./apps/backend/test
 ./apps/backend/test/app.e2e-spec.ts
@@ -1972,12 +2040,12 @@ export class Project {
 ./packages/shared-types
 ./packages/shared-types/package.json
 ./packages/shared-types/src
-./packages/shared-types/src/article.type.ts
-./packages/shared-types/src/email.type.ts
+./packages/shared-types/src/article.class.ts
+./packages/shared-types/src/email.class.ts
 ./packages/shared-types/src/index.ts
-./packages/shared-types/src/newsletter.type.ts
-./packages/shared-types/src/project.type.ts
-./packages/shared-types/src/user.ts
+./packages/shared-types/src/newsletter.class.ts
+./packages/shared-types/src/project.class.ts
+./packages/shared-types/src/user.class.ts
 ./packages/shared-types/tsconfig.json
 ./pnpm-lock.yaml
 ./pnpm-workspace.yaml
@@ -1987,7 +2055,7 @@ export class Project {
 ./tsconfig.json
 ./turbo.json
 
-114 directories, 294 files
+108 directories, 298 files
 ```
 
-2025-02-12 11:27:17
+2025-02-12 17:38:36
