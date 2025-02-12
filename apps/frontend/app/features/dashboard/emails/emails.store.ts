@@ -1,26 +1,31 @@
 import type { Email } from '@le-journal/shared-types';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
-import type { ProjectStore } from '../project/project-alias.store';
 
-import type { EmailActions, EmailState } from './emails.type';
+import type { EmailStore } from './emails.type';
 
-import type { Loadable } from '~/interfaces/loadable.interface';
+import { verify } from '~/lib/validator';
 
-export class EmailStore implements EmailState, EmailActions, Loadable<Email[]> {
+export class EmailsStore implements EmailStore {
   state: Email[] | null = null;
   isLoading = true;
   isSubmitting = false;
   selectedEmailId: string | null = null;
   isDrawerOpen = false;
 
-  constructor(private readonly projectStore: ProjectStore) {
+  constructor() {
     makeAutoObservable(this);
   }
 
   loadEmails = (emails: Email[]): void => {
-    this.state = emails;
-    this.isLoading = false;
+    emails.forEach((email) => {
+      verify(email);
+    });
+
+    runInAction(() => {
+      this.state = emails;
+      this.isLoading = false;
+    });
   };
 
   selectEmail = (id: string | null): void => {
@@ -36,6 +41,3 @@ export class EmailStore implements EmailState, EmailActions, Loadable<Email[]> {
     this.toggleEmailDetails(true);
   };
 }
-
-export const createEmailStore = (projectStore: ProjectStore): EmailStore =>
-  new EmailStore(projectStore);

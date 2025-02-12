@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
 import { CustomInstructionsStore } from './custom-instructions/custom-instructions.store';
-import { createEmailStore } from './emails/emails.store';
+import { EmailsStore } from './emails/emails.store';
 import { createHeaderProfileStore } from './header-profile/header-profile.store';
 import { createNewsletterSubscriptionsStore } from './newsletter-subscriptions/newsletter-subscriptions.store';
 import { createProjectStore } from './project/project-alias.store';
@@ -13,7 +13,7 @@ export class DashboardStore {
   newslettersStore = createNewsletterSubscriptionsStore();
   projectStore = createProjectStore();
   upgradeBannerStore = createUpgradeBannerStore();
-  emailsStore = createEmailStore(this.projectStore);
+  emailsStore = new EmailsStore();
 
   constructor() {
     makeAutoObservable(this);
