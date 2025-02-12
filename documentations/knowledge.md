@@ -1,5 +1,5 @@
 ---
-date: 2025-02-12 17:38:36
+date: 2025-02-12 19:10:05
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1842,6 +1842,8 @@ export class ProjectType {
 ./apps/backend/src/modules/users
 ./apps/backend/src/modules/users/application
 ./apps/backend/src/modules/users/application/use-cases
+./apps/backend/src/modules/users/application/use-cases/create-user.use-case.ts
+./apps/backend/src/modules/users/application/use-cases/find-user.use-case.ts
 ./apps/backend/src/modules/users/application/use-cases/get-all-users.use-case.ts
 ./apps/backend/src/modules/users/domain
 ./apps/backend/src/modules/users/domain/user.domain.ts
@@ -2055,7 +2057,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-108 directories, 298 files
+108 directories, 300 files
 ```
 
-2025-02-12 17:38:36
+2025-02-12 19:10:05
