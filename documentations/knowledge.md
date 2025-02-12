@@ -1,5 +1,5 @@
 ---
-date: 2025-02-12 06:24:08
+date: 2025-02-12 08:17:06
 ---
 
 # Project Specifications "Knowledge Base"
@@ -565,6 +565,7 @@ BREAKING CHANGE: new user database structure
     "@remix-run/node": "^2.15.3",
     "@remix-run/react": "^2.15.3",
     "@remix-run/serve": "^2.15.3",
+    "class-validator": "^0.14.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint-plugin-mobx": "^0.0.13",
@@ -625,8 +626,8 @@ BREAKING CHANGE: new user database structure
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
+    "start:dev": "nest start --debug --watch",
+    "start:debug": "nest start --debug --watch --preserveWatchOutput --inspect-brk=0.0.0.0:9229",
     "start:prod": "node dist/main",
     "dev": "nest start --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -1093,6 +1094,28 @@ Example of files structure:
 
 ````
 
+### .cursor/rules/rule-backend-domain-objects.mdc
+
+````mdc
+---
+description: When using DTOs in backend
+globs: apps/backend/**/*.ts
+---
+
+## Example
+```typescript
+this.logger.log('Payment processed', {
+  service: 'PaymentService',
+  method: 'processPayment',
+  correlationId: 'order-123',
+  metadata: {
+    orderId: order.id,
+    amount: payment.amount
+  }
+});
+```
+````
+
 ### .cursor/rules/rule-backend-logging-use-case.mdc
 
 ````mdc
@@ -1304,6 +1327,7 @@ globs: **/*.json
 ./.cursor
 ./.cursor/rules
 ./.cursor/rules/rule-backend-code-generation.mdc
+./.cursor/rules/rule-backend-domain-objects.mdc
 ./.cursor/rules/rule-backend-logging-use-case.mdc
 ./.cursor/rules/rule-backend-tests.mdc
 ./.cursor/rules/rule-frontend-components.mdc
@@ -1348,6 +1372,7 @@ globs: **/*.json
 ./.prettierrc
 ./.releaserc.json
 ./.vscode
+./.vscode/launch.json
 ./.vscode/settings.json
 ./.windsurfignore
 ./.windsurfrules
@@ -1458,21 +1483,19 @@ globs: **/*.json
 ./apps/backend/src/features/newsletter/presentation/dtos/newsletter.dto.ts
 ./apps/backend/src/features/projects
 ./apps/backend/src/features/projects/application
-./apps/backend/src/features/projects/application/use-cases
-./apps/backend/src/features/projects/application/use-cases/create-project.use-case.ts
-./apps/backend/src/features/projects/application/use-cases/get-project.use-case.ts
-./apps/backend/src/features/projects/application/use-cases/update-project-prompt.use-case.ts
+./apps/backend/src/features/projects/application/create-project.use-case.ts
+./apps/backend/src/features/projects/application/get-project.use-case.ts
+./apps/backend/src/features/projects/application/update-project-prompt.use-case.ts
 ./apps/backend/src/features/projects/domain
-./apps/backend/src/features/projects/domain/repositories
-./apps/backend/src/features/projects/domain/repositories/project.repository.interface.ts
+./apps/backend/src/features/projects/domain/project-create.ts
+./apps/backend/src/features/projects/domain/project-update.ts
+./apps/backend/src/features/projects/domain/project.repository.interface.ts
+./apps/backend/src/features/projects/domain/project.ts
 ./apps/backend/src/features/projects/infrastructure
-./apps/backend/src/features/projects/infrastructure/repositories
-./apps/backend/src/features/projects/infrastructure/repositories/prisma-project.repository.ts
+./apps/backend/src/features/projects/infrastructure/prisma-project.repository.ts
 ./apps/backend/src/features/projects/presentation
-./apps/backend/src/features/projects/presentation/controllers
-./apps/backend/src/features/projects/presentation/controllers/projects.controller.ts
-./apps/backend/src/features/projects/presentation/dtos
-./apps/backend/src/features/projects/presentation/dtos/project.dto.ts
+./apps/backend/src/features/projects/presentation/project.mapper.ts
+./apps/backend/src/features/projects/presentation/projects.controller.ts
 ./apps/backend/src/features/projects/projects.module.ts
 ./apps/backend/src/features/users
 ./apps/backend/src/features/users/application
@@ -1597,6 +1620,8 @@ globs: **/*.json
 ./apps/frontend/app/features/onboarding/stores/onboardingStore.ts
 ./apps/frontend/app/hooks
 ./apps/frontend/app/hooks/use-mobile.tsx
+./apps/frontend/app/interfaces
+./apps/frontend/app/interfaces/component.interface.ts
 ./apps/frontend/app/lib
 ./apps/frontend/app/lib/utils.ts
 ./apps/frontend/app/root.tsx
@@ -1683,11 +1708,11 @@ globs: **/*.json
 ./packages/shared-types
 ./packages/shared-types/package.json
 ./packages/shared-types/src
-./packages/shared-types/src/article.ts
-./packages/shared-types/src/email.ts
+./packages/shared-types/src/article.type.ts
+./packages/shared-types/src/email.type.ts
 ./packages/shared-types/src/index.ts
-./packages/shared-types/src/newsletter.ts
-./packages/shared-types/src/project.ts
+./packages/shared-types/src/newsletter.type.ts
+./packages/shared-types/src/project.type.ts
 ./packages/shared-types/src/user.ts
 ./packages/shared-types/tsconfig.json
 ./pnpm-lock.yaml
@@ -1698,7 +1723,7 @@ globs: **/*.json
 ./tsconfig.json
 ./turbo.json
 
-120 directories, 277 files
+116 directories, 283 files
 ```
 
-2025-02-12 06:24:08
+2025-02-12 08:17:06
