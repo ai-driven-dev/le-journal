@@ -1,5 +1,5 @@
 ---
-date: 2025-02-12 10:53:50
+date: 2025-02-12 11:27:17
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1268,7 +1268,6 @@ globs: apps/frontend/**.ts, apps/frontend/**.tsx
 - Early returns.
 - Strong typing.
 - Use ShadCN from `~/components/ui`.
--
 
 Example child component (`features/dashboard/custom-instructions/custom-instructions-confirmation.component.tsx`):
 ```typescript
@@ -1365,9 +1364,8 @@ globs: apps/frontend/**
 - Never use technical function (e.g. `setDialogOpen`), prefer user actions (`openDialog`, `closeDialog`).
 - Always validate state before afting using [validator.ts](mdc:apps/frontend/app/lib/validator.ts)
 - Use `makeAutoObservable` in the store constructor.
-- Wrap state mutations inside runInAction().
+- Wrap state mutations inside `runInAction()`.
 - Use `computed properties` for all derived values, even small (e.g., `instructionLength`).
-- Ensure async functions use runInAction() when modifying state.
 - Inject the store into the parent component for better state management.
 - Separate logic (store) from UI (component).
 - Implement [loadable.interface.ts](mdc:apps/frontend/app/interfaces/loadable.interface.ts) is component have a state loadable from API.
@@ -1535,7 +1533,6 @@ globs: packages/shared-types/**/*.ts
 - most of the validation is done here with `class-validator`
 - this type is used "as-is" in frontend.
 - this type is extended in backend's Domain models.
-- for frontend, 'sub-types' can be created picking types from main type.
 
 Example `packages/shared-types/src/project.type.ts`:
 ```typescript
@@ -1575,8 +1572,6 @@ export class ProjectType {
   @IsString()
   promptInstruction!: string;
 }
-
-export class ProjectPromptType extends PickType(ProjectType, ['id', 'promptInstruction']) {}
 ```
 ````
 
@@ -1995,4 +1990,4 @@ export class ProjectPromptType extends PickType(ProjectType, ['id', 'promptInstr
 114 directories, 294 files
 ```
 
-2025-02-12 10:53:50
+2025-02-12 11:27:17
