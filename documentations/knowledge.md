@@ -1,5 +1,5 @@
 ---
-date: 2025-02-12 08:17:06
+date: 2025-02-12 09:41:54
 ---
 
 # Project Specifications "Knowledge Base"
@@ -484,9 +484,6 @@ BREAKING CHANGE: new user database structure
   "packageManager": "pnpm@8.14.1",
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
-    "shared": "pnpm --filter shared-types run",
-    "front": "pnpm --filter frontend run",
-    "back": "pnpm --filter backend run",
     "document": "zsh ./documentations/knowledge.sh",
     "build": "turbo run build",
     "dev": "docker-compose up --build -d && turbo run dev",
@@ -500,7 +497,7 @@ BREAKING CHANGE: new user database structure
     "test": "turbo run test",
     "update:deps": "pnpm up -r --latest && pnpm install && pnpm run check && pnpm outdated -r ",
     "prepare": "husky && husky install",
-    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm build && pnpm typecheck &&  pnpm test",
+    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm build && pnpm typecheck",
     "renovate": "dotenv -- renovate --dry-run",
     "clean": "cd packages/shared-types && pnpm clean && pnpm build"
   },
@@ -561,6 +558,7 @@ BREAKING CHANGE: new user database structure
     "@radix-ui/react-hover-card": "^1.1.6",
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
+    "@radix-ui/react-toast": "^1.2.6",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@remix-run/node": "^2.15.3",
     "@remix-run/react": "^2.15.3",
@@ -1094,25 +1092,96 @@ Example of files structure:
 
 ````
 
+### .cursor/rules/rule-backend-controller.mdc
+
+````mdc
+---
+description: Backend logic when using controllers from REST API.
+globs: apps/backend/**/*.ts
+---
+- no `ValidationPipe` needed, `main.ts` uses `useGlobalPipes`.
+- input is Domain object, output is Domain object too.
+- call the use-cases which will handle domain logic.
+- use domain mapper from current domain.
+- use Swagger annotations the more you can to be details on API specs.
+
+Example `projects/presentation/project.mapper.ts`:
+```typescript
+@ApiTags('Projects')
+@Controller('projects')
+export class ProjectsController {
+
+  constructor(
+    private readonly updateProjectPromptUseCase: UpdateProjectPromptUseCase,
+    private readonly projectMapper: ProjectMapper,
+  ) {}
+
+  @Put('prompt')
+  @ApiOperation({ summary: 'Update prompt instructions of a project.' })
+  @ApiResponse({ status: 200, type: ProjectUpdate })
+  async updateProjectPrompt(
+    @Body()
+    updateProjectPromptDto: ProjectUpdate,
+  ): Promise<ProjectUpdate> {
+    const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
+
+    return this.projectMapper.toDomain(project);
+  }
+}
+
+
+```
+````
+
 ### .cursor/rules/rule-backend-domain-objects.mdc
 
 ````mdc
 ---
-description: When using DTOs in backend
+description: Backend logic when using domain object.
 globs: apps/backend/**/*.ts
 ---
+- use Swagger annotations (`APIProperty` at least, propose more if relevant).
+- extends validated type (also with `class-validator`) only with current properties using `PickType`.
+- properties use `!` because no constructor.
+- language in english.
+- use `class-validator` annotations if data needs to be validation backend only.
 
-## Example
+Example:
 ```typescript
-this.logger.log('Payment processed', {
-  service: 'PaymentService',
-  method: 'processPayment',
-  correlationId: 'order-123',
-  metadata: {
-    orderId: order.id,
-    amount: payment.amount
-  }
-});
+import { ProjectType } from '@le-journal/shared-types';
+import { ApiProperty, PickType } from '@nestjs/swagger';
+import { IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+
+const MIN_LENGTH = 10;
+const MAX_LENGTH = 200;
+const VALIDATION = /^[^<>{}]*$/;
+
+export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstruction']) {
+  @ApiProperty({
+    example: 'c123e456-789b-12d3-a456-426614174000',
+    description: 'ID du projet',
+  })
+  id!: string;
+
+  @ApiProperty({
+    description: 'The instruction prompt for the project',
+    example: 'Write a blog post about AI and its impact on society',
+    minLength: MIN_LENGTH,
+    maxLength: MAX_LENGTH,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(MIN_LENGTH, {
+    message: `Prompt instruction must be at least ${MIN_LENGTH} characters long`,
+  })
+  @MaxLength(MAX_LENGTH, {
+    message: `Prompt instruction must be at most ${MAX_LENGTH} characters long`,
+  })
+  @Matches(VALIDATION, {
+    message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
+  })
+  promptInstruction!: string;
+}
 ```
 ````
 
@@ -1164,6 +1233,57 @@ this.logger.log('Payment processed', {
 ```
 ````
 
+### .cursor/rules/rule-backend-mapper.mdc
+
+````mdc
+---
+description: Backend logic when need to map object from model (database) to domain object.
+globs: apps/backend/**/*.ts
+---
+- use NestJS dependency injection.
+- import type from Prisma suffixed by "Model".
+- implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>
+
+Example `projects/presentation/project.mapper.ts`:
+```typescript
+import { Injectable } from '@nestjs/common';
+import { Project as ProjectModel } from '@prisma/client';
+
+import { Project } from '../domain/project';
+
+import { Mapper } from 'src/presentation/mapper.interface';
+
+@Injectable()
+export class ProjectMapper implements Mapper<Project, ProjectModel> {
+  toModel(domain: Project): ProjectModel {
+    return {
+      id: domain.id,
+      name: domain.name,
+      slug: domain.slug,
+      newsletter_alias: domain.newsletterAlias,
+      project_number: domain.projectNumber,
+      created_at: domain.createdAt,
+      prompt_instruction: domain.promptInstruction,
+      user_id: domain.userId,
+    };
+  }
+
+  toDomain(model: ProjectModel): Project {
+    return {
+      id: model.id,
+      name: model.name,
+      slug: model.slug,
+      newsletterAlias: model.newsletter_alias,
+      projectNumber: model.project_number,
+      createdAt: model.created_at,
+      promptInstruction: model.prompt_instruction,
+      userId: model.user_id,
+    };
+  }
+}
+```
+````
+
 ### .cursor/rules/rule-backend-tests.mdc
 
 ```mdc
@@ -1188,7 +1308,7 @@ Backend tests with data:
 
 ````mdc
 ---
-description: Frontend : Coding components, stores,  etc.
+description: Frontend components generation linked with MobX Store, UI only
 globs: apps/frontend/**.ts, apps/frontend/**.tsx
 ---
 ## Frontend : Components rules
@@ -1248,6 +1368,17 @@ globs: apps/frontend/**/*.ts
 ---
 - Loaders must be used in routes.
 - Return plain objects instead of `json()`.
+```
+
+### .cursor/rules/rule-frontend-store.mdc
+
+```mdc
+---
+description: Frontend store with MobX for logic.
+globs: apps/frontend/**
+---
+
+
 ```
 
 ### .cursor/rules/rule-global-code-generation.mdc
@@ -1320,6 +1451,61 @@ globs: **/*.json
 - Use PNPM with the latest version.
 ```
 
+### .cursor/rules/rule-shared-types.mdc
+
+````mdc
+---
+description: Rules for Shared Types between frontend and backend
+globs: packages/shared-types/**/*.ts
+---
+- most of the validation is done here with `class-validator`
+- this type is used "as-is" in frontend.
+- this type is extended in backend's Domain models.
+- for frontend, 'sub-types' can be created picking types from main type.
+
+Example `packages/shared-types/src/project.type.ts`:
+```typescript
+import { PickType } from '@nestjs/mapped-types';
+import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+
+export class ProjectType {
+  @IsString()
+  @IsNotEmpty()
+  id!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  name!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  slug!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  userId!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsEmail()
+  newsletterAlias!: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  projectNumber!: number;
+
+  @IsDate()
+  @IsNotEmpty()
+  createdAt!: Date;
+
+  @IsString()
+  promptInstruction!: string;
+}
+
+export class ProjectPromptType extends PickType(ProjectType, ['id', 'promptInstruction']) {}
+```
+````
+
 ### Project Structure
 
 ```text
@@ -1327,14 +1513,18 @@ globs: **/*.json
 ./.cursor
 ./.cursor/rules
 ./.cursor/rules/rule-backend-code-generation.mdc
+./.cursor/rules/rule-backend-controller.mdc
 ./.cursor/rules/rule-backend-domain-objects.mdc
 ./.cursor/rules/rule-backend-logging-use-case.mdc
+./.cursor/rules/rule-backend-mapper.mdc
 ./.cursor/rules/rule-backend-tests.mdc
 ./.cursor/rules/rule-frontend-components.mdc
 ./.cursor/rules/rule-frontend-global.mdc
 ./.cursor/rules/rule-frontend-remix-loaders.mdc
+./.cursor/rules/rule-frontend-store.mdc
 ./.cursor/rules/rule-global-code-generation.mdc
 ./.cursor/rules/rule-global-installation.mdc
+./.cursor/rules/rule-shared-types.mdc
 ./.cursorignore
 ./.env
 ./.env.example
@@ -1528,6 +1718,8 @@ globs: **/*.json
 ./apps/backend/src/infrastructure/logger/logger.service.ts
 ./apps/backend/src/infrastructure/logger/logger.type.ts
 ./apps/backend/src/main.ts
+./apps/backend/src/presentation
+./apps/backend/src/presentation/mapper.interface.ts
 ./apps/backend/src/prisma
 ./apps/backend/src/prisma/prisma.module.ts
 ./apps/backend/src/prisma/prisma.service.ts
@@ -1565,6 +1757,8 @@ globs: **/*.json
 ./apps/frontend/app/components/ui/skeleton.tsx
 ./apps/frontend/app/components/ui/table.tsx
 ./apps/frontend/app/components/ui/textarea.tsx
+./apps/frontend/app/components/ui/toast.tsx
+./apps/frontend/app/components/ui/toaster.tsx
 ./apps/frontend/app/components/ui/tooltip.tsx
 ./apps/frontend/app/entry.client.tsx
 ./apps/frontend/app/entry.server.tsx
@@ -1574,10 +1768,10 @@ globs: **/*.json
 ./apps/frontend/app/features/auth/auth.context.tsx
 ./apps/frontend/app/features/auth/auth.store.ts
 ./apps/frontend/app/features/dashboard
-./apps/frontend/app/features/dashboard/custom-prompt
-./apps/frontend/app/features/dashboard/custom-prompt/custom-prompt.component.tsx
-./apps/frontend/app/features/dashboard/custom-prompt/custom-prompt.store.ts
-./apps/frontend/app/features/dashboard/custom-prompt/custom-prompt.type.ts
+./apps/frontend/app/features/dashboard/custom-instructions
+./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.component.tsx
+./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.store.ts
+./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.type.ts
 ./apps/frontend/app/features/dashboard/dashboard.component.tsx
 ./apps/frontend/app/features/dashboard/dashboard.context.tsx
 ./apps/frontend/app/features/dashboard/dashboard.loader.ts
@@ -1599,8 +1793,8 @@ globs: **/*.json
 ./apps/frontend/app/features/dashboard/newsletter-subscriptions/newsletter-subscriptions.type.ts
 ./apps/frontend/app/features/dashboard/project
 ./apps/frontend/app/features/dashboard/project/project-alias.component.tsx
-./apps/frontend/app/features/dashboard/project/project.store.ts
-./apps/frontend/app/features/dashboard/project/project.type.ts
+./apps/frontend/app/features/dashboard/project/project-alias.store.ts
+./apps/frontend/app/features/dashboard/project/project-alias.type.ts
 ./apps/frontend/app/features/dashboard/upgrade-banner
 ./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.component.tsx
 ./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.store.ts
@@ -1620,10 +1814,17 @@ globs: **/*.json
 ./apps/frontend/app/features/onboarding/stores/onboardingStore.ts
 ./apps/frontend/app/hooks
 ./apps/frontend/app/hooks/use-mobile.tsx
+./apps/frontend/app/hooks/use-toast.ts
 ./apps/frontend/app/interfaces
 ./apps/frontend/app/interfaces/component.interface.ts
+./apps/frontend/app/interfaces/loadable.interface.ts
 ./apps/frontend/app/lib
+./apps/frontend/app/lib/api-error.ts
+./apps/frontend/app/lib/api-fetcher.client.ts
+./apps/frontend/app/lib/api-fetcher.server.ts
+./apps/frontend/app/lib/api-fetcher.ts
 ./apps/frontend/app/lib/utils.ts
+./apps/frontend/app/lib/validator.ts
 ./apps/frontend/app/root.tsx
 ./apps/frontend/app/routes
 ./apps/frontend/app/routes/_index.tsx
@@ -1639,13 +1840,6 @@ globs: **/*.json
 ./apps/frontend/app/tests
 ./apps/frontend/app/tests/_index.test.tsx
 ./apps/frontend/app/tests/root.test.tsx
-./apps/frontend/app/types
-./apps/frontend/app/types/loadable.ts
-./apps/frontend/app/utils
-./apps/frontend/app/utils/api
-./apps/frontend/app/utils/api/error.ts
-./apps/frontend/app/utils/api/fetcher.ts
-./apps/frontend/app/utils/assertions.ts
 ./apps/frontend/components.json
 ./apps/frontend/mobx.config.ts
 ./apps/frontend/package.json
@@ -1723,7 +1917,7 @@ globs: **/*.json
 ./tsconfig.json
 ./turbo.json
 
-116 directories, 283 files
+114 directories, 293 files
 ```
 
-2025-02-12 08:17:06
+2025-02-12 09:41:54
