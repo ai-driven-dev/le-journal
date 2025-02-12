@@ -16,7 +16,6 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       project_number: domain.projectNumber,
       created_at: domain.createdAt,
       prompt_instruction: domain.promptInstruction,
-      user_id: domain.userId,
     };
   }
 
@@ -29,7 +28,6 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       projectNumber: model.project_number,
       createdAt: model.created_at,
       promptInstruction: model.prompt_instruction,
-      userId: model.user_id,
     };
   }
 }

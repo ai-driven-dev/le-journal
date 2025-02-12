@@ -30,7 +30,6 @@ async function bootstrap(): Promise<void> {
   );
 
   // API
-  app.setGlobalPrefix('api');
   app.enableCors({
     origin: [process.env.FRONTEND_URL],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

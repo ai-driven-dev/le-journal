@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { GetEmailsUseCase } from '../application/get-emails.use-case';
@@ -10,8 +10,7 @@ import { EmailMapper } from './email.mapper';
 import { NewsletterMapper } from './newsletter.mapper';
 
 @ApiTags('Newsletters')
-@Controller('newsletters')
-@UsePipes(new ValidationPipe())
+@Controller('api/newsletters')
 export class NewsletterController {
   constructor(
     private readonly getEmailsUseCase: GetEmailsUseCase,

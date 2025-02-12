@@ -14,9 +14,6 @@ export class ProjectDomain extends Project {
   @ApiProperty({ example: 'mon-super-projet', description: 'Slug du projet' })
   slug!: string;
 
-  @ApiProperty({ example: 'user-123', description: 'ID du propriétaire du projet' })
-  userId!: string;
-
   @ApiProperty({ example: 'mon-alias', description: 'Alias unique pour les newsletters' })
   newsletterAlias!: string;
 

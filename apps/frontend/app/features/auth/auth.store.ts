@@ -1,7 +1,7 @@
 import type { User } from '@le-journal/shared-types';
 import { makeAutoObservable, runInAction } from 'mobx';
 
-import { getApiUrl } from '~/lib/api-fetcher';
+import { getApiUrl, getAuthUrl } from '~/lib/api-fetcher';
 
 export class AuthStore {
   user: User | null = null;
@@ -25,7 +25,7 @@ export class AuthStore {
         this.error = null;
       });
 
-      window.location.href = getApiUrl('auth/google');
+      window.location.href = getAuthUrl();
     } catch (error) {
       runInAction(() => {
         this.error = error as Error;

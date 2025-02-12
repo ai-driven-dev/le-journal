@@ -2,39 +2,6 @@
   "openapi": "3.0.0",
   "paths": {
     "/api/users": {
-      "post": {
-        "operationId": "UsersController_createUser",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUserDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Utilisateur créé avec succès",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDTO"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Un utilisateur avec cet email existe déjà"
-          }
-        },
-        "summary": "Créer un nouvel utilisateur",
-        "tags": [
-          "Users"
-        ]
-      },
       "get": {
         "operationId": "UsersController_getAllUsers",
         "parameters": [],
@@ -46,7 +13,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UserDTO"
+                    "$ref": "#/components/schemas/UserDomain"
                   }
                 }
               }
@@ -60,36 +27,6 @@
       }
     },
     "/api/projects": {
-      "post": {
-        "operationId": "ProjectsController_createProject",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProjectDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateProjectDto"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Créer un nouveau projet",
-        "tags": [
-          "Projects"
-        ]
-      },
       "get": {
         "operationId": "ProjectsController_getProject",
         "parameters": [
@@ -109,7 +46,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Project"
+                  "$ref": "#/components/schemas/ProjectDomain"
                 }
               }
             }
@@ -165,7 +102,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/NewsletterDto"
+                    "$ref": "#/components/schemas/NewsletterDomain"
                   }
                 }
               }
@@ -193,60 +130,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Liste des emails récupérée avec succès",
+            "description": "List of emails retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/EmailDto"
+                    "$ref": "#/components/schemas/EmailDomain"
                   }
                 }
               }
             }
           }
         },
-        "summary": "Récupérer tous les emails de la newsletter",
+        "summary": "Get all newsletter emails",
         "tags": [
           "Newsletters"
         ]
       }
     },
-    "/api/newsletters/emails/search": {
-      "get": {
-        "operationId": "NewsletterController_searchEmails",
-        "parameters": [
-          {
-            "name": "query",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Résultats de la recherche",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/EmailDto"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "summary": "Rechercher des emails dans la newsletter",
-        "tags": [
-          "Newsletters"
-        ]
-      }
-    },
-    "/api/auth/google": {
+    "/auth/google": {
       "get": {
         "operationId": "AuthController_googleAuth",
         "parameters": [],
@@ -261,7 +164,7 @@
         ]
       }
     },
-    "/api/auth/google/callback": {
+    "/auth/google/callback": {
       "get": {
         "operationId": "AuthController_googleAuthCallback",
         "parameters": [],
@@ -276,7 +179,7 @@
         ]
       }
     },
-    "/api/auth/logout": {
+    "/auth/logout": {
       "post": {
         "operationId": "AuthController_logout",
         "parameters": [],
@@ -309,25 +212,7 @@
       }
     },
     "schemas": {
-      "CreateUserDto": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "john.doe@email.com",
-            "description": "Email de l'utilisateur"
-          },
-          "name": {
-            "type": "string",
-            "example": "John Doe",
-            "description": "Nom de l'utilisateur"
-          }
-        },
-        "required": [
-          "email"
-        ]
-      },
-      "UserDTO": {
+      "UserDomain": {
         "type": "object",
         "properties": {
           "id": {
@@ -346,61 +231,33 @@
             "description": "Nom de l'utilisateur"
           },
           "createdAt": {
+            "format": "date-time",
             "type": "string",
             "example": "2024-02-08T12:00:00.000Z",
             "description": "Date de création"
           },
           "updatedAt": {
+            "format": "date-time",
             "type": "string",
             "example": "2024-02-09T14:30:00.000Z",
             "description": "Date de mise à jour"
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://example.com/avatar.png",
+            "description": "Avatar de l'utilisateur"
           }
         },
         "required": [
           "id",
           "email",
-          "createdAt",
-          "updatedAt"
-        ]
-      },
-      "CreateProjectDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Mon super projet",
-            "description": "Nom du projet"
-          },
-          "slug": {
-            "type": "string",
-            "example": "mon-super-projet",
-            "description": "Slug du projet"
-          },
-          "userId": {
-            "type": "string",
-            "example": "user-123",
-            "description": "ID du propriétaire du projet"
-          },
-          "newsletterAlias": {
-            "type": "string",
-            "example": "mon-alias",
-            "description": "Alias unique pour les newsletters"
-          },
-          "projectNumber": {
-            "type": "number",
-            "example": 1,
-            "description": "Numéro du projet"
-          }
-        },
-        "required": [
           "name",
-          "slug",
-          "userId",
-          "newsletterAlias",
-          "projectNumber"
+          "createdAt",
+          "updatedAt",
+          "avatar"
         ]
       },
-      "Project": {
+      "ProjectDomain": {
         "type": "object",
         "properties": {
           "id": {
@@ -417,11 +274,6 @@
             "type": "string",
             "example": "mon-super-projet",
             "description": "Slug du projet"
-          },
-          "userId": {
-            "type": "string",
-            "example": "user-123",
-            "description": "ID du propriétaire du projet"
           },
           "newsletterAlias": {
             "type": "string",
@@ -449,7 +301,6 @@
           "id",
           "name",
           "slug",
-          "userId",
           "newsletterAlias",
           "projectNumber",
           "createdAt",
@@ -475,7 +326,7 @@
           "promptInstruction"
         ]
       },
-      "NewsletterDto": {
+      "NewsletterDomain": {
         "type": "object",
         "properties": {
           "id": {
@@ -483,23 +334,18 @@
             "description": "The unique identifier of the newsletter subscription",
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
-          "user_id": {
-            "type": "string",
-            "description": "The user ID who subscribed to the newsletter",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
           "email": {
             "type": "string",
             "description": "The email address subscribed to the newsletter",
             "example": "user@example.com"
           },
-          "subscribed_at": {
+          "subscribedAt": {
             "format": "date-time",
             "type": "string",
             "description": "The date when the user subscribed to the newsletter",
             "example": "2024-02-08T20:00:00.000Z"
           },
-          "subscription_status": {
+          "subscriptionStatus": {
             "type": "string",
             "description": "The current status of the newsletter subscription",
             "enum": [
@@ -508,18 +354,17 @@
               "PENDING",
               "FAILED"
             ],
-            "example": "ACTIVE"
+            "example": "PENDING"
           }
         },
         "required": [
           "id",
-          "user_id",
           "email",
-          "subscribed_at",
-          "subscription_status"
+          "subscribedAt",
+          "subscriptionStatus"
         ]
       },
-      "ArticleDto": {
+      "ArticleDomain": {
         "type": "object",
         "properties": {
           "id": {
@@ -538,7 +383,7 @@
             "example": "Learn the best practices for building enterprise-grade NestJS applications..."
           },
           "link": {
-            "type": "object",
+            "type": "string",
             "description": "URL to the full article",
             "example": "https://example.com/article/nestjs-best-practices",
             "nullable": true
@@ -547,6 +392,12 @@
             "type": "number",
             "description": "Relevance score of the article (0-1)",
             "example": 0.95
+          },
+          "extractedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date and time when the article was extracted",
+            "example": "2024-01-01T12:00:00Z"
           }
         },
         "required": [
@@ -554,10 +405,11 @@
           "subject",
           "description",
           "link",
-          "score"
+          "score",
+          "extractedAt"
         ]
       },
-      "EmailDto": {
+      "EmailDomain": {
         "type": "object",
         "properties": {
           "id": {
@@ -565,27 +417,17 @@
             "description": "ID unique de l'email",
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
-          "project_id": {
-            "type": "string",
-            "description": "ID du projet associé",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
-          "newsletter_id": {
-            "type": "string",
-            "description": "ID de la newsletter associée",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
           "subject": {
             "type": "string",
             "description": "Sujet de l'email",
             "example": "Newsletter #42 - Les dernières actualités tech"
           },
-          "raw_content": {
+          "content": {
             "type": "string",
             "description": "Contenu brut de l'email",
             "example": "Contenu de l'email au format texte..."
           },
-          "received_at": {
+          "receivedAt": {
             "format": "date-time",
             "type": "string",
             "description": "Date de réception de l'email",
@@ -605,17 +447,15 @@
             "description": "Articles associés à l'email",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ArticleDto"
+              "$ref": "#/components/schemas/ArticleDomain"
             }
           }
         },
         "required": [
           "id",
-          "project_id",
-          "newsletter_id",
           "subject",
-          "raw_content",
-          "received_at",
+          "content",
+          "receivedAt",
           "status",
           "articles"
         ]

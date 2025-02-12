@@ -27,6 +27,7 @@ export default defineConfig(({ mode }) => {
     ],
     define: {
       'import.meta.env.PUBLIC_API_URL': JSON.stringify(env.PUBLIC_API_URL),
+      'import.meta.env.GOOGLE_REDIRECT_URI': JSON.stringify(env.GOOGLE_REDIRECT_URI),
     },
   };
 });
