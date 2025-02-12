@@ -41,7 +41,7 @@ export class ProjectsController {
 
 Example:
 ```typescript
-import { Project } from '@le-journal/shared-types';
+import { ProjectType } from '@le-journal/shared-types';
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
@@ -49,7 +49,7 @@ const MIN_LENGTH = 10;
 const MAX_LENGTH = 200;
 const VALIDATION = /^[^<>{}]*$/;
 
-export class ProjectUpdate extends PickType(Project, ['id', 'promptInstruction']) {
+export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstruction']) {
   @ApiProperty({
     example: 'c123e456-789b-12d3-a456-426614174000',
     description: 'ID du projet',
@@ -82,7 +82,7 @@ export class ProjectUpdate extends PickType(Project, ['id', 'promptInstruction']
 - Create custom exceptions when domain specific.
 - Focus on domain logic.
 
-Example structure `src/features/projects`:
+Example structure `src/modules/projects`:
 ```text
 ├── application
 │   ├── create-project.use-case.ts
@@ -102,49 +102,11 @@ Example structure `src/features/projects`:
 ```
 
 
-## Logging Levels
-- Use only 4 logging methods: debug(), log(), warn(), error()
-- debug(): Use for technical details and development information
-- log(): Use for important business events and successes
-- warn(): Use for abnormal but non-critical situations
-- error(): Use for exceptions and critical failures
-
-## Context Structure
-- Always provide service and method names
-- Include metadata for business data
-- Pass Error objects directly in error context
-- Use correlationId for tracing related operations
-- Structure all logs in JSON format
-
-## Example: Error Logging
-```typescript
-this.logger.error('User creation failed', {
-  service: 'UserService',
-  method: 'createUser',
-  metadata: {
-    email: user.email,
-    role: user.role
-  },
-  error: error
-});
-```
-
-## Example: Business Event
-```typescript
-this.logger.log('Payment processed', {
-  service: 'PaymentService',
-  method: 'processPayment',
-  correlationId: 'order-123',
-  metadata: {
-    orderId: order.id,
-    amount: payment.amount
-  }
-});
-```
-
 - use NestJS dependency injection.
 - import type from Prisma suffixed by "Model".
-- implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>
+- implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
+- must reassign every props.
+- always return plain objects, no instances.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript
@@ -185,6 +147,77 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
 }
 ```
 
+- repository must have its interface.
+- always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
+
+Example usage in controller/use-case:
+```typescript
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
+    private readonly userMapper: UserMapper,
+  ) {}
+```
+
+Example usage in modules:
+```typescript
+@Module({
+  imports: [PrismaModule],
+  controllers: [UsersController],
+  providers: [
+    GetAllUsersUseCase,
+    UserMapper,
+    {
+      provide: USER_REPOSITORY,
+      useClass: PrismaUserRepository,
+    },
+  ],
+  exports: [GetAllUsersUseCase, USER_REPOSITORY],
+})
+export class UsersModule {}
+```
+
+Example interface `features/users/domain/user.repository.interface.ts`:
+```typescript
+import type { User } from '@prisma/client';
+
+export const USER_REPOSITORY = 'USER_REPOSITORY';
+
+export interface UserRepository {
+  findByEmail(email: string): Promise<User | null>;
+  findAll(): Promise<User[]>;
+}
+```
+
+Example integration `features/users/infrastructure/prisma-user.repository.ts`:
+```typescript
+import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
+
+import { PrismaService } from '../../../prisma/prisma.service';
+import { UserRepository } from '../domain/user.repository.interface';
+
+@Injectable()
+export class PrismaUserRepository implements UserRepository {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.prisma.user.findMany();
+  }
+}
+
+```
+
+- must call repositories.
+- must use types [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts) .
+- 
+
 Backend tests rules:
 - Jest for testing.
 - Integration tests must not create data directly (use seed.ts).
@@ -196,6 +229,32 @@ Backend tests (integration):
 Backend tests with data:
 - Seed are used as fixtures, data already set up.
 - Never call Prisma directly in tests, use repository if needed.
+
+- must match domain: this is a user action .
+- bridge between domain, infrastructure (database) and presentation (controller).
+
+Example:
+```typescript
+import { Inject, Injectable } from '@nestjs/common';
+
+import { UserDomain } from '../../domain/user.domain';
+import { USER_REPOSITORY, UserRepository } from '../../domain/user.repository.interface';
+import { UserMapper } from '../../presentation/user.mapper';
+
+@Injectable()
+export class GetAllUsersUseCase {
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
+    private readonly userMapper: UserMapper,
+  ) {}
+
+  async execute(): Promise<UserDomain[]> {
+    const users = await this.userRepository.findAll();
+    return users.map((user) => this.userMapper.toDomain(user));
+  }
+}
+```
 
 - Use observer from mobx-react-lite on React components to track state changes.
 - Dump component, no logic, logics is in store [rule-frontend-store.mdc](mdc:.cursor/rules/rule-frontend-store.mdc) .
@@ -429,7 +488,7 @@ Example `packages/shared-types/src/project.type.ts`:
 import { PickType } from '@nestjs/mapped-types';
 import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class Project {
+export class ProjectType {
   @IsString()
   @IsNotEmpty()
   id!: string;
