@@ -42,10 +42,10 @@ export const Dashboard: FC = observer(() => {
     const currentProject = projects[0];
 
     // Required data.
-    dashboardStore.projectStore.setCurrentProject(currentProject);
-    dashboardStore.createPromptStore.initializePrompt({
+    dashboardStore.projectStore.init(currentProject);
+    dashboardStore.createPromptStore.init({
       id: currentProject.id,
-      prompt: currentProject.promptInstruction,
+      promptInstruction: currentProject.promptInstruction,
     });
     dashboardStore.newslettersStore.loadNewsletters(newsletters);
     dashboardStore.headerProfileStore.loadUserInfo(users[0]);

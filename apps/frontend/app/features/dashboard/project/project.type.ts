@@ -1,9 +1,13 @@
-import type { Project } from '@le-journal/shared-types';
+import type { ProjectType } from '@le-journal/shared-types';
 
-export interface ProjectState {
-  currentProject: Project | null;
+import type { Actionable, Statable } from '~/interfaces/component.interface';
+
+export interface ProjectState extends Statable<ProjectType> {
+  state: ProjectType | null;
 }
 
-export interface ProjectActions {
-  setCurrentProject: (project: Project) => void;
+export interface ProjectActions extends Actionable<ProjectType> {
+  init: (project: ProjectType) => void;
 }
+
+export interface ProjectStore extends ProjectState, ProjectActions {}

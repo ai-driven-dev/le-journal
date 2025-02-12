@@ -1,25 +1,23 @@
-import type { Project } from '@le-journal/shared-types';
+import type { ProjectType } from '@le-journal/shared-types';
 import { makeAutoObservable } from 'mobx';
 
-import type { ProjectActions, ProjectState } from './project.type';
-
-export class ProjectStore implements ProjectActions, ProjectState {
-  currentProject: Project | null = null;
+export class ProjectStore implements ProjectStore {
+  state: ProjectType | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setCurrentProject(project: Project): void {
-    this.currentProject = project;
+  init(project: ProjectType): void {
+    this.state = project;
   }
 
   copyToClipboard = async (): Promise<void> => {
     try {
-      if (this.currentProject === null) {
+      if (this.state === null) {
         throw new Error('No project selected');
       }
-      await navigator.clipboard.writeText(this.currentProject.newsletterAlias);
+      await navigator.clipboard.writeText(this.state.newsletterAlias);
       // TODO: Ajouter une notification de succès
     } catch (error) {
       console.error('Erreur lors de la copie :', error);

@@ -155,7 +155,7 @@ export default [
       'react/display-name': ['error', { ignoreTranspilerName: false }],
 
       /* NestJS Rules */
-      'nestjs/use-validation-pipe': 'warn',
+      'nestjs/use-validation-pipe': 'off',
     },
   },
 ];

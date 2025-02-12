@@ -9,7 +9,7 @@ export const ProjectEmailAlias: FC = observer(() => {
   const { dashboardStore } = useDashboardStores();
   const store = dashboardStore.projectStore;
 
-  if (!store.currentProject) {
+  if (store.state === null) {
     return null;
   }
 
@@ -24,7 +24,7 @@ export const ProjectEmailAlias: FC = observer(() => {
       <CardContent>
         <div className="flex items-center justify-between space-x-4">
           <code className="rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-            {store.currentProject.newsletterAlias}
+            {store.state.newsletterAlias}
           </code>
         </div>
       </CardContent>

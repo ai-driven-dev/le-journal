@@ -1,0 +1,17 @@
+---
+description: When using DTOs in backend
+globs: apps/backend/**/*.ts
+---
+
+## Example
+```typescript
+this.logger.log('Payment processed', {
+  service: 'PaymentService',
+  method: 'processPayment',
+  correlationId: 'order-123',
+  metadata: {
+    orderId: order.id,
+    amount: payment.amount
+  }
+});
+```

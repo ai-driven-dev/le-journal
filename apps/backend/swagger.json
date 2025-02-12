@@ -79,7 +79,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectDto"
+                  "$ref": "#/components/schemas/CreateProjectDto"
                 }
               }
             }
@@ -109,7 +109,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectDto"
+                  "$ref": "#/components/schemas/Project"
                 }
               }
             }
@@ -130,7 +130,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateProjectPromptDto"
+                "$ref": "#/components/schemas/ProjectUpdate"
               }
             }
           }
@@ -141,7 +141,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectDto"
+                  "$ref": "#/components/schemas/Project"
                 }
               }
             }
@@ -400,7 +400,7 @@
           "projectNumber"
         ]
       },
-      "ProjectDto": {
+      "Project": {
         "type": "object",
         "properties": {
           "id": {
@@ -456,7 +456,7 @@
           "promptInstruction"
         ]
       },
-      "UpdateProjectPromptDto": {
+      "ProjectUpdate": {
         "type": "object",
         "properties": {
           "id": {

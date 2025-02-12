@@ -1,24 +1,17 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Project } from '@prisma/client';
 
-
-import {
-  PROJECT_REPOSITORY,
-  ProjectRepository,
-} from '../../domain/repositories/project.repository.interface';
-import { UpdateProjectPromptDto } from '../../presentation/dtos/project.dto';
-
-import { AppLogger } from 'src/infrastructure/logger/logger.service';
+import { ProjectUpdate } from '../domain/project-update';
+import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
 
 @Injectable()
 export class UpdateProjectPromptUseCase {
   constructor(
     @Inject(PROJECT_REPOSITORY)
     private readonly projectRepository: ProjectRepository,
-    private readonly logger: AppLogger,
   ) {}
 
-  async execute(dto: UpdateProjectPromptDto): Promise<Project> {
+  async execute(dto: ProjectUpdate): Promise<Project> {
     const project = await this.projectRepository.findById(dto.id);
 
     if (project === null) {

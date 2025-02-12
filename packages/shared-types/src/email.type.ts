@@ -1,4 +1,4 @@
-import type { Article } from './article';
+import type { Article } from './article.type';
 
 export interface Email {
   id: string;

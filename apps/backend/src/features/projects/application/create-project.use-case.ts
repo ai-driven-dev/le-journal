@@ -1,11 +1,8 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { Project } from '@prisma/client';
 
-import {
-  PROJECT_REPOSITORY,
-  ProjectRepository,
-} from '../../domain/repositories/project.repository.interface';
-import { CreateProjectDto } from '../../presentation/dtos/project.dto';
+import { CreateProjectDto } from '../domain/project-create';
+import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
 
 @Injectable()
 export class CreateProjectUseCase {
