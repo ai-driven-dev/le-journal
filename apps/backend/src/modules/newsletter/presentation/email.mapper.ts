@@ -50,9 +50,7 @@ export class EmailMapper implements Mapper<EmailDomain, EmailModel> {
 
     return {
       ...emailModel,
-      articles: domain.articles.map((article) =>
-        this.articleMapper.toModel(article, emailModel.id),
-      ),
+      articles: domain.articles.map((article) => this.articleMapper.toModel(article)),
     };
   }
 }

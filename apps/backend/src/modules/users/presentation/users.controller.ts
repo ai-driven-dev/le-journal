@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { GetAllUsersUseCase } from '../application/use-cases/get-all-users.use-case';
@@ -7,8 +7,7 @@ import { UserDomain } from '../domain/user.domain';
 import { UserMapper } from './user.mapper';
 
 @ApiTags('Users')
-@Controller('users')
-@UsePipes(new ValidationPipe())
+@Controller('api/users')
 export class UsersController {
   constructor(
     private readonly getAllUsersUseCase: GetAllUsersUseCase,
