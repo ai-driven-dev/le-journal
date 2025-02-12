@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-google-oauth20';
 
-import { GoogleProfileDto } from '../presentation/dtos/google-profile.dto';
+import { GoogleProfileDto } from '../google-profile.dto';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
@@ -25,11 +25,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   }
 
   async validate(
-    accessToken: string,
+    accessToken: string, // TODO REDIS
     refreshToken: string,
     profile: Profile,
   ): Promise<GoogleProfileDto> {
-    console.log('profile', profile, accessToken, refreshToken);
     return new GoogleProfileDto(profile, refreshToken);
   }
 }

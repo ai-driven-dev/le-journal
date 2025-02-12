@@ -1,6 +1,5 @@
 import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
-
 export const NewsletterStatus = {
   ACTIVE: 'ACTIVE' as const,
   IN_PROGRESS: 'IN_PROGRESS' as const,

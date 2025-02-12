@@ -1,4 +1,5 @@
 import type { User } from '@le-journal/shared-types';
+import type { LoaderFunctionArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
@@ -8,8 +9,8 @@ type LoaderData = {
   users: User[];
 };
 
-export const loader = async (): Promise<LoaderData> => {
-  const users = await serverFetch<User[]>({ endpoint: 'users' });
+export const loader = async ({ request }: LoaderFunctionArgs): Promise<LoaderData> => {
+  const users = await serverFetch<User[]>({ endpoint: 'users', headers: request.headers });
 
   return { users };
 };

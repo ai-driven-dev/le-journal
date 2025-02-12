@@ -5,9 +5,15 @@ interface FetcherConfig {
   endpoint: ApiEndpoint;
   init?: RequestInit;
   searchParams?: Record<string, string>;
+  headers: Headers;
 }
 
-export async function serverFetch<T>({ endpoint, init, searchParams }: FetcherConfig): Promise<T> {
+export async function serverFetch<T>({
+  endpoint,
+  init,
+  searchParams,
+  headers,
+}: FetcherConfig): Promise<T> {
   let url = getApiUrl(endpoint);
 
   if (searchParams) {
@@ -15,13 +21,9 @@ export async function serverFetch<T>({ endpoint, init, searchParams }: FetcherCo
     url += `?${params.toString()}`;
   }
 
-  const method = init?.method || 'GET';
   const response = await fetch(url, {
-    ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      ...init?.headers,
-    },
+    headers,
+    credentials: 'include',
   });
 
   const data = await response.json();
@@ -29,7 +31,7 @@ export async function serverFetch<T>({ endpoint, init, searchParams }: FetcherCo
   if (!response.ok) {
     throw new ApiError(`API request failed for ${endpoint}`, {
       url,
-      method,
+      method: init?.method,
       statusCode: response.status,
       statusText: response.statusText,
       responseBody: data,

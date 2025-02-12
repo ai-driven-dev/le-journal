@@ -1,7 +1,6 @@
 import type { Email } from '@le-journal/shared-types';
 import { makeAutoObservable, runInAction } from 'mobx';
 
-
 import type { EmailStore } from './emails.type';
 
 import { verify } from '~/lib/validator';

@@ -24,6 +24,12 @@ export class PrismaUserRepository implements UserRepository {
     });
   }
 
+  async findById(id: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { id },
+    });
+  }
+
   async findByGoogleId(googleId: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { google_id: googleId },

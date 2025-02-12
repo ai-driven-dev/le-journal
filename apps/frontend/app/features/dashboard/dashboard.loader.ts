@@ -12,7 +12,7 @@ export interface DashboardLoaderData {
   emails: Email[];
 }
 
-export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoaderData> => {
+export const loader: LoaderFunction = async ({ params, request }): Promise<DashboardLoaderData> => {
   const projectNumber = params.projectNumber;
 
   if (!projectNumber) {
@@ -30,12 +30,21 @@ export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoade
     projects: () => Promise<Project[]>;
     emails?: () => Promise<Email[]>;
   } = {
-    newsletters: () => serverFetch<Newsletter[]>({ endpoint: API_ROUTES_GET.newsletters }),
-    users: () => serverFetch<User[]>({ endpoint: API_ROUTES_GET.users }),
+    newsletters: () =>
+      serverFetch<Newsletter[]>({
+        endpoint: API_ROUTES_GET.newsletters,
+        headers: request.headers,
+      }),
+    users: () =>
+      serverFetch<User[]>({
+        endpoint: API_ROUTES_GET.users,
+        headers: request.headers,
+      }),
     projects: () =>
       serverFetch<Project[]>({
         endpoint: API_ROUTES_GET.projects,
         searchParams: { projectNumber },
+        headers: request.headers,
       }),
   };
 
@@ -50,6 +59,7 @@ export const loader: LoaderFunction = async ({ params }): Promise<DashboardLoade
       serverFetch<Email[]>({
         endpoint: API_ROUTES_GET.newsletterEmails,
         searchParams: { projectId: projects[0].id },
+        headers: request.headers,
       });
 
     const emails = await requests.emails();
