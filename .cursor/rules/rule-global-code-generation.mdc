@@ -2,7 +2,6 @@
 description: Global : Code generation
 globs: **/*.ts, **/*.tsx
 ---
-
 Language:
 - English for everything.
 - French only in UI (labels, texts...)

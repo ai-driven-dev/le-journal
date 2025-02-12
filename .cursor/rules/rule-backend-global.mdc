@@ -1,0 +1,28 @@
+---
+description: Backend global code, always keep in mind
+globs: apps/backend/**/*.ts
+---
+- Libs: NestJS 11, RxJS 8 mandatory.
+- Throw exception early with descriptive names and params.
+- Create custom exceptions when domain specific.
+- Focus on domain logic.
+
+Example structure `src/features/projects`:
+```text
+├── application
+│   ├── create-project.use-case.ts
+│   ├── get-project.use-case.ts
+│   └── update-project-prompt.use-case.ts
+├── domain
+│   ├── project-create.ts
+│   ├── project-update.ts
+│   ├── project.repository.interface.ts
+│   └── project.ts
+├── infrastructure
+│   └── prisma-project.repository.ts
+├── presentation
+│   ├── project.mapper.ts
+│   └── projects.controller.ts
+└── projects.module.ts
+```
+

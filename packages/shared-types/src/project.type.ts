@@ -1,5 +1,17 @@
-import { PickType } from '@nestjs/mapped-types';
-import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
+
+export const PROJECT_MIN_LENGTH = 10;
+export const PROJECT_MAX_LENGTH = 200;
+export const PROJECT_VALIDATION = /^[^<>{}]*$/;
 
 export class ProjectType {
   @IsString()
@@ -32,7 +44,33 @@ export class ProjectType {
   createdAt!: Date;
 
   @IsString()
+  @MinLength(PROJECT_MIN_LENGTH, {
+    message: `Prompt instruction must be at least ${PROJECT_MIN_LENGTH} characters long`,
+  })
+  @MaxLength(PROJECT_MAX_LENGTH, {
+    message: `Prompt instruction must be at most ${PROJECT_MAX_LENGTH} characters long`,
+  })
+  @Matches(PROJECT_VALIDATION, {
+    message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
+  })
   promptInstruction!: string;
 }
 
-export class ProjectPromptType extends PickType(ProjectType, ['id', 'promptInstruction']) {}
+export class ProjectPromptType {
+  @IsString()
+  @IsNotEmpty()
+  id!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(PROJECT_MIN_LENGTH, {
+    message: `Prompt instruction must be at least ${PROJECT_MIN_LENGTH} characters long`,
+  })
+  @MaxLength(PROJECT_MAX_LENGTH, {
+    message: `Prompt instruction must be at most ${PROJECT_MAX_LENGTH} characters long`,
+  })
+  @Matches(PROJECT_VALIDATION, {
+    message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
+  })
+  promptInstruction!: string;
+}

@@ -3,12 +3,12 @@ import { makeAutoObservable, runInAction } from 'mobx';
 
 import type { CustomInstructions } from './custom-instructions.type';
 
-import type { Loadable } from '~/interfaces/loadable.interface';
 import { clientFetch } from '~/lib/api-fetcher.client';
 import { verify } from '~/lib/validator';
 
-export class CustomInstructionsStore implements CustomInstructions, Loadable<ProjectPromptType> {
+export class CustomInstructionsStore implements CustomInstructions {
   state: ProjectPromptType | null = null;
+
   isDialogOpen = false;
   isLoading = true;
   isSubmitting = false;
@@ -37,10 +37,20 @@ export class CustomInstructionsStore implements CustomInstructions, Loadable<Pro
       throw new Error('State is null');
     }
 
-    this.state.promptInstruction = instruction;
+    runInAction(() => {
+      this.state!.promptInstruction = instruction;
+    });
   };
 
-  setIsDialogOpen = (isOpen: boolean): void => {
-    this.isDialogOpen = isOpen;
+  openDialog = (): void => {
+    this.isDialogOpen = true;
   };
+
+  closeDialog = (): void => {
+    this.isDialogOpen = false;
+  };
+
+  get instructionLength(): number {
+    return this.state?.promptInstruction.length ?? 0;
+  }
 }
