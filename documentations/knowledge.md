@@ -1,5 +1,5 @@
 ---
-date: 2025-02-12 19:54:14
+date: 2025-02-12 21:06:49
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1778,6 +1778,19 @@ export class ProjectType {
 ./apps/backend/src/config
 ./apps/backend/src/config/config.module.ts
 ./apps/backend/src/infrastructure
+./apps/backend/src/infrastructure/auth
+./apps/backend/src/infrastructure/auth/auth.controller.ts
+./apps/backend/src/infrastructure/auth/auth.module.ts
+./apps/backend/src/infrastructure/auth/auth.service.ts
+./apps/backend/src/infrastructure/auth/decorators
+./apps/backend/src/infrastructure/auth/decorators/get-user.decorator.ts
+./apps/backend/src/infrastructure/auth/google-profile.dto.ts
+./apps/backend/src/infrastructure/auth/guards
+./apps/backend/src/infrastructure/auth/guards/google-auth.guard.ts
+./apps/backend/src/infrastructure/auth/guards/jwt.guard.ts
+./apps/backend/src/infrastructure/auth/strategies
+./apps/backend/src/infrastructure/auth/strategies/google.strategy.ts
+./apps/backend/src/infrastructure/auth/strategies/jwt.strategy.ts
 ./apps/backend/src/infrastructure/filters
 ./apps/backend/src/infrastructure/filters/filter.http-exception.service.ts
 ./apps/backend/src/infrastructure/filters/filter.logging.service.ts
@@ -1789,21 +1802,6 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/logger/logger.type.ts
 ./apps/backend/src/main.ts
 ./apps/backend/src/modules
-./apps/backend/src/modules/auth
-./apps/backend/src/modules/auth/application
-./apps/backend/src/modules/auth/application/auth.service.ts
-./apps/backend/src/modules/auth/auth.module.ts
-./apps/backend/src/modules/auth/guards
-./apps/backend/src/modules/auth/guards/google-auth.guard.ts
-./apps/backend/src/modules/auth/guards/jwt.guard.ts
-./apps/backend/src/modules/auth/presentation
-./apps/backend/src/modules/auth/presentation/controllers
-./apps/backend/src/modules/auth/presentation/controllers/auth.controller.ts
-./apps/backend/src/modules/auth/presentation/dtos
-./apps/backend/src/modules/auth/presentation/dtos/google-profile.dto.ts
-./apps/backend/src/modules/auth/strategies
-./apps/backend/src/modules/auth/strategies/google.strategy.ts
-./apps/backend/src/modules/auth/strategies/jwt.strategy.ts
 ./apps/backend/src/modules/newsletter
 ./apps/backend/src/modules/newsletter/application
 ./apps/backend/src/modules/newsletter/application/get-emails.use-case.ts
@@ -2057,7 +2055,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-108 directories, 300 files
+105 directories, 301 files
 ```
 
-2025-02-12 19:54:14
+2025-02-12 21:06:49
