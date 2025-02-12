@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
+import { UsersModule } from '../users/users.module';
+
 import { AuthService } from './application/auth.service';
 import { AuthController } from './presentation/controllers/auth.controller';
 import { GoogleStrategy } from './strategies/google.strategy';
@@ -14,6 +16,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   imports: [
     PassportModule,
     PrismaModule,
+    UsersModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
