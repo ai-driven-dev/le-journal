@@ -2,4 +2,95 @@
 description: Frontend store with MobX for logic.
 globs: apps/frontend/**
 ---
+- Never use technical function (e.g. `setDialogOpen`), prefer user actions (`openDialog`, `closeDialog`).
+- Always validate state before afting using [validator.ts](mdc:apps/frontend/app/lib/validator.ts) 
+- Use `makeAutoObservable` in the store constructor.
+- Wrap state mutations inside runInAction().
+- Use `computed properties` for all derived values, even small (e.g., `instructionLength`).
+- Ensure async functions use runInAction() when modifying state.
+- Inject the store into the parent component for better state management.
+- Separate logic (store) from UI (component).
+- Implement [loadable.interface.ts](mdc:apps/frontend/app/interfaces/loadable.interface.ts) is component have a state loadable from API.
 
+Interface Example `features/dashboard/custom-instructions/custom-instructions.type.ts`: 
+```typescript
+import type { ProjectPromptType } from '@le-journal/shared-types';
+
+import type { Actionable, Statable } from '~/interfaces/component.interface';
+import type { Loadable } from '~/interfaces/loadable.interface';
+
+interface CustomInstructionsState extends Statable<ProjectPromptType> {
+  isDialogOpen: boolean;
+}
+
+interface CustomInstructionsActions extends Actionable<ProjectPromptType> {
+  openDialog: () => void;
+  closeDialog: () => void;
+}
+
+export interface CustomInstructions
+  extends CustomInstructionsState,
+    CustomInstructionsActions,
+    Loadable<ProjectPromptType> {}
+```
+
+Store Example `features/dashboard/custom-instructions/custom-instructions.store.ts`:
+```typescript
+import type { ProjectPromptType } from '@le-journal/shared-types';
+import { makeAutoObservable, runInAction } from 'mobx';
+
+import type { CustomInstructions } from './custom-instructions.type';
+
+import type { Loadable } from '~/interfaces/loadable.interface';
+import { clientFetch } from '~/lib/api-fetcher.client';
+import { verify } from '~/lib/validator';
+
+export class CustomInstructionsStore implements CustomInstructions, Loadable<ProjectPromptType> {
+  state: ProjectPromptType | null = null;
+
+  isDialogOpen = false;
+  isLoading = true;
+  isSubmitting = false;
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  init = (prompt: ProjectPromptType): void => {
+    verify(prompt);
+
+    runInAction(() => {
+      this.state = prompt;
+      this.isLoading = false;
+    });
+  };
+
+  save = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const updatedState = await clientFetch<ProjectPromptType>(event, this.state);
+
+    this.init(updatedState);
+  };
+
+  changeInstruction = (instruction: string): void => {
+    if (this.state === null) {
+      throw new Error('State is null');
+    }
+
+    runInAction(() => {
+      this.state!.promptInstruction = instruction;
+    });
+  };
+
+  openDialog = (): void => {
+    this.isDialogOpen = true;
+  };
+
+  closeDialog = (): void => {
+    this.isDialogOpen = false;
+  };
+
+  get instructionLength(): number {
+    return this.state?.promptInstruction.length ?? 0;
+  }
+}
+```
