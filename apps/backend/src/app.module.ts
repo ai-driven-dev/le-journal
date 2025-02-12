@@ -7,7 +7,8 @@ import { AuthModule } from './features/auth/auth.module';
 import { NewsletterModule } from './features/newsletter/newsletter.module';
 import { ProjectsModule } from './features/projects/projects.module';
 import { UsersModule } from './features/users/users.module';
-import { LoggerModule } from './infrastructure/logging/logger.module';
+import { FiltersModule } from './infrastructure/filters/filters.module';
+import { LoggerModule } from './infrastructure/logger/logger.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -19,6 +20,7 @@ import { PrismaModule } from './prisma/prisma.module';
     NewsletterModule,
     AuthModule,
     LoggerModule,
+    FiltersModule,
     CacheModule.registerAsync({
       useFactory: () => ({
         store: new Redis({

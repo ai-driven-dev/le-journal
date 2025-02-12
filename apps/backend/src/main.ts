@@ -5,8 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
-import { AllExceptionsFilter } from './infrastructure/logging/logger.filter';
-import { AppLogger } from './infrastructure/logging/logger.service';
+import { AppLogger } from './infrastructure/logger/logger.service';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
@@ -17,7 +16,6 @@ async function bootstrap(): Promise<void> {
   // Logging
   const logger = app.get(AppLogger);
   app.useLogger(logger);
-  app.useGlobalFilters(new AllExceptionsFilter(logger));
 
   // API
   app.setGlobalPrefix('api');
