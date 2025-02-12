@@ -1,5 +1,5 @@
 import { CacheModule } from '@nestjs/cache-manager';
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { Redis } from 'ioredis';
 
 import { ConfigModule } from './config/config.module';
@@ -29,6 +29,12 @@ import { PrismaModule } from './prisma/prisma.module';
         }),
       }),
     }),
+  ],
+  providers: [
+    {
+      provide: Logger,
+      useClass: Logger,
+    },
   ],
 })
 export class AppModule {}

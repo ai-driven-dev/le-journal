@@ -1,13 +1,13 @@
-export interface PromptInstruction {
-  id: string;
-  prompt: string;
-}
+import type { ProjectPromptType } from '@le-journal/shared-types';
 
-export interface CustomPromptState extends PromptInstruction {
+import type { Actionable, Statable } from '~/interfaces/component.interface';
+
+export interface CustomPromptState extends Statable<ProjectPromptType> {
   isDialogOpen: boolean;
 }
 
-export interface CustomPromptActions {
-  initializePrompt: (prompt: PromptInstruction) => void;
+export interface CustomPromptActions extends Actionable<ProjectPromptType> {
   setIsDialogOpen: (isOpen: boolean) => void;
 }
+
+export interface CustomPromptStore extends CustomPromptState, CustomPromptActions {}

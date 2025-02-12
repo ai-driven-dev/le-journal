@@ -17,6 +17,18 @@ async function bootstrap(): Promise<void> {
   const logger = app.get(AppLogger);
   app.useLogger(logger);
 
+  // Global Validation Pipe
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     transform: true, // Active la transformation automatique
+  //     whitelist: true, // Supprime les propriétés non décorées
+  //     forbidNonWhitelisted: true, // Rejette les requêtes avec des propriétés non décorées
+  //     transformOptions: {
+  //       enableImplicitConversion: true, // Permet la conversion implicite des types
+  //     },
+  //   }),
+  // );
+
   // API
   app.setGlobalPrefix('api');
   app.enableCors({

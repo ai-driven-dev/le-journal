@@ -1,31 +1,25 @@
+import type { ProjectPromptType } from '@le-journal/shared-types';
+import { validateSync } from 'class-validator';
 import { makeAutoObservable, runInAction } from 'mobx';
 
-import type {
-  CustomPromptActions,
-  CustomPromptState,
-  PromptInstruction,
-} from './custom-prompt.type';
-
-export class CustomPromptStore implements CustomPromptState, CustomPromptActions {
-  id = '';
-  prompt = '';
+export class CustomPromptStore implements CustomPromptStore {
+  state: ProjectPromptType | null = null;
   isDialogOpen = false;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  get currentPrompt(): PromptInstruction {
-    return {
-      id: this.id,
-      prompt: this.prompt,
-    };
-  }
+  init = (prompt: ProjectPromptType): void => {
+    const errors = validateSync(prompt);
 
-  initializePrompt = (prompt: PromptInstruction): void => {
+    if (errors !== undefined && errors.length > 0) {
+      console.log('errors', errors);
+      throw new Error('Invalid prompt');
+    }
+
     runInAction(() => {
-      this.id = prompt.id;
-      this.prompt = prompt.prompt;
+      this.state = prompt;
     });
   };
 

@@ -37,9 +37,9 @@
 - repartir tutorial et faire un prompt : extract steps and apply dans - web de cursor
 
 🛠 Résumé des corrections recommandées :
- • 🔐 Sécuriser le refresh token (hash en base avec bcrypt).
- • ⌛ Réduire la durée de vie du JWT (passer de 1d à 15m).
- • 🛑 Vérifier que googleId et email sont bien définis avant de créer un user.
- • 🔄 Implémenter /auth/refresh pour renouveler un access token.
- • 💥 Ajouter des erreurs explicites dans JwtStrategy et AuthController.
- • ✔️ Vérifier FRONTEND_URL dès le chargement de l’application.
+• 🔐 Sécuriser le refresh token (hash en base avec bcrypt).
+• ⌛ Réduire la durée de vie du JWT (passer de 1d à 15m).
+• 🛑 Vérifier que googleId et email sont bien définis avant de créer un user.
+• 🔄 Implémenter /auth/refresh pour renouveler un access token.
+• 💥 Ajouter des erreurs explicites dans JwtStrategy et AuthController.
+• ✔️ Vérifier FRONTEND_URL dès le chargement de l’application.

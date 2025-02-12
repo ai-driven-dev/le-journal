@@ -1,20 +1,23 @@
+import type { ProjectType } from '@le-journal/shared-types';
 import { useFetcher } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 import { type FC } from 'react';
 
 import { useDashboardStores } from '../dashboard.context';
 
-import type { PromptInstruction } from './custom-prompt.type';
-
 import { Button } from '~/components/ui/button';
 import { Textarea } from '~/components/ui/textarea';
 import { API_ROUTES_PUT, getApiUrl } from '~/utils/api/fetcher';
 
 export const AiCustomization: FC = observer(() => {
-  const fetcher = useFetcher<PromptInstruction>();
+  const fetcher = useFetcher<ProjectType>();
   const { dashboardStore } = useDashboardStores();
   const store = dashboardStore.createPromptStore;
-  const { currentPrompt } = store;
+  const state = store.state;
+
+  if (state === null) {
+    return null;
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
@@ -34,9 +37,9 @@ export const AiCustomization: FC = observer(() => {
     if (response.ok) {
       const updatedPrompt = await response.json();
       // VALIDATE and use same type
-      store.initializePrompt({
+      store.init({
         id: updatedPrompt.id,
-        prompt: updatedPrompt.promptInstruction,
+        promptInstruction: updatedPrompt.promptInstruction,
       });
     } else {
       console.error('Erreur lors de la mise à jour du prompt');
@@ -59,20 +62,20 @@ export const AiCustomization: FC = observer(() => {
         className="flex space-x-4"
       >
         <div className="flex space-x-4">
-          <input type="hidden" name="id" value={currentPrompt.id} />
+          <input type="hidden" name="id" value={state.id} />
           <Textarea
             name="prompt"
             disabled={isSubmitting}
             id="ai-customization"
-            value={currentPrompt.prompt}
-            onChange={(e) =>
-              store.initializePrompt({ id: currentPrompt.id, prompt: e.target.value })
-            }
+            value={state.promptInstruction}
+            onChange={(e) => store.init({ id: state.id, promptInstruction: e.target.value })}
             className="flex-1"
             placeholder="Entrez vos préférences de personnalisation..."
           />
           <div className="flex flex-col justify-between">
-            <span className="text-sm text-gray-500">{currentPrompt.prompt?.length}/200 tokens</span>
+            <span className="text-sm text-gray-500">
+              {state.promptInstruction?.length}/200 tokens
+            </span>
 
             <Button type="submit" disabled={isSubmitting}>
               Confirmer

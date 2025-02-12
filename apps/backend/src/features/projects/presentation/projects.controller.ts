@@ -1,36 +1,26 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Inject,
-  OnModuleInit,
-  Post,
-  Put,
-  Query,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Inject, OnModuleInit, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { plainToInstance } from 'class-transformer';
 
 import {
   USER_REPOSITORY,
   UserRepository,
-} from '../../../users/domain/repositories/user.repository.interface';
-import { CreateProjectUseCase } from '../../application/use-cases/create-project.use-case';
-import { GetProjectUseCase } from '../../application/use-cases/get-project.use-case';
-import { UpdateProjectPromptUseCase } from '../../application/use-cases/update-project-prompt.use-case';
-import {
-  PROJECT_REPOSITORY,
-  ProjectRepository,
-} from '../../domain/repositories/project.repository.interface';
-import { CreateProjectDto, ProjectDto, UpdateProjectPromptDto } from '../dtos/project.dto';
+} from '../../users/domain/repositories/user.repository.interface';
+import { CreateProjectUseCase } from '../application/create-project.use-case';
+import { GetProjectUseCase } from '../application/get-project.use-case';
+import { UpdateProjectPromptUseCase } from '../application/update-project-prompt.use-case';
+import { Project } from '../domain/project';
+import { CreateProjectDto } from '../domain/project-create';
+import { ProjectUpdate } from '../domain/project-update';
+import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
+
+import { ProjectMapper } from './project.mapper';
 
 // TODO: À remplacer par un middleware d'authentification
 const TEMP_USER_EMAIL = 'user.standard@example.com';
 
 @ApiTags('Projects')
 @Controller('projects')
-@UsePipes(new ValidationPipe())
 export class ProjectsController implements OnModuleInit {
   private userId = '';
   private projectId = '';
@@ -43,6 +33,7 @@ export class ProjectsController implements OnModuleInit {
     private readonly userRepository: UserRepository,
     @Inject(PROJECT_REPOSITORY)
     private readonly projectRepository: ProjectRepository,
+    private readonly projectMapper: ProjectMapper,
   ) {}
 
   async onModuleInit(): Promise<void> {
@@ -67,40 +58,34 @@ export class ProjectsController implements OnModuleInit {
 
   @Post()
   @ApiOperation({ summary: 'Créer un nouveau projet' })
-  @ApiResponse({ status: 201, type: ProjectDto })
-  async createProject(@Body() createProjectDto: CreateProjectDto): Promise<ProjectDto> {
-    const project = await this.createProjectUseCase.execute({
-      userId: createProjectDto.userId,
-      name: createProjectDto.name,
-      slug: createProjectDto.slug,
-      newsletterAlias: createProjectDto.newsletterAlias,
-      projectNumber: createProjectDto.projectNumber,
-    });
+  @ApiResponse({ status: 201, type: CreateProjectDto })
+  async createProject(@Body() createProjectDto: CreateProjectDto): Promise<Project> {
+    const project = await this.createProjectUseCase.execute(createProjectDto);
 
-    return new ProjectDto(project);
+    const instance = plainToInstance(Project, project);
+
+    return instance;
   }
 
   @Get()
   @ApiOperation({ summary: "Récupérer le projet de l'utilisateur" })
   @ApiQuery({ name: 'projectNumber', required: false, type: Number, default: 1 })
-  @ApiResponse({ status: 200, type: ProjectDto })
-  async getProject(@Query('projectNumber') projectNumber: number): Promise<ProjectDto[]> {
+  @ApiResponse({ status: 200, type: Project })
+  async getProject(@Query('projectNumber') projectNumber: number): Promise<Project[]> {
     const projects = await this.getProjectUseCase.execute(this.userId, +projectNumber);
-    return projects.map((project) => new ProjectDto(project));
+
+    return projects.map(this.projectMapper.toDto);
   }
 
   @Put('prompt')
   @ApiOperation({ summary: 'Mettre à jour les instructions du prompt du projet' })
-  @ApiResponse({ status: 200, type: ProjectDto })
+  @ApiResponse({ status: 200, type: Project })
   async updateProjectPrompt(
-    @Body(
-      new ValidationPipe({
-        transform: true,
-      }),
-    )
-    updateProjectPromptDto: UpdateProjectPromptDto,
-  ): Promise<ProjectDto> {
+    @Body()
+    updateProjectPromptDto: ProjectUpdate,
+  ): Promise<ProjectUpdate> {
     const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
-    return new ProjectDto(project);
+
+    return this.projectMapper.toDto(project);
   }
 }
