@@ -34,7 +34,7 @@ export class EmailMapper implements Mapper<EmailDomain, EmailModel> {
       subject: model.subject,
       content: model.raw_content,
       receivedAt: model.received_at,
-      articles: [], // todo fill
+      articles: model.articles.map((article) => this.articleMapper.toDomain(article)),
       status: status,
     };
   }
@@ -46,11 +46,11 @@ export class EmailMapper implements Mapper<EmailDomain, EmailModel> {
       status: domain.status,
       raw_content: domain.content,
       received_at: domain.receivedAt,
+      articles: domain.articles.map((article) => this.articleMapper.toModel(article)),
     };
 
     return {
       ...emailModel,
-      articles: domain.articles.map((article) => this.articleMapper.toModel(article)),
     };
   }
 }

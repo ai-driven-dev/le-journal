@@ -36,7 +36,7 @@ export class AppLogger implements LoggerService {
     if (this.isErrorContext(context)) {
       return {
         ...baseContext,
-        error: context.error, // L'objet Error complet
+        error: context.error,
       };
     }
 

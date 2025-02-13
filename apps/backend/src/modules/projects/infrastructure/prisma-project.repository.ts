@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { Project } from '@prisma/client';
 
+import { ProjectCreateDomain } from '../domain/project-create';
 import { ProjectRepository } from '../domain/project.repository.interface';
 
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -9,7 +10,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class PrismaProjectRepository implements ProjectRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findByUserIdAndProjectNumber(userId: string, projectNumber: number): Promise<Project[]> {
+  async findByUserIdAndProjectNumber(
+    userId: Project['user_id'],
+    projectNumber: Project['project_number'],
+  ): Promise<Project[]> {
     return this.prisma.project.findMany({
       where: {
         user_id: userId,
@@ -19,13 +23,13 @@ export class PrismaProjectRepository implements ProjectRepository {
     });
   }
 
-  async create(data: {
-    userId: string;
-    name: string;
-    slug: string;
-    newsletterAlias: string;
-    projectNumber: number;
-  }): Promise<Project> {
+  async create(data: ProjectCreateDomain): Promise<Project> {
+    const existingProject = await this.findBySlug(data.userId, data.slug);
+
+    if (existingProject) {
+      throw new ConflictException('Project with this slug already exists');
+    }
+
     return this.prisma.project.create({
       data: {
         name: data.name,
@@ -39,30 +43,30 @@ export class PrismaProjectRepository implements ProjectRepository {
     });
   }
 
-  async findById(id: string): Promise<Project | null> {
+  async findById(id: Project['id']): Promise<Project | null> {
     return this.prisma.project.findUnique({
       where: { id },
     });
   }
 
-  async findBySlug(slug: string): Promise<Project | null> {
+  async findBySlug(user_id: Project['user_id'], slug: Project['slug']): Promise<Project | null> {
     return this.prisma.project.findUnique({
       where: {
         user_id_slug: {
-          user_id: slug,
+          user_id,
           slug,
         },
       },
     });
   }
 
-  async findByUserId(userId: string): Promise<Project[]> {
+  async findByUserId(user_id: Project['user_id']): Promise<Project[]> {
     return this.prisma.project.findMany({
-      where: { user_id: userId },
+      where: { user_id },
     });
   }
 
-  async update(id: string, data: Partial<Project>): Promise<Project> {
+  async update(id: Project['id'], data: Partial<Project>): Promise<Project> {
     return this.prisma.project.update({
       where: { id },
       data,

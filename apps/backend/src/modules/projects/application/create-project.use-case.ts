@@ -1,7 +1,7 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { Project } from '@prisma/client';
 
-import { CreateProjectDto } from '../domain/project-create';
+import { ProjectCreateDomain } from '../domain/project-create';
 import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
 
 @Injectable()
@@ -11,12 +11,17 @@ export class CreateProjectUseCase {
     private readonly projectRepository: ProjectRepository,
   ) {}
 
-  async execute(createProjectDto: CreateProjectDto): Promise<Project> {
-    const existingProject = await this.projectRepository.findBySlug(createProjectDto.slug);
+  async execute(createProjectDto: ProjectCreateDomain): Promise<Project> {
+    const existingProject = await this.projectRepository.findBySlug(
+      createProjectDto.userId,
+      createProjectDto.slug,
+    );
+
     if (existingProject) {
       throw new ConflictException('Project with this slug already exists');
     }
 
+    // TODO: No mapper here, am I sure I want to create an other one?...
     return this.projectRepository.create({
       userId: createProjectDto.userId,
       name: createProjectDto.name,

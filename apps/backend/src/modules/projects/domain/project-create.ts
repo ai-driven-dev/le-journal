@@ -1,7 +1,7 @@
 import { Project } from '@le-journal/shared-types';
 import { ApiProperty, PickType } from '@nestjs/swagger';
 
-export class CreateProjectDto extends PickType(Project, [
+export class ProjectCreateDomain extends PickType(Project, [
   'name',
   'slug',
   'newsletterAlias',

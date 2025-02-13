@@ -16,6 +16,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
+  // Pain to debug, debugger not working, keep it for now...
   // // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // handleRequest(err: any, user: any, info: any) {
   //   console.log('=== JWT Guard Validation ===');

@@ -35,15 +35,9 @@ export class AuthController {
 
     // Set JWT token in cookie
     res.cookie('access_token', jwt, {
-      httpOnly: false,
+      httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
-    });
-
-    res.cookie('alex', jwt, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: 'lax',
     });
 
     if (process.env.FRONTEND_URL === undefined) {

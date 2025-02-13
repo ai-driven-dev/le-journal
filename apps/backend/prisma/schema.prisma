@@ -58,8 +58,8 @@ enum PaymentMethod {
 model User {
   id         String   @id @default(uuid())
   email      String   @unique
-  name       String?
-  google_id  String?  @unique @map("google_id")
+  name       String
+  google_id  String  @unique @map("google_id")
   avatar     String?
   refresh_token String?   @map("refresh_token")
   created_at DateTime @default(now()) @map("created_at")
