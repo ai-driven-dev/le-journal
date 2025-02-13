@@ -1,5 +1,5 @@
 ---
-date: 2025-02-12 21:06:49
+date: 2025-02-13 05:56:38
 ---
 
 # Project Specifications "Knowledge Base"
@@ -767,8 +767,8 @@ enum PaymentMethod {
 model User {
   id         String   @id @default(uuid())
   email      String   @unique
-  name       String?
-  google_id  String?  @unique @map("google_id")
+  name       String
+  google_id  String  @unique @map("google_id")
   avatar     String?
   refresh_token String?   @map("refresh_token")
   created_at DateTime @default(now()) @map("created_at")
@@ -1190,6 +1190,7 @@ globs: apps/backend/**/*.ts
 ---
 - repository must have its interface.
 - always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
+- type with Model.Property instead of primitive if possible (e.g. `email: string` -> `email: User['email']`)
 
 Example usage in controller/use-case:
 ```typescript
@@ -1225,7 +1226,7 @@ import type { User } from '@prisma/client';
 export const USER_REPOSITORY = 'USER_REPOSITORY';
 
 export interface UserRepository {
-  findByEmail(email: string): Promise<User | null>;
+  findByEmail(email: User['email']): Promise<User | null>;
   findAll(): Promise<User[]>;
 }
 ```
@@ -1242,7 +1243,7 @@ import { UserRepository } from '../domain/user.repository.interface';
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: User['email']): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { email },
     });
@@ -1760,6 +1761,8 @@ export class ProjectType {
 ./apps/backend/prisma/migrations/20250211124226_google_auth_refresh_token/migration.sql
 ./apps/backend/prisma/migrations/20250212125601_articles_emails_structure
 ./apps/backend/prisma/migrations/20250212125601_articles_emails_structure/migration.sql
+./apps/backend/prisma/migrations/20250213043722_optional_user_fields
+./apps/backend/prisma/migrations/20250213043722_optional_user_fields/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/prisma/seed.ts
@@ -1847,9 +1850,7 @@ export class ProjectType {
 ./apps/backend/src/modules/users/domain/user.domain.ts
 ./apps/backend/src/modules/users/domain/user.repository.interface.ts
 ./apps/backend/src/modules/users/infrastructure
-./apps/backend/src/modules/users/infrastructure/guards
 ./apps/backend/src/modules/users/infrastructure/prisma-user.repository.ts
-./apps/backend/src/modules/users/infrastructure/strategies
 ./apps/backend/src/modules/users/presentation
 ./apps/backend/src/modules/users/presentation/user.mapper.ts
 ./apps/backend/src/modules/users/presentation/users.controller.ts
@@ -1877,6 +1878,8 @@ export class ProjectType {
 ./apps/frontend/app/components
 ./apps/frontend/app/components/Layout.tsx
 ./apps/frontend/app/components/error-boundary.tsx
+./apps/frontend/app/components/icons
+./apps/frontend/app/components/icons/link.tsx
 ./apps/frontend/app/components/ui
 ./apps/frontend/app/components/ui/accordion.tsx
 ./apps/frontend/app/components/ui/badge.tsx
@@ -2055,7 +2058,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-105 directories, 301 files
+105 directories, 303 files
 ```
 
-2025-02-12 21:06:49
+2025-02-13 05:56:38
