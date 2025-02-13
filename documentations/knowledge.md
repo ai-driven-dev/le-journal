@@ -1,5 +1,5 @@
 ---
-date: 2025-02-13 05:56:38
+date: 2025-02-13 07:11:40
 ---
 
 # Project Specifications "Knowledge Base"
@@ -486,7 +486,7 @@ BREAKING CHANGE: new user database structure
   "scripts": {
     "document": "zsh ./documentations/knowledge.sh",
     "build": "turbo run build",
-    "dev": "docker-compose up --build -d && turbo run dev",
+    "dev": "turbo run dev",
     "dev:docker": "docker-compose up --build -d --remove-orphans",
     "beautify": "pnpm run format:fix && pnpm run lint:fix",
     "lint": "eslint \"**/*.{ts,tsx}\"",
@@ -618,9 +618,6 @@ BREAKING CHANGE: new user database structure
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -640,8 +637,8 @@ BREAKING CHANGE: new user database structure
     "prisma": "prisma generate && prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "prisma:migrate": "prisma migrate dev && prisma migrate deploy && prisma generate",
-    "prisma:seed": "prisma migrate reset --force",
-    "prisma:test:reset": "dotenv -e .env.test -- prisma migrate reset --force"
+    "prisma:reset": "dotenv -e .env -- prisma migrate reset --skip-seed --force",
+    "seed": "pnpm run prisma:reset && pnpm run build && ts-node src/main-cli.ts -- seed"
   },
   "dependencies": {
     "@le-journal/shared-types": "workspace:*",
@@ -658,6 +655,7 @@ BREAKING CHANGE: new user database structure
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie-parser": "^1.4.7",
+    "nest-commander": "^3.16.0",
     "nest-winston": "^1.10.2",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
@@ -764,10 +762,19 @@ enum PaymentMethod {
   @@map("payment_method")
 }
 
+enum UserRole {
+  ADMIN
+  PREMIUM
+  REGULAR
+
+  @@map("user_role")
+}
+
 model User {
   id         String   @id @default(uuid())
   email      String   @unique
   name       String
+  role       UserRole @default(REGULAR) @map("role")
   google_id  String  @unique @map("google_id")
   avatar     String?
   refresh_token String?   @map("refresh_token")
@@ -1102,9 +1109,11 @@ description: Backend global code, always keep in mind
 globs: apps/backend/**/*.ts
 ---
 - Libs: NestJS 11, RxJS 8 mandatory.
+- NestJS good pratices must be checked.
 - Throw exception early with descriptive names and params.
 - Create custom exceptions when domain specific.
 - Focus on domain logic.
+- Focus on DDD and Clean Architecture.
 
 Example structure `src/modules/projects`:
 ```text
@@ -1266,7 +1275,7 @@ globs: apps/backend/**/*.ts
 ---
 - must call repositories.
 - must use types [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts) .
--
+- avoid delete in seeds, db is emptied on seed command's lunch.
 ```
 
 ### .cursor/rules/rule-backend-tests.mdc
@@ -1763,6 +1772,8 @@ export class ProjectType {
 ./apps/backend/prisma/migrations/20250212125601_articles_emails_structure/migration.sql
 ./apps/backend/prisma/migrations/20250213043722_optional_user_fields
 ./apps/backend/prisma/migrations/20250213043722_optional_user_fields/migration.sql
+./apps/backend/prisma/migrations/20250213050058_user_roles
+./apps/backend/prisma/migrations/20250213050058_user_roles/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/prisma/seed.ts
@@ -1794,6 +1805,13 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/auth/strategies
 ./apps/backend/src/infrastructure/auth/strategies/google.strategy.ts
 ./apps/backend/src/infrastructure/auth/strategies/jwt.strategy.ts
+./apps/backend/src/infrastructure/database
+./apps/backend/src/infrastructure/database/seeds
+./apps/backend/src/infrastructure/database/seeds/users.seed.service.ts
+./apps/backend/src/infrastructure/database/seeds.bootstrap.ts
+./apps/backend/src/infrastructure/database/seeds.command.ts
+./apps/backend/src/infrastructure/database/seeds.module.ts
+./apps/backend/src/infrastructure/database/seeds.service.ts
 ./apps/backend/src/infrastructure/filters
 ./apps/backend/src/infrastructure/filters/filter.http-exception.service.ts
 ./apps/backend/src/infrastructure/filters/filter.logging.service.ts
@@ -1803,6 +1821,7 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/logger/logger.module.ts
 ./apps/backend/src/infrastructure/logger/logger.service.ts
 ./apps/backend/src/infrastructure/logger/logger.type.ts
+./apps/backend/src/main-cli.ts
 ./apps/backend/src/main.ts
 ./apps/backend/src/modules
 ./apps/backend/src/modules/newsletter
@@ -1844,7 +1863,6 @@ export class ProjectType {
 ./apps/backend/src/modules/users/application
 ./apps/backend/src/modules/users/application/use-cases
 ./apps/backend/src/modules/users/application/use-cases/create-user.use-case.ts
-./apps/backend/src/modules/users/application/use-cases/find-user.use-case.ts
 ./apps/backend/src/modules/users/application/use-cases/get-all-users.use-case.ts
 ./apps/backend/src/modules/users/domain
 ./apps/backend/src/modules/users/domain/user.domain.ts
@@ -2058,7 +2076,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-105 directories, 303 files
+108 directories, 309 files
 ```
 
-2025-02-13 05:56:38
+2025-02-13 07:11:40
