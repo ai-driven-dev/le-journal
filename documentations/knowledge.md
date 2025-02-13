@@ -1,5 +1,5 @@
 ---
-date: 2025-02-13 07:40:20
+date: 2025-02-13 08:30:38
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1008,14 +1008,14 @@ volumes:
 
 ````mdc
 ---
-description: Backend logic when using controllers from REST API.
+description: Backend controllers and REST API
 globs: apps/backend/**/*.ts
 ---
-- no `ValidationPipe` needed, `main.ts` uses `useGlobalPipes`.
-- input is Domain object, output is Domain object too.
-- call the use-cases which will handle domain logic.
-- use domain mapper from current domain.
-- use Swagger annotations the more you can to be details on API specs.
+- `ValidationPipe` might no be necessary because `main.ts` uses `useGlobalPipes`.
+- Input is Domain object, output is Domain object too.
+- Call the use-cases which will handle domain logic.
+- Use domain mapper from current domain.
+- Use Swagger annotations the more you can to be details on API specs.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript
@@ -1040,8 +1040,6 @@ export class ProjectsController {
     return this.projectMapper.toDomain(project);
   }
 }
-
-
 ```
 ````
 
@@ -1049,14 +1047,16 @@ export class ProjectsController {
 
 ````mdc
 ---
-description: Backend logic when using domain object.
+description: Backend domain objects or DTOs
 globs: apps/backend/**/*.ts
 ---
-- use Swagger annotations (`APIProperty` at least, propose more if relevant).
-- extends validated type (also with `class-validator`) only with current properties using `PickType`.
-- properties use `!` because no constructor.
-- language in english.
-- use `class-validator` annotations if data needs to be validation backend only.
+- Use Swagger annotations (`APIProperty` at least, propose more if relevant).
+- Not ideal, but Domain Objects are used as DTOs to simplify.
+- Extends validated type (also with `class-validator`) only with current properties using `PickType`.
+- Properties use `!` because no constructor.
+- Language in english.
+- Use `class-validator` annotations if data needs to be validation backend only.
+- Use `@Exclude()` to protect sensitive fields.
 
 Example:
 ```typescript
@@ -1071,7 +1071,7 @@ const VALIDATION = /^[^<>{}]*$/;
 export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstruction']) {
   @ApiProperty({
     example: 'c123e456-789b-12d3-a456-426614174000',
-    description: 'ID du projet',
+    description: 'Project ID',
   })
   id!: string;
 
@@ -1101,12 +1101,13 @@ export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstructi
 
 ````mdc
 ---
-description: Backend global code, always keep in mind
+description: Backend rules
 globs: apps/backend/**/*.ts
 ---
-- Libs: NestJS 11, RxJS 8 mandatory.
+- Libs: NestJS 11, RxJS 7.8, Node 22.
 - NestJS good pratices must be checked.
-- Throw exception early with descriptive names and params.
+- RxJS must be used at its best.
+- Throw exception early with meaning descriptions, names or params.
 - Create custom exceptions when domain specific.
 - Focus on domain logic.
 - Focus on DDD and Clean Architecture.
@@ -1140,16 +1141,16 @@ Example structure `src/modules/projects`:
 description: Backend mapper
 globs: apps/backend/**/*.ts
 ---
-- use NestJS dependency injection.
-- import type from Prisma suffixed by "Model".
-- implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
-- must reassign every props.
-- always return plain objects, no instances.
+- Use `NestJS` DI.
+- Use Prisma types from [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts).
+- Implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
+- Reassign every props (mandatory).
+- Return plain objects, no instances.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript
 import { Injectable } from '@nestjs/common';
-import { Project as ProjectModel } from '@prisma/client';
+import { ProjectModel } from 'src/prisma/prisma.types';
 
 import { Project } from '../domain/project';
 
@@ -1193,17 +1194,18 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
 description: Backend repositories
 globs: apps/backend/**/*.ts
 ---
-- repository must have its interface.
-- always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
-- type with Model.Property instead of primitive if possible (e.g. `email: string` -> `email: User['email']`)
+- Repository implements its interface.
+- Always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
+- Type with `Model.Property` instead of primitive if possible (e.g. `email: string` -> `email: User['email']`).
+- Wrap db calls in Prisma Transactions if necessary.
 
 Example usage in controller/use-case:
 ```typescript
-  constructor(
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository,
-    private readonly userMapper: UserMapper,
-  ) {}
+constructor(
+  @Inject(USER_REPOSITORY)
+  private readonly userRepository: UserRepository,
+  private readonly userMapper: UserMapper,
+) {}
 ```
 
 Example usage in modules:
@@ -1269,12 +1271,12 @@ export class PrismaUserRepository implements UserRepository {
 description: Backend mapper
 globs: apps/backend/**/*.ts
 ---
-- do not call repositories, use prisma client directly.
-- must use types in `@prisma/client`.
-- avoid delete in seeds, db is emptied on seed command's lunch in [package.json](mdc:apps/backend/package.json) .
-- wrapped in transactions.
-- injected as NestJS services for DI.
-- notce: run from commands in [main-cli.ts](mdc:apps/backend/src/main-cli.ts) and [seeds.module.ts](mdc:apps/backend/src/infrastructure/database/seeds.module.ts) .
+- Calling repositories might no be necessary except to validate domain logic, most of the time use prisma client directly.
+- Must use types in `@prisma/client`.
+- Avoid delete in seeds, db is emptied on seed command's lunch in [package.json](mdc:apps/backend/package.json) .
+- Wrapped in transactions.
+- Injected as NestJS services for DI.
+- Info: seeds are ran from commands in [main-cli.ts](mdc:apps/backend/src/main-cli.ts) and [seeds.module.ts](mdc:apps/backend/src/infrastructure/database/seeds.module.ts) .
 
 Example (`infrastructure/database/seeds/users.seed.ts`):
 ```typescript
@@ -1311,26 +1313,6 @@ export class UsersSeed {
 ```
 ````
 
-### .cursor/rules/rule-backend-tests.mdc
-
-```mdc
----
-description: Apply them when creating or modifying tests
-globs: apps/backend/**/*.ts
----
-Backend tests rules:
-- Jest for testing.
-- Integration tests must not create data directly (use seed.ts).
-- No "retries".
-
-Backend tests (integration):
-- Always test controller to have the max coverrage.
-
-Backend tests with data:
-- Seed are used as fixtures, data already set up.
-- Never call Prisma directly in tests, use repository if needed.
-```
-
 ### .cursor/rules/rule-backend-use-case.mdc
 
 ````mdc
@@ -1338,8 +1320,10 @@ Backend tests with data:
 description: Backend use-case
 globs: apps/backend/**/*.ts
 ---
-- must match domain: this is a user action .
-- bridge between domain, infrastructure (database) and presentation (controller).
+- Focus on domain logic and user action.
+- Reflects bridge between domain, infrastructure (database) and presentation (controller).
+- Domain objects received are validated by `class-validator`.
+- Domain specific requirements can be checked here.
 
 Example:
 ```typescript
@@ -1381,10 +1365,36 @@ globs: apps/frontend/**.ts, apps/frontend/**.tsx
 - Early returns.
 - Strong typing.
 - Use ShadCN from `~/components/ui`.
+- One component per file.
+- Pass parent parameters `store` to children components and UI if necessary (e.g. `formRef`)
 
 Example child component (`features/dashboard/custom-instructions/custom-instructions-confirmation.component.tsx`):
 ```typescript
+interface CustomInstructionsConfirmationProps {
+  store: CustomInstructionsStore;
+  formRef: React.RefObject<HTMLFormElement>;
+}
 
+export const CustomInstructionsConfirmation: FC<CustomInstructionsConfirmationProps> = observer(
+  ({ store, formRef }) => {
+    const { isDialogOpen, isSubmitting, instructionLength, openDialog, closeDialog } = store;
+
+    const handleConfirm = (): void => {
+      store.closeDialog();
+      formRef.current?.requestSubmit();
+    };
+
+    return (
+      <div className="flex flex-col justify-between">
+        <span className="text-sm text-gray-500">{instructionLength}/200 tokens</span>
+
+        // ...
+      </div>
+    );
+  },
+);
+
+CustomInstructionsConfirmation.displayName = 'CustomInstructionsConfirmation';
 ```
 
 Example main component (`features/dashboard/custom-instructions/custom-instructions.component.tsx`):
@@ -1448,12 +1458,16 @@ CustomInstructions.displayName = 'CustomInstructions';
 description: Frontend : Always apply those rules
 globs: apps/frontend/**
 ---
+- Mobile first.
+- Always use latest versions in [package.json](mdc:apps/frontend/package.json).
 - Remix only, no NextJS.
-- Root imports with /~.
-- Test with Vitest.
-- Use Vite, not Webpack.
-- ESLint with flat config.
-- Use versions in [package.json](mdc:apps/frontend/package.json).
+- Root imports with `/~`.
+- Test with `Vitest`.
+- Use `Vite`, not `Webpack`.
+- `ESLint` with flat config.
+- Focus on accessibility (a11y) when generating HTML.
+- Use latest `tailwind` functionnalities (3.4+).
+- French language only in UI (labels, texts, placeholders...)
 ```
 
 ### .cursor/rules/rule-frontend-remix-loaders.mdc
@@ -1474,13 +1488,13 @@ globs: apps/frontend/**/*.ts
 description: Frontend store with MobX for logic.
 globs: apps/frontend/**
 ---
-- Never use technical function (e.g. `setDialogOpen`), prefer user actions (`openDialog`, `closeDialog`).
-- Always validate state before afting using [validator.ts](mdc:apps/frontend/app/lib/validator.ts)
+- Separate logic (store) from UI (component).
+- Avoid technical function (e.g. `setDialogOpen`), prefer user actions (`openDialog`, `closeDialog`).
+- Always validate `state` before affecting using @validator.ts.
 - Use `makeAutoObservable` in the store constructor.
 - Wrap state mutations inside `runInAction()`.
 - Use `computed properties` for all derived values, even small (e.g., `instructionLength`).
 - Inject the store into the parent component for better state management.
-- Separate logic (store) from UI (component).
 - Implement [loadable.interface.ts](mdc:apps/frontend/app/interfaces/loadable.interface.ts) is component have a state loadable from API.
 
 Interface Example `features/dashboard/custom-instructions/custom-instructions.type.ts`:
@@ -1574,19 +1588,16 @@ export class CustomInstructionsStore implements CustomInstructions, Loadable<Pro
 description: Global : Code generation
 globs: **/*.ts, **/*.tsx
 ---
-Language:
-- English for everything.
-- French only in UI (labels, texts...)
-
 Sharing code:
 - Place shared data types in `packages/shared-types`.
 - One file per type, export everything from [index.ts](mdc:packages/shared-types/src/index.ts).
 
 Simplified code:
-- Use explicit constants instead of magic numbers.
-- Write clear and simple conditions, avoid double negatives.
-- Prioritize readable variable names, even if long.
-- Simplify loops using map(), filter(), or reduce().
+- Force explicit constants instead of magic numbers.
+- Write clear and simple conditions.
+- No double negatives.
+- Prioritize readable variable names, even if longer.
+- Simplify loops using `map()`, `filter()`, or `reduce()`.
 
 Type safe code:
 - Always type function params and returns.
@@ -1609,31 +1620,29 @@ Comments:
 - Comments only for complex logic or interfaces.
 
 Forbidden:
-- Anemic models (avoid trivial getId/setId).
+- Anemic models (avoid trivial `getId`/`setId`).
 - Function names with no actions (avoid `setUsers`, prefer `loadUsers`).
 - No interface prefix `IUser` or type suffix `UserType`.
 
 Lint & Error
-- Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).
-- Catch errors with catch(error: unknown | Error).
-- On frontend, use apps/frontend/app/utils/api/error.ts to handle errors.
+- Follow `@typescript-eslint/strict-boolean-expressions` (avoid `if(!obj)`, prefer `if (obj === undefined)`).
+- Type errors with `catch(error: unknown | Error)`.
 ```
 
 ### .cursor/rules/rule-global-installation.mdc
 
 ```mdc
 ---
-description: Global : Package installations
+description: Global packages
 globs: **/*.json
 ---
-- Use Node, never Express.
 - Check all packages versions every time:
-    - root monorepo: [package.json](mdc:package.json)
-    - backend: [package.json](mdc:apps/backend/package.json)
-    - frontend: [package.json](mdc:apps/frontend/package.json)
-    - shared-types: [package.json](mdc:packages/shared-types/package.json)
-- Ask before adding new packages.
-- Use PNPM with the latest version.
+  - root monorepo: [package.json](mdc:package.json)
+  - backend: [package.json](mdc:apps/backend/package.json)
+  - frontend: [package.json](mdc:apps/frontend/package.json)
+  - shared-types: [package.json](mdc:packages/shared-types/package.json)
+- Always ask before adding new packages.
+- Use `pnpm`, never `npm`.
 ```
 
 ### .cursor/rules/rule-shared-types.mdc
@@ -1643,9 +1652,9 @@ globs: **/*.json
 description: Rules for Shared Types between frontend and backend
 globs: packages/shared-types/**/*.ts
 ---
-- most of the validation is done here with `class-validator`
-- this type is used "as-is" in frontend.
-- this type is extended in backend's Domain models.
+- Most of the validation is done here with `class-validator`.
+- This type is used "as-is" in frontend.
+- This type is extended in backend's Domain models to ensure coherence.
 
 Example `packages/shared-types/src/project.type.ts`:
 ```typescript
@@ -1700,7 +1709,6 @@ export class ProjectType {
 ./.cursor/rules/rule-backend-mapper.mdc
 ./.cursor/rules/rule-backend-repository.mdc
 ./.cursor/rules/rule-backend-seed.mdc
-./.cursor/rules/rule-backend-tests.mdc
 ./.cursor/rules/rule-backend-use-case.mdc
 ./.cursor/rules/rule-frontend-component.mdc
 ./.cursor/rules/rule-frontend-global.mdc
@@ -2110,7 +2118,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-109 directories, 309 files
+109 directories, 308 files
 ```
 
-2025-02-13 07:40:20
+2025-02-13 08:30:38
