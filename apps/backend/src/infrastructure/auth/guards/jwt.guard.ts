@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const request = context.switchToHttp().getRequest();
-    console.log('=== JWT Guard Debug ===');
-    console.log('Cookies reçus:', request.cookies);
-    console.log(
-      'Access Token from cookie:',
-      request.cookies?.access_token?.substring(0, 20) + '...',
-    );
+    // console.log('=== JWT Guard Debug ===');
+    // console.log('Cookies reçus:', request.cookies);
+    // console.log(
+    //   'Access Token from cookie:',
+    //   request.cookies?.access_token?.substring(0, 20) + '...',
+    // );
 
     return super.canActivate(context);
   }

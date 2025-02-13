@@ -18,13 +18,19 @@ export class AuthService {
   ): Promise<{ jwt: string; user: UserDomain }> {
     const { email, name, avatar, googleId, refreshToken } = googleProfile;
 
-    const user = await this.createUserUseCase.execute({
-      email,
-      name,
-      avatar,
-      googleId,
-      refreshToken,
-    });
+    let user;
+    try {
+      user = await this.createUserUseCase.execute({
+        email,
+        name,
+        avatar,
+        googleId,
+        refreshToken,
+      });
+    } catch (error) {
+      console.error('Failed to create user:', error);
+      throw error;
+    }
 
     const jwt = this.generateToken(user);
     return { jwt, user };

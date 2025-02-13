@@ -4,6 +4,7 @@ import { Redis } from 'ioredis';
 
 import { ConfigModule } from './config/config.module';
 import { AuthModule } from './infrastructure/auth/auth.module';
+import { SeedsModule } from './infrastructure/database/seeds.module';
 import { FiltersModule } from './infrastructure/filters/filters.module';
 import { LoggerModule } from './infrastructure/logger/logger.module';
 import { NewsletterModule } from './modules/newsletter/newsletter.module';
@@ -29,6 +30,7 @@ import { PrismaModule } from './prisma/prisma.module';
         }),
       }),
     }),
+    SeedsModule,
   ],
   providers: [
     {

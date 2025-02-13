@@ -12,6 +12,12 @@ const prisma = new PrismaClient();
 async function main(): Promise<void> {
   console.log('🌱 Starting database seeding...');
 
+  const adminEmail = process.env.ADMIN_EMAIL;
+
+  if (adminEmail === undefined) {
+    throw new Error('ADMIN_EMAIL is not set');
+  }
+
   try {
     // Create entities in the correct order to respect relationships
     await seedUsers();

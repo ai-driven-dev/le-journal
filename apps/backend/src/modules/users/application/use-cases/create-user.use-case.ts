@@ -16,11 +16,13 @@ export class CreateUserUseCase {
   ) {}
 
   async execute(profile: GoogleProfileDto): Promise<UserDomain> {
-    const existingUser = await this.userRepository.findByEmailOrGoogleId(profile.googleId);
-    const isCurrentUserExisting = existingUser?.google_id === profile.googleId;
+    const existingUser = await this.userRepository.findByEmailOrGoogleId(
+      profile.email,
+      profile.googleId,
+    );
     let user: User;
 
-    if (isCurrentUserExisting) {
+    if (existingUser) {
       user = await this.userRepository.updateUser(existingUser.id, {
         name: profile.name ?? existingUser.name ?? '',
         avatar: profile.avatar ?? existingUser.avatar ?? '',

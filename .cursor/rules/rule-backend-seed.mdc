@@ -4,4 +4,4 @@ globs: apps/backend/**/*.ts
 ---
 - must call repositories.
 - must use types [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts) .
-- 
+- avoid delete in seeds, db is emptied on seed command's lunch.

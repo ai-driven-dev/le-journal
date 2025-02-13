@@ -1,4 +1,10 @@
-import { IsDate, IsEmail, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsDate, IsEmail, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
+
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  PREMIUM = 'PREMIUM',
+  REGULAR = 'REGULAR',
+}
 
 export class User {
   @IsString()
@@ -18,6 +24,10 @@ export class User {
 
   @IsDate()
   updatedAt: Date;
+
+  @IsString()
+  @IsEnum(UserRole)
+  role: UserRole;
 }
 
 export class UserCreate {

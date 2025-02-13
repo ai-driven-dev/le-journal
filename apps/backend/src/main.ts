@@ -18,7 +18,7 @@ async function bootstrap(): Promise<void> {
   const logger = app.get(AppLogger);
   app.useLogger(logger);
 
-  // Global Validation Pipe
+  // Global Validation Pipe in controllers
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true, // Active la transformation automatique
@@ -28,20 +28,6 @@ async function bootstrap(): Promise<void> {
       },
     }),
   );
-
-  if (process.env.FRONTEND_URL === undefined) {
-    throw new Error(
-      `FRONTEND_URL is not defined, please set it in your environment variables. Current value: ${process.env.FRONTEND_URL}`,
-    );
-  }
-
-  // API
-  app.enableCors({
-    origin: [process.env.FRONTEND_URL],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Authorization',
-    credentials: true,
-  });
 
   // Configuration de Swagger
   if (process.env.NODE_ENV !== 'production') {
@@ -58,7 +44,22 @@ async function bootstrap(): Promise<void> {
     fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));
   }
 
+  // Cookie parser for authentication
   app.use(cookieParser());
+
+  if (process.env.FRONTEND_URL === undefined) {
+    throw new Error(
+      `FRONTEND_URL is not defined, please set it in your environment variables. Current value: ${process.env.FRONTEND_URL}`,
+    );
+  }
+
+  // API
+  app.enableCors({
+    origin: [process.env.FRONTEND_URL],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
+  });
 
   await app.listen(8080);
 }
