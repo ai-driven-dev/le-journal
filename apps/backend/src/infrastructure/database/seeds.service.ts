@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from '../../prisma/prisma.service';
-import { UsersSeed } from './seeds/users.seed';
-import { ProjectsSeed } from './seeds/projects.seed';
-import { NewslettersSeed } from './seeds/newsletters.seed';
-import { EmailsSeed } from './seeds/emails.seed';
+
 import { ArticlesSeed } from './seeds/articles.seed';
+import { EmailsSeed } from './seeds/emails.seed';
+import { NewslettersSeed } from './seeds/newsletters.seed';
+import { ProjectsSeed } from './seeds/projects.seed';
 import { TransactionsSeed } from './seeds/transactions.seed';
+import { UsersSeed } from './seeds/users.seed';
 
 @Injectable()
 export class SeedsService {
@@ -21,7 +22,7 @@ export class SeedsService {
   ) {}
 
   async seedAll(): Promise<void> {
-    console.log('🌱 Starting database seeding...');
+    console.info('🌱 Starting database seeding...');
 
     try {
       await this.prisma.$transaction(async (tx) => {
@@ -33,7 +34,7 @@ export class SeedsService {
         await this.transactionsSeed.seed(tx);
       });
 
-      console.log('✅ Database seeding completed');
+      console.info('✅ Database seeding completed');
     } catch (error) {
       console.error('❌ Database seeding failed:', error);
       throw error;
