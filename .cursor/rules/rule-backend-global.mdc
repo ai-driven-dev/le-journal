@@ -3,9 +3,11 @@ description: Backend global code, always keep in mind
 globs: apps/backend/**/*.ts
 ---
 - Libs: NestJS 11, RxJS 8 mandatory.
+- NestJS good pratices must be checked.
 - Throw exception early with descriptive names and params.
 - Create custom exceptions when domain specific.
 - Focus on domain logic.
+- Focus on DDD and Clean Architecture.
 
 Example structure `src/modules/projects`:
 ```text

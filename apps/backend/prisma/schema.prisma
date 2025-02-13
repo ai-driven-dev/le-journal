@@ -55,10 +55,19 @@ enum PaymentMethod {
   @@map("payment_method")
 }
 
+enum UserRole {
+  ADMIN
+  PREMIUM
+  REGULAR
+
+  @@map("user_role")
+}
+
 model User {
   id         String   @id @default(uuid())
   email      String   @unique
   name       String
+  role       UserRole @default(REGULAR) @map("role")
   google_id  String  @unique @map("google_id")
   avatar     String?
   refresh_token String?   @map("refresh_token")

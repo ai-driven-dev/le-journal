@@ -5,9 +5,6 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -27,8 +24,8 @@
     "prisma": "prisma generate && prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "prisma:migrate": "prisma migrate dev && prisma migrate deploy && prisma generate",
-    "prisma:seed": "prisma migrate reset --force",
-    "prisma:test:reset": "dotenv -e .env.test -- prisma migrate reset --force"
+    "prisma:reset": "dotenv -e .env -- prisma migrate reset --skip-seed --force",
+    "seed": "pnpm run prisma:reset && pnpm run build && ts-node src/main-cli.ts -- seed"
   },
   "dependencies": {
     "@le-journal/shared-types": "workspace:*",
@@ -45,6 +42,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie-parser": "^1.4.7",
+    "nest-commander": "^3.16.0",
     "nest-winston": "^1.10.2",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",

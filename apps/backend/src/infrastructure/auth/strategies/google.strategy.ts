@@ -29,6 +29,13 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     refreshToken: string,
     profile: Profile,
   ): Promise<GoogleProfileDto> {
+    // need debug
+    console.info({ accessToken }, { refreshToken }, { profile });
+
+    // if (refreshToken === undefined) {
+    //   throw new UnauthorizedException('No refresh token');
+    // }
+
     return new GoogleProfileDto(profile, refreshToken);
   }
 }

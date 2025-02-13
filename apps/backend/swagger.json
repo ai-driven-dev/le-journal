@@ -250,6 +250,11 @@
             "example": "john.doe@email.com",
             "description": "Email de l'utilisateur"
           },
+          "role": {
+            "type": "string",
+            "example": "ADMIN",
+            "description": "Rôle de l'utilisateur"
+          },
           "name": {
             "type": "string",
             "example": "John Doe",
@@ -276,6 +281,7 @@
         "required": [
           "id",
           "email",
+          "role",
           "name",
           "createdAt",
           "updatedAt",

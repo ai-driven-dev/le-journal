@@ -13,11 +13,12 @@ export class PrismaUserRepository implements UserRepository {
   }
 
   async findByEmailOrGoogleId(
-    emailOrGoogleId: User['email'] | User['google_id'],
+    email: User['email'],
+    google_id: User['google_id'],
   ): Promise<User | null> {
     return this.prisma.user.findFirst({
       where: {
-        OR: [{ email: emailOrGoogleId }, { google_id: emailOrGoogleId }],
+        OR: [{ email }, { google_id }],
       },
     });
   }

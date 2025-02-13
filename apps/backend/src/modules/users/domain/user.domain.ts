@@ -1,4 +1,4 @@
-import { User } from '@le-journal/shared-types';
+import { User, UserRole } from '@le-journal/shared-types';
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 
@@ -11,6 +11,9 @@ export class UserDomain extends User {
 
   @ApiProperty({ example: 'john.doe@email.com', description: "Email de l'utilisateur" })
   email!: string;
+
+  @ApiProperty({ example: 'ADMIN', description: "Rôle de l'utilisateur" })
+  role!: UserRole;
 
   @ApiProperty({ example: 'John Doe', description: "Nom de l'utilisateur" })
   name!: string;

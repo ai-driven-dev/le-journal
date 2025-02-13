@@ -96,6 +96,8 @@ export default [
       mobx: mobx,
     },
     rules: {
+      'no-console': ['error', { allow: ['warn', 'error', 'info', 'debug'] }],
+
       /* TypeScript Rules */
       '@typescript-eslint/explicit-function-return-type': [
         'error',
