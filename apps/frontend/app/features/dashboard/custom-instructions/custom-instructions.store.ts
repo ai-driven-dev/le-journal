@@ -1,4 +1,4 @@
-import type { ProjectPromptType } from '@le-journal/shared-types';
+import type { ProjectPromptInstructions } from '@le-journal/shared-types';
 import { makeAutoObservable, runInAction } from 'mobx';
 
 import type { CustomInstructions } from './custom-instructions.type';
@@ -8,8 +8,8 @@ import type { Loadable } from '~/interfaces/loadable.interface';
 import { clientFetch } from '~/lib/api-fetcher.client';
 import { verify } from '~/lib/validator';
 
-export class CustomInstructionsStore implements CustomInstructions, Loadable<ProjectPromptType> {
-  state: ProjectPromptType | null = null;
+export class CustomInstructionsStore implements CustomInstructions, Loadable<ProjectPromptInstructions> {
+  state: ProjectPromptInstructions | null = null;
 
   isDialogOpen = false;
   isLoading = true;
@@ -19,18 +19,31 @@ export class CustomInstructionsStore implements CustomInstructions, Loadable<Pro
     makeAutoObservable(this);
   }
 
-  init = (prompt: ProjectPromptType): void => {
-    verify(prompt);
+  init = (project: ProjectPromptInstructions): void => {
+    verify(project);
 
     runInAction(() => {
-      this.state = prompt;
+      this.state = project;
       this.isLoading = false;
     });
   };
 
   save = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    if (this.state === null) {
+      throw new Error('State is null');
+    }
+
+    if (this.state.canUpdatePrompt === false) {
+      toast({
+        variant: 'destructive',
+        title: 'Modification impossible',
+        description: "Vous ne pouvez modifier vos instructions qu'une fois toutes les 24 heures.",
+      });
+      return;
+    }
+
     try {
-      const updatedState = await clientFetch<ProjectPromptType>(event, this.state);
+      const updatedState = await clientFetch<ProjectPromptInstructions>(event, this.state);
       this.init(updatedState);
 
       toast({
@@ -67,5 +80,13 @@ export class CustomInstructionsStore implements CustomInstructions, Loadable<Pro
 
   get instructionLength(): number {
     return this.state?.promptInstruction.length ?? 0;
+  }
+
+  get canUpdatePrompt(): boolean {
+    return this.state?.canUpdatePrompt ?? false;
+  }
+
+  get lastPromptUpdate(): string | null {
+    return this.state?.lastPromptUpdate?.toLocaleDateString() ?? null;
   }
 }

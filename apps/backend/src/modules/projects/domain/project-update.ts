@@ -1,7 +1,7 @@
-import { ProjectPromptType } from '@le-journal/shared-types';
+import { ProjectPromptInstructions } from '@le-journal/shared-types';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ProjectUpdate extends ProjectPromptType {
+export class ProjectUpdate extends ProjectPromptInstructions {
   @ApiProperty({
     example: 'c123e456-789b-12d3-a456-426614174000',
     description: 'Project ID',

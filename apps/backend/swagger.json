@@ -326,6 +326,17 @@
             "type": "string",
             "example": "Write a blog post about AI and its impact on society",
             "description": "Instruction pour le projet"
+          },
+          "lastPromptUpdate": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2024-02-08T12:00:00.000Z",
+            "description": "Date de la dernière mise à jour du prompt"
+          },
+          "canUpdatePrompt": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indique si le prompt peut être mis à jour"
           }
         },
         "required": [
@@ -335,7 +346,8 @@
           "newsletterAlias",
           "projectNumber",
           "createdAt",
-          "promptInstruction"
+          "promptInstruction",
+          "canUpdatePrompt"
         ]
       },
       "ProjectUpdate": {

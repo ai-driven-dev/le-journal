@@ -34,7 +34,7 @@ export const CustomInstructionsConfirmation: FC<CustomInstructionsConfirmationPr
 
         <Dialog open={isDialogOpen} onOpenChange={openDialog}>
           <DialogTrigger asChild>
-            <Button>Enregistrer</Button>
+            <Button disabled={store.canUpdatePrompt === false}>Enregistrer</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>

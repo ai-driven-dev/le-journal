@@ -16,6 +16,7 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       project_number: domain.projectNumber,
       created_at: domain.createdAt,
       prompt_instruction: domain.promptInstruction,
+      last_prompt_update: domain.lastPromptUpdate ?? null,
     };
   }
 
@@ -28,6 +29,9 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       projectNumber: model.project_number,
       createdAt: model.created_at,
       promptInstruction: model.prompt_instruction,
+      lastPromptUpdate: model.last_prompt_update ?? undefined,
+      // will be calculated in the use case.
+      canUpdatePrompt: false,
     };
   }
 }

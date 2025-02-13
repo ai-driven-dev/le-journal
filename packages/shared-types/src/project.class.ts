@@ -1,8 +1,10 @@
 import {
+  IsBoolean,
   IsDate,
   IsEmail,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -12,6 +14,7 @@ import {
 export const PROJECT_MIN_LENGTH = 10;
 export const PROJECT_MAX_LENGTH = 200;
 export const PROJECT_VALIDATION = /^[^<>{}]*$/;
+export const PROMPT_UPDATE_DELAY_HOURS = 24;
 
 export class Project {
   @IsString()
@@ -39,6 +42,14 @@ export class Project {
   @IsNotEmpty()
   createdAt!: Date;
 
+  @IsDate()
+  @IsOptional()
+  lastPromptUpdate?: Date;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  canUpdatePrompt!: boolean;
+
   @IsString()
   @MinLength(PROJECT_MIN_LENGTH, {
     message: `Prompt instruction must be at least ${PROJECT_MIN_LENGTH} characters long`,
@@ -52,7 +63,7 @@ export class Project {
   promptInstruction!: string;
 }
 
-export class ProjectPromptType {
+export class ProjectPromptInstructions {
   @IsString()
   @IsNotEmpty()
   id!: string;
@@ -69,4 +80,11 @@ export class ProjectPromptType {
     message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
   })
   promptInstruction!: string;
+
+  @IsDate()
+  lastPromptUpdate: Date | null;
+
+  @IsBoolean()
+  @IsOptional()
+  canUpdatePrompt: boolean;
 }

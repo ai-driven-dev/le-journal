@@ -42,9 +42,7 @@ export class ProjectsController {
   async updateProjectPrompt(
     @Body()
     updateProjectPromptDto: ProjectUpdate,
-  ): Promise<ProjectUpdate> {
-    const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
-
-    return this.projectMapper.toDomain(project);
+  ): Promise<ProjectDomain> {
+    return await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
   }
 }

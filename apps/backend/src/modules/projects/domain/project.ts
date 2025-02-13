@@ -28,4 +28,17 @@ export class ProjectDomain extends Project {
     description: 'Instruction pour le projet',
   })
   promptInstruction!: string;
+
+  @ApiProperty({
+    example: '2024-02-08T12:00:00.000Z',
+    description: 'Date de la dernière mise à jour du prompt',
+    required: false,
+  })
+  lastPromptUpdate?: Date;
+
+  @ApiProperty({
+    example: true,
+    description: 'Indique si le prompt peut être mis à jour',
+  })
+  canUpdatePrompt!: boolean;
 }

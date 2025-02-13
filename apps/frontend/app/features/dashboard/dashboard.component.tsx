@@ -46,6 +46,8 @@ export const Dashboard: FC = observer(() => {
     dashboardStore.customInstructions.init({
       id: currentProject.id,
       promptInstruction: currentProject.promptInstruction,
+      lastPromptUpdate: currentProject.lastPromptUpdate ?? null,
+      canUpdatePrompt: currentProject.canUpdatePrompt,
     });
     dashboardStore.newslettersStore.loadNewsletters(newsletters);
     dashboardStore.headerProfileStore.loadUserInfo(users[0]);
