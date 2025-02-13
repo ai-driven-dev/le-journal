@@ -2,16 +2,16 @@
 description: Backend mapper
 globs: apps/backend/**/*.ts
 ---
-- use NestJS dependency injection.
-- import type from Prisma suffixed by "Model".
-- implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
-- must reassign every props.
-- always return plain objects, no instances.
+- Use `NestJS` DI.
+- Use Prisma types from [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts).
+- Implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
+- Reassign every props (mandatory).
+- Return plain objects, no instances.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript
 import { Injectable } from '@nestjs/common';
-import { Project as ProjectModel } from '@prisma/client';
+import { ProjectModel } from 'src/prisma/prisma.types';
 
 import { Project } from '../domain/project';
 

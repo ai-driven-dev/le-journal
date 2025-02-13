@@ -2,8 +2,10 @@
 description: Backend use-case
 globs: apps/backend/**/*.ts
 ---
-- must match domain: this is a user action .
-- bridge between domain, infrastructure (database) and presentation (controller).
+- Focus on domain logic and user action.
+- Reflects bridge between domain, infrastructure (database) and presentation (controller).
+- Domain objects received are validated by `class-validator`.
+- Domain specific requirements can be checked here. 
 
 Example:
 ```typescript

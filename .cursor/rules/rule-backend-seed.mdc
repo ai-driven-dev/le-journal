@@ -2,12 +2,12 @@
 description: Backend mapper
 globs: apps/backend/**/*.ts
 ---
-- do not call repositories, use prisma client directly.
-- must use types in `@prisma/client`.
-- avoid delete in seeds, db is emptied on seed command's lunch in [package.json](mdc:apps/backend/package.json) .
-- wrapped in transactions.
-- injected as NestJS services for DI.
-- notce: run from commands in [main-cli.ts](mdc:apps/backend/src/main-cli.ts) and [seeds.module.ts](mdc:apps/backend/src/infrastructure/database/seeds.module.ts) .
+- Calling repositories might no be necessary except to validate domain logic, most of the time use prisma client directly.
+- Must use types in `@prisma/client`.
+- Avoid delete in seeds, db is emptied on seed command's lunch in [package.json](mdc:apps/backend/package.json) .
+- Wrapped in transactions.
+- Injected as NestJS services for DI.
+- Info: seeds are ran from commands in [main-cli.ts](mdc:apps/backend/src/main-cli.ts) and [seeds.module.ts](mdc:apps/backend/src/infrastructure/database/seeds.module.ts) .
 
 Example (`infrastructure/database/seeds/users.seed.ts`):
 ```typescript

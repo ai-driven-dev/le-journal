@@ -2,9 +2,13 @@
 description: Frontend : Always apply those rules
 globs: apps/frontend/**
 ---
+- Mobile first.
+- Always use latest versions in [package.json](mdc:apps/frontend/package.json).
 - Remix only, no NextJS.
-- Root imports with /~.
-- Test with Vitest.
-- Use Vite, not Webpack.
-- ESLint with flat config. 
-- Use versions in [package.json](mdc:apps/frontend/package.json).
+- Root imports with `/~`.
+- Test with `Vitest`.
+- Use `Vite`, not `Webpack`.
+- `ESLint` with flat config. 
+- Focus on accessibility (a11y) when generating HTML.
+- Use latest `tailwind` functionnalities (3.4+).
+- French language only in UI (labels, texts, placeholders...)

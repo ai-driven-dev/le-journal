@@ -2,9 +2,9 @@
 description: Rules for Shared Types between frontend and backend
 globs: packages/shared-types/**/*.ts
 ---
-- most of the validation is done here with `class-validator`
-- this type is used "as-is" in frontend.
-- this type is extended in backend's Domain models.
+- Most of the validation is done here with `class-validator`.
+- This type is used "as-is" in frontend.
+- This type is extended in backend's Domain models to ensure coherence.
 
 Example `packages/shared-types/src/project.type.ts`:
 ```typescript

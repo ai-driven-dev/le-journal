@@ -11,10 +11,36 @@ globs: apps/frontend/**.ts, apps/frontend/**.tsx
 - Early returns.
 - Strong typing.
 - Use ShadCN from `~/components/ui`.
+- One component per file.
+- Pass parent parameters `store` to children components and UI if necessary (e.g. `formRef`)
 
 Example child component (`features/dashboard/custom-instructions/custom-instructions-confirmation.component.tsx`):
 ```typescript
+interface CustomInstructionsConfirmationProps {
+  store: CustomInstructionsStore;
+  formRef: React.RefObject<HTMLFormElement>;
+}
 
+export const CustomInstructionsConfirmation: FC<CustomInstructionsConfirmationProps> = observer(
+  ({ store, formRef }) => {
+    const { isDialogOpen, isSubmitting, instructionLength, openDialog, closeDialog } = store;
+
+    const handleConfirm = (): void => {
+      store.closeDialog();
+      formRef.current?.requestSubmit();
+    };
+
+    return (
+      <div className="flex flex-col justify-between">
+        <span className="text-sm text-gray-500">{instructionLength}/200 tokens</span>
+
+        // ...
+      </div>
+    );
+  },
+);
+
+CustomInstructionsConfirmation.displayName = 'CustomInstructionsConfirmation';
 ```
 
 Example main component (`features/dashboard/custom-instructions/custom-instructions.component.tsx`): 
