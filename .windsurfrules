@@ -217,9 +217,46 @@ export class PrismaUserRepository implements UserRepository {
 
 ```
 
-- must call repositories.
-- must use types [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts) .
-- avoid delete in seeds, db is emptied on seed command's lunch.
+- do not call repositories, use prisma client directly.
+- must use types in `@prisma/client`.
+- avoid delete in seeds, db is emptied on seed command's lunch in [package.json](mdc:apps/backend/package.json) .
+- wrapped in transactions.
+- injected as NestJS services for DI.
+- notce: run from commands in [main-cli.ts](mdc:apps/backend/src/main-cli.ts) and [seeds.module.ts](mdc:apps/backend/src/infrastructure/database/seeds.module.ts) .
+
+Example (`infrastructure/database/seeds/users.seed.ts`):
+```typescript
+import { Injectable } from '@nestjs/common';
+import { Prisma, PrismaClient, User } from '@prisma/client';
+
+@Injectable()
+export class UsersSeed {
+
+  private readonly standardUser: Prisma.UserCreateInput = {
+    email: 'user.standard@example.com',
+    name: 'Standard User',
+    role: 'REGULAR',
+    google_id: '1234567891',
+    avatar: 'https://example.com/avatar.png',
+    refresh_token: '1234567891',
+  };
+
+  async seed(
+    tx: Omit<
+      PrismaClient,
+      '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+    >,
+  ): Promise<User[]> {
+    console.info('🧑‍💻 Seeding users...');
+
+    const users = await Promise.all([
+      tx.user.create({ data: this.standardUser }),
+    ]);
+
+    return users;
+  }
+}
+```
 
 Backend tests rules:
 - Jest for testing.
