@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient, User } from '@prisma/client';
 
 @Injectable()
-export class UsersSeedService {
+export class UsersSeed {
   private readonly adminEmail = process.env.ADMIN_EMAIL;
 
   private readonly standardUser: Prisma.UserCreateInput = {
@@ -42,7 +42,7 @@ export class UsersSeedService {
       throw new Error('ADMIN_EMAIL is not set');
     }
 
-    console.log('🌱 Seeding users...');
+    console.info('- Seeding users...');
 
     const users = await Promise.all([
       tx.user.create({ data: this.standardUser }),
@@ -50,7 +50,6 @@ export class UsersSeedService {
       tx.user.create({ data: this.premiumUser }),
     ]);
 
-    console.log('✅ Users seeded');
     return users;
   }
 }
