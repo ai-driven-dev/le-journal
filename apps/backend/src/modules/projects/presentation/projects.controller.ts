@@ -42,7 +42,6 @@ export class ProjectsController {
   async updateProjectPrompt(
     @Body()
     updateProjectPromptDto: ProjectUpdate,
-    @GetUser() user: User,
   ): Promise<ProjectUpdate> {
     const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
 
