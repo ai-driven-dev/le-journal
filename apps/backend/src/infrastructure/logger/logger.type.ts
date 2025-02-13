@@ -9,6 +9,6 @@ export interface LogContext extends BaseLogContext {
   metadata?: Record<string, unknown>;
 }
 
-export interface ErrorContext extends LogContext, BaseLogContext {
-  error: unknown | Error;
+export interface ErrorContext extends LogContext {
+  error: unknown; // Accepte n'importe quel type d'erreur
 }

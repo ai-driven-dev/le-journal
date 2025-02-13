@@ -12,7 +12,9 @@ export class PrismaNewsletterRepository implements NewsletterRepository {
   async findManyByUserId(userId: string): Promise<Newsletter[]> {
     return this.prisma.newsletter.findMany({
       where: {
-        user_id: userId,
+        project: {
+          user_id: userId,
+        },
       },
       orderBy: {
         subscribed_at: 'asc',

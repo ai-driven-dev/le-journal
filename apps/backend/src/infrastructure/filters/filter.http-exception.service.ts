@@ -18,27 +18,25 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const httpStatus =
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    // Log avec le contexte approprié
-    this.logger.error(
-      exception instanceof HttpException ? exception.message : 'Internal server error',
-      {
-        service: request.url,
-        method: request.method,
-        metadata: {
-          path: request.url,
-          body: request.body,
-          params: request.params,
-          query: request.query,
-          statusCode: httpStatus,
-        },
-        error: exception instanceof Error ? exception : new Error(String(exception)),
+    // Log l'erreur complète
+    this.logger.error('Error caught in filter', {
+      service: request.url,
+      method: request.method,
+      metadata: {
+        path: request.url,
+        body: request.body,
+        params: request.params,
+        query: request.query,
+        statusCode: httpStatus,
       },
-    );
+      error: exception,
+    });
 
     const responseBody = {
       statusCode: httpStatus,
       timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(request),
+      message: exception instanceof Error ? exception.message : 'Internal server error',
     };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
