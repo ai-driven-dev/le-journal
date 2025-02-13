@@ -1,5 +1,5 @@
 ---
-date: 2025-02-13 09:00:09
+date: 2025-02-13 09:36:31
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1703,6 +1703,7 @@ export class ProjectType {
 .
 ./.cursor
 ./.cursor/rules
+./.cursor/rules/README.md
 ./.cursor/rules/rule-backend-controller.mdc
 ./.cursor/rules/rule-backend-domain.mdc
 ./.cursor/rules/rule-backend-global.mdc
@@ -2118,7 +2119,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-109 directories, 308 files
+109 directories, 309 files
 ```
 
-2025-02-13 09:00:09
+2025-02-13 09:36:31
