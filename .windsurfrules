@@ -78,9 +78,11 @@ export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstructi
 ```
 
 - Libs: NestJS 11, RxJS 8 mandatory.
+- NestJS good pratices must be checked.
 - Throw exception early with descriptive names and params.
 - Create custom exceptions when domain specific.
 - Focus on domain logic.
+- Focus on DDD and Clean Architecture.
 
 Example structure `src/modules/projects`:
 ```text
@@ -217,7 +219,7 @@ export class PrismaUserRepository implements UserRepository {
 
 - must call repositories.
 - must use types [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts) .
-- 
+- avoid delete in seeds, db is emptied on seed command's lunch.
 
 Backend tests rules:
 - Jest for testing.
