@@ -1,5 +1,5 @@
 ---
-date: 2025-02-13 07:11:40
+date: 2025-02-13 07:35:40
 ---
 
 # Project Specifications "Knowledge Base"
@@ -783,7 +783,6 @@ model User {
 
   // Relations
   projects     Project[]
-  newsletters  Newsletter[]
   transactions Transaction[]
 
   @@map("users")
@@ -813,18 +812,15 @@ model Project {
 
 model Newsletter {
   id           String   @id @default(uuid())
-  user_id     String
   project_id  String
   email       String
   subscribed_at DateTime @default(now()) @map("subscribed_at")
   subscription_status SubscriptionStatus @default(ACTIVE) @map("subscription_status")
 
   project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
-  user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   emails Email[]
 
   @@map("newsletters")
-  @@index([user_id])
   @@index([email])
 }
 
@@ -1268,15 +1264,52 @@ export class PrismaUserRepository implements UserRepository {
 
 ### .cursor/rules/rule-backend-seed.mdc
 
-```mdc
+````mdc
 ---
 description: Backend mapper
 globs: apps/backend/**/*.ts
 ---
-- must call repositories.
-- must use types [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts) .
-- avoid delete in seeds, db is emptied on seed command's lunch.
+- do not call repositories, use prisma client directly.
+- must use types in `@prisma/client`.
+- avoid delete in seeds, db is emptied on seed command's lunch in [package.json](mdc:apps/backend/package.json) .
+- wrapped in transactions.
+- injected as NestJS services for DI.
+- notce: run from commands in [main-cli.ts](mdc:apps/backend/src/main-cli.ts) and [seeds.module.ts](mdc:apps/backend/src/infrastructure/database/seeds.module.ts) .
+
+Example (`infrastructure/database/seeds/users.seed.ts`):
+```typescript
+import { Injectable } from '@nestjs/common';
+import { Prisma, PrismaClient, User } from '@prisma/client';
+
+@Injectable()
+export class UsersSeed {
+
+  private readonly standardUser: Prisma.UserCreateInput = {
+    email: 'user.standard@example.com',
+    name: 'Standard User',
+    role: 'REGULAR',
+    google_id: '1234567891',
+    avatar: 'https://example.com/avatar.png',
+    refresh_token: '1234567891',
+  };
+
+  async seed(
+    tx: Omit<
+      PrismaClient,
+      '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+    >,
+  ): Promise<User[]> {
+    console.info('🧑‍💻 Seeding users...');
+
+    const users = await Promise.all([
+      tx.user.create({ data: this.standardUser }),
+    ]);
+
+    return users;
+  }
+}
 ```
+````
 
 ### .cursor/rules/rule-backend-tests.mdc
 
@@ -1774,16 +1807,12 @@ export class ProjectType {
 ./apps/backend/prisma/migrations/20250213043722_optional_user_fields/migration.sql
 ./apps/backend/prisma/migrations/20250213050058_user_roles
 ./apps/backend/prisma/migrations/20250213050058_user_roles/migration.sql
+./apps/backend/prisma/migrations/20250213063132_no_link_between_user_and_newsletter
+./apps/backend/prisma/migrations/20250213063132_no_link_between_user_and_newsletter/migration.sql
+./apps/backend/prisma/migrations/20250213063411_remove_user_id_from_newsletter
+./apps/backend/prisma/migrations/20250213063411_remove_user_id_from_newsletter/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
-./apps/backend/prisma/seed.ts
-./apps/backend/prisma/seeds
-./apps/backend/prisma/seeds/articles.seed.ts
-./apps/backend/prisma/seeds/emails.seed.ts
-./apps/backend/prisma/seeds/newsletters.seed.ts
-./apps/backend/prisma/seeds/projects.seed.ts
-./apps/backend/prisma/seeds/transactions.seed.ts
-./apps/backend/prisma/seeds/users.seed.ts
 ./apps/backend/src
 ./apps/backend/src/app.controller.spec.ts
 ./apps/backend/src/app.controller.ts
@@ -1807,7 +1836,12 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/auth/strategies/jwt.strategy.ts
 ./apps/backend/src/infrastructure/database
 ./apps/backend/src/infrastructure/database/seeds
-./apps/backend/src/infrastructure/database/seeds/users.seed.service.ts
+./apps/backend/src/infrastructure/database/seeds/articles.seed.ts
+./apps/backend/src/infrastructure/database/seeds/emails.seed.ts
+./apps/backend/src/infrastructure/database/seeds/newsletters.seed.ts
+./apps/backend/src/infrastructure/database/seeds/projects.seed.ts
+./apps/backend/src/infrastructure/database/seeds/transactions.seed.ts
+./apps/backend/src/infrastructure/database/seeds/users.seed.ts
 ./apps/backend/src/infrastructure/database/seeds.bootstrap.ts
 ./apps/backend/src/infrastructure/database/seeds.command.ts
 ./apps/backend/src/infrastructure/database/seeds.module.ts
@@ -2076,7 +2110,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-108 directories, 309 files
+109 directories, 309 files
 ```
 
-2025-02-13 07:11:40
+2025-02-13 07:35:40
