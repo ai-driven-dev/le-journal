@@ -2,17 +2,18 @@
 description: Backend repositories
 globs: apps/backend/**/*.ts
 ---
-- repository must have its interface.
-- always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
-- type with Model.Property instead of primitive if possible (e.g. `email: string` -> `email: User['email']`)
+- Repository implements its interface.
+- Always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
+- Type with `Model.Property` instead of primitive if possible (e.g. `email: string` -> `email: User['email']`).
+- Wrap db calls in Prisma Transactions if necessary.
 
 Example usage in controller/use-case:
 ```typescript
-  constructor(
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository,
-    private readonly userMapper: UserMapper,
-  ) {}
+constructor(
+  @Inject(USER_REPOSITORY)
+  private readonly userRepository: UserRepository,
+  private readonly userMapper: UserMapper,
+) {}
 ```
 
 Example usage in modules:

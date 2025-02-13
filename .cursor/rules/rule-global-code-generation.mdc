@@ -2,19 +2,16 @@
 description: Global : Code generation
 globs: **/*.ts, **/*.tsx
 ---
-Language:
-- English for everything.
-- French only in UI (labels, texts...)
-
 Sharing code:
 - Place shared data types in `packages/shared-types`.
 - One file per type, export everything from [index.ts](mdc:packages/shared-types/src/index.ts).
 
 Simplified code:
-- Use explicit constants instead of magic numbers.
-- Write clear and simple conditions, avoid double negatives.
-- Prioritize readable variable names, even if long.
-- Simplify loops using map(), filter(), or reduce().
+- Force explicit constants instead of magic numbers.
+- Write clear and simple conditions.
+- No double negatives.
+- Prioritize readable variable names, even if longer.
+- Simplify loops using `map()`, `filter()`, or `reduce()`.
 
 Type safe code:
 - Always type function params and returns.
@@ -37,11 +34,10 @@ Comments:
 - Comments only for complex logic or interfaces.
 
 Forbidden:
-- Anemic models (avoid trivial getId/setId).
+- Anemic models (avoid trivial `getId`/`setId`).
 - Function names with no actions (avoid `setUsers`, prefer `loadUsers`). 
 - No interface prefix `IUser` or type suffix `UserType`. 
 
 Lint & Error
-- Follow @typescript-eslint/strict-boolean-expressions (avoid if(!obj)).
-- Catch errors with catch(error: unknown | Error).
-- On frontend, use apps/frontend/app/utils/api/error.ts to handle errors. 
+- Follow `@typescript-eslint/strict-boolean-expressions` (avoid `if(!obj)`, prefer `if (obj === undefined)`).
+- Type errors with `catch(error: unknown | Error)`.

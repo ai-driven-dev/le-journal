@@ -1,10 +1,11 @@
 ---
-description: Backend global code, always keep in mind
+description: Backend rules
 globs: apps/backend/**/*.ts
 ---
-- Libs: NestJS 11, RxJS 8 mandatory.
+- Libs: NestJS 11, RxJS 7.8, Node 22.
 - NestJS good pratices must be checked.
-- Throw exception early with descriptive names and params.
+- RxJS must be used at its best.
+- Throw exception early with meaning descriptions, names or params.
 - Create custom exceptions when domain specific.
 - Focus on domain logic.
 - Focus on DDD and Clean Architecture.

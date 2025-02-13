@@ -1,7 +1,6 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, catchError, finalize } from 'rxjs';
 
 import { AppLogger } from '../logger/logger.service';
 
@@ -27,18 +26,28 @@ export class LoggingInterceptor implements NestInterceptor {
       },
     });
 
-    // Utilisation de la nouvelle syntaxe d'observer
+    // TODO check that in logs.
     return next.handle().pipe(
-      tap((value) => {
-        this.logger.log('Request completed', {
+      catchError((err) => {
+        this.logger.error('Request failed', {
+          service: className,
+          method: methodName,
+          error: err.message,
+        });
+        throw err;
+      }),
+      finalize(() => {
+        this.logger.debug('Request stream completed', {
           service: className,
           method: methodName,
           metadata: {
             path: request.url,
             method: request.method,
+            params: request.params,
+            query: request.query,
+            body: request.body,
           },
         });
-        return value;
       }),
     );
   }
