@@ -8,31 +8,23 @@ import { UserRepository } from '../domain/user.repository.interface';
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findByEmail(email: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: { email },
-    });
-  }
-
   async findAll(): Promise<User[]> {
     return this.prisma.user.findMany();
   }
 
-  async findByEmailOrGoogleId(email: string, googleId: string): Promise<User | null> {
+  async findByEmailOrGoogleId(
+    emailOrGoogleId: User['email'] | User['google_id'],
+  ): Promise<User | null> {
     return this.prisma.user.findFirst({
-      where: { OR: [{ email }, { google_id: googleId }] },
+      where: {
+        OR: [{ email: emailOrGoogleId }, { google_id: emailOrGoogleId }],
+      },
     });
   }
 
-  async findById(id: string): Promise<User | null> {
+  async findById(id: User['id']): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { id },
-    });
-  }
-
-  async findByGoogleId(googleId: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: { google_id: googleId },
     });
   }
 

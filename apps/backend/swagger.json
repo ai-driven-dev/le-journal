@@ -439,28 +439,28 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "ID unique de l'email",
+            "description": "Unique email ID",
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           "subject": {
             "type": "string",
-            "description": "Sujet de l'email",
-            "example": "Newsletter #42 - Les dernières actualités tech"
+            "description": "Email subject",
+            "example": "Newsletter #42 - Latest tech news"
           },
           "content": {
             "type": "string",
-            "description": "Contenu brut de l'email",
-            "example": "Contenu de l'email au format texte..."
+            "description": "Raw email content",
+            "example": "Email content in text format..."
           },
           "receivedAt": {
             "format": "date-time",
             "type": "string",
-            "description": "Date de réception de l'email",
+            "description": "Email received date",
             "example": "2024-03-20T10:00:00Z"
           },
           "status": {
             "type": "string",
-            "description": "Statut de traitement de l'email",
+            "description": "Email processing status",
             "enum": [
               "RECEIVED",
               "PROCESSED",
@@ -469,7 +469,7 @@
             "example": "RECEIVED"
           },
           "articles": {
-            "description": "Articles associés à l'email",
+            "description": "Articles associated with the email",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ArticleDomain"

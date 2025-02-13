@@ -5,38 +5,38 @@ import { ArticleDomain } from './article.domain';
 
 export class EmailDomain extends Email {
   @ApiProperty({
-    description: "ID unique de l'email",
+    description: 'Unique email ID',
     example: '123e4567-e89b-12d3-a456-426614174000',
   })
   id!: string;
 
   @ApiProperty({
-    description: "Sujet de l'email",
-    example: 'Newsletter #42 - Les dernières actualités tech',
+    description: 'Email subject',
+    example: 'Newsletter #42 - Latest tech news',
   })
   subject!: string;
 
   @ApiProperty({
-    description: "Contenu brut de l'email",
-    example: "Contenu de l'email au format texte...",
+    description: 'Raw email content',
+    example: 'Email content in text format...',
   })
   content!: string;
 
   @ApiProperty({
-    description: "Date de réception de l'email",
+    description: 'Email received date',
     example: '2024-03-20T10:00:00Z',
   })
   receivedAt!: Date;
 
   @ApiProperty({
-    description: "Statut de traitement de l'email",
+    description: 'Email processing status',
     enum: EmailStatus,
     example: 'RECEIVED',
   })
   status!: EmailStatus;
 
   @ApiProperty({
-    description: "Articles associés à l'email",
+    description: 'Articles associated with the email',
     type: [ArticleDomain],
   })
   articles!: ArticleDomain[];

@@ -13,7 +13,7 @@ export class FindUserUseCase {
   ) {}
 
   async execute(googleId: string): Promise<UserDomain | null> {
-    const user = await this.userRepository.findByGoogleId(googleId);
+    const user = await this.userRepository.findByEmailOrGoogleId(googleId);
 
     if (user === null) {
       return null;

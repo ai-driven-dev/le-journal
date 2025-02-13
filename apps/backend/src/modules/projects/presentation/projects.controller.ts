@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { User } from '@prisma/client';
 
 import { GetProjectUseCase } from '../application/get-project.use-case';
 import { UpdateProjectPromptUseCase } from '../application/update-project-prompt.use-case';
@@ -8,6 +9,7 @@ import { ProjectUpdate } from '../domain/project-update';
 
 import { ProjectMapper } from './project.mapper';
 
+import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
 import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
 
 @ApiTags('Projects')
@@ -25,9 +27,11 @@ export class ProjectsController {
   @ApiOperation({ summary: "Récupérer le projet de l'utilisateur" })
   @ApiQuery({ name: 'projectNumber', required: false, type: Number, default: 1 })
   @ApiResponse({ status: 200, type: ProjectDomain })
-  async getProject(@Query('projectNumber') projectNumber: number): Promise<ProjectDomain[]> {
-    const userId = '1'; // TODO: à remplacer par l'id de l'utilisateur
-    const projects = await this.getProjectUseCase.execute(userId, projectNumber);
+  async getProject(
+    @Query('projectNumber') projectNumber: number,
+    @GetUser() user: User,
+  ): Promise<ProjectDomain[]> {
+    const projects = await this.getProjectUseCase.execute(user.id, projectNumber);
 
     return projects.map(this.projectMapper.toDomain);
   }
@@ -38,6 +42,7 @@ export class ProjectsController {
   async updateProjectPrompt(
     @Body()
     updateProjectPromptDto: ProjectUpdate,
+    @GetUser() user: User,
   ): Promise<ProjectUpdate> {
     const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
 

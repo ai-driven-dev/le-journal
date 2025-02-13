@@ -11,7 +11,7 @@ export class UserMapper implements Mapper<UserDomain, UserModel> {
     return {
       id: user.id,
       email: user.email,
-      name: user.name ?? '', // todo
+      name: user.name,
       createdAt: user.created_at,
       updatedAt: user.updated_at,
       avatar: user.avatar ?? '', // todo

@@ -40,7 +40,8 @@
 
 - envoyer toutes les règles dans o1 et s'assurer que les règles sont ok avec DDD et clean archi
 
-- [ ] Auth Google refactoring
+- [ ] Refresh Token avec Google ?
+- [x] Auth Google refactoring
 - [ ] Rules
 - [ ] Seed ok
 - [x] Auth Ok avec utilisateur connecté sur le front

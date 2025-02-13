@@ -1,4 +1,4 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsOptional, IsString, validateSync } from 'class-validator';
 import { Profile } from 'passport-google-oauth20';
 
 export class GoogleProfileDto {
@@ -29,5 +29,12 @@ export class GoogleProfileDto {
     this.avatar = avatar;
     this.googleId = googleId;
     this.refreshToken = refreshToken;
+
+    const errors = validateSync(this);
+
+    if (Array.isArray(errors) && errors.length > 0) {
+      console.error('Invalid Google profile', errors);
+      // throw new Error('Invalid Google profile');
+    }
   }
 }

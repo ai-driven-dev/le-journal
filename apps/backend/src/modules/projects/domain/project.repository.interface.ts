@@ -1,18 +1,17 @@
 import type { Project } from '@prisma/client';
 
+import type { ProjectCreateDomain } from './project-create';
+
 export const PROJECT_REPOSITORY = 'PROJECT_REPOSITORY';
 
 export interface ProjectRepository {
-  create(data: {
-    userId: string;
-    name: string;
-    slug: string;
-    newsletterAlias: string;
-    projectNumber: number;
-  }): Promise<Project>;
-  findById(id: string): Promise<Project | null>;
-  findBySlug(slug: string): Promise<Project | null>;
-  findByUserId(userId: string): Promise<Project[]>;
-  findByUserIdAndProjectNumber(userId: string, projectNumber: number): Promise<Project[]>;
-  update(id: string, data: Partial<Project>): Promise<Project>;
+  create(data: ProjectCreateDomain): Promise<Project>;
+  findById(id: Project['id']): Promise<Project | null>;
+  findBySlug(user_id: Project['user_id'], slug: Project['slug']): Promise<Project | null>;
+  findByUserId(userId: Project['user_id']): Promise<Project[]>;
+  findByUserIdAndProjectNumber(
+    userId: Project['user_id'],
+    projectNumber: Project['project_number'],
+  ): Promise<Project[]>;
+  update(id: Project['id'], data: Partial<Project>): Promise<Project>;
 }
