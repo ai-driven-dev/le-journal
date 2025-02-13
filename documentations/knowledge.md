@@ -1,5 +1,5 @@
 ---
-date: 2025-02-13 10:14:11
+date: 2025-02-13 12:10:59
 ---
 
 # Project Specifications "Knowledge Base"
@@ -798,6 +798,7 @@ model Project {
   slug              String
   newsletter_alias  String   @unique @map("newsletter_alias")
   prompt_instruction String   @default("") @db.Text @map("prompt_instruction")
+  last_prompt_update DateTime? @map("last_prompt_update")
   created_at        DateTime @default(now()) @map("created_at")
 
   user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -1820,6 +1821,8 @@ export class ProjectType {
 ./apps/backend/prisma/migrations/20250213063132_no_link_between_user_and_newsletter/migration.sql
 ./apps/backend/prisma/migrations/20250213063411_remove_user_id_from_newsletter
 ./apps/backend/prisma/migrations/20250213063411_remove_user_id_from_newsletter/migration.sql
+./apps/backend/prisma/migrations/20250213103910_add_last_prompt_update
+./apps/backend/prisma/migrations/20250213103910_add_last_prompt_update/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/src
@@ -2080,6 +2083,7 @@ export class ProjectType {
 ./documentations/instructions/in-progress/.gitkeep
 ./documentations/instructions/in-progress/auth-google.md
 ./documentations/instructions/in-progress/form-and-security.md
+./documentations/instructions/in-progress/limite-prompt-update.md
 ./documentations/instructions/todo
 ./documentations/instructions/todo/.gitkeep
 ./documentations/instructions/todo/event-and-async.md
@@ -2119,7 +2123,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-109 directories, 309 files
+110 directories, 311 files
 ```
 
-2025-02-13 10:14:11
+2025-02-13 12:10:59
