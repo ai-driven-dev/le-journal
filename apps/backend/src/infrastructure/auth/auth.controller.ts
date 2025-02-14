@@ -3,49 +3,71 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 import { Profile } from 'passport-google-oauth20';
 
+import { GoogleAuthProfile } from './auth.dto';
 import { AuthService } from './auth.service';
-import { GoogleProfileDto } from './google-profile.dto';
-import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { GoogleAuthGuardFull } from './guards/google-auth-full.guard';
+import { GoogleAuthGuardReadonly } from './guards/google-auth-readonly.guard';
+
+import { isProduction } from 'src/main.env';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOperation({ summary: 'Initiate Google OAuth login' })
-  @Get('google')
-  @UseGuards(GoogleAuthGuard)
-  async googleAuth(): Promise<void> {
-    // Guard redirects to Google
-    // Handled by GoogleStrategy
-    // Do not touch
-  }
+  @ApiOperation({ summary: 'Initial Google OAuth login -- full scope' })
+  @Get('google/full')
+  @UseGuards(GoogleAuthGuardFull)
+  async googleAuthFull(): Promise<void> {}
 
-  @ApiOperation({ summary: 'Handle Google OAuth callback' })
-  @ApiResponse({ status: 302, description: 'Redirect to frontend with JWT cookie' })
-  @Get('google/callback')
-  @UseGuards(GoogleAuthGuard)
-  async googleAuthCallback(
+  @ApiOperation({ summary: 'Afterwards Google OAuth login -- readonly scope' })
+  @Get('google/readonly')
+  @UseGuards(GoogleAuthGuardReadonly)
+  async googleAuthReadonly(): Promise<void> {}
+
+  @ApiOperation({ summary: 'Full scope Google OAuth callback' })
+  @ApiResponse({ status: 302, description: 'Redirect to step 3 of onboarding' })
+  @Get('google/callback/full')
+  @UseGuards(GoogleAuthGuardFull)
+  async googleAuthCallbackFull(
     @Req() req: Request & { user: Profile & { refreshToken: string } },
     @Res() res: Response,
   ): Promise<void> {
     const { jwt } = await this.authService.handleGoogleAuth(
-      req.user as unknown as GoogleProfileDto,
+      req.user as unknown as GoogleAuthProfile,
     );
 
     // Set JWT token in cookie
     res.cookie('access_token', jwt, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: isProduction,
       sameSite: 'lax',
     });
 
-    if (process.env.FRONTEND_URL === undefined) {
-      throw new Error('FRONTEND_URL is not defined');
-    }
-
     // Redirect to frontend
-    res.redirect(process.env.FRONTEND_URL);
+    res.redirect(process.env.FRONTEND_URL + '/onboarding/setup');
+  }
+
+  @ApiOperation({ summary: 'Readonly scope Google OAuth callback' })
+  @ApiResponse({ status: 302, description: 'Redirect to step 3 of onboarding' })
+  @Get('google/callback/readonly')
+  @UseGuards(GoogleAuthGuardReadonly)
+  async googleAuthCallbackReadonly(
+    @Req() req: Request & { user: Profile & { refreshToken: string } },
+    @Res() res: Response,
+  ): Promise<void> {
+    const { jwt } = await this.authService.handleGoogleAuth(
+      req.user as unknown as GoogleAuthProfile,
+    );
+
+    // Set JWT token in cookie
+    res.cookie('access_token', jwt, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: 'lax',
+    });
+
+    res.redirect(process.env.FRONTEND_URL + '/onboarding/finish');
   }
 
   @ApiOperation({ summary: 'Logout user' })

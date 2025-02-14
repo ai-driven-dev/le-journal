@@ -174,31 +174,61 @@
         ]
       }
     },
-    "/auth/google": {
+    "/auth/google/full": {
       "get": {
-        "operationId": "AuthController_googleAuth",
+        "operationId": "AuthController_googleAuthFull",
         "parameters": [],
         "responses": {
           "200": {
             "description": ""
           }
         },
-        "summary": "Initiate Google OAuth login",
+        "summary": "Initial Google OAuth login -- full scope",
         "tags": [
           "Authentication"
         ]
       }
     },
-    "/auth/google/callback": {
+    "/auth/google/readonly": {
       "get": {
-        "operationId": "AuthController_googleAuthCallback",
+        "operationId": "AuthController_googleAuthReadonly",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Afterwards Google OAuth login -- readonly scope",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/auth/google/callback/full": {
+      "get": {
+        "operationId": "AuthController_googleAuthCallbackFull",
         "parameters": [],
         "responses": {
           "302": {
-            "description": "Redirect to frontend with JWT cookie"
+            "description": "Redirect to step 3 of onboarding"
           }
         },
-        "summary": "Handle Google OAuth callback",
+        "summary": "Full scope Google OAuth callback",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/auth/google/callback/readonly": {
+      "get": {
+        "operationId": "AuthController_googleAuthCallbackReadonly",
+        "parameters": [],
+        "responses": {
+          "302": {
+            "description": "Redirect to step 3 of onboarding"
+          }
+        },
+        "summary": "Readonly scope Google OAuth callback",
         "tags": [
           "Authentication"
         ]
@@ -243,39 +273,49 @@
           "id": {
             "type": "string",
             "example": "c123e456-789b-12d3-a456-426614174000",
-            "description": "ID de l'utilisateur"
+            "description": "User's ID"
           },
           "email": {
             "type": "string",
             "example": "john.doe@email.com",
-            "description": "Email de l'utilisateur"
+            "description": "User's email"
           },
           "role": {
             "type": "string",
             "example": "ADMIN",
-            "description": "Rôle de l'utilisateur"
+            "description": "User's role"
           },
           "name": {
             "type": "string",
             "example": "John Doe",
-            "description": "Nom de l'utilisateur"
+            "description": "User's name"
           },
           "createdAt": {
             "format": "date-time",
             "type": "string",
             "example": "2024-02-08T12:00:00.000Z",
-            "description": "Date de création"
+            "description": "Creation date"
           },
           "updatedAt": {
             "format": "date-time",
             "type": "string",
             "example": "2024-02-09T14:30:00.000Z",
-            "description": "Date de mise à jour"
+            "description": "Last update date"
+          },
+          "onboardingStartedAt": {
+            "type": "object",
+            "example": "2024-02-08T12:00:00.000Z",
+            "description": "Onboarding started date"
+          },
+          "onboardingCompletedAt": {
+            "type": "object",
+            "example": "2024-02-09T14:30:00.000Z",
+            "description": "Onboarding completion date"
           },
           "avatar": {
             "type": "string",
             "example": "https://example.com/avatar.png",
-            "description": "Avatar de l'utilisateur"
+            "description": "User's avatar URL"
           }
         },
         "required": [
@@ -285,6 +325,8 @@
           "name",
           "createdAt",
           "updatedAt",
+          "onboardingStartedAt",
+          "onboardingCompletedAt",
           "avatar"
         ]
       },

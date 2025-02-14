@@ -7,7 +7,7 @@ import { UsersModule } from '../../modules/users/users.module';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { GoogleStrategy } from './strategies/google.strategy';
+import { GoogleStrategy } from './strategies/google-full.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 import { PrismaModule } from 'src/prisma/prisma.module';

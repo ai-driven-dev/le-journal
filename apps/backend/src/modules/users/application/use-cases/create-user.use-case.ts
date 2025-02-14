@@ -5,7 +5,7 @@ import { UserDomain } from '../../domain/user.domain';
 import { USER_REPOSITORY, UserRepository } from '../../domain/user.repository.interface';
 import { UserMapper } from '../../presentation/user.mapper';
 
-import { GoogleProfileDto } from 'src/infrastructure/auth/google-profile.dto';
+import { GoogleAuthProfile } from 'src/infrastructure/auth/auth.dto';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -15,7 +15,7 @@ export class CreateUserUseCase {
     private readonly userMapper: UserMapper,
   ) {}
 
-  async execute(profile: GoogleProfileDto): Promise<UserDomain> {
+  async execute(profile: GoogleAuthProfile): Promise<UserDomain> {
     const existingUser = await this.userRepository.findByEmailOrGoogleId(
       profile.email,
       profile.googleId,
@@ -26,7 +26,9 @@ export class CreateUserUseCase {
       user = await this.userRepository.updateUser(existingUser.id, {
         name: profile.name ?? existingUser.name ?? '',
         avatar: profile.avatar ?? existingUser.avatar ?? '',
-        refresh_token: profile.refreshToken,
+        google_refresh_token: profile.refreshToken,
+        google_scopes: profile.scopes,
+        updated_at: new Date(),
       });
     } else {
       user = await this.userRepository.createUser({
@@ -34,7 +36,11 @@ export class CreateUserUseCase {
         name: profile.name ?? '',
         avatar: profile.avatar ?? '',
         google_id: profile.googleId,
-        refresh_token: profile.refreshToken,
+        google_refresh_token: profile.refreshToken,
+        google_scopes: profile.scopes,
+        created_at: new Date(),
+        updated_at: new Date(),
+        onboarding_started_at: new Date(),
       });
     }
 

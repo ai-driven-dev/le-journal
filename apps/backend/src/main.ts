@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
 import { AppLogger } from './infrastructure/logger/logger.service';
+import { checkEnv } from './main.env';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
@@ -47,11 +48,7 @@ async function bootstrap(): Promise<void> {
   // Cookie parser for authentication
   app.use(cookieParser());
 
-  if (process.env.FRONTEND_URL === undefined) {
-    throw new Error(
-      `FRONTEND_URL is not defined, please set it in your environment variables. Current value: ${process.env.FRONTEND_URL}`,
-    );
-  }
+  checkEnv();
 
   // API
   app.enableCors({
