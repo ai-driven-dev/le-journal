@@ -21,7 +21,6 @@ export class CustomInstructionsStore
   }
 
   init = (project: ProjectPromptInstructions): void => {
-    console.info('init', project);
     runInAction(() => {
       this.state = project;
       this.isLoading = false;
@@ -86,21 +85,19 @@ export class CustomInstructionsStore
     return this.state?.canUpdatePrompt ?? false;
   }
 
-  get lastPromptUpdate(): string | null {
-    if (this.state?.lastPromptUpdate instanceof Date) {
-      return this.state.lastPromptUpdate.toLocaleDateString() ?? null;
-    }
-
-    return null;
-  }
-
   get canUpdatePromptLabel(): string {
     if (this.canUpdatePrompt) {
       return "Aujourd'hui, vous pouvez modifier vos instructions.";
     }
 
-    if (this.lastPromptUpdate !== null) {
-      return `Dernière modification le ${this.lastPromptUpdate}`;
+    if (this.state !== null && this.state.lastPromptUpdate !== null) {
+      const modifiedDate = this.state.lastPromptUpdate.toLocaleDateString();
+      const modifiedTime = this.state.lastPromptUpdate.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+
+      return `Dernière modification le ${modifiedDate} à ${modifiedTime}.`;
     }
 
     return 'Pas encore de modification';

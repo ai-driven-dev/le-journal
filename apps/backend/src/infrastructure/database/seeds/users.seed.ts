@@ -11,7 +11,8 @@ export class UsersSeed {
     role: 'REGULAR',
     google_id: '1234567891',
     avatar: 'https://example.com/avatar.png',
-    refresh_token: '1234567891',
+    google_refresh_token: '1234567891',
+    google_scopes: ['email', 'profile', 'openid'],
   };
 
   private readonly adminUser: Prisma.UserCreateInput = {
@@ -20,7 +21,8 @@ export class UsersSeed {
     role: 'ADMIN',
     google_id: '1234567892',
     avatar: 'https://example.com/avatar.png',
-    refresh_token: '1234567892',
+    google_refresh_token: '1234567892',
+    google_scopes: ['email', 'profile', 'openid'],
   };
 
   private readonly premiumUser: Prisma.UserCreateInput = {
@@ -29,7 +31,8 @@ export class UsersSeed {
     role: 'PREMIUM',
     google_id: '1234567893',
     avatar: 'https://example.com/avatar.png',
-    refresh_token: '1234567893',
+    google_refresh_token: '1234567893',
+    google_scopes: ['email', 'profile', 'openid'],
   };
 
   async seed(

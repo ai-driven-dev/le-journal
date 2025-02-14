@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { GoogleProfileDto } from './google-profile.dto';
+import { GoogleAuthProfile } from './auth.dto';
 
 import { CreateUserUseCase } from 'src/modules/users/application/use-cases/create-user.use-case';
 import { UserDomain } from 'src/modules/users/domain/user.domain';
@@ -14,25 +14,11 @@ export class AuthService {
   ) {}
 
   async handleGoogleAuth(
-    googleProfile: GoogleProfileDto,
+    googleProfile: GoogleAuthProfile,
   ): Promise<{ jwt: string; user: UserDomain }> {
-    const { email, name, avatar, googleId, refreshToken } = googleProfile;
-
-    let user;
-    try {
-      user = await this.createUserUseCase.execute({
-        email,
-        name,
-        avatar,
-        googleId,
-        refreshToken,
-      });
-    } catch (error) {
-      console.error('Failed to create user:', error);
-      throw error;
-    }
-
+    const user = await this.createUserUseCase.execute(googleProfile);
     const jwt = this.generateToken(user);
+
     return { jwt, user };
   }
 

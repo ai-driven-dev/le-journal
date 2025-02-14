@@ -21,8 +21,11 @@ export class UserMapper implements Mapper<UserDomain, UserModel> {
       name: user.name,
       createdAt: user.created_at,
       updatedAt: user.updated_at,
+      onboardingStartedAt: user.onboarding_started_at ?? null,
+      onboardingCompletedAt: user.onboarding_completed_at ?? null,
       avatar: user.avatar ?? '', // todo
-      refreshToken: user.refresh_token ?? '',
+      googleRefreshToken: user.google_refresh_token ?? '',
+      googleScopes: user.google_scopes ?? [],
       role,
     };
   }
@@ -32,11 +35,14 @@ export class UserMapper implements Mapper<UserDomain, UserModel> {
       id: user.id,
       email: user.email,
       name: user.name,
-      refresh_token: user.refreshToken,
+      google_refresh_token: user.googleRefreshToken,
+      google_scopes: user.googleScopes,
       avatar: user.avatar,
       created_at: user.createdAt,
       updated_at: user.updatedAt,
       role: user.role,
+      onboarding_started_at: user.onboardingStartedAt ?? null,
+      onboarding_completed_at: user.onboardingCompletedAt ?? null,
     };
   }
 }

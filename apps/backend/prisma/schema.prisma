@@ -68,11 +68,17 @@ model User {
   email      String   @unique
   name       String
   role       UserRole @default(REGULAR) @map("role")
-  google_id  String  @unique @map("google_id")
   avatar     String?
-  refresh_token String?   @map("refresh_token")
+
+  google_id  String  @unique @map("google_id")
+  google_scopes String[] @map("google_scopes") @default([])
+  google_refresh_token String?   @map("google_refresh_token")
+  
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
+  
+  onboarding_started_at DateTime? @map("onboarding_started_at")
+  onboarding_completed_at DateTime? @map("onboarding_completed_at")
 
   // Relations
   projects     Project[]
