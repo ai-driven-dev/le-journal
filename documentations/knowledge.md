@@ -1,5 +1,5 @@
 ---
-date: 2025-02-14 07:06:35
+date: 2025-02-14 08:11:34
 ---
 
 # Project Specifications "Knowledge Base"
@@ -776,11 +776,17 @@ model User {
   email      String   @unique
   name       String
   role       UserRole @default(REGULAR) @map("role")
-  google_id  String  @unique @map("google_id")
   avatar     String?
-  refresh_token String?   @map("refresh_token")
+
+  google_id  String  @unique @map("google_id")
+  google_scopes String[] @map("google_scopes") @default([])
+  google_refresh_token String?   @map("google_refresh_token")
+
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
+
+  onboarding_started_at DateTime? @map("onboarding_started_at")
+  onboarding_completed_at DateTime? @map("onboarding_completed_at")
 
   // Relations
   projects     Project[]
@@ -1824,6 +1830,14 @@ export class ProjectType {
 ./apps/backend/prisma/migrations/20250213063411_remove_user_id_from_newsletter/migration.sql
 ./apps/backend/prisma/migrations/20250213103910_add_last_prompt_update
 ./apps/backend/prisma/migrations/20250213103910_add_last_prompt_update/migration.sql
+./apps/backend/prisma/migrations/20250214062015_google_auth_scopes
+./apps/backend/prisma/migrations/20250214062015_google_auth_scopes/migration.sql
+./apps/backend/prisma/migrations/20250214062237_rename_google_info_with_prefix
+./apps/backend/prisma/migrations/20250214062237_rename_google_info_with_prefix/migration.sql
+./apps/backend/prisma/migrations/20250214063158_scope_typo
+./apps/backend/prisma/migrations/20250214063158_scope_typo/migration.sql
+./apps/backend/prisma/migrations/20250214063239_onboarding_typo
+./apps/backend/prisma/migrations/20250214063239_onboarding_typo/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/src
@@ -1836,16 +1850,19 @@ export class ProjectType {
 ./apps/backend/src/infrastructure
 ./apps/backend/src/infrastructure/auth
 ./apps/backend/src/infrastructure/auth/auth.controller.ts
+./apps/backend/src/infrastructure/auth/auth.dto.ts
+./apps/backend/src/infrastructure/auth/auth.exceptions.ts
 ./apps/backend/src/infrastructure/auth/auth.module.ts
 ./apps/backend/src/infrastructure/auth/auth.service.ts
 ./apps/backend/src/infrastructure/auth/decorators
 ./apps/backend/src/infrastructure/auth/decorators/get-user.decorator.ts
-./apps/backend/src/infrastructure/auth/google-profile.dto.ts
 ./apps/backend/src/infrastructure/auth/guards
-./apps/backend/src/infrastructure/auth/guards/google-auth.guard.ts
+./apps/backend/src/infrastructure/auth/guards/google-auth-full.guard.ts
+./apps/backend/src/infrastructure/auth/guards/google-auth-readonly.guard.ts
 ./apps/backend/src/infrastructure/auth/guards/jwt.guard.ts
 ./apps/backend/src/infrastructure/auth/strategies
-./apps/backend/src/infrastructure/auth/strategies/google.strategy.ts
+./apps/backend/src/infrastructure/auth/strategies/google-full.strategy.ts
+./apps/backend/src/infrastructure/auth/strategies/google-readonly.strategy.ts
 ./apps/backend/src/infrastructure/auth/strategies/jwt.strategy.ts
 ./apps/backend/src/infrastructure/database
 ./apps/backend/src/infrastructure/database/seeds
@@ -1869,6 +1886,7 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/logger/logger.service.ts
 ./apps/backend/src/infrastructure/logger/logger.type.ts
 ./apps/backend/src/main-cli.ts
+./apps/backend/src/main.env.ts
 ./apps/backend/src/main.ts
 ./apps/backend/src/modules
 ./apps/backend/src/modules/newsletter
@@ -2017,7 +2035,8 @@ export class ProjectType {
 ./apps/frontend/app/features/onboarding/components/steps/StepWelcome.tsx
 ./apps/frontend/app/features/onboarding/components/steps/index.ts
 ./apps/frontend/app/features/onboarding/stores
-./apps/frontend/app/features/onboarding/stores/onboardingStore.ts
+./apps/frontend/app/features/onboarding/stores/onboardingNavigationStore.ts
+./apps/frontend/app/features/onboarding/stores/onboardingSetupStore.ts
 ./apps/frontend/app/hooks
 ./apps/frontend/app/hooks/use-mobile.tsx
 ./apps/frontend/app/hooks/use-toast.ts
@@ -2124,7 +2143,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-110 directories, 311 files
+114 directories, 320 files
 ```
 
-2025-02-14 07:06:35
+2025-02-14 08:11:34
