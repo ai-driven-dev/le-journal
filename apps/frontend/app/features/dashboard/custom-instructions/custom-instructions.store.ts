@@ -8,7 +8,9 @@ import type { Loadable } from '~/interfaces/loadable.interface';
 import { clientFetch } from '~/lib/api-fetcher.client';
 import { verify } from '~/lib/validator';
 
-export class CustomInstructionsStore implements CustomInstructions, Loadable<ProjectPromptInstructions> {
+export class CustomInstructionsStore
+  implements CustomInstructions, Loadable<ProjectPromptInstructions>
+{
   state: ProjectPromptInstructions | null = null;
 
   isDialogOpen = false;
