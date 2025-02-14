@@ -35,13 +35,3 @@
 • 🔄 Implémenter /auth/refresh pour renouveler un access token.
 • 💥 Ajouter des erreurs explicites dans JwtStrategy et AuthController.
 • ✔️ Vérifier FRONTEND_URL dès le chargement de l’application.
-
-- [x] Check Domain and types against prisma (name required in domain, not in prisma)
-
-- envoyer toutes les règles dans o1 et s'assurer que les règles sont ok avec DDD et clean archi
-
-- [ ] Refresh Token avec Google ?
-- [x] Auth Google refactoring
-- [ ] Rules
-- [x] Seed ok
-- [x] Auth Ok avec utilisateur connecté sur le front
