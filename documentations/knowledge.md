@@ -1,5 +1,5 @@
 ---
-date: 2025-02-13 12:10:59
+date: 2025-02-14 07:06:07
 ---
 
 # Project Specifications "Knowledge Base"
@@ -574,6 +574,7 @@ BREAKING CHANGE: new user database structure
     "mobx-react-lite": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "reflect-metadata": "^0.2.2",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2"
@@ -2126,4 +2127,4 @@ export class ProjectType {
 110 directories, 311 files
 ```
 
-2025-02-13 12:10:59
+2025-02-14 07:06:07
