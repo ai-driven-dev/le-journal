@@ -25,7 +25,7 @@ export class AuthStore {
         this.error = null;
       });
 
-      window.location.href = getAuthUrl();
+      window.location.href = getAuthUrl('full');
     } catch (error) {
       runInAction(() => {
         this.error = error as Error;

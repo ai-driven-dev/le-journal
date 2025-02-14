@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import {
   onboardingStore,
   type OnboardingStep,
-} from '../features/onboarding/stores/onboardingStore';
+} from '../features/onboarding/stores/onboardingNavigationStore';
 
 import { StepForm } from '~/features/onboarding/components/StepForm';
 

@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 
-import { onboardingStore } from '../stores/onboardingStore';
+import { onboardingStore } from '../stores/onboardingNavigationStore';
 
 export const StepProgression = observer(() => {
   return (
