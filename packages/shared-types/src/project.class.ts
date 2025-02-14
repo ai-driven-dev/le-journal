@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
@@ -44,6 +45,7 @@ export class Project {
 
   @IsDate()
   @IsOptional()
+  @Type(() => Date)
   lastPromptUpdate?: Date;
 
   @IsBoolean()
@@ -82,6 +84,7 @@ export class ProjectPromptInstructions {
   promptInstruction!: string;
 
   @IsDate()
+  @Type(() => Date)
   lastPromptUpdate: Date | null;
 
   @IsBoolean()

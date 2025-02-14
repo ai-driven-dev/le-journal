@@ -23,9 +23,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       scope: [
         'email',
         'profile',
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/userinfo.profile',
         'openid',
+        // Applying filters on emails, only on first connection
+        'https://www.googleapis.com/auth/gmail.modify',
+        'https://www.googleapis.com/auth/gmail.settings.basic',
       ],
     });
   }
