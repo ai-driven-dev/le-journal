@@ -1,9 +1,12 @@
-import type { Email, Newsletter, Project, User } from '@le-journal/shared-types';
+import type { Email, Newsletter, User } from '@le-journal/shared-types';
+import { Project } from '@le-journal/shared-types';
 import type { LoaderFunction } from '@remix-run/node';
+import { plainToInstance } from 'class-transformer';
 
 import { handleApiError } from '~/lib/api-error';
 import { API_ROUTES_GET } from '~/lib/api-fetcher';
 import { serverFetch } from '~/lib/api-fetcher.server';
+import { verify } from '~/lib/validator';
 
 export interface DashboardLoaderData {
   newsletters: Newsletter[];
@@ -64,12 +67,20 @@ export const loader: LoaderFunction = async ({ params, request }): Promise<Dashb
 
     const emails = await requests.emails();
 
-    return {
+    const project = projects[0];
+
+    verify(project);
+
+    const r = {
       newsletters,
       users,
-      projects,
+      projects: [plainToInstance(Project, project)],
       emails,
     };
+
+    console.info(JSON.stringify(r, null, 2));
+
+    return r;
   } catch (error: unknown) {
     handleApiError(error, "Une erreur inattendue s'est produite lors du chargement des données");
   }

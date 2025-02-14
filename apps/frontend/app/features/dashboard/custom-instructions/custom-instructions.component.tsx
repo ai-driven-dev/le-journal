@@ -19,10 +19,6 @@ export const CustomInstructions: FC = observer(() => {
   if (state === null || store.isLoading === true) {
     return <Skeleton className="h-[200px]" />;
   }
-  const lastUpdateText =
-    store.lastPromptUpdate !== null
-      ? `Dernière modification le ${store.lastPromptUpdate} à ${store.lastPromptUpdate}`
-      : 'Pas encore de modification';
 
   return (
     <div className="mt-auto sticky bottom-0 bg-white border-t p-4">
@@ -41,7 +37,7 @@ export const CustomInstructions: FC = observer(() => {
                   <span
                     className={`text-xs ${state.canUpdatePrompt === true ? 'text-green-600' : 'text-red-600'}`}
                   >
-                    {lastUpdateText}
+                    {store.canUpdatePromptLabel}
                   </span>
                 </HoverCardTrigger>
                 <HoverCardContent>

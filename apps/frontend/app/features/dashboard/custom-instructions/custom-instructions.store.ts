@@ -6,7 +6,6 @@ import type { CustomInstructions } from './custom-instructions.type';
 import { toast } from '~/hooks/use-toast';
 import type { Loadable } from '~/interfaces/loadable.interface';
 import { clientFetch } from '~/lib/api-fetcher.client';
-import { verify } from '~/lib/validator';
 
 export class CustomInstructionsStore
   implements CustomInstructions, Loadable<ProjectPromptInstructions>
@@ -22,8 +21,7 @@ export class CustomInstructionsStore
   }
 
   init = (project: ProjectPromptInstructions): void => {
-    verify(project);
-
+    console.info('init', project);
     runInAction(() => {
       this.state = project;
       this.isLoading = false;
@@ -89,6 +87,22 @@ export class CustomInstructionsStore
   }
 
   get lastPromptUpdate(): string | null {
-    return this.state?.lastPromptUpdate?.toLocaleDateString() ?? null;
+    if (this.state?.lastPromptUpdate instanceof Date) {
+      return this.state.lastPromptUpdate.toLocaleDateString() ?? null;
+    }
+
+    return null;
+  }
+
+  get canUpdatePromptLabel(): string {
+    if (this.canUpdatePrompt) {
+      return "Aujourd'hui, vous pouvez modifier vos instructions.";
+    }
+
+    if (this.lastPromptUpdate !== null) {
+      return `Dernière modification le ${this.lastPromptUpdate}`;
+    }
+
+    return 'Pas encore de modification';
   }
 }
