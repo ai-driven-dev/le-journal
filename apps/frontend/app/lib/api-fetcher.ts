@@ -21,8 +21,11 @@ export const API_ROUTES_GET = {
   authLogout: 'auth/logout',
 } as const;
 
-export function getAuthUrl(): string {
-  const authUrl = import.meta.env.GOOGLE_REDIRECT_URI;
+export function getAuthUrl(scope: 'readonly' | 'full'): string {
+  const authUrl =
+    scope === 'readonly'
+      ? import.meta.env.GOOGLE_REDIRECT_URI_READONLY
+      : import.meta.env.GOOGLE_REDIRECT_URI_FULL;
 
   if (authUrl === undefined || authUrl === '') {
     throw new Error('GOOGLE_REDIRECT_URI environment variable is not set');

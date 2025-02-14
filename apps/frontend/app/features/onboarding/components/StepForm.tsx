@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import type { ComponentType } from 'react';
 
-import { onboardingStore, type OnboardingStep } from '../stores/onboardingStore';
+import { onboardingStore, type OnboardingStep } from '../stores/onboardingNavigationStore';
 
 import { StepNavigation } from './StepNavigation';
 import { StepProgression } from './StepProgression';

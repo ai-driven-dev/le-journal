@@ -1,7 +1,7 @@
 import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { onboardingStore } from '../stores/onboardingStore';
+import { onboardingStore } from '../stores/onboardingNavigationStore';
 
 export const StepNavigation = observer(() => {
   const { nextStep, previousStep, canNavigateBack, canNavigateForward, getStepLabel } =
@@ -15,11 +15,11 @@ export const StepNavigation = observer(() => {
 
   return (
     <div className="flex justify-between mt-8">
-      {canNavigateBack && (
+      {/* {canNavigateBack && (
         <Link to={previousLink} className="px-4 py-2 bg-gray-200 rounded">
           Précédent : {previousLabel}
         </Link>
-      )}
+      )} */}
 
       {canNavigateForward && (
         <Link to={nextLink} className="px-4 py-2 bg-blue-500 text-white rounded">
