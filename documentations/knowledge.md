@@ -1,5 +1,5 @@
 ---
-date: 2025-02-15 12:33:28
+date: 2025-02-15 15:59:23
 ---
 
 # Project Specifications "Knowledge Base"
@@ -650,6 +650,7 @@ BREAKING CHANGE: new user database structure
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.7",
     "@nestjs/swagger": "^11.0.3",
+    "@nestjs/throttler": "^6.4.0",
     "@types/cookie-parser": "^1.4.8",
     "@types/passport-google-oauth20": "^2.0.16",
     "@types/passport-jwt": "^4.0.1",
@@ -995,6 +996,14 @@ services:
       - '6379:6379'
     volumes:
       - redis_data:/data
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - '8081:8081'
 
   # For later :)
   # meilisearch:
@@ -1854,6 +1863,7 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/auth/auth.exceptions.ts
 ./apps/backend/src/infrastructure/auth/auth.module.ts
 ./apps/backend/src/infrastructure/auth/auth.service.ts
+./apps/backend/src/infrastructure/auth/auth.types.ts
 ./apps/backend/src/infrastructure/auth/decorators
 ./apps/backend/src/infrastructure/auth/decorators/get-user.decorator.ts
 ./apps/backend/src/infrastructure/auth/guards
@@ -1885,6 +1895,14 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/logger/logger.module.ts
 ./apps/backend/src/infrastructure/logger/logger.service.ts
 ./apps/backend/src/infrastructure/logger/logger.type.ts
+./apps/backend/src/infrastructure/redis
+./apps/backend/src/infrastructure/redis/redis.module.ts
+./apps/backend/src/infrastructure/redis/redis.repository.ts
+./apps/backend/src/infrastructure/redis/redis.service.ts
+./apps/backend/src/infrastructure/redis/redis.types.ts
+./apps/backend/src/infrastructure/redis/repositories
+./apps/backend/src/infrastructure/redis/repositories/user-token.repository.ts
+./apps/backend/src/infrastructure/redis/repositories/user.repository.ts
 ./apps/backend/src/main-cli.ts
 ./apps/backend/src/main.env.ts
 ./apps/backend/src/main.ts
@@ -1929,6 +1947,7 @@ export class ProjectType {
 ./apps/backend/src/modules/users/application/use-cases
 ./apps/backend/src/modules/users/application/use-cases/create-user.use-case.ts
 ./apps/backend/src/modules/users/application/use-cases/get-all-users.use-case.ts
+./apps/backend/src/modules/users/application/use-cases/get-user-by-id.use-case.ts
 ./apps/backend/src/modules/users/domain
 ./apps/backend/src/modules/users/domain/user.domain.ts
 ./apps/backend/src/modules/users/domain/user.repository.interface.ts
@@ -2056,6 +2075,7 @@ export class ProjectType {
 ./apps/frontend/app/routes/admin.tsx
 ./apps/frontend/app/routes/dashboard.$projectNumber.tsx
 ./apps/frontend/app/routes/dashboard.tsx
+./apps/frontend/app/routes/login.tsx
 ./apps/frontend/app/routes/onboarding.$step.tsx
 ./apps/frontend/app/routes/onboarding._index.tsx
 ./apps/frontend/app/routes/settings.tsx
@@ -2143,7 +2163,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-114 directories, 320 files
+116 directories, 329 files
 ```
 
-2025-02-15 12:33:29
+2025-02-15 15:59:23
