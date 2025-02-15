@@ -6,8 +6,9 @@ Si vous vous demandez comment je code 2x plus vite avec l'IA, une partie de la r
 
 ## Des questions ?
 
-- Notre Discord `AI-Driven-Dev` : <https://bit.ly/ai-driven-dev-groupe-prive>
-- Mon LinkedIn : <https://www.linkedin.com/in/alexandre-soyer/>
+- Discord `AI-Driven-Dev` : <https://bit.ly/ai-driven-dev-groupe-prive>
+- YouTube : <https://www.youtube.com/@alexsoyes>
+- LinkedIn : <https://www.linkedin.com/in/alexandre-soyer/>
 
 ## Pourquoi utiliser des règles ?
 
