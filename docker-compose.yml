@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:16-alpine
+    container_name: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -12,18 +13,25 @@ services:
 
   redis:
     image: redis:7-alpine
+    container_name: redis
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - app-network
 
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    restart: always
-    environment:
-      - REDIS_HOSTS=local:redis:6379
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: redisinsight
     ports:
-      - "8081:8081"
+      - "5540:5540"
+    volumes:
+      - redisinsight_data:/db
+    depends_on:
+      - redis
+    networks:
+      - app-network
 
   # For later :)
   # meilisearch:
@@ -38,4 +46,9 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  redisinsight_data:
   # meilisearch_data:
+
+networks:
+  app-network:
+    driver: bridge

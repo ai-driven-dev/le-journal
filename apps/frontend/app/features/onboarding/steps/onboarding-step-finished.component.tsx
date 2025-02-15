@@ -1,9 +1,13 @@
 import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
+import type { OnboardingStore } from '../stores/onboardingStore';
+
 import { buttonVariants } from '~/components/ui/button';
 
-export const OnboardingStepFinished = observer(() => {
+export const OnboardingStepFinished = observer(({ store }: { store: OnboardingStore }) => {
+  const { navigationStore } = store;
+
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Terminé !</h2>

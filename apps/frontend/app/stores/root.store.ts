@@ -16,7 +16,7 @@ export class GlobalStore {
 
   initOnboardingStore(): void {
     this._dashboardStore = null;
-    this._onboardingStore = new OnboardingStore();
+    this._onboardingStore = new OnboardingStore('welcome');
   }
 
   initDashboard(): void {

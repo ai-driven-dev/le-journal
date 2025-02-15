@@ -19,8 +19,6 @@ export class AuthStore {
   }
 
   async refreshAccessToken(): Promise<void> {
-    console.log('[Auth] Refresh access token');
-
     if (this.refreshPromise) {
       return this.refreshPromise;
     }
@@ -32,22 +30,22 @@ export class AuthStore {
           this.error = null;
         });
 
-        const res = await clientFetch(API_ROUTES_GET.authRefresh, 'GET');
+        try {
+          const res = await clientFetch(API_ROUTES_GET.authRefresh, 'GET');
+          const data = await res.json();
 
-        if (res.status === 401) {
-          console.warn('[Auth] Refresh token expiré, redirection vers /login');
-          this.accessToken = null;
+          runInAction(() => {
+            this.accessToken = data.accessToken;
+          });
+        } catch (error) {
+          console.warn('[Auth] Erreur lors du refresh token', error);
           window.location.href = '/login';
-          return;
+
+          runInAction(() => {
+            this.accessToken = null;
+            this.error = error as Error;
+          });
         }
-
-        const data = await res.json();
-
-        console.log('[Auth] Access token', data);
-
-        runInAction(() => {
-          this.accessToken = data.accessToken;
-        });
       } catch (error) {
         console.error('[Auth] Erreur lors du refresh token', error);
         runInAction(() => {
@@ -64,10 +62,6 @@ export class AuthStore {
     });
 
     return this.refreshPromise;
-  }
-  // Computed
-  get isAuthenticated(): boolean {
-    return this.user !== null;
   }
 
   async fetchWithAuth<T>(

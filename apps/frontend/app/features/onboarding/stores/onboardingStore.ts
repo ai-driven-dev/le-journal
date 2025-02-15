@@ -1,12 +1,14 @@
 import { makeAutoObservable } from 'mobx';
 
-import { OnboardingNavigationStore } from './onboardingNavigationStore';
+import type { OnboardingStep } from '../onboarding.types';
+
+import { OnboardingNavigationStore } from './onboarding-navigation.store';
 
 export class OnboardingStore {
   navigationStore: OnboardingNavigationStore;
 
-  constructor() {
+  constructor(private readonly currentStep: OnboardingStep) {
     makeAutoObservable(this);
-    this.navigationStore = new OnboardingNavigationStore();
+    this.navigationStore = new OnboardingNavigationStore(currentStep);
   }
 }

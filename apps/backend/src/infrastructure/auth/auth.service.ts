@@ -61,18 +61,7 @@ export class AuthService {
   }
 
   public async invalidateRefreshToken(res: Response): Promise<void> {
-    // res.clearCookie(ACCESS_TOKEN_KEY, {
-    //   httpOnly: isProduction,
-    //   secure: isProduction,
-    //   sameSite: 'none',
-    //   domain: getEnv('BACKEND_DOMAIN'),
-    // });
-    // res.clearCookie('refreshToken', {
-    //   httpOnly: isProduction,
-    //   secure: isProduction,
-    //   sameSite: 'none',
-    //   domain: getEnv('BACKEND_DOMAIN'),
-    // });
+    res.clearCookie(REFRESH_TOKEN_KEY);
   }
 
   public async isUserAuthenticated(req: Request): Promise<JwtPayload> {
