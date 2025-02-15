@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react-lite';
+
 import { Button } from '~/components/ui/button';
 
 export const StepSetup = observer(() => {

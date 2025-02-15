@@ -1,4 +1,4 @@
-export { StepFinish } from './StepFinish';
-export { StepPermissions } from './StepPermissions';
-export { StepSetup } from './StepSetup';
-export { StepWelcome } from './StepWelcome';
+export { StepFinish } from './Step4Finished';
+export { StepPermissions } from './Step2Permissions';
+export { StepSetup } from './Step3ResetupReadonly';
+export { StepWelcome } from './Step1Welcome';
