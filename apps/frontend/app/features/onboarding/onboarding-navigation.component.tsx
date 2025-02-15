@@ -1,11 +1,14 @@
 import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { onboardingStore } from '../stores/onboardingNavigationStore';
+import type { OnboardingStore } from './stores/onboardingStore';
 
-export const StepNavigation = observer(() => {
+
+export const StepNavigation = observer(({ store }: { store: OnboardingStore }) => {
+  const { navigationStore } = store;
+
   const { nextStep, previousStep, canNavigateBack, canNavigateForward, getStepLabel } =
-    onboardingStore;
+    navigationStore;
 
   const previousLink = `/onboarding/${previousStep}`;
   const nextLink = `/onboarding/${nextStep}`;

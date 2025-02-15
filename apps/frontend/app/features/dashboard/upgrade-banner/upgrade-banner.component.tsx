@@ -1,12 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
-import { useDashboardStores } from '../dashboard.context';
-
 import { Button } from '~/components/ui/button';
+import { useGlobalStore } from '~/stores/root.provider';
 
 export const UpgradeBanner: FC = observer(() => {
-  const { dashboardStore } = useDashboardStores();
+  const { dashboardStore } = useGlobalStore();
   const store = dashboardStore.upgradeBannerStore;
 
   if (!store.isVisible) {

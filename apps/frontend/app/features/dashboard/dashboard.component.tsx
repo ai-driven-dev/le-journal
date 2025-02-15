@@ -1,11 +1,9 @@
-import { Link, useLoaderData } from '@remix-run/react';
+import { Link } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 
 import { CustomInstructions } from './custom-instructions/custom-instructions.component';
-import { useDashboardStores } from './dashboard.context';
-import type { DashboardLoaderData } from './dashboard.loader';
 import { NewsletterTable } from './emails/emails.component';
 import { HeaderProfile } from './header-profile/header-profile.component';
 import { NewsletterSubscriptions } from './newsletter-subscriptions/newsletter-subscriptions.component';
@@ -22,36 +20,14 @@ import {
   SidebarProvider,
   SidebarRail,
 } from '~/components/ui/sidebar';
+import { useGlobalStore } from '~/stores/root.provider';
 
 export const Dashboard: FC = observer(() => {
-  const data = useLoaderData<DashboardLoaderData>();
-  const { dashboardStore } = useDashboardStores();
+  const { dashboardStore } = useGlobalStore();
 
   useEffect(() => {
-    if (data === null) {
-      return;
-    }
-
-    const { projects, newsletters, users, emails } = data;
-
-    // Optional data.
-    if (emails.length > 0) {
-      dashboardStore.emailsStore.loadEmails(emails);
-    }
-
-    const currentProject = projects[0];
-
-    // Required data.
-    dashboardStore.projectStore.init(currentProject);
-    dashboardStore.customInstructions.init({
-      id: currentProject.id,
-      promptInstruction: currentProject.promptInstruction,
-      lastPromptUpdate: currentProject.lastPromptUpdate ?? null,
-      canUpdatePrompt: currentProject.canUpdatePrompt,
-    });
-    dashboardStore.newslettersStore.loadNewsletters(newsletters);
-    dashboardStore.headerProfileStore.loadUserInfo(users[0]);
-  }, [dashboardStore, data]);
+    dashboardStore.init();
+  }, [dashboardStore]);
 
   return (
     <div className="container mx-auto px-4">

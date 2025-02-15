@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
-import { useDashboardStores } from '../dashboard.context';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
+import { useGlobalStore } from '~/stores/root.provider';
 
 export const ProjectEmailAlias: FC = observer(() => {
-  const { dashboardStore } = useDashboardStores();
+  const { dashboardStore } = useGlobalStore();
   const store = dashboardStore.projectStore;
 
   if (store.state === null) {

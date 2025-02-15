@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 
 import { GoogleInSign } from '~/features/auth/auth-button.component';
 
-export const StepSetup = observer(() => {
+export const OnboardingStepReadonly = observer(() => {
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Configuration</h2>

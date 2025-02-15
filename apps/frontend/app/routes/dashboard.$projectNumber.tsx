@@ -3,16 +3,14 @@ import type { FC } from 'react';
 
 import { Layout } from '~/components/Layout';
 import { Dashboard } from '~/features/dashboard/dashboard.component';
-import { DashboardProvider } from '~/features/dashboard/dashboard.context';
-
-export { loader } from '~/features/dashboard/dashboard.loader';
+import globalStore, { GlobalStoreContext } from '~/stores/root.provider';
 
 const DashboardRoute: FC = observer(() => {
   return (
     <Layout>
-      <DashboardProvider>
+      <GlobalStoreContext.Provider value={globalStore}>
         <Dashboard />
-      </DashboardProvider>
+      </GlobalStoreContext.Provider>
     </Layout>
   );
 });

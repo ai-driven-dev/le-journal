@@ -2,18 +2,18 @@ import type { Email } from '@le-journal/shared-types';
 import { Accordion } from '@radix-ui/react-accordion';
 import { observer } from 'mobx-react-lite';
 
-import { useDashboardStores } from '../dashboard.context';
 
 import { EmailRow } from './email-row.component';
 
 import { Skeleton } from '~/components/ui/skeleton';
+import { useGlobalStore } from '~/stores/root.provider';
 
 interface NewsletterTableProps {
   className?: string;
 }
 
 export const NewsletterTable = observer(({ className }: NewsletterTableProps) => {
-  const { dashboardStore } = useDashboardStores();
+  const { dashboardStore } = useGlobalStore();
   const store = dashboardStore.emailsStore;
 
   const isLoading = store.isLoading === true;

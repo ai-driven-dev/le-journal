@@ -1,22 +1,8 @@
 import type { User } from '@le-journal/shared-types';
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { serverFetch } from '~/lib/api-fetcher.server';
-
-type LoaderData = {
-  users: User[];
-};
-
-export const loader = async ({ request }: LoaderFunctionArgs): Promise<LoaderData> => {
-  const users = await serverFetch<User[]>({ endpoint: 'users', headers: request.headers });
-
-  return { users };
-};
-
 export const AdminIndex = observer(function AdminIndex(): React.ReactElement {
-  const { users } = useLoaderData<typeof loader>();
+  const users: User[] = [];
 
   return (
     <div className="container mx-auto p-4">

@@ -1,13 +1,11 @@
 import type { LoaderFunctionArgs, TypedResponse } from '@remix-run/node';
-import { redirect, useLoaderData } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import {
-  onboardingStore,
-  type OnboardingStep,
-} from '../features/onboarding/stores/onboardingNavigationStore';
+import { type OnboardingStep } from '../features/onboarding/stores/onboardingNavigationStore';
 
-import { StepForm } from '~/features/onboarding/components/StepForm';
+import { Onboarding } from '~/features/onboarding/onboarding.component';
+import globalStore, { GlobalStoreContext } from '~/stores/root.provider';
 
 export const loader = async ({
   params,
@@ -19,10 +17,6 @@ export const loader = async ({
 > => {
   const step = params.step as OnboardingStep;
 
-  if (onboardingStore.isCompleted) {
-    return redirect('/dashboard', 301);
-  }
-
   if (!['welcome', 'permissions', 'setup', 'finish'].includes(step)) {
     throw new Response('Not Found', { status: 404 });
   }
@@ -33,7 +27,13 @@ export const loader = async ({
 const OnboardingStepPage = observer(() => {
   const { step } = useLoaderData<typeof loader>();
 
-  return <StepForm currentStep={step} />;
+  return (
+    <GlobalStoreContext.Provider value={globalStore}>
+      <Onboarding currentStep={step} />
+    </GlobalStoreContext.Provider>
+  );
 });
+
+OnboardingStepPage.displayName = 'OnboardingStepPage';
 
 export default OnboardingStepPage;

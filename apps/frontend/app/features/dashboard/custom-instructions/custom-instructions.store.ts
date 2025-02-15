@@ -3,26 +3,36 @@ import { makeAutoObservable, runInAction } from 'mobx';
 
 import type { CustomInstructions } from './custom-instructions.type';
 
+import type { AuthStore } from '~/features/auth/auth.store';
 import { toast } from '~/hooks/use-toast';
 import type { Loadable } from '~/interfaces/loadable.interface';
-import { clientFetch } from '~/lib/api-fetcher.client';
+import { API_ROUTES_PUT } from '~/lib/api-fetcher';
+import { verify } from '~/lib/validator';
 
 export class CustomInstructionsStore
   implements CustomInstructions, Loadable<ProjectPromptInstructions>
 {
+  authStore: AuthStore;
   state: ProjectPromptInstructions | null = null;
 
   isDialogOpen = false;
   isLoading = true;
   isSubmitting = false;
 
-  constructor() {
+  constructor(authStore: AuthStore) {
     makeAutoObservable(this);
+    this.authStore = authStore;
   }
 
   init = (project: ProjectPromptInstructions): void => {
+    verify(project);
     runInAction(() => {
-      this.state = project;
+      this.state = {
+        id: project.id,
+        promptInstruction: project.promptInstruction,
+        lastPromptUpdate: project.lastPromptUpdate ? new Date(project.lastPromptUpdate) : null,
+        canUpdatePrompt: project.canUpdatePrompt,
+      };
       this.isLoading = false;
     });
   };
@@ -42,7 +52,14 @@ export class CustomInstructionsStore
     }
 
     try {
-      const updatedState = await clientFetch<ProjectPromptInstructions>(event, this.state);
+      verify(this.state);
+
+      const updatedState = await this.authStore.fetchWithAuth<ProjectPromptInstructions>(
+        API_ROUTES_PUT.projects,
+        'PUT',
+        event,
+      );
+
       this.init(updatedState);
 
       toast({

@@ -1,56 +1,42 @@
-import { validateSync } from 'class-validator';
+import type { AuthEndpoint } from './api-fetcher';
+import { getBackendURL, type ApiEndpoint } from './api-fetcher';
 
-import { API_ROUTES_PUT, getApiUrl } from './api-fetcher';
-
-export async function clientFetch<T extends object>(
-  objectFromForm: React.FormEvent<HTMLFormElement>,
-  objectFromState: T | null,
-): Promise<T> {
-  objectFromForm.preventDefault();
-
-  if (objectFromState === null) {
-    throw new Error('State is null');
-  }
-
-  const formData = new FormData(objectFromForm.currentTarget);
-  const formDataObject = Object.fromEntries(formData);
-
-  // Vérification que toutes les clés du FormData existent dans l'objet de validation
-  const formDataKeys = Object.keys(formDataObject);
-  const invalidKeys = formDataKeys.filter((key) => !(key in objectFromState));
-
-  if (invalidKeys.length > 0) {
-    throw new Error(`Invalid form data keys: ${invalidKeys.join(', ')}`);
-  }
-
-  const objectToValidate = {
-    ...objectFromState,
-    ...formDataObject,
+export async function clientFetch(
+  endpoint: ApiEndpoint | AuthEndpoint,
+  method: 'GET' | 'PUT' | 'POST' | 'DELETE',
+  accessToken?: string,
+  form?: React.FormEvent<HTMLFormElement>,
+  searchParams?: Record<string, string>,
+  options?: RequestInit,
+): Promise<Response> {
+  let init: RequestInit = {
+    method,
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    }),
+    credentials: 'include',
+    ...options,
   };
 
-  // Validation avec class-validator
-  const errors = validateSync(objectToValidate);
-  if (errors.length > 0) {
-    const validationErrors = errors.map((error) => Object.values(error.constraints || {})).flat();
-    throw new Error(`Validation failed: ${validationErrors.join(', ')}`);
+  if (form) {
+    const formData = new FormData(form.target as HTMLFormElement);
+    const data = Object.fromEntries(formData);
+    init.body = JSON.stringify(data);
   }
 
-  const response = await fetch(getApiUrl(API_ROUTES_PUT.projects), {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(objectToValidate),
-    credentials: 'include',
-  });
+  let url = getBackendURL(endpoint as ApiEndpoint);
 
-  if (response.status === 401) {
-    window.location.href = '/login';
+  if (searchParams !== undefined) {
+    const params = new URLSearchParams(searchParams);
+    url += `?${params.toString()}`;
   }
+
+  const response = await fetch(url, init);
 
   if (!response.ok) {
-    throw new Error('Erreur lors de la mise à jour');
+    throw new Error(`Failed to fetch data from ${url} with access token ${accessToken}`);
   }
 
-  return await response.json();
+  return response;
 }

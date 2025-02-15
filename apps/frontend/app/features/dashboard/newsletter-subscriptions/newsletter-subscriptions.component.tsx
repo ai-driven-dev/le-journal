@@ -3,11 +3,11 @@ import { Check, Clock, X } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
-import { useDashboardStores } from '../dashboard.context';
 
 import type { NewsletterStatusDisplay } from './newsletter-subscriptions.type';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';
+import { useGlobalStore } from '~/stores/root.provider';
 
 const NEWSLETTER_STATUS_DISPLAY: Record<NewsletterStatusType, NewsletterStatusDisplay> = {
   ACTIVE: {
@@ -33,7 +33,7 @@ const NEWSLETTER_STATUS_DISPLAY: Record<NewsletterStatusType, NewsletterStatusDi
 } as const;
 
 export const NewsletterSubscriptions: FC = observer(() => {
-  const { dashboardStore } = useDashboardStores();
+  const { dashboardStore } = useGlobalStore();
   const store = dashboardStore.newslettersStore;
 
   return (

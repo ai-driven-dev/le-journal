@@ -2,7 +2,6 @@ import { Search, User } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
-import { useDashboardStores } from '../dashboard.context';
 
 import { Button } from '~/components/ui/button';
 import {
@@ -21,9 +20,10 @@ import {
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 import { Input } from '~/components/ui/input';
+import { useGlobalStore } from '~/stores/root.provider';
 
 export const HeaderProfile: FC = observer(() => {
-  const { dashboardStore } = useDashboardStores();
+  const { dashboardStore } = useGlobalStore();
   const store = dashboardStore.headerProfileStore;
 
   return (
