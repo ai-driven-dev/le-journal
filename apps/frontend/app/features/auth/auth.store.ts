@@ -17,8 +17,26 @@ export class AuthStore {
     return this.user !== null;
   }
 
-  // Actions
   async login(): Promise<void> {
+    try {
+      runInAction(() => {
+        this.isLoading = true;
+        this.error = null;
+      });
+
+      window.location.href = getAuthUrl('readonly');
+    } catch (error) {
+      runInAction(() => {
+        this.error = error as Error;
+      });
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  }
+
+  async register(): Promise<void> {
     try {
       runInAction(() => {
         this.isLoading = true;

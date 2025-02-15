@@ -23,7 +23,7 @@
 
 NestJS Throttler
 
-[07:44, 15/02/2025] Alex: Étape 2 backend route pour les étapes dans un google contrôleur , informer l’utilise true qu’on va le déconnecter  
+[07:44, 15/02/2025] Alex: Étape 2 backend route pour les étapes dans un google contrôleur , informer l’utilise true qu’on va le déconnecter
 
 Dégrisée le bouton
 

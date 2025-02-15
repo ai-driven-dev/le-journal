@@ -11,9 +11,13 @@ const loggerConfig = {
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize(),
-        winston.format.printf(({ timestamp, level, message, ms, ...meta }) => {
-          const metaString = Object.keys(meta).length ? JSON.stringify(meta) : '';
-          return `${timestamp} [${level}] ${message} ${metaString} ${ms}`;
+        winston.format.printf(({ timestamp, level, message }) => {
+          // Format simplifié pour les logs info et debug
+          if (level === 'info' || level === 'debug') {
+            return `${timestamp} [${level}] ${message}`;
+          }
+          // Format complet pour warn et error
+          return `${timestamp} [${level}] ${message}`;
         }),
       ),
     }),

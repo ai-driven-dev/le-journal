@@ -9,7 +9,7 @@ import { MissingGoogleConfigurationException } from '../auth.exceptions';
 const GOOGLE_SCOPES_READONLY = ['email', 'profile', 'openid'];
 
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy, 'google-readonly') {
+export class GoogleStrategyReadonly extends PassportStrategy(Strategy, 'google-readonly') {
   constructor(configService: ConfigService) {
     const clientID = configService.get<string>('GOOGLE_CLIENT_ID');
     const clientSecret = configService.get<string>('GOOGLE_CLIENT_SECRET');

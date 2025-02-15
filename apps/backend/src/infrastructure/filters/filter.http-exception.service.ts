@@ -28,6 +28,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         params: request.params,
         query: request.query,
         statusCode: httpStatus,
+        stack: exception instanceof Error ? exception.stack : undefined,
       },
       error: exception,
     });

@@ -1,15 +1,26 @@
-import { Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import { Profile } from 'passport-google-oauth20';
 
 import { GoogleAuthProfile } from './auth.dto';
 import { AuthService } from './auth.service';
+import { ACCESS_TOKEN_KEY } from './auth.types';
 import { GoogleAuthGuardFull } from './guards/google-auth-full.guard';
 import { GoogleAuthGuardReadonly } from './guards/google-auth-readonly.guard';
 
-import { isProduction } from 'src/main.env';
+import { getEnv } from 'src/main.env';
 
+// @Throttle({ default: { limit: 5, ttl: 60 } })
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
@@ -29,23 +40,10 @@ export class AuthController {
   @ApiResponse({ status: 302, description: 'Redirect to step 3 of onboarding' })
   @Get('google/callback/full')
   @UseGuards(GoogleAuthGuardFull)
-  async googleAuthCallbackFull(
-    @Req() req: Request & { user: Profile & { refreshToken: string } },
-    @Res() res: Response,
-  ): Promise<void> {
-    const { jwt } = await this.authService.handleGoogleAuth(
-      req.user as unknown as GoogleAuthProfile,
-    );
+  async googleAuthCallbackFull(@Req() req: Request, @Res() res: Response): Promise<void> {
+    await this.authService.handleGoogleAuth(req.user as unknown as GoogleAuthProfile, res);
 
-    // Set JWT token in cookie
-    res.cookie('access_token', jwt, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: 'lax',
-    });
-
-    // Redirect to frontend
-    res.redirect(process.env.FRONTEND_URL + '/onboarding/setup');
+    res.redirect(getEnv('FRONTEND_URL') + '/onboarding/setup');
   }
 
   @ApiOperation({ summary: 'Readonly scope Google OAuth callback' })
@@ -56,25 +54,31 @@ export class AuthController {
     @Req() req: Request & { user: Profile & { refreshToken: string } },
     @Res() res: Response,
   ): Promise<void> {
-    const { jwt } = await this.authService.handleGoogleAuth(
-      req.user as unknown as GoogleAuthProfile,
-    );
+    await this.authService.handleGoogleAuth(req.user as unknown as GoogleAuthProfile, res);
 
-    // Set JWT token in cookie
-    res.cookie('access_token', jwt, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: 'lax',
-    });
+    res.redirect(getEnv('FRONTEND_URL') + '/dashboard/1');
+  }
 
-    res.redirect(process.env.FRONTEND_URL + '/onboarding/finish');
+  @Get('refresh')
+  async refresh(@Req() req: Request, @Res() res: Response): Promise<void> {
+    try {
+      await this.authService.handleRefreshToken(req, res);
+
+      res.status(200).json({ success: true });
+    } catch (error: unknown | Error) {
+      await this.authService.invalidateRefreshToken(res);
+
+      throw new UnauthorizedException('Session expired, please log in again.', {
+        cause: error,
+      });
+    }
   }
 
   @ApiOperation({ summary: 'Logout user' })
   @ApiResponse({ status: 200, description: 'Successfully logged out' })
   @Post('logout')
   async logout(@Res() res: Response): Promise<void> {
-    res.clearCookie('access_token');
+    res.clearCookie(ACCESS_TOKEN_KEY);
     res.status(HttpStatus.OK).json({ message: 'Logged out successfully' });
   }
 }
