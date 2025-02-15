@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import type { Request, Response } from 'express';
 import { Profile } from 'passport-google-oauth20';
 
@@ -19,9 +20,14 @@ import { GoogleAuthGuardReadonly } from './guards/google-auth-readonly.guard';
 
 import { getEnv } from 'src/main.env';
 
-// @Throttle({ default: { limit: 5, ttl: 60 } })
 @ApiTags('Authentication')
 @Controller('auth')
+@Throttle({
+  default: {
+    limit: 3, // 3 requests per minute
+    ttl: 60000, // 1 minute
+  },
+})
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

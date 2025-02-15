@@ -32,10 +32,11 @@ import { PrismaModule } from 'src/prisma/prisma.module';
       }),
       inject: [ConfigService],
     }),
+    // En production, on applique les limites, en dev on n'applique rien
     ThrottlerModule.forRoot([
       {
-        ttl: 60, // 1 minute
-        limit: 5, // Max 5 requêtes par minute par IP
+        ttl: 60000, // 1 minute
+        limit: 50, // 50 requests per minute
       },
     ]),
   ],
@@ -45,7 +46,11 @@ import { PrismaModule } from 'src/prisma/prisma.module';
     GoogleStrategyFull,
     GoogleStrategyReadonly,
     JwtStrategy,
-    { provide: APP_GUARD, useClass: ThrottlerGuard },
+    // Le guard global qui applique partout la limite
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
   exports: [AuthService],
 })

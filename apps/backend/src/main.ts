@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
 import { AppLogger } from './infrastructure/logger/logger.service';
-import { checkEnv } from './main.env';
+import { checkEnv, isProduction } from './main.env';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
@@ -31,7 +31,7 @@ async function bootstrap(): Promise<void> {
   );
 
   // Configuration de Swagger
-  if (process.env.NODE_ENV !== 'production') {
+  if (isProduction === false) {
     const config = new DocumentBuilder()
       .setTitle('Le Journal API')
       .setDescription("Documentation de l'API Le Journal")
