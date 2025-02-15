@@ -1,5 +1,5 @@
 ---
-date: 2025-02-15 21:38:18
+date: 2025-02-15 22:30:33
 ---
 
 # Project Specifications "Knowledge Base"
@@ -781,7 +781,8 @@ model User {
 
   google_id  String  @unique @map("google_id")
   google_scopes String[] @map("google_scopes") @default([])
-  google_refresh_token String?   @map("google_refresh_token")
+  google_refresh_token String   @map("google_refresh_token")
+  google_refresh_token_iv String @map("google_refresh_token_iv")
 
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
@@ -1860,6 +1861,10 @@ export class ProjectType {
 ./apps/backend/prisma/migrations/20250214063158_scope_typo/migration.sql
 ./apps/backend/prisma/migrations/20250214063239_onboarding_typo
 ./apps/backend/prisma/migrations/20250214063239_onboarding_typo/migration.sql
+./apps/backend/prisma/migrations/20250215205640_google_refresh_token_iv
+./apps/backend/prisma/migrations/20250215205640_google_refresh_token_iv/migration.sql
+./apps/backend/prisma/migrations/20250215205921_mandatory_tokens
+./apps/backend/prisma/migrations/20250215205921_mandatory_tokens/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/src
@@ -1877,6 +1882,7 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/auth/auth.module.ts
 ./apps/backend/src/infrastructure/auth/auth.service.ts
 ./apps/backend/src/infrastructure/auth/auth.types.ts
+./apps/backend/src/infrastructure/auth/crypto.service.ts
 ./apps/backend/src/infrastructure/auth/decorators
 ./apps/backend/src/infrastructure/auth/decorators/get-user.decorator.ts
 ./apps/backend/src/infrastructure/auth/guards
@@ -2076,7 +2082,6 @@ export class ProjectType {
 ./apps/frontend/app/lib
 ./apps/frontend/app/lib/api-error.ts
 ./apps/frontend/app/lib/api-fetcher.client.ts
-./apps/frontend/app/lib/api-fetcher.server.ts
 ./apps/frontend/app/lib/api-fetcher.ts
 ./apps/frontend/app/lib/utils.ts
 ./apps/frontend/app/lib/validator.test.ts
@@ -2176,7 +2181,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-115 directories, 330 files
+117 directories, 332 files
 ```
 
-2025-02-15 21:38:18
+2025-02-15 22:30:34
