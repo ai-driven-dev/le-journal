@@ -1,25 +1,18 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { User } from '@prisma/client';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-import {
-  USER_REPOSITORY,
-  UserRepository,
-} from 'src/modules/users/domain/user.repository.interface';
+import { ACCESS_TOKEN_KEY, JwtPayload } from '../auth.types';
 
-interface JwtPayload {
-  sub: string;
-  email: string;
-}
+import { GetUserByIdUseCase } from 'src/modules/users/application/use-cases/get-user-by-id.use-case';
+import { UserModel } from 'src/prisma/prisma.types';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     readonly configService: ConfigService,
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository,
+    private readonly getUserByIdUseCase: GetUserByIdUseCase,
   ) {
     const secret = configService.get<string>('JWT_SECRET');
     if (!secret) {
@@ -29,7 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request) => {
-          const token = request?.cookies?.access_token;
+          const token = request?.cookies?.[ACCESS_TOKEN_KEY];
           return token;
         },
       ]),
@@ -37,8 +30,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload): Promise<User> {
-    const user = await this.userRepository.findById(payload.sub);
+  async validate(payload: JwtPayload): Promise<UserModel> {
+    const user = await this.getUserByIdUseCase.execute(payload.userId);
 
     if (!user) {
       throw new UnauthorizedException();

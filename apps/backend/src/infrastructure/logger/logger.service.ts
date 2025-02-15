@@ -8,7 +8,7 @@ export class AppLogger implements LoggerService {
   constructor(@Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: LoggerService) {}
 
   log(message: string, context: LogContext): void {
-    this.logger.log('info', message, this.formatContext(context));
+    this.logger.log(message);
   }
 
   error(message: string, context: ErrorContext): void {
@@ -21,16 +21,17 @@ export class AppLogger implements LoggerService {
 
   debug(message: string, context: LogContext): void {
     if (this.logger.debug) {
-      this.logger.debug(message, this.formatContext(context));
+      const formattedMessage = `${context?.service}:${context?.method}`;
+      this.logger.debug(formattedMessage);
     }
   }
 
   private formatContext(context: LogContext | ErrorContext): Record<string, unknown> {
     const baseContext = {
-      service: context.service,
-      method: context.method,
-      correlationId: context.correlationId,
-      metadata: context.metadata,
+      service: context?.service,
+      method: context?.method,
+      correlationId: context?.correlationId,
+      metadata: context?.metadata,
     };
 
     if (this.isErrorContext(context)) {

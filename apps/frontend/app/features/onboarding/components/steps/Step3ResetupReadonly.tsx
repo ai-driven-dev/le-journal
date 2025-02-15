@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 
-import { Button } from '~/components/ui/button';
+import { GoogleInSign } from '~/features/auth/auth-button.component';
 
 export const StepSetup = observer(() => {
   return (
@@ -23,7 +23,7 @@ export const StepSetup = observer(() => {
         trairont automatiquement sur le dashboard.
       </p>
 
-      <Button onClick={() => {}}>On y va ?</Button>
+      <GoogleInSign type="login" />
     </div>
   );
 });

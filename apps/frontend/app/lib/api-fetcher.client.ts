@@ -44,6 +44,10 @@ export async function clientFetch<T extends object>(
     credentials: 'include',
   });
 
+  if (response.status === 401) {
+    window.location.href = '/login';
+  }
+
   if (!response.ok) {
     throw new Error('Erreur lors de la mise à jour');
   }

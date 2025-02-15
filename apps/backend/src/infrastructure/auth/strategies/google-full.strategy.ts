@@ -15,7 +15,7 @@ const GOOGLE_SCOPES_FULL = [
 ];
 
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy, 'google-full') {
+export class GoogleStrategyFull extends PassportStrategy(Strategy, 'google-full') {
   constructor(configService: ConfigService) {
     const clientID = configService.get<string>('GOOGLE_CLIENT_ID');
     const clientSecret = configService.get<string>('GOOGLE_CLIENT_SECRET');

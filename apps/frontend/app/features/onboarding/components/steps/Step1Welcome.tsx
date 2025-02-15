@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 
-import { GoogleSignIn } from '~/features/auth/auth-button.component';
+import { GoogleInSign } from '~/features/auth/auth-button.component';
 
 export const StepWelcome = observer(() => {
   return (
@@ -8,9 +8,7 @@ export const StepWelcome = observer(() => {
       <h2 className="text-xl font-semibold">Bienvenue !</h2>
       <p>Commençons la configuration de votre journal.</p>
 
-      <div className="w-full max-w-sm">
-        <GoogleSignIn />
-      </div>
+      <GoogleInSign type="register" />
     </div>
   );
 });
