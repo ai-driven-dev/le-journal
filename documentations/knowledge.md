@@ -1,5 +1,5 @@
 ---
-date: 2025-02-15 15:59:23
+date: 2025-02-15 19:16:56
 ---
 
 # Project Specifications "Knowledge Base"
@@ -2007,6 +2007,7 @@ export class ProjectType {
 ./apps/frontend/app/features
 ./apps/frontend/app/features/auth
 ./apps/frontend/app/features/auth/auth-button.component.tsx
+./apps/frontend/app/features/auth/auth.component.tsx
 ./apps/frontend/app/features/auth/auth.context.tsx
 ./apps/frontend/app/features/auth/auth.store.ts
 ./apps/frontend/app/features/dashboard
@@ -2016,8 +2017,6 @@ export class ProjectType {
 ./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.store.ts
 ./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.type.ts
 ./apps/frontend/app/features/dashboard/dashboard.component.tsx
-./apps/frontend/app/features/dashboard/dashboard.context.tsx
-./apps/frontend/app/features/dashboard/dashboard.loader.ts
 ./apps/frontend/app/features/dashboard/dashboard.store.ts
 ./apps/frontend/app/features/dashboard/emails
 ./apps/frontend/app/features/dashboard/emails/articles
@@ -2043,19 +2042,18 @@ export class ProjectType {
 ./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.store.ts
 ./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.type.ts
 ./apps/frontend/app/features/onboarding
-./apps/frontend/app/features/onboarding/components
-./apps/frontend/app/features/onboarding/components/StepForm.tsx
-./apps/frontend/app/features/onboarding/components/StepNavigation.tsx
-./apps/frontend/app/features/onboarding/components/StepProgression.tsx
-./apps/frontend/app/features/onboarding/components/steps
-./apps/frontend/app/features/onboarding/components/steps/Step1Welcome.tsx
-./apps/frontend/app/features/onboarding/components/steps/Step2Permissions.tsx
-./apps/frontend/app/features/onboarding/components/steps/Step3ResetupReadonly.tsx
-./apps/frontend/app/features/onboarding/components/steps/Step4Finished.tsx
-./apps/frontend/app/features/onboarding/components/steps/index.ts
+./apps/frontend/app/features/onboarding/onboarding-navigation.component.tsx
+./apps/frontend/app/features/onboarding/onboarding-progress.component.tsx
+./apps/frontend/app/features/onboarding/onboarding.component.tsx
+./apps/frontend/app/features/onboarding/steps
+./apps/frontend/app/features/onboarding/steps/onboarding-step-finished.component.tsx
+./apps/frontend/app/features/onboarding/steps/onboarding-step-permissions.component.tsx
+./apps/frontend/app/features/onboarding/steps/onboarding-step-readonly.component.tsx
+./apps/frontend/app/features/onboarding/steps/onboarding-step-welcome.component.tsx
 ./apps/frontend/app/features/onboarding/stores
 ./apps/frontend/app/features/onboarding/stores/onboardingNavigationStore.ts
 ./apps/frontend/app/features/onboarding/stores/onboardingSetupStore.ts
+./apps/frontend/app/features/onboarding/stores/onboardingStore.ts
 ./apps/frontend/app/hooks
 ./apps/frontend/app/hooks/use-mobile.tsx
 ./apps/frontend/app/hooks/use-toast.ts
@@ -2068,6 +2066,7 @@ export class ProjectType {
 ./apps/frontend/app/lib/api-fetcher.server.ts
 ./apps/frontend/app/lib/api-fetcher.ts
 ./apps/frontend/app/lib/utils.ts
+./apps/frontend/app/lib/validator.test.ts
 ./apps/frontend/app/lib/validator.ts
 ./apps/frontend/app/root.tsx
 ./apps/frontend/app/routes
@@ -2080,7 +2079,8 @@ export class ProjectType {
 ./apps/frontend/app/routes/onboarding._index.tsx
 ./apps/frontend/app/routes/settings.tsx
 ./apps/frontend/app/stores
-./apps/frontend/app/stores/globalStore.ts
+./apps/frontend/app/stores/root.provider.ts
+./apps/frontend/app/stores/root.store.ts
 ./apps/frontend/app/tailwind.css
 ./apps/frontend/app/tests
 ./apps/frontend/app/tests/_index.test.tsx
@@ -2163,7 +2163,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-116 directories, 329 files
+115 directories, 330 files
 ```
 
-2025-02-15 15:59:23
+2025-02-15 19:16:56
