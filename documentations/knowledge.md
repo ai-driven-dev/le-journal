@@ -1,5 +1,5 @@
 ---
-date: 2025-02-15 10:49:25
+date: 2025-02-15 12:33:28
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1839,7 +1839,6 @@ export class ProjectType {
 ./apps/backend/prisma/migrations/20250214063239_onboarding_typo
 ./apps/backend/prisma/migrations/20250214063239_onboarding_typo/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
-./apps/backend/prisma/prompt.md
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/src
 ./apps/backend/src/app.controller.spec.ts
@@ -2030,10 +2029,10 @@ export class ProjectType {
 ./apps/frontend/app/features/onboarding/components/StepNavigation.tsx
 ./apps/frontend/app/features/onboarding/components/StepProgression.tsx
 ./apps/frontend/app/features/onboarding/components/steps
-./apps/frontend/app/features/onboarding/components/steps/StepFinish.tsx
-./apps/frontend/app/features/onboarding/components/steps/StepPermissions.tsx
-./apps/frontend/app/features/onboarding/components/steps/StepSetup.tsx
-./apps/frontend/app/features/onboarding/components/steps/StepWelcome.tsx
+./apps/frontend/app/features/onboarding/components/steps/Step1Welcome.tsx
+./apps/frontend/app/features/onboarding/components/steps/Step2Permissions.tsx
+./apps/frontend/app/features/onboarding/components/steps/Step3ResetupReadonly.tsx
+./apps/frontend/app/features/onboarding/components/steps/Step4Finished.tsx
 ./apps/frontend/app/features/onboarding/components/steps/index.ts
 ./apps/frontend/app/features/onboarding/stores
 ./apps/frontend/app/features/onboarding/stores/onboardingNavigationStore.ts
@@ -2144,7 +2143,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-114 directories, 321 files
+114 directories, 320 files
 ```
 
-2025-02-15 10:49:26
+2025-02-15 12:33:29
