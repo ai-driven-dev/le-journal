@@ -24,7 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         (request) => {
           const token = request.headers.authorization?.split(' ')[1];
 
-          if (token === undefined) {
+          if (token === null || token === undefined) {
             throw new UnauthorizedException('No access token provided in request cookies.');
           }
 
@@ -36,11 +36,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<UserModel> {
-    console.log('Payload dans validate:', payload);
     const user = await this.getUserByIdUseCase.execute(payload.userId);
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(
+        `User not found with valid access token in JWT: ${payload?.userId}`,
+      );
     }
 
     return user;

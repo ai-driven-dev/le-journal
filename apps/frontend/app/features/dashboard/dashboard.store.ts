@@ -5,7 +5,7 @@ import type { AuthStore } from '../auth/auth.store';
 
 import { CustomInstructionsStore } from './custom-instructions/custom-instructions.store';
 import { EmailsStore } from './emails/emails.store';
-import { createHeaderProfileStore } from './header-profile/header-profile.store';
+import { HeaderProfileStore } from './header-profile/header-profile.store';
 import { createNewsletterSubscriptionsStore } from './newsletter-subscriptions/newsletter-subscriptions.store';
 import { createProjectStore } from './project/project-alias.store';
 import { createUpgradeBannerStore } from './upgrade-banner/upgrade-banner.store';
@@ -15,7 +15,7 @@ import { verify } from '~/lib/validator';
 
 export class DashboardStore {
   customInstructions: CustomInstructionsStore;
-  headerProfileStore = createHeaderProfileStore();
+  headerProfileStore: HeaderProfileStore;
   newslettersStore = createNewsletterSubscriptionsStore();
   projectStore = createProjectStore();
   upgradeBannerStore = createUpgradeBannerStore();
@@ -24,6 +24,7 @@ export class DashboardStore {
   constructor(private readonly authStore: AuthStore) {
     makeAutoObservable(this);
     this.customInstructions = new CustomInstructionsStore(authStore);
+    this.headerProfileStore = new HeaderProfileStore(authStore);
   }
 
   async init(): Promise<void> {

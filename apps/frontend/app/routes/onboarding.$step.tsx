@@ -1,10 +1,10 @@
 import type { LoaderFunctionArgs, TypedResponse } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { redirect, useLoaderData } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { type OnboardingStep } from '../features/onboarding/stores/onboardingNavigationStore';
-
 import { Onboarding } from '~/features/onboarding/onboarding.component';
+import type { OnboardingStep } from '~/features/onboarding/onboarding.types';
+import { ONBOARDING_STEPS } from '~/features/onboarding/onboarding.types';
 import globalStore, { GlobalStoreContext } from '~/stores/root.provider';
 
 export const loader = async ({
@@ -17,8 +17,8 @@ export const loader = async ({
 > => {
   const step = params.step as OnboardingStep;
 
-  if (!['welcome', 'permissions', 'setup', 'finish'].includes(step)) {
-    throw new Response('Not Found', { status: 404 });
+  if (!ONBOARDING_STEPS.includes(step)) {
+    return redirect('/onboarding/welcome');
   }
 
   return { step };

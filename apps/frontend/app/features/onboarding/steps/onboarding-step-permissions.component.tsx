@@ -1,8 +1,14 @@
+import { useNavigate } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
+
+import type { OnboardingStore } from '../stores/onboardingStore';
 
 import { Button } from '~/components/ui/button';
 
-export const OnboardingStepPermission = observer(() => {
+export const OnboardingStepPermission = observer(({ store }: { store: OnboardingStore }) => {
+  const navigate = useNavigate();
+  const { navigationStore } = store;
+
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Permissions</h2>
@@ -16,7 +22,7 @@ export const OnboardingStepPermission = observer(() => {
         </li>
         <li>Redirigez les newsletters en dehors de la boîte de réception sur ce filtre.</li>
       </ul>
-      <Button>Configurer les permissions</Button>
+      <Button onClick={() => navigate('/onboarding/readonly')}>Configurer les permissions</Button>
     </div>
   );
 });

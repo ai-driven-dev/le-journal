@@ -14,7 +14,6 @@ import { Profile } from 'passport-google-oauth20';
 
 import { GoogleAuthProfile } from './auth.dto';
 import { AuthService } from './auth.service';
-import { ACCESS_TOKEN_KEY } from './auth.types';
 import { GoogleAuthGuardFull } from './guards/google-auth-full.guard';
 import { GoogleAuthGuardReadonly } from './guards/google-auth-readonly.guard';
 
@@ -66,7 +65,6 @@ export class AuthController {
   })
   @Get('refresh')
   async refresh(@Req() req: Request, @Res() res: Response): Promise<void> {
-    console.log('refresh');
     try {
       const { accessToken } = await this.authService.handleRefreshToken(req, res);
 
@@ -74,7 +72,7 @@ export class AuthController {
     } catch (error: unknown | Error) {
       await this.authService.invalidateRefreshToken(res);
 
-      throw new UnauthorizedException('Session expired, please log in again.', {
+      throw new UnauthorizedException('Access token expired, please log in again.', {
         cause: error,
       });
     }
@@ -84,7 +82,7 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Successfully logged out' })
   @Post('logout')
   async logout(@Res() res: Response): Promise<void> {
-    res.clearCookie(ACCESS_TOKEN_KEY);
+    await this.authService.invalidateRefreshToken(res);
     res.status(HttpStatus.OK).json({ message: 'Logged out successfully' });
   }
 }

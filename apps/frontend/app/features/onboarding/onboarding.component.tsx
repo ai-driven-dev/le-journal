@@ -1,15 +1,13 @@
 import { observer } from 'mobx-react-lite';
-import type { ComponentType } from 'react';
 
 import { AuthComponent } from '../auth/auth.component';
 
-import { StepNavigation } from './onboarding-navigation.component';
 import { StepProgression } from './onboarding-progress.component';
+import type { OnboardingStep } from './onboarding.types';
 import { OnboardingStepFinished } from './steps/onboarding-step-finished.component';
 import { OnboardingStepPermission } from './steps/onboarding-step-permissions.component';
 import { OnboardingStepReadonly } from './steps/onboarding-step-readonly.component';
 import { OnboardingStepWelcome } from './steps/onboarding-step-welcome.component';
-import type { OnboardingStep } from './stores/onboardingNavigationStore';
 import { OnboardingStore } from './stores/onboardingStore';
 
 type StepFormProps = {
@@ -17,33 +15,29 @@ type StepFormProps = {
 };
 
 export const Onboarding = observer(({ currentStep }: StepFormProps) => {
-  const onboardingStore = new OnboardingStore();
-  onboardingStore.navigationStore.navigateToStep(currentStep);
-
-  const getStepComponent = (): ComponentType => {
+  const getStepComponent = (): React.ReactNode => {
     switch (currentStep) {
       case 'permissions':
-        return OnboardingStepPermission;
-      case 'setup':
-        return OnboardingStepReadonly;
-      case 'finish':
-        return OnboardingStepFinished;
+        return <OnboardingStepPermission store={onboardingStore} />;
+      case 'readonly':
+        return <OnboardingStepReadonly store={onboardingStore} />;
+      case 'finished':
+        return <OnboardingStepFinished store={onboardingStore} />;
       case 'welcome':
-        return OnboardingStepWelcome;
+        return <OnboardingStepWelcome store={onboardingStore} />;
       default:
         throw new Error(`Step ${currentStep} not found`);
     }
   };
 
+  const onboardingStore = new OnboardingStore(currentStep);
   const StepComponent = getStepComponent();
 
   const view = (
     <div className="max-w-2xl mx-auto">
       <StepProgression store={onboardingStore} />
 
-      <StepComponent />
-
-      <StepNavigation store={onboardingStore} />
+      {StepComponent}
     </div>
   );
 

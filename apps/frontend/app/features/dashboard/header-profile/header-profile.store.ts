@@ -3,11 +3,13 @@ import { makeAutoObservable } from 'mobx';
 
 import type { TitleActions, TitleState } from './header-profile.type';
 
-class HeaderProfileStore implements TitleState, TitleActions {
+import type { AuthStore } from '~/features/auth/auth.store';
+
+export class HeaderProfileStore implements TitleState, TitleActions {
   user: User | null = null;
   isLogoutDialogOpen = false;
 
-  constructor() {
+  constructor(private readonly authStore: AuthStore) {
     makeAutoObservable(this);
   }
 
@@ -20,9 +22,7 @@ class HeaderProfileStore implements TitleState, TitleActions {
   };
 
   handleLogout = async (): Promise<void> => {
-    // await authStore.logout();
+    await this.authStore.logout();
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const createHeaderProfileStore = () => new HeaderProfileStore();
