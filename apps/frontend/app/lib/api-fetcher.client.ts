@@ -32,7 +32,12 @@ export async function clientFetch(
     url += `?${params.toString()}`;
   }
 
-  const response = await fetch(url, init);
+  let response;
+  try {
+    response = await fetch(url, init);
+  } catch (error) {
+    throw new Error(`Network error while fetching ${url}: ${error}`);
+  }
 
   if (!response.ok) {
     throw new Error(`Failed to fetch data from ${url} with access token ${accessToken}`);

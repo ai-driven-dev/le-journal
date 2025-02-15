@@ -13,6 +13,7 @@ export class UsersSeed {
     avatar: 'https://example.com/avatar.png',
     google_refresh_token: '1234567891',
     google_scopes: ['email', 'profile', 'openid'],
+    google_refresh_token_iv: '1234567891',
   };
 
   private readonly adminUser: Prisma.UserCreateInput = {
@@ -23,6 +24,7 @@ export class UsersSeed {
     avatar: 'https://example.com/avatar.png',
     google_refresh_token: '1234567892',
     google_scopes: ['email', 'profile', 'openid'],
+    google_refresh_token_iv: '1234567892',
   };
 
   private readonly premiumUser: Prisma.UserCreateInput = {
@@ -33,6 +35,7 @@ export class UsersSeed {
     avatar: 'https://example.com/avatar.png',
     google_refresh_token: '1234567893',
     google_scopes: ['email', 'profile', 'openid'],
+    google_refresh_token_iv: '1234567893',
   };
 
   async seed(

@@ -25,7 +25,8 @@ export class GoogleAuthProfile {
    * @description Refresh token is not provided on second connection, remove app first.
    */
   @IsString()
-  refreshToken?: string;
+  @IsNotEmpty()
+  refreshToken!: string;
 
   constructor(profile: Profile, refreshToken: string, scopes: string[]) {
     const email = profile.emails?.[0]?.value ?? '';
@@ -37,14 +38,14 @@ export class GoogleAuthProfile {
     this.name = name;
     this.avatar = avatar;
     this.googleId = googleId;
-    this.refreshToken = refreshToken ?? '';
+    this.refreshToken = refreshToken;
     this.scopes = scopes;
 
     const errors = validateSync(this);
 
     if (Array.isArray(errors) && errors.length > 0) {
       console.error('Invalid Google profile', errors);
-      throw new Error('Invalid Google profile');
+      throw new Error(`Invalid Google profile: ${JSON.stringify(errors)}`);
     }
   }
 }

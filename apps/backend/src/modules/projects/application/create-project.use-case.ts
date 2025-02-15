@@ -1,5 +1,6 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject, Injectable } from '@nestjs/common';
 import { Project } from '@prisma/client';
+import { validateSync } from 'class-validator';
 
 import { ProjectCreateDomain } from '../domain/project-create';
 import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
@@ -12,6 +13,12 @@ export class CreateProjectUseCase {
   ) {}
 
   async execute(createProjectDto: ProjectCreateDomain): Promise<Project> {
+    const errors = validateSync(createProjectDto);
+
+    if (errors.length > 0) {
+      throw new BadRequestException('Invalid project data', { cause: errors });
+    }
+
     const existingProject = await this.projectRepository.findBySlug(
       createProjectDto.userId,
       createProjectDto.slug,
