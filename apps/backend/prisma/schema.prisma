@@ -72,7 +72,8 @@ model User {
 
   google_id  String  @unique @map("google_id")
   google_scopes String[] @map("google_scopes") @default([])
-  google_refresh_token String?   @map("google_refresh_token")
+  google_refresh_token String   @map("google_refresh_token")
+  google_refresh_token_iv String @map("google_refresh_token_iv")
   
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")

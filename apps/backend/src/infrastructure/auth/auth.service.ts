@@ -32,6 +32,11 @@ export class AuthService {
     googleProfile: GoogleAuthProfile,
     res: Response,
   ): Promise<{ accessToken: string; refreshToken: string; user: UserDomain }> {
+    this.logger.log("Create a new user from Google's profile callback.", {
+      service: 'AuthService',
+      method: 'handleGoogleAuth',
+    });
+
     const user = await this.createUserUseCase.execute(googleProfile);
 
     const payload: JwtPayload = { userId: user.id };
@@ -92,6 +97,14 @@ export class AuthService {
     accessToken: string;
     refreshToken: string;
   }> {
+    this.logger.log('Set tokens', {
+      service: 'AuthService',
+      method: 'setTokens',
+      metadata: {
+        payload,
+      },
+    });
+
     if (payload.userId === undefined) {
       throw new UnauthorizedException('User ID is undefined');
     }
@@ -99,12 +112,29 @@ export class AuthService {
     const accessToken = this.jwtService.sign({ userId: payload.userId }, { expiresIn: '15m' });
     const refreshToken = this.jwtService.sign({ userId: payload.userId }, { expiresIn: '30d' });
 
+    this.logger.log('Extract tokens.', {
+      service: 'AuthService',
+      method: 'setTokens',
+      metadata: {
+        accessToken,
+        refreshToken,
+      },
+    });
+
     res.cookie(REFRESH_TOKEN_KEY, refreshToken, {
       httpOnly: isProduction,
       secure: isProduction,
       sameSite: 'lax',
       maxAge: REFRESH_TOKEN_EXPIRATION_TIME,
       // domain: getEnv('BACKEND_DOMAIN'),
+    });
+
+    this.logger.log('Store on Redis', {
+      service: 'AuthService',
+      method: 'setTokens',
+      metadata: {
+        refreshToken,
+      },
     });
 
     await this.refreshTokenCacheRepository.set({

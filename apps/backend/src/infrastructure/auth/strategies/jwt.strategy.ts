@@ -40,7 +40,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     if (!user) {
       throw new UnauthorizedException(
-        `User not found with valid access token in JWT: ${payload?.userId}`,
+        `User not found in DB with valid access token in JWT: ${payload?.userId}`,
       );
     }
 

@@ -16,7 +16,7 @@ export type PrismaEmailWithArticles = Prisma.EmailGetPayload<{
 //   include: { articles: true };
 // }>;
 
-export type UserModel = Omit<PrismaUser, 'google_id'>;
+export type UserModel = Omit<PrismaUser, 'google_id' | 'google_refresh_token_iv'>;
 export type ProjectModel = Omit<PrismaProject, 'user_id'>;
 export type EmailModel = Omit<PrismaEmail, 'newsletter_id' | 'project_id'> & {
   articles: ArticleModel[];

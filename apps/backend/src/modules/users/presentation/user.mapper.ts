@@ -23,8 +23,8 @@ export class UserMapper implements Mapper<UserDomain, UserModel> {
       updatedAt: user.updated_at,
       onboardingStartedAt: user.onboarding_started_at ?? null,
       onboardingCompletedAt: user.onboarding_completed_at ?? null,
-      avatar: user.avatar ?? '', // todo
-      googleRefreshToken: user.google_refresh_token ?? '',
+      avatar: user.avatar ?? '',
+      googleRefreshToken: user.google_refresh_token,
       googleScopes: user.google_scopes ?? [],
       role,
     };

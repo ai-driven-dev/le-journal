@@ -23,8 +23,6 @@
 
 NestJS Throttler
 
-
-
 Bouton suivant «  on vous a envoyé un mail que vous puissiez voir le rendu »
 
 Taguer le mail envoyer pour accepter de recevoir les emails en « register mail »
