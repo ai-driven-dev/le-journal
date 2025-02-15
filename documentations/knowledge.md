@@ -1,5 +1,5 @@
 ---
-date: 2025-02-15 19:16:56
+date: 2025-02-15 21:17:29
 ---
 
 # Project Specifications "Knowledge Base"
@@ -981,6 +981,7 @@ export default {
 services:
   postgres:
     image: postgres:16-alpine
+    container_name: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -992,18 +993,25 @@ services:
 
   redis:
     image: redis:7-alpine
+    container_name: redis
     ports:
       - '6379:6379'
     volumes:
       - redis_data:/data
+    networks:
+      - app-network
 
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    restart: always
-    environment:
-      - REDIS_HOSTS=local:redis:6379
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: redisinsight
     ports:
-      - '8081:8081'
+      - '5540:5540'
+    volumes:
+      - redisinsight_data:/db
+    depends_on:
+      - redis
+    networks:
+      - app-network
 
   # For later :)
   # meilisearch:
@@ -1018,7 +1026,12 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  redisinsight_data:
   # meilisearch_data:
+
+networks:
+  app-network:
+    driver: bridge
 ```
 
 ### .cursor/rules/rule-backend-controller.mdc
@@ -2042,16 +2055,16 @@ export class ProjectType {
 ./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.store.ts
 ./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.type.ts
 ./apps/frontend/app/features/onboarding
-./apps/frontend/app/features/onboarding/onboarding-navigation.component.tsx
 ./apps/frontend/app/features/onboarding/onboarding-progress.component.tsx
 ./apps/frontend/app/features/onboarding/onboarding.component.tsx
+./apps/frontend/app/features/onboarding/onboarding.types.ts
 ./apps/frontend/app/features/onboarding/steps
 ./apps/frontend/app/features/onboarding/steps/onboarding-step-finished.component.tsx
 ./apps/frontend/app/features/onboarding/steps/onboarding-step-permissions.component.tsx
 ./apps/frontend/app/features/onboarding/steps/onboarding-step-readonly.component.tsx
 ./apps/frontend/app/features/onboarding/steps/onboarding-step-welcome.component.tsx
 ./apps/frontend/app/features/onboarding/stores
-./apps/frontend/app/features/onboarding/stores/onboardingNavigationStore.ts
+./apps/frontend/app/features/onboarding/stores/onboarding-navigation.store.ts
 ./apps/frontend/app/features/onboarding/stores/onboardingSetupStore.ts
 ./apps/frontend/app/features/onboarding/stores/onboardingStore.ts
 ./apps/frontend/app/hooks
@@ -2166,4 +2179,4 @@ export class ProjectType {
 115 directories, 330 files
 ```
 
-2025-02-15 19:16:56
+2025-02-15 21:17:29
