@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 
 import { Button } from '~/components/ui/button';
 
-export const StepPermissions = observer(() => {
+export const OnboardingStepPermission = observer(() => {
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Permissions</h2>

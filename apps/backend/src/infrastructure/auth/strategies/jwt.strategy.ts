@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-import { ACCESS_TOKEN_KEY, JwtPayload } from '../auth.types';
+import { JwtPayload } from '../auth.types';
 
 import { GetUserByIdUseCase } from 'src/modules/users/application/use-cases/get-user-by-id.use-case';
 import { UserModel } from 'src/prisma/prisma.types';
@@ -22,7 +22,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request) => {
-          const token = request?.cookies?.[ACCESS_TOKEN_KEY];
+          const token = request.headers.authorization?.split(' ')[1];
+
+          if (token === undefined) {
+            throw new UnauthorizedException('No access token provided in request cookies.');
+          }
+
           return token;
         },
       ]),
@@ -31,6 +36,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<UserModel> {
+    console.log('Payload dans validate:', payload);
     const user = await this.getUserByIdUseCase.execute(payload.userId);
 
     if (!user) {

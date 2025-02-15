@@ -1,13 +1,9 @@
-import type { LoaderFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
 import { observer } from 'mobx-react-lite';
 
-export const loader: LoaderFunction = async () => {
-  return redirect('/onboarding/welcome', 301);
-};
+import { Onboarding } from '~/features/onboarding/onboarding.component';
 
 const OnboardingIndex = observer(function OnboardingIndex() {
-  return null;
+  return <Onboarding currentStep="welcome" />;
 });
 
 OnboardingIndex.displayName = 'OnboardingIndex';

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { buttonVariants } from '~/components/ui/button';
 
-export const StepFinish = observer(() => {
+export const OnboardingStepFinished = observer(() => {
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Terminé !</h2>

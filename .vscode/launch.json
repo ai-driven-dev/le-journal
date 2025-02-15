@@ -4,28 +4,15 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch NestJS",
+      "name": "Lancer l'application NestJS",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start:debug", "--", "--inspect-brk"],
-      "autoAttachChildProcesses": true,
-      "restart": true,
-      "sourceMaps": true,
-      "stopOnEntry": false,
-      "console": "integratedTerminal",
-      "cwd": "${workspaceFolder}/apps/backend"
-    },
-    {
-      "type": "node",
-      "request": "attach",
-      "name": "Attach NestJS",
-      "skipFiles": ["<node_internals>/**"],
-      "sourceMaps": true,
-      "restart": true,
+      "runtimeArgs": ["run", "start:debug"],
       "port": 9229,
-      "address": "127.0.0.1",
-      "cwd": "${workspaceFolder}",
-      "localRoot": "${workspaceFolder}/apps/backend",
-      "remoteRoot": "${workspaceFolder}/apps/backend"
+      "restart": true,
+      "sourceMaps": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "cwd": "${workspaceFolder}/apps/backend"
     }
   ]
 }

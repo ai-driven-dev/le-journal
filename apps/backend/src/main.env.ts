@@ -18,6 +18,10 @@ export const env = {
 
   // Admin
   ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+
+  // Logging
+  ENABLE_LOGGING: process.env.ENABLE_LOGGING,
+  LOG_LEVEL: process.env.LOG_LEVEL,
 } as const;
 
 const envKeys = Object.keys(env) as Array<keyof typeof env>;

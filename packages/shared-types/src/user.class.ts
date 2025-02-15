@@ -29,13 +29,3 @@ export class User {
   @IsEnum(UserRole)
   role: UserRole;
 }
-
-export class UserCreate {
-  @IsString()
-  @IsEmail()
-  email: string;
-
-  @IsString()
-  @IsOptional()
-  name?: string;
-}

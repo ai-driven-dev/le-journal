@@ -4,7 +4,7 @@ export type OnboardingStep = 'welcome' | 'permissions' | 'setup' | 'finish';
 
 const ONBOARDING_STEPS: OnboardingStep[] = ['welcome', 'permissions', 'setup', 'finish'] as const;
 
-class OnboardingStore {
+export class OnboardingNavigationStore {
   private currentStep: OnboardingStep = 'welcome';
   private hasCompleted = false;
 
@@ -83,5 +83,3 @@ class OnboardingStore {
     this.currentStep = step;
   }
 }
-
-export const onboardingStore = new OnboardingStore();

@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
+import { AppLogger } from '../logger/logger.service';
+
 import { RedisService } from './redis.service';
 import { DEFAULT_CACHE_EXPIRATION, RedisCacheOptions } from './redis.types';
 
@@ -13,7 +15,10 @@ export interface RedisCacheInterface<T> {
 export abstract class RedisCache<T> implements RedisCacheInterface<T> {
   protected abstract readonly keyPrefix: string;
 
-  constructor(protected readonly redisService: RedisService) {}
+  constructor(
+    private readonly logger: AppLogger,
+    protected readonly redisService: RedisService,
+  ) {}
 
   protected getFullKey(key: string): string {
     return `${this.keyPrefix}:${key}`;
@@ -22,6 +27,12 @@ export abstract class RedisCache<T> implements RedisCacheInterface<T> {
   async set(data: T, options?: RedisCacheOptions): Promise<void> {
     const expiresIn = options?.expiresIn ?? DEFAULT_CACHE_EXPIRATION;
     const key = this.getFullKey(this.getKeyFromData(data));
+
+    this.logger.debug('set', {
+      service: this.constructor.name,
+      method: 'set',
+      metadata: { key, data, expiresIn },
+    });
 
     await this.redisService.setData(key, data, expiresIn);
   }

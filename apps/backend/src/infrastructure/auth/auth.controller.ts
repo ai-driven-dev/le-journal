@@ -37,13 +37,13 @@ export class AuthController {
   async googleAuthReadonly(): Promise<void> {}
 
   @ApiOperation({ summary: 'Full scope Google OAuth callback' })
-  @ApiResponse({ status: 302, description: 'Redirect to step 3 of onboarding' })
+  @ApiResponse({ status: 302, description: 'Redirect to step 2 of onboarding' })
   @Get('google/callback/full')
   @UseGuards(GoogleAuthGuardFull)
   async googleAuthCallbackFull(@Req() req: Request, @Res() res: Response): Promise<void> {
     await this.authService.handleGoogleAuth(req.user as unknown as GoogleAuthProfile, res);
 
-    res.redirect(getEnv('FRONTEND_URL') + '/onboarding/setup');
+    res.redirect(getEnv('FRONTEND_URL') + '/onboarding/permissions');
   }
 
   @ApiOperation({ summary: 'Readonly scope Google OAuth callback' })
@@ -59,12 +59,18 @@ export class AuthController {
     res.redirect(getEnv('FRONTEND_URL') + '/dashboard/1');
   }
 
+  @ApiOperation({ summary: 'Refresh access token' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully refreshed access token',
+  })
   @Get('refresh')
   async refresh(@Req() req: Request, @Res() res: Response): Promise<void> {
+    console.log('refresh');
     try {
-      await this.authService.handleRefreshToken(req, res);
+      const { accessToken } = await this.authService.handleRefreshToken(req, res);
 
-      res.status(200).json({ success: true });
+      res.status(HttpStatus.OK).json({ accessToken });
     } catch (error: unknown | Error) {
       await this.authService.invalidateRefreshToken(res);
 

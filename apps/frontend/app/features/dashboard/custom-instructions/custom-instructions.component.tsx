@@ -1,17 +1,17 @@
 import { observer } from 'mobx-react-lite';
 import { useRef, type FC } from 'react';
 
-import { useDashboardStores } from '../dashboard.context';
 
 import { CustomInstructionsConfirmation } from './custom-instructions-confirmation.component';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';
 import { Skeleton } from '~/components/ui/skeleton';
 import { Textarea } from '~/components/ui/textarea';
+import { useGlobalStore } from '~/stores/root.provider';
 
 export const CustomInstructions: FC = observer(() => {
   const formRef = useRef<HTMLFormElement>(null);
-  const { dashboardStore } = useDashboardStores();
+  const { dashboardStore } = useGlobalStore();
 
   const store = dashboardStore.customInstructions;
   const state = store.state;

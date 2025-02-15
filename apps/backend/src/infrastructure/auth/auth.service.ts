@@ -1,19 +1,21 @@
+import console from 'console';
+
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 
+import { AppLogger } from '../logger/logger.service';
 import { RefreshTokenCacheRepository } from '../redis/repositories/user-token.repository';
 
 import { GoogleAuthProfile } from './auth.dto';
 import {
-  ACCESS_TOKEN_EXPIRATION_TIME,
   ACCESS_TOKEN_KEY,
   JwtPayload,
   REFRESH_TOKEN_EXPIRATION_TIME,
   REFRESH_TOKEN_KEY,
 } from './auth.types';
 
-import { getEnv, isProduction } from 'src/main.env';
+import { isProduction } from 'src/main.env';
 import { CreateUserUseCase } from 'src/modules/users/application/use-cases/create-user.use-case';
 import { UserDomain } from 'src/modules/users/domain/user.domain';
 
@@ -23,6 +25,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly refreshTokenCacheRepository: RefreshTokenCacheRepository,
+    private readonly logger: AppLogger,
   ) {}
 
   async handleGoogleAuth(
@@ -38,43 +41,38 @@ export class AuthService {
     return { accessToken, refreshToken, user };
   }
 
-  async handleRefreshToken(req: Request, res: Response): Promise<void> {
-    const { userId } = await this.isUserAuthenticated(req);
-
-    if (userId === undefined) {
-      throw new UnauthorizedException('User is not authenticated');
-    }
+  async handleRefreshToken(
+    req: Request,
+    res: Response,
+  ): Promise<{
+    accessToken: string;
+  }> {
+    console.log('req.cookies', req.cookies);
 
     const refreshToken = req.cookies[REFRESH_TOKEN_KEY];
 
-    // Vérifier si le Refresh Token existe en Redis
-    const storedToken = await this.refreshTokenCacheRepository.get(userId);
-    if (!storedToken || storedToken !== refreshToken) {
-      console.warn(
-        `Refresh token missing or invalid for user ${userId}. Re-authentication required.`,
-      );
-      throw new UnauthorizedException('Invalid refresh token. Please log in again.');
-    }
+    console.log('refreshToken', refreshToken);
 
-    const payload: JwtPayload = { userId };
+    const payload: JwtPayload = this.jwtService.verify(refreshToken);
 
-    await this.setTokens(res, payload);
+    const { accessToken } = await this.setTokens(res, payload);
+
+    return { accessToken };
   }
 
   public async invalidateRefreshToken(res: Response): Promise<void> {
-    res.clearCookie(ACCESS_TOKEN_KEY, {
-      httpOnly: isProduction,
-      secure: isProduction,
-      sameSite: 'none',
-      domain: getEnv('BACKEND_DOMAIN'),
-    });
-
-    res.clearCookie('refreshToken', {
-      httpOnly: isProduction,
-      secure: isProduction,
-      sameSite: 'none',
-      domain: getEnv('BACKEND_DOMAIN'),
-    });
+    // res.clearCookie(ACCESS_TOKEN_KEY, {
+    //   httpOnly: isProduction,
+    //   secure: isProduction,
+    //   sameSite: 'none',
+    //   domain: getEnv('BACKEND_DOMAIN'),
+    // });
+    // res.clearCookie('refreshToken', {
+    //   httpOnly: isProduction,
+    //   secure: isProduction,
+    //   sameSite: 'none',
+    //   domain: getEnv('BACKEND_DOMAIN'),
+    // });
   }
 
   public async isUserAuthenticated(req: Request): Promise<JwtPayload> {
@@ -111,14 +109,6 @@ export class AuthService {
 
     const accessToken = this.jwtService.sign({ userId: payload.userId }, { expiresIn: '15m' });
     const refreshToken = this.jwtService.sign({ userId: payload.userId }, { expiresIn: '30d' });
-
-    res.cookie(ACCESS_TOKEN_KEY, accessToken, {
-      httpOnly: isProduction,
-      secure: isProduction,
-      sameSite: 'lax',
-      maxAge: ACCESS_TOKEN_EXPIRATION_TIME,
-      // domain: getEnv('BACKEND_DOMAIN'),
-    });
 
     res.cookie(REFRESH_TOKEN_KEY, refreshToken, {
       httpOnly: isProduction,
