@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useRef, type FC } from 'react';
 
-
 import { CustomInstructionsConfirmation } from './custom-instructions-confirmation.component';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';

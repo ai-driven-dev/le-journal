@@ -30,7 +30,6 @@ export const isProduction: boolean = process.env.NODE_ENV === 'production';
 
 export function checkEnv(): void {
   for (const key of envKeys) {
-    // eslint-disable-next-line security/detect-object-injection
     const envKey = env[key];
     if (envKey === undefined) {
       throw new Error(`${key} is not defined`);
@@ -39,7 +38,6 @@ export function checkEnv(): void {
 }
 
 export function getEnv(key: keyof typeof env): string {
-  // eslint-disable-next-line security/detect-object-injection
   const value = env[key];
 
   if (value === undefined) {

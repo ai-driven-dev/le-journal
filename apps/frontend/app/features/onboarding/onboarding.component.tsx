@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite';
 
-
 import { Button } from '~/components/ui/button';
 import { useGlobalStore } from '~/stores/root.provider';
 

@@ -1,7 +1,6 @@
 import type { User } from '@le-journal/shared-types';
 import { makeAutoObservable } from 'mobx';
 
-
 import type { HeaderProfile } from './header-profile.type';
 
 import type { AuthStore } from '~/features/auth/auth.store';
@@ -28,4 +27,3 @@ export class HeaderProfileStore implements HeaderProfile {
     await this.authStore.logout();
   };
 }
-

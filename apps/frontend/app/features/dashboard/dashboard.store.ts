@@ -10,7 +10,6 @@ import { NewsletterSubscriptionsStore } from './newsletter-subscriptions/newslet
 import { createProjectStore } from './project/project-alias.store';
 import { createUpgradeBannerStore } from './upgrade-banner/upgrade-banner.store';
 
-
 export class DashboardStore {
   customInstructions: CustomInstructionsStore;
   headerProfileStore: HeaderProfileStore;

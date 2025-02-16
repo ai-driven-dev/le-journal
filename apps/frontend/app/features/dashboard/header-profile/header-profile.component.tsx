@@ -2,7 +2,6 @@ import { Search, User } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
-
 import { Button } from '~/components/ui/button';
 import {
   Dialog,

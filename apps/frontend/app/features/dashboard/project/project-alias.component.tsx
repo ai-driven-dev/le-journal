@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
 import { useGlobalStore } from '~/stores/root.provider';
 

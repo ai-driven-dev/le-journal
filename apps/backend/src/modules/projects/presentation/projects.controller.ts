@@ -7,7 +7,6 @@ import { UpdateProjectPromptUseCase } from '../application/update-project-prompt
 import { ProjectDomain } from '../domain/project';
 import { ProjectUpdate } from '../domain/project-update';
 
-
 import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
 import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
 
