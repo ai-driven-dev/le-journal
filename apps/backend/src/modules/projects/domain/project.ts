@@ -1,7 +1,8 @@
-import { Project } from '@le-journal/shared-types';
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
-export class ProjectDomain extends Project {
+export class ProjectDomain {
+  // extends Project {
   @ApiProperty({
     example: 'c123e456-789b-12d3-a456-426614174000',
     description: 'ID du projet',
@@ -11,6 +12,7 @@ export class ProjectDomain extends Project {
   @ApiProperty({ example: 'Mon super projet', description: 'Nom du projet' })
   name!: string;
 
+  @Exclude()
   @ApiProperty({ example: 'mon-super-projet', description: 'Slug du projet' })
   slug!: string;
 
@@ -41,4 +43,10 @@ export class ProjectDomain extends Project {
     description: 'Indique si le prompt peut être mis à jour',
   })
   canUpdatePrompt!: boolean;
+
+  constructor(project: ProjectDomain) {
+    // super();
+
+    Object.assign(this, project);
+  }
 }

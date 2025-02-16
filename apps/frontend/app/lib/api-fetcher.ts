@@ -1,5 +1,3 @@
-import { ApiError } from './api-error';
-
 export type AuthEndpoint = '/auth/google' | '/auth/logout' | '/auth/refresh';
 export type ApiEndpoint =
   | '/api/users'
@@ -46,49 +44,4 @@ export function getBackendURL(endpoint: ApiEndpoint | AuthEndpoint): string {
   }
 
   return `${apiUrl}${endpoint}`;
-}
-
-export interface ApiFetcherConfig {
-  endpoint: ApiEndpoint;
-  init?: RequestInit;
-  searchParams?: Record<string, string>;
-  headers?: Headers;
-}
-
-export async function apiFetch<T>({
-  endpoint,
-  init,
-  searchParams,
-  headers = new Headers(),
-}: ApiFetcherConfig): Promise<T> {
-  let url = getBackendURL(endpoint);
-
-  if (searchParams !== undefined) {
-    const params = new URLSearchParams(searchParams);
-    url += `?${params.toString()}`;
-  }
-
-  const response = await fetch(url, {
-    ...init,
-    headers,
-    credentials: 'include',
-  });
-
-  const data = await response.json();
-
-  if (response.status === 401) {
-    window.location.href = '/login';
-  }
-
-  if (!response.ok) {
-    throw new ApiError(`Erreur lors de la requête API pour ${endpoint}`, {
-      url,
-      method: init?.method,
-      statusCode: response.status,
-      statusText: response.statusText,
-      responseBody: data,
-    });
-  }
-
-  return data;
 }

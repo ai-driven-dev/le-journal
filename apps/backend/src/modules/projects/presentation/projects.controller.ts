@@ -7,7 +7,6 @@ import { UpdateProjectPromptUseCase } from '../application/update-project-prompt
 import { ProjectDomain } from '../domain/project';
 import { ProjectUpdate } from '../domain/project-update';
 
-import { ProjectMapper } from './project.mapper';
 
 import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
 import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
@@ -20,7 +19,6 @@ export class ProjectsController {
   constructor(
     private readonly getProjectUseCase: GetProjectUseCase,
     private readonly updateProjectPromptUseCase: UpdateProjectPromptUseCase,
-    private readonly projectMapper: ProjectMapper,
   ) {}
 
   @Get()
@@ -31,9 +29,7 @@ export class ProjectsController {
     @Query('projectNumber') projectNumber: number,
     @GetUser() user: User,
   ): Promise<ProjectDomain[]> {
-    const projects = await this.getProjectUseCase.execute(user.id, projectNumber);
-
-    return projects.map(this.projectMapper.toDomain);
+    return await this.getProjectUseCase.execute(user.id, projectNumber);
   }
 
   @Put('prompt')

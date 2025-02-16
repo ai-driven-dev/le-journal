@@ -16,11 +16,7 @@ export const NewsletterTable = observer(({ className }: NewsletterTableProps) =>
   const { dashboardStore } = useGlobalStore();
   const store = dashboardStore.emailsStore;
 
-  const isLoading = store.isLoading === true;
-  const hasNoData = store.state === null || store.state.length === 0;
-  const firstEmailId = store.state?.[0]?.id.toString() ?? '';
-
-  if (isLoading) {
+  if (store.isLoading) {
     return (
       <div className={className}>
         <div className="space-y-4">
@@ -32,7 +28,7 @@ export const NewsletterTable = observer(({ className }: NewsletterTableProps) =>
     );
   }
 
-  if (hasNoData) {
+  if (store.state.length === 0) {
     return (
       <div className={className}>
         <div className="text-gray-500">Désolé, vous n'avez pas (encore) de newsletters.</div>
@@ -43,8 +39,8 @@ export const NewsletterTable = observer(({ className }: NewsletterTableProps) =>
   return (
     <div className={className}>
       <div className="space-y-4">
-        <Accordion type="multiple" defaultValue={[firstEmailId]}>
-          {store.state!.map((email: Email) => (
+        <Accordion type="multiple" defaultValue={[store.defaultEmailId]}>
+          {store.state.map((email: Email) => (
             <div key={email.id} className="m-4">
               <EmailRow email={email} />
             </div>

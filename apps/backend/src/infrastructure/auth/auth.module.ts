@@ -1,9 +1,8 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+// import { ThrottlerGuard } from '@nestjs/throttler';
 
 import { UsersModule } from '../../modules/users/users.module';
 import { RedisModule } from '../redis/redis.module';
@@ -34,12 +33,12 @@ import { PrismaModule } from 'src/prisma/prisma.module';
       inject: [ConfigService],
     }),
     // En production, on applique les limites, en dev on n'applique rien
-    ThrottlerModule.forRoot([
-      {
-        ttl: 60000, // 1 minute
-        limit: 50, // 50 requests per minute
-      },
-    ]),
+    // ThrottlerModule.forRoot([
+    //   {
+    //     ttl: 60000, // 1 minute
+    //     limit: 50, // 50 requests per minute
+    //   },
+    // ]),
   ],
   controllers: [AuthController],
   providers: [
@@ -48,10 +47,10 @@ import { PrismaModule } from 'src/prisma/prisma.module';
     GoogleStrategyReadonly,
     JwtStrategy,
     // Le guard global qui applique partout la limite
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: ThrottlerGuard,
+    // },
     CryptoService,
   ],
   exports: [AuthService, CryptoService],

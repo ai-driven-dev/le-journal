@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import type { AuthStore } from '~/features/auth/auth.store';
 import { DashboardStore } from '~/features/dashboard/dashboard.store';
-import { OnboardingStore } from '~/features/onboarding/stores/onboardingStore';
+import { OnboardingStore } from '~/features/onboarding/onboarding.store';
 
 export class GlobalStore {
   authStore: AuthStore;
@@ -16,7 +16,7 @@ export class GlobalStore {
 
   initOnboardingStore(): void {
     this._dashboardStore = null;
-    this._onboardingStore = new OnboardingStore('welcome');
+    this._onboardingStore = new OnboardingStore(this.authStore);
   }
 
   initDashboard(): void {
@@ -30,5 +30,13 @@ export class GlobalStore {
     }
 
     return this._dashboardStore!;
+  }
+
+  get onboardingStore(): OnboardingStore {
+    if (this._onboardingStore === null) {
+      this.initOnboardingStore();
+    }
+
+    return this._onboardingStore!;
   }
 }

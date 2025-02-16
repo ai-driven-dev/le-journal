@@ -1,13 +1,12 @@
 import type { ProjectPromptInstructions } from '@le-journal/shared-types';
 
-import type { Actionable, Statable } from '~/interfaces/component.interface';
 import type { Loadable } from '~/interfaces/loadable.interface';
 
-interface CustomInstructionsState extends Statable<ProjectPromptInstructions> {
+interface CustomInstructionsState {
   isDialogOpen: boolean;
 }
 
-interface CustomInstructionsActions extends Actionable<ProjectPromptInstructions> {
+interface CustomInstructionsActions {
   openDialog: () => void;
   closeDialog: () => void;
 }

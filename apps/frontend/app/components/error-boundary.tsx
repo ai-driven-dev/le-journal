@@ -1,14 +1,5 @@
-import {
-  isRouteErrorResponse,
-  Links,
-  Meta,
-  Scripts,
-  ScrollRestoration,
-  useRouteError,
-} from '@remix-run/react';
+import { Links, Meta, Scripts, ScrollRestoration, useRouteError } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
-
-import { ApiError } from '~/lib/api-error';
 
 export const ErrorBoundary = observer(function ErrorBoundary(): React.ReactNode {
   const error = useRouteError();
@@ -16,20 +7,12 @@ export const ErrorBoundary = observer(function ErrorBoundary(): React.ReactNode 
   let message;
   let details;
 
-  if (isRouteErrorResponse(error)) {
-    message = error.status;
-    details = error.statusText;
-  } else if (error instanceof ApiError) {
-    message = 'Erreur API';
-    details = error.toString();
-  } else if (error instanceof Error) {
-    message = 'Une erreur est survenue';
-    details = error.message;
+  if (error instanceof Error) {
+    message = error.message;
+    details = error.stack;
   } else {
     message = 'Une erreur est survenue';
-    details = 'Une erreur inattendue est survenue.';
   }
-
   return (
     <html lang="fr">
       <head>
