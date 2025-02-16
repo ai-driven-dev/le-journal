@@ -1,5 +1,4 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
 
 import { useGlobalStore } from '~/stores/root.provider';
 
@@ -10,13 +9,6 @@ type AuthComponentProps = {
 export const AuthComponent = observer(({ children }: AuthComponentProps) => {
   const globalStore = useGlobalStore();
   const { authStore } = globalStore;
-
-  useEffect(() => {
-    console.log('[Auth] Check access token');
-    if (authStore.accessToken === null) {
-      authStore.refreshAccessToken();
-    }
-  }, [authStore]);
 
   if (authStore.isLoading) {
     return <div>Chargement...</div>;

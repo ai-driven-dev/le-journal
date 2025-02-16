@@ -7,7 +7,5 @@ export class OnboardingStore {
     makeAutoObservable(this);
   }
 
-  configureGoogleAccount(): void {
-    console.log('configureGoogleAccount');
-  }
+  configureGoogleAccount(): void {}
 }

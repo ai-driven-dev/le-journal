@@ -77,7 +77,13 @@ export class AuthController {
     } catch (error: unknown | Error) {
       await this.authService.invalidateRefreshToken(res);
 
-      throw new UnauthorizedException('Access token expired, please log in again.', {
+      let message = 'Access token expired, please log in again.';
+
+      if (error instanceof Error) {
+        message = error.message;
+      }
+
+      throw new UnauthorizedException(message, {
         cause: error,
       });
     }

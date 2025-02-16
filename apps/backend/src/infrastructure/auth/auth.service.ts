@@ -1,5 +1,3 @@
-import console from 'console';
-
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
@@ -17,6 +15,7 @@ import {
 
 import { isProduction } from 'src/main.env';
 import { CreateUserUseCase } from 'src/modules/users/application/use-cases/create-user.use-case';
+import { GetUserByIdUseCase } from 'src/modules/users/application/use-cases/get-user-by-id.use-case';
 import { UserDomain } from 'src/modules/users/domain/user.domain';
 
 @Injectable()
@@ -24,6 +23,7 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly createUserUseCase: CreateUserUseCase,
+    private readonly getUserByIdUseCase: GetUserByIdUseCase,
     private readonly refreshTokenCacheRepository: RefreshTokenCacheRepository,
     private readonly logger: AppLogger,
   ) {}
@@ -52,13 +52,38 @@ export class AuthService {
   ): Promise<{
     accessToken: string;
   }> {
-    console.log('req.cookies', req.cookies);
+    this.logger.log('Handle refresh token', {
+      service: 'AuthService',
+      method: 'handleRefreshToken',
+    });
+
+    if (!Object.keys(req.cookies).includes(REFRESH_TOKEN_KEY)) {
+      throw new UnauthorizedException(
+        `No refresh token ${REFRESH_TOKEN_KEY} provided for: ${req.originalUrl}`,
+      );
+    }
 
     const refreshToken = req.cookies[REFRESH_TOKEN_KEY];
 
-    console.log('refreshToken', refreshToken);
-
     const payload: JwtPayload = this.jwtService.verify(refreshToken);
+
+    this.logger.log('Verify refresh token', {
+      service: 'AuthService',
+      method: 'handleRefreshToken',
+      metadata: {
+        payload,
+      },
+    });
+
+    if (payload.userId === undefined) {
+      throw new UnauthorizedException(`User ID is undefined for refresh token ${refreshToken}`);
+    }
+
+    const user = await this.getUserByIdUseCase.execute(payload.userId);
+
+    if (user === null) {
+      throw new UnauthorizedException(`User not found for userId: ${payload.userId}`);
+    }
 
     const { accessToken } = await this.setTokens(res, payload);
 
@@ -76,7 +101,6 @@ export class AuthService {
       );
     }
 
-    // eslint-disable-next-line security/detect-object-injection
     const accessToken = req.cookies[ACCESS_TOKEN_KEY];
 
     if (accessToken === undefined) {

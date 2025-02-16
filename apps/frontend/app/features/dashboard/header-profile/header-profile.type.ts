@@ -1,11 +1,14 @@
 import type { User } from '@le-journal/shared-types';
 
-export interface TitleState {
-  user: User | null;
+import type { Loadable } from '~/interfaces/loadable.interface';
+
+export interface HeaderProfileState {
   isLogoutDialogOpen: boolean;
 }
 
-export interface TitleActions {
+export interface HeaderProfileActions {
   setIsLogoutDialogOpen: (isOpen: boolean) => void;
   handleLogout: () => void;
 }
+
+export interface HeaderProfile extends HeaderProfileState, HeaderProfileActions, Loadable<User> {}

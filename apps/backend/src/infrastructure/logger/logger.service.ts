@@ -1,27 +1,20 @@
-import { Inject, Injectable, LoggerService } from '@nestjs/common';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-
-import { ErrorContext, LogContext } from './logger.type';
+import { Injectable, LoggerService } from '@nestjs/common';
 
 @Injectable()
 export class AppLogger implements LoggerService {
-  constructor(@Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: LoggerService) {}
-
-  log(message: string, context: LogContext): void {
-    this.logger.log(message, context);
+  log(message: string, context: unknown): void {
+    console.info(message, context);
   }
 
-  error(message: string, context: ErrorContext): void {
-    this.logger.error(message, context);
+  error(message: string, context: unknown): void {
+    console.error(message, context);
   }
 
-  warn(message: string, context: LogContext): void {
-    this.logger.warn(message, context);
+  warn(message: string, context: unknown): void {
+    console.warn(message, context);
   }
 
-  debug(message: string, context: LogContext): void {
-    if (this.logger.debug) {
-      this.logger.debug(message, context);
-    }
+  debug(message: string, context: unknown): void {
+    console.debug(message, context);
   }
 }

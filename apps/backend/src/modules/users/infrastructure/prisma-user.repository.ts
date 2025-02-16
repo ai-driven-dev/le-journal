@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 
-import { CryptoService } from '../../../infrastructure/auth/crypto.service';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { UserDomain } from '../domain/user.domain';
 import { UserRepository } from '../domain/user.repository.interface';
+import { UserMapper } from '../presentation/user.mapper';
+
+import { CryptoService } from './crypto.service';
 
 import { AppLogger } from 'src/infrastructure/logger/logger.service';
 
@@ -13,16 +16,21 @@ export class PrismaUserRepository implements UserRepository {
     private readonly prisma: PrismaService,
     private readonly cryptoService: CryptoService,
     private readonly logger: AppLogger,
+    private readonly userMapper: UserMapper,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    return (await this.prisma.user.findMany()).map((user) => {
-      user.google_refresh_token = this.cryptoService.decryptToken(
+  async findAll(): Promise<UserDomain[]> {
+    const users: User[] = await this.prisma.user.findMany();
+
+    const decryptedUsers = users.map((user) => ({
+      ...user, // Copie de l'objet pour éviter la mutation directe
+      google_refresh_token: this.cryptoService.decryptToken(
         user.google_refresh_token,
         user.google_refresh_token_iv,
-      );
-      return user;
-    });
+      ),
+    }));
+
+    return decryptedUsers.map((user) => this.userMapper.toDomain(user));
   }
 
   async findByEmailOrGoogleId(

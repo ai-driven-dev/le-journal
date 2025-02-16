@@ -10,8 +10,6 @@ import { NewsletterSubscriptionsStore } from './newsletter-subscriptions/newslet
 import { createProjectStore } from './project/project-alias.store';
 import { createUpgradeBannerStore } from './upgrade-banner/upgrade-banner.store';
 
-import { API_ROUTES_GET } from '~/lib/api-fetcher';
-import { verify } from '~/lib/validator';
 
 export class DashboardStore {
   customInstructions: CustomInstructionsStore;
@@ -29,25 +27,17 @@ export class DashboardStore {
   }
 
   async init(): Promise<void> {
-    const [newsletters, users, projects] = await Promise.all([
-      this.authStore.fetchWithAuth(API_ROUTES_GET.newsletters, 'GET'),
-      this.authStore.fetchWithAuth(API_ROUTES_GET.users, 'GET'),
-      this.authStore.fetchWithAuth(API_ROUTES_GET.projects, 'GET'),
+    const [newsletters, user, projects] = await Promise.all([
+      this.authStore.fetchWithAuth('/api/newsletters', 'GET').then((res) => res.json()),
+      this.authStore.fetchWithAuth('/api/users/me', 'GET').then((res) => res.json()),
+      this.authStore.fetchWithAuth('/api/projects', 'GET').then((res) => res.json()),
     ]);
 
     const project = (projects as Project[])[0];
-    verify(project);
 
-    const emails = await this.authStore.fetchWithAuth(
-      API_ROUTES_GET.newsletterEmails,
-      'GET',
-      undefined,
-      { projectId: project.id },
-    );
-
-    if (this.customInstructions === null) {
-      throw new Error('Custom instructions store is not initialized');
-    }
+    const emails = await this.authStore
+      .fetchWithAuth('/api/newsletters/emails', 'GET', undefined, { projectId: project.id })
+      .then((res) => res.json());
 
     this.projectStore.init(project);
     this.customInstructions.load({
@@ -57,7 +47,7 @@ export class DashboardStore {
       canUpdatePrompt: project.canUpdatePrompt,
     });
     this.newslettersStore.load(newsletters as Newsletter[]);
-    this.headerProfileStore.loadUserInfo((users as User[])[0]);
+    this.headerProfileStore.load(user as User);
 
     this.emailsStore.load(emails as Email[]);
   }

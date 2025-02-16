@@ -1,26 +1,17 @@
-import type { AuthEndpoint } from './api-fetcher';
-import { getBackendURL, type ApiEndpoint } from './api-fetcher';
+import { getBackendURL, type Endpoint } from './api-fetcher';
 
-type FetchResponse<T> =
-  | {
-      error: false;
-      data: T;
-    }
-  | {
-      error: true;
-      errorMessage: string;
-      data: null;
-      response: Response;
-    };
+type FetchResponse<T> = Response & {
+  data: T;
+};
 
 export async function clientFetch<T>(
-  endpoint: ApiEndpoint | AuthEndpoint,
+  endpoint: Endpoint,
   method: 'GET' | 'PUT' | 'POST' | 'DELETE',
   accessToken?: string,
   form?: React.FormEvent<HTMLFormElement>,
   searchParams?: Record<string, string>,
   options?: RequestInit,
-): Promise<FetchResponse<T>> {
+): Promise<Response> {
   let init: RequestInit = {
     method,
     headers: new Headers({
@@ -37,7 +28,7 @@ export async function clientFetch<T>(
     init.body = JSON.stringify(data);
   }
 
-  let url = getBackendURL(endpoint as ApiEndpoint);
+  let url = getBackendURL(endpoint as Endpoint);
 
   if (searchParams !== undefined) {
     const params = new URLSearchParams(searchParams);
@@ -56,28 +47,5 @@ export async function clientFetch<T>(
     throw new Error('Rate limit exceeded');
   }
 
-  if (
-    !response.ok &&
-    response.status !== 401 &&
-    response.status !== 429 &&
-    response.status === 400
-  ) {
-    // throw new Error(`Failed to fetch data from ${url} with access token ${accessToken}`);
-
-    const { message } = await response.json();
-
-    console.warn('message', message);
-
-    return {
-      error: true,
-      response,
-      data: null,
-      errorMessage: message,
-    };
-  }
-
-  return {
-    error: false,
-    data: await response.json(),
-  };
+  return response as FetchResponse<T>;
 }

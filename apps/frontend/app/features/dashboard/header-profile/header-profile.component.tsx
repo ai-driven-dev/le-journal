@@ -26,6 +26,16 @@ export const HeaderProfile: FC = observer(() => {
   const { dashboardStore } = useGlobalStore();
   const store = dashboardStore.headerProfileStore;
 
+  if (store.isLoading) {
+    return <div>Chargement...</div>;
+  }
+
+  if (store.state === null || store.state === undefined) {
+    return <div>Erreur</div>;
+  }
+
+  const { avatar, name } = store.state;
+
   return (
     <header>
       <div className="w-full flex items-center h-16 px-4">
@@ -35,8 +45,14 @@ export const HeaderProfile: FC = observer(() => {
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
+            <Button variant="ghost">
+              <span className="text-sm font-medium">{name}</span>
+
+              {avatar !== undefined ? (
+                <img src={avatar} alt="Avatar" className="h-5 w-5 rounded-full" />
+              ) : (
+                <User className="h-5 w-5" />
+              )}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

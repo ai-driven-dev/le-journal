@@ -6,13 +6,15 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayload } from '../auth.types';
 
 import { GetUserByIdUseCase } from 'src/modules/users/application/use-cases/get-user-by-id.use-case';
-import { UserModel } from 'src/prisma/prisma.types';
+import { UserDomain } from 'src/modules/users/domain/user.domain';
+import { UserMapper } from 'src/modules/users/presentation/user.mapper';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     readonly configService: ConfigService,
     private readonly getUserByIdUseCase: GetUserByIdUseCase,
+    private readonly userMapper: UserMapper,
   ) {
     const secret = configService.get<string>('JWT_SECRET');
     if (!secret) {
@@ -35,7 +37,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload): Promise<UserModel> {
+  async validate(payload: JwtPayload): Promise<UserDomain> {
     const user = await this.getUserByIdUseCase.execute(payload.userId);
 
     if (!user) {
@@ -44,6 +46,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       );
     }
 
-    return user;
+    return this.userMapper.toDomain(user);
   }
 }
