@@ -1,5 +1,5 @@
 ---
-date: 2025-02-16 12:59:12
+date: 2025-02-16 14:14:54
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1882,7 +1882,6 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/auth/auth.module.ts
 ./apps/backend/src/infrastructure/auth/auth.service.ts
 ./apps/backend/src/infrastructure/auth/auth.types.ts
-./apps/backend/src/infrastructure/auth/crypto.service.ts
 ./apps/backend/src/infrastructure/auth/decorators
 ./apps/backend/src/infrastructure/auth/decorators/get-user.decorator.ts
 ./apps/backend/src/infrastructure/auth/guards
@@ -1905,15 +1904,9 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/database/seeds.command.ts
 ./apps/backend/src/infrastructure/database/seeds.module.ts
 ./apps/backend/src/infrastructure/database/seeds.service.ts
-./apps/backend/src/infrastructure/filters
-./apps/backend/src/infrastructure/filters/filter.http-exception.service.ts
-./apps/backend/src/infrastructure/filters/filter.logging.service.ts
-./apps/backend/src/infrastructure/filters/filters.module.ts
 ./apps/backend/src/infrastructure/logger
-./apps/backend/src/infrastructure/logger/logger.config.ts
 ./apps/backend/src/infrastructure/logger/logger.module.ts
 ./apps/backend/src/infrastructure/logger/logger.service.ts
-./apps/backend/src/infrastructure/logger/logger.type.ts
 ./apps/backend/src/infrastructure/redis
 ./apps/backend/src/infrastructure/redis/redis.module.ts
 ./apps/backend/src/infrastructure/redis/redis.repository.ts
@@ -1964,6 +1957,8 @@ export class ProjectType {
 ./apps/backend/src/modules/projects/projects.module.ts
 ./apps/backend/src/modules/users
 ./apps/backend/src/modules/users/application
+./apps/backend/src/modules/users/application/dto
+./apps/backend/src/modules/users/application/dto/user.dto.ts
 ./apps/backend/src/modules/users/application/use-cases
 ./apps/backend/src/modules/users/application/use-cases/create-user.use-case.ts
 ./apps/backend/src/modules/users/application/use-cases/get-all-users.use-case.ts
@@ -1972,6 +1967,7 @@ export class ProjectType {
 ./apps/backend/src/modules/users/domain/user.domain.ts
 ./apps/backend/src/modules/users/domain/user.repository.interface.ts
 ./apps/backend/src/modules/users/infrastructure
+./apps/backend/src/modules/users/infrastructure/crypto.service.ts
 ./apps/backend/src/modules/users/infrastructure/prisma-user.repository.ts
 ./apps/backend/src/modules/users/presentation
 ./apps/backend/src/modules/users/presentation/user.mapper.ts
@@ -2171,7 +2167,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-115 directories, 324 files
+115 directories, 320 files
 ```
 
-2025-02-16 12:59:12
+2025-02-16 14:14:54
