@@ -1,14 +1,14 @@
 import type { Email } from '@le-journal/shared-types';
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 
 import type { EmailStore } from './emails.type';
 
 import { verify } from '~/lib/validator';
 
 export class EmailsStore implements EmailStore {
-  state: Email[] | null = null;
+  state: Email[] = [];
   isLoading = true;
-  isSubmitting = false;
+
   selectedEmailId: string | null = null;
   isDrawerOpen = false;
 
@@ -16,16 +16,18 @@ export class EmailsStore implements EmailStore {
     makeAutoObservable(this);
   }
 
-  loadEmails = (emails: Email[]): void => {
+  load = (emails: Email[]): void => {
     emails.forEach((email) => {
       verify(email);
     });
 
-    runInAction(() => {
-      this.state = emails;
-      this.isLoading = false;
-    });
+    this.state = emails;
+    this.isLoading = false;
   };
+
+  get defaultEmailId(): string {
+    return this.state[0]?.id ?? '';
+  }
 
   selectEmail = (id: string | null): void => {
     this.selectedEmailId = id;

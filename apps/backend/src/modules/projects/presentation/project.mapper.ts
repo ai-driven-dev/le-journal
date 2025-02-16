@@ -20,8 +20,8 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
     };
   }
 
-  toDomain(model: ProjectModel): ProjectDomain {
-    return {
+  toDomain(model: ProjectModel, canUpdatePrompt: boolean): ProjectDomain {
+    const project = new ProjectDomain({
       id: model.id,
       name: model.name,
       slug: model.slug,
@@ -30,8 +30,9 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       createdAt: model.created_at,
       promptInstruction: model.prompt_instruction,
       lastPromptUpdate: model.last_prompt_update ?? undefined,
-      // will be calculated in the use case.
-      canUpdatePrompt: false,
-    };
+      canUpdatePrompt,
+    });
+
+    return project;
   }
 }

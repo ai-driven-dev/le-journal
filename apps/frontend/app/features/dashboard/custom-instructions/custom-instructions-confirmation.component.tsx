@@ -47,7 +47,7 @@ export const CustomInstructionsConfirmation: FC<CustomInstructionsConfirmationPr
               <Button variant="outline" onClick={closeDialog} disabled={isSubmitting}>
                 Annuler
               </Button>
-              <Button onClick={handleConfirm} type="submit" disabled={isSubmitting}>
+              <Button onClick={handleConfirm} disabled={isSubmitting}>
                 Confirmer
               </Button>
             </DialogFooter>

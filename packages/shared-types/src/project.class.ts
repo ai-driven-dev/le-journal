@@ -82,9 +82,8 @@ export class ProjectPromptInstructions {
   promptInstruction!: string;
 
   @IsDate()
-  lastPromptUpdate: string | null;
+  lastPromptUpdate?: Date | string;
 
   @IsBoolean()
-  @IsOptional()
-  canUpdatePrompt: boolean;
+  canUpdatePrompt?: boolean;
 }

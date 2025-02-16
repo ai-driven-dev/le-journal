@@ -1,5 +1,7 @@
 import { ProjectPromptInstructions } from '@le-journal/shared-types';
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import { IsBoolean, IsDate, IsOptional } from 'class-validator';
 
 export class ProjectUpdate extends ProjectPromptInstructions {
   @ApiProperty({
@@ -13,6 +15,15 @@ export class ProjectUpdate extends ProjectPromptInstructions {
     example: 'Write a blog post about AI and its impact on society',
   })
   promptInstruction!: string;
+
+  @IsOptional()
+  @IsBoolean()
+  canUpdatePrompt?: boolean;
+
+  @IsOptional()
+  @IsDate()
+  @Transform(({ value }) => new Date(value))
+  lastPromptUpdate?: string;
 
   // TODO: Add external API security validation in the future
   // This could include:

@@ -1,50 +1,28 @@
 import { observer } from 'mobx-react-lite';
 
-import { AuthComponent } from '../auth/auth.component';
 
-import { StepProgression } from './onboarding-progress.component';
-import type { OnboardingStep } from './onboarding.types';
-import { OnboardingStepFinished } from './steps/onboarding-step-finished.component';
-import { OnboardingStepPermission } from './steps/onboarding-step-permissions.component';
-import { OnboardingStepReadonly } from './steps/onboarding-step-readonly.component';
-import { OnboardingStepWelcome } from './steps/onboarding-step-welcome.component';
-import { OnboardingStore } from './stores/onboardingStore';
+import { Button } from '~/components/ui/button';
+import { useGlobalStore } from '~/stores/root.provider';
 
-type StepFormProps = {
-  currentStep: OnboardingStep;
-};
+export const Onboarding = observer(() => {
+  const { onboardingStore } = useGlobalStore();
 
-export const Onboarding = observer(({ currentStep }: StepFormProps) => {
-  const getStepComponent = (): React.ReactNode => {
-    switch (currentStep) {
-      case 'permissions':
-        return <OnboardingStepPermission store={onboardingStore} />;
-      case 'readonly':
-        return <OnboardingStepReadonly store={onboardingStore} />;
-      case 'finished':
-        return <OnboardingStepFinished store={onboardingStore} />;
-      case 'welcome':
-        return <OnboardingStepWelcome store={onboardingStore} />;
-      default:
-        throw new Error(`Step ${currentStep} not found`);
-    }
-  };
-
-  const onboardingStore = new OnboardingStore(currentStep);
-  const StepComponent = getStepComponent();
-
-  const view = (
+  return (
     <div className="max-w-2xl mx-auto">
-      <StepProgression store={onboardingStore} />
-
-      {StepComponent}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">Permissions</h2>
+        <p>Configuration des permissions nécessaires.</p>
+        <ul>
+          <li>
+            Créez un nouveau label <code>Le Journal</code> dans votre boite mail.{' '}
+          </li>
+          <li>
+            Créer un filtre pour affecter vos emails à ce label <code>Le Journal</code>
+          </li>
+          <li>Redirigez les newsletters en dehors de la boîte de réception sur ce filtre.</li>
+        </ul>
+        <Button onClick={onboardingStore.configureGoogleAccount}>Configurer les permissions</Button>
+      </div>
     </div>
   );
-
-  // no need to check auth for welcome step
-  if (currentStep === 'welcome') {
-    return view;
-  }
-
-  return <AuthComponent>{view}</AuthComponent>;
 });

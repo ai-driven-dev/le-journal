@@ -9,7 +9,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import type { Request, Response } from 'express';
 import { Profile } from 'passport-google-oauth20';
 
@@ -22,12 +21,12 @@ import { getEnv } from 'src/main.env';
 
 @ApiTags('Authentication')
 @Controller('auth')
-@Throttle({
-  default: {
-    limit: 3, // 3 requests per minute
-    ttl: 60000, // 1 minute
-  },
-})
+// @Throttle({
+//   default: {
+//     limit: 3, // 3 requests per minute
+//     ttl: 60000, // 1 minute
+//   },
+// })
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -48,7 +47,7 @@ export class AuthController {
   async googleAuthCallbackFull(@Req() req: Request, @Res() res: Response): Promise<void> {
     await this.authService.handleGoogleAuth(req.user as unknown as GoogleAuthProfile, res);
 
-    res.redirect(getEnv('FRONTEND_URL') + '/onboarding/permissions');
+    res.redirect(getEnv('FRONTEND_URL') + '/onboarding');
   }
 
   @ApiOperation({ summary: 'Readonly scope Google OAuth callback' })
@@ -61,7 +60,7 @@ export class AuthController {
   ): Promise<void> {
     await this.authService.handleGoogleAuth(req.user as unknown as GoogleAuthProfile, res);
 
-    res.redirect(getEnv('FRONTEND_URL') + '/dashboard/1');
+    res.redirect(getEnv('FRONTEND_URL') + '/dashboard');
   }
 
   @ApiOperation({ summary: 'Refresh access token' })

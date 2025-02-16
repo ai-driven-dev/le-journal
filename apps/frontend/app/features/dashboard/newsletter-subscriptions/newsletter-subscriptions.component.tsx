@@ -36,9 +36,17 @@ export const NewsletterSubscriptions: FC = observer(() => {
   const { dashboardStore } = useGlobalStore();
   const store = dashboardStore.newslettersStore;
 
+  if (store.isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (store.state.length === 0) {
+    return <div>No newsletters found</div>;
+  }
+
   return (
     <div className="space-y-4">
-      {store.newsletters.map((newsletter) => {
+      {store.state.map((newsletter) => {
         const statusDisplay = NEWSLETTER_STATUS_DISPLAY[newsletter.subscriptionStatus];
 
         return (

@@ -6,7 +6,7 @@ import type { AuthStore } from '../auth/auth.store';
 import { CustomInstructionsStore } from './custom-instructions/custom-instructions.store';
 import { EmailsStore } from './emails/emails.store';
 import { HeaderProfileStore } from './header-profile/header-profile.store';
-import { createNewsletterSubscriptionsStore } from './newsletter-subscriptions/newsletter-subscriptions.store';
+import { NewsletterSubscriptionsStore } from './newsletter-subscriptions/newsletter-subscriptions.store';
 import { createProjectStore } from './project/project-alias.store';
 import { createUpgradeBannerStore } from './upgrade-banner/upgrade-banner.store';
 
@@ -16,7 +16,7 @@ import { verify } from '~/lib/validator';
 export class DashboardStore {
   customInstructions: CustomInstructionsStore;
   headerProfileStore: HeaderProfileStore;
-  newslettersStore = createNewsletterSubscriptionsStore();
+  newslettersStore: NewsletterSubscriptionsStore;
   projectStore = createProjectStore();
   upgradeBannerStore = createUpgradeBannerStore();
   emailsStore = new EmailsStore();
@@ -25,6 +25,7 @@ export class DashboardStore {
     makeAutoObservable(this);
     this.customInstructions = new CustomInstructionsStore(authStore);
     this.headerProfileStore = new HeaderProfileStore(authStore);
+    this.newslettersStore = new NewsletterSubscriptionsStore();
   }
 
   async init(): Promise<void> {
@@ -49,17 +50,15 @@ export class DashboardStore {
     }
 
     this.projectStore.init(project);
-    this.customInstructions.init({
+    this.customInstructions.load({
       id: project.id,
       promptInstruction: project.promptInstruction,
-      lastPromptUpdate: project.lastPromptUpdate ?? null,
+      lastPromptUpdate: project.lastPromptUpdate,
       canUpdatePrompt: project.canUpdatePrompt,
     });
-    this.newslettersStore.loadNewsletters(newsletters as Newsletter[]);
+    this.newslettersStore.load(newsletters as Newsletter[]);
     this.headerProfileStore.loadUserInfo((users as User[])[0]);
 
-    if ((emails as Email[]).length > 0) {
-      this.emailsStore.loadEmails(emails as Email[]);
-    }
+    this.emailsStore.load(emails as Email[]);
   }
 }

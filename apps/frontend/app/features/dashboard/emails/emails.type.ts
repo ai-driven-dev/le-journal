@@ -5,7 +5,7 @@ import type { Loadable } from '~/interfaces/loadable.interface';
 export interface EmailState {
   selectedEmailId: string | null;
   isDrawerOpen: boolean;
-  loadEmails: (emails: Email[]) => void;
+  load: (emails: Email[]) => void;
   selectEmail: (id: string | null) => void;
   toggleEmailDetails: (isOpen: boolean) => void;
   showEmailDetails: (e: React.MouseEvent) => void;

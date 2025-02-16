@@ -1,8 +1,12 @@
 import type { User } from '@le-journal/shared-types';
 import { makeAutoObservable, runInAction } from 'mobx';
 
-import type { ApiEndpoint } from '~/lib/api-fetcher';
-import { API_ROUTES_GET, getBackendURL, getGoogleRedirectURI } from '~/lib/api-fetcher';
+import {
+  API_ROUTES_GET,
+  getBackendURL,
+  getGoogleRedirectURI,
+  type ApiEndpoint,
+} from '~/lib/api-fetcher';
 import { clientFetch } from '~/lib/api-fetcher.client';
 
 export class AuthStore {
@@ -31,11 +35,14 @@ export class AuthStore {
         });
 
         try {
-          const res = await clientFetch(API_ROUTES_GET.authRefresh, 'GET');
-          const data = await res.json();
+          const res = await clientFetch<{ accessToken: string }>(API_ROUTES_GET.authRefresh, 'GET');
+
+          if (res.error) {
+            throw new Error(res.errorMessage);
+          }
 
           runInAction(() => {
-            this.accessToken = data.accessToken;
+            this.accessToken = res.data.accessToken;
           });
         } catch (error) {
           console.warn('[Auth] Erreur lors du refresh token', error);
@@ -71,21 +78,28 @@ export class AuthStore {
     searchParams?: Record<string, string>,
   ): Promise<T> {
     if (this.accessToken === null) {
+      // Not a big deal, we'll try to refresh the access token
       await this.refreshAccessToken();
 
+      // If the access token is still null, redirect to the login page
       if (this.accessToken === null) {
+        window.location.href = '/login';
         throw new Error('Access token is null');
       }
     }
 
-    const res = await clientFetch(endpoint, method, this.accessToken, form, searchParams);
+    const res = await clientFetch<T>(endpoint, method, this.accessToken, form, searchParams);
 
-    if (res.status === 401) {
-      await this.refreshAccessToken();
-      return await this.fetchWithAuth(endpoint, method, form, searchParams);
+    if (res.error) {
+      if (res.response.status === 401) {
+        await this.refreshAccessToken();
+        return await this.fetchWithAuth(endpoint, method, form, searchParams);
+      }
+
+      throw new Error(res.errorMessage);
     }
 
-    return await res.json();
+    return res.data;
   }
 
   async login(): Promise<void> {

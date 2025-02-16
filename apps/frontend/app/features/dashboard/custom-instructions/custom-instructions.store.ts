@@ -1,17 +1,15 @@
 import type { ProjectPromptInstructions } from '@le-journal/shared-types';
+import { isString } from 'class-validator';
 import { makeAutoObservable, runInAction } from 'mobx';
 
 import type { CustomInstructions } from './custom-instructions.type';
 
 import type { AuthStore } from '~/features/auth/auth.store';
 import { toast } from '~/hooks/use-toast';
-import type { Loadable } from '~/interfaces/loadable.interface';
 import { API_ROUTES_PUT } from '~/lib/api-fetcher';
 import { verify } from '~/lib/validator';
 
-export class CustomInstructionsStore
-  implements CustomInstructions, Loadable<ProjectPromptInstructions>
-{
+export class CustomInstructionsStore implements CustomInstructions {
   authStore: AuthStore;
   state: ProjectPromptInstructions | null = null;
 
@@ -24,13 +22,15 @@ export class CustomInstructionsStore
     this.authStore = authStore;
   }
 
-  init = (project: ProjectPromptInstructions): void => {
+  load = (project: ProjectPromptInstructions): void => {
     verify(project);
     runInAction(() => {
       this.state = {
         id: project.id,
         promptInstruction: project.promptInstruction,
-        lastPromptUpdate: project.lastPromptUpdate ? new Date(project.lastPromptUpdate) : null,
+        lastPromptUpdate: isString(project.lastPromptUpdate)
+          ? new Date(project.lastPromptUpdate)
+          : undefined,
         canUpdatePrompt: project.canUpdatePrompt,
       };
       this.isLoading = false;
@@ -38,6 +38,8 @@ export class CustomInstructionsStore
   };
 
   save = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault();
+
     if (this.state === null) {
       throw new Error('State is null');
     }
@@ -60,13 +62,14 @@ export class CustomInstructionsStore
         event,
       );
 
-      this.init(updatedState);
+      this.load(updatedState);
 
       toast({
         title: 'Instructions sauvegardées',
         description: 'Vos préférences de personnalisation ont été mises à jour.',
       });
     } catch (error: unknown) {
+      console.error(error);
       toast({
         variant: 'destructive',
         title: 'Erreur',
@@ -107,9 +110,9 @@ export class CustomInstructionsStore
       return "Aujourd'hui, vous pouvez modifier vos instructions.";
     }
 
-    if (this.state !== null && this.state.lastPromptUpdate !== null) {
-      const modifiedDate = this.state.lastPromptUpdate.toLocaleDateString();
-      const modifiedTime = this.state.lastPromptUpdate.toLocaleTimeString([], {
+    if (this.state !== null && isString(this.state.lastPromptUpdate)) {
+      const modifiedDate = new Date(this.state.lastPromptUpdate).toLocaleDateString();
+      const modifiedTime = new Date(this.state.lastPromptUpdate).toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit',
       });

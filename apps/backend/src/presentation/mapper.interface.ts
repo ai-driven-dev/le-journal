@@ -7,5 +7,5 @@ export interface Mapper<D, M> {
   /**
    * Convert a database object to a domain object (for the app, API and frontend).
    */
-  toDomain(model: M): D;
+  toDomain(model: M, ...args: unknown[]): D;
 }
