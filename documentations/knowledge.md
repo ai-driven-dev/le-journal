@@ -1,5 +1,5 @@
 ---
-date: 2025-02-15 22:30:33
+date: 2025-02-16 12:59:12
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1951,6 +1951,7 @@ export class ProjectType {
 ./apps/backend/src/modules/projects/application/get-project.use-case.ts
 ./apps/backend/src/modules/projects/application/update-project-prompt.use-case.ts
 ./apps/backend/src/modules/projects/domain
+./apps/backend/src/modules/projects/domain/can-update-prompt.service.ts
 ./apps/backend/src/modules/projects/domain/project-create.ts
 ./apps/backend/src/modules/projects/domain/project-update.ts
 ./apps/backend/src/modules/projects/domain/project.repository.interface.ts
@@ -2061,23 +2062,13 @@ export class ProjectType {
 ./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.store.ts
 ./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.type.ts
 ./apps/frontend/app/features/onboarding
-./apps/frontend/app/features/onboarding/onboarding-progress.component.tsx
 ./apps/frontend/app/features/onboarding/onboarding.component.tsx
+./apps/frontend/app/features/onboarding/onboarding.store.ts
 ./apps/frontend/app/features/onboarding/onboarding.types.ts
-./apps/frontend/app/features/onboarding/steps
-./apps/frontend/app/features/onboarding/steps/onboarding-step-finished.component.tsx
-./apps/frontend/app/features/onboarding/steps/onboarding-step-permissions.component.tsx
-./apps/frontend/app/features/onboarding/steps/onboarding-step-readonly.component.tsx
-./apps/frontend/app/features/onboarding/steps/onboarding-step-welcome.component.tsx
-./apps/frontend/app/features/onboarding/stores
-./apps/frontend/app/features/onboarding/stores/onboarding-navigation.store.ts
-./apps/frontend/app/features/onboarding/stores/onboardingSetupStore.ts
-./apps/frontend/app/features/onboarding/stores/onboardingStore.ts
 ./apps/frontend/app/hooks
 ./apps/frontend/app/hooks/use-mobile.tsx
 ./apps/frontend/app/hooks/use-toast.ts
 ./apps/frontend/app/interfaces
-./apps/frontend/app/interfaces/component.interface.ts
 ./apps/frontend/app/interfaces/loadable.interface.ts
 ./apps/frontend/app/lib
 ./apps/frontend/app/lib/api-error.ts
@@ -2093,7 +2084,6 @@ export class ProjectType {
 ./apps/frontend/app/routes/dashboard.$projectNumber.tsx
 ./apps/frontend/app/routes/dashboard.tsx
 ./apps/frontend/app/routes/login.tsx
-./apps/frontend/app/routes/onboarding.$step.tsx
 ./apps/frontend/app/routes/onboarding._index.tsx
 ./apps/frontend/app/routes/settings.tsx
 ./apps/frontend/app/stores
@@ -2181,7 +2171,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-117 directories, 332 files
+115 directories, 324 files
 ```
 
-2025-02-15 22:30:34
+2025-02-16 12:59:12
