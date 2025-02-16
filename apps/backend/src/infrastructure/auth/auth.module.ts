@@ -1,27 +1,26 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 // import { ThrottlerGuard } from '@nestjs/throttler';
 
-import { UsersModule } from '../../modules/users/users.module';
 import { RedisModule } from '../redis/redis.module';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { CryptoService } from './crypto.service';
 import { GoogleStrategyFull } from './strategies/google-full.strategy';
 import { GoogleStrategyReadonly } from './strategies/google-readonly.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
+import { UsersModule } from 'src/modules/users/users.module';
 import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
   imports: [
     PassportModule,
     PrismaModule,
-    forwardRef(() => UsersModule),
     RedisModule,
+    UsersModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -51,8 +50,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
     //   provide: APP_GUARD,
     //   useClass: ThrottlerGuard,
     // },
-    CryptoService,
   ],
-  exports: [AuthService, CryptoService],
+  exports: [AuthService],
 })
 export class AuthModule {}

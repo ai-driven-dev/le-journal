@@ -19,6 +19,10 @@ export class User {
   @IsOptional()
   name?: string;
 
+  @IsString()
+  @IsOptional()
+  avatar?: string;
+
   @IsDate()
   createdAt: Date;
 

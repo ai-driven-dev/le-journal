@@ -54,4 +54,9 @@ export class UserDomain extends User {
     description: "User's avatar URL",
   })
   avatar!: string;
+
+  constructor(user: UserDomain) {
+    super();
+    Object.assign(this, user);
+  }
 }

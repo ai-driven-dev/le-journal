@@ -1,12 +1,7 @@
 import type { User } from '@le-journal/shared-types';
 import { makeAutoObservable, runInAction } from 'mobx';
 
-import {
-  API_ROUTES_GET,
-  getBackendURL,
-  getGoogleRedirectURI,
-  type ApiEndpoint,
-} from '~/lib/api-fetcher';
+import { getBackendURL, getGoogleRedirectURI, type Endpoint } from '~/lib/api-fetcher';
 import { clientFetch } from '~/lib/api-fetcher.client';
 
 export class AuthStore {
@@ -34,25 +29,23 @@ export class AuthStore {
           this.error = null;
         });
 
-        try {
-          const res = await clientFetch<{ accessToken: string }>(API_ROUTES_GET.authRefresh, 'GET');
+        const res = await clientFetch('/auth/refresh', 'GET');
 
-          if (res.error) {
-            throw new Error(res.errorMessage);
-          }
-
-          runInAction(() => {
-            this.accessToken = res.data.accessToken;
-          });
-        } catch (error) {
-          console.warn('[Auth] Erreur lors du refresh token', error);
+        if (res.status === 401) {
           window.location.href = '/login';
-
-          runInAction(() => {
-            this.accessToken = null;
-            this.error = error as Error;
-          });
         }
+
+        const data = await res.json();
+
+        console.log('[Auth] Refresh token response', data);
+
+        if (data === null || !('accessToken' in data)) {
+          throw new Error('Access token is null', { cause: res });
+        }
+
+        runInAction(() => {
+          this.accessToken = data.accessToken;
+        });
       } catch (error) {
         console.error('[Auth] Erreur lors du refresh token', error);
         runInAction(() => {
@@ -71,35 +64,28 @@ export class AuthStore {
     return this.refreshPromise;
   }
 
-  async fetchWithAuth<T>(
-    endpoint: ApiEndpoint,
+  async fetchWithAuth(
+    endpoint: Endpoint,
     method: 'GET' | 'PUT' | 'POST' | 'DELETE',
     form?: React.FormEvent<HTMLFormElement>,
     searchParams?: Record<string, string>,
-  ): Promise<T> {
+  ): Promise<Response> {
     if (this.accessToken === null) {
-      // Not a big deal, we'll try to refresh the access token
       await this.refreshAccessToken();
-
-      // If the access token is still null, redirect to the login page
-      if (this.accessToken === null) {
-        window.location.href = '/login';
-        throw new Error('Access token is null');
-      }
     }
 
-    const res = await clientFetch<T>(endpoint, method, this.accessToken, form, searchParams);
-
-    if (res.error) {
-      if (res.response.status === 401) {
-        await this.refreshAccessToken();
-        return await this.fetchWithAuth(endpoint, method, form, searchParams);
-      }
-
-      throw new Error(res.errorMessage);
+    if (this.accessToken === null) {
+      throw new Error('Access token is null');
     }
 
-    return res.data;
+    const res = await clientFetch(endpoint, method, this.accessToken, form, searchParams);
+
+    if (res.status === 401) {
+      await this.refreshAccessToken();
+      return await this.fetchWithAuth(endpoint, method, form, searchParams);
+    }
+
+    return res;
   }
 
   async login(): Promise<void> {

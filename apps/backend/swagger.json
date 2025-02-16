@@ -1,6 +1,33 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/api/users/me": {
+      "get": {
+        "operationId": "UsersController_getMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Utilisateur connecté récupéré avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDomain"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Récupérer l'utilisateur connecté",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
     "/api/users": {
       "get": {
         "operationId": "UsersController_getAllUsers",
@@ -28,96 +55,6 @@
         "summary": "Récupérer tous les utilisateurs",
         "tags": [
           "Users"
-        ]
-      }
-    },
-    "/auth/google/full": {
-      "get": {
-        "operationId": "AuthController_googleAuthFull",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "summary": "Initial Google OAuth login -- full scope",
-        "tags": [
-          "Authentication"
-        ]
-      }
-    },
-    "/auth/google/readonly": {
-      "get": {
-        "operationId": "AuthController_googleAuthReadonly",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "summary": "Afterwards Google OAuth login -- readonly scope",
-        "tags": [
-          "Authentication"
-        ]
-      }
-    },
-    "/auth/google/callback/full": {
-      "get": {
-        "operationId": "AuthController_googleAuthCallbackFull",
-        "parameters": [],
-        "responses": {
-          "302": {
-            "description": "Redirect to step 2 of onboarding"
-          }
-        },
-        "summary": "Full scope Google OAuth callback",
-        "tags": [
-          "Authentication"
-        ]
-      }
-    },
-    "/auth/google/callback/readonly": {
-      "get": {
-        "operationId": "AuthController_googleAuthCallbackReadonly",
-        "parameters": [],
-        "responses": {
-          "302": {
-            "description": "Redirect to step 3 of onboarding"
-          }
-        },
-        "summary": "Readonly scope Google OAuth callback",
-        "tags": [
-          "Authentication"
-        ]
-      }
-    },
-    "/auth/refresh": {
-      "get": {
-        "operationId": "AuthController_refresh",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Successfully refreshed access token"
-          }
-        },
-        "summary": "Refresh access token",
-        "tags": [
-          "Authentication"
-        ]
-      }
-    },
-    "/auth/logout": {
-      "post": {
-        "operationId": "AuthController_logout",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Successfully logged out"
-          }
-        },
-        "summary": "Logout user",
-        "tags": [
-          "Authentication"
         ]
       }
     },
@@ -261,6 +198,96 @@
         "summary": "Get all newsletter emails",
         "tags": [
           "Newsletters"
+        ]
+      }
+    },
+    "/auth/google/full": {
+      "get": {
+        "operationId": "AuthController_googleAuthFull",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Initial Google OAuth login -- full scope",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/auth/google/readonly": {
+      "get": {
+        "operationId": "AuthController_googleAuthReadonly",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Afterwards Google OAuth login -- readonly scope",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/auth/google/callback/full": {
+      "get": {
+        "operationId": "AuthController_googleAuthCallbackFull",
+        "parameters": [],
+        "responses": {
+          "302": {
+            "description": "Redirect to step 2 of onboarding"
+          }
+        },
+        "summary": "Full scope Google OAuth callback",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/auth/google/callback/readonly": {
+      "get": {
+        "operationId": "AuthController_googleAuthCallbackReadonly",
+        "parameters": [],
+        "responses": {
+          "302": {
+            "description": "Redirect to step 3 of onboarding"
+          }
+        },
+        "summary": "Readonly scope Google OAuth callback",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "get": {
+        "operationId": "AuthController_refresh",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully refreshed access token"
+          }
+        },
+        "summary": "Refresh access token",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully logged out"
+          }
+        },
+        "summary": "Logout user",
+        "tags": [
+          "Authentication"
         ]
       }
     }

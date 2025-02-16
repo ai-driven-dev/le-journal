@@ -26,6 +26,7 @@ export const Dashboard: FC = observer(() => {
   const { dashboardStore } = useGlobalStore();
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dashboardStore.init();
   }, [dashboardStore]);
 

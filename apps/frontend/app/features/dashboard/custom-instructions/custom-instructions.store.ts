@@ -6,7 +6,6 @@ import type { CustomInstructions } from './custom-instructions.type';
 
 import type { AuthStore } from '~/features/auth/auth.store';
 import { toast } from '~/hooks/use-toast';
-import { API_ROUTES_PUT } from '~/lib/api-fetcher';
 import { verify } from '~/lib/validator';
 
 export class CustomInstructionsStore implements CustomInstructions {
@@ -56,11 +55,9 @@ export class CustomInstructionsStore implements CustomInstructions {
     try {
       verify(this.state);
 
-      const updatedState = await this.authStore.fetchWithAuth<ProjectPromptInstructions>(
-        API_ROUTES_PUT.projects,
-        'PUT',
-        event,
-      );
+      const updatedState = await this.authStore
+        .fetchWithAuth('/api/projects/prompt', 'PUT', event)
+        .then((res) => res.json());
 
       this.load(updatedState);
 

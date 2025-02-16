@@ -5,7 +5,6 @@ import { Redis } from 'ioredis';
 import { ConfigModule } from './config/config.module';
 import { AuthModule } from './infrastructure/auth/auth.module';
 import { SeedsModule } from './infrastructure/database/seeds.module';
-import { FiltersModule } from './infrastructure/filters/filters.module';
 import { LoggerModule } from './infrastructure/logger/logger.module';
 import { NewsletterModule } from './modules/newsletter/newsletter.module';
 import { ProjectsModule } from './modules/projects/projects.module';
@@ -21,7 +20,6 @@ import { PrismaModule } from './prisma/prisma.module';
     NewsletterModule,
     AuthModule,
     LoggerModule,
-    FiltersModule,
     CacheModule.registerAsync({
       useFactory: () => ({
         store: new Redis({

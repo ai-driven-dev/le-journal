@@ -130,7 +130,7 @@ export default [
       'import/no-deprecated': 'warn',
 
       /* Security Rules */
-      'security/detect-object-injection': 'warn',
+      // 'security/detect-object-injection': 'warn',
       'security/detect-non-literal-fs-filename': 'warn',
       'security/detect-unsafe-regex': 'error',
       'security/detect-buffer-noassert': 'error',

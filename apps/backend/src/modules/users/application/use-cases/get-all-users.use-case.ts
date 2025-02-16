@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 
+import { UserDomain } from '../../domain/user.domain';
 import { USER_REPOSITORY, UserRepository } from '../../domain/user.repository.interface';
-
-import { UserModel } from 'src/prisma/prisma.types';
 
 @Injectable()
 export class GetAllUsersUseCase {
@@ -11,7 +10,7 @@ export class GetAllUsersUseCase {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async execute(): Promise<UserModel[]> {
+  async execute(): Promise<UserDomain[]> {
     return await this.userRepository.findAll();
   }
 }

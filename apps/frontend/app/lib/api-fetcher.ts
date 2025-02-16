@@ -1,27 +1,17 @@
-export type AuthEndpoint = '/auth/google' | '/auth/logout' | '/auth/refresh';
-export type ApiEndpoint =
+export type Endpoint =
   | '/api/users'
-  | '/api/projects'
+  | '/api/users/me'
+  // newsletters
   | '/api/newsletters'
   | '/api/newsletters/emails'
   | '/api/newsletters/emails/search'
-  | '/api/projects/prompt';
-
-export const API_ROUTES_PUT = {
-  projects: '/api/projects/prompt',
-} as const;
-
-export const API_ROUTES_GET = {
+  // projects
+  | '/api/projects'
+  | '/api/projects/prompt'
   // auth
-  authRefresh: '/auth/refresh',
-  authLogout: '/auth/logout',
-  // api
-  users: '/api/users',
-  projects: '/api/projects',
-  newsletters: '/api/newsletters',
-  newsletterEmails: '/api/newsletters/emails',
-  newsletterEmailsSearch: '/api/newsletters/emails/search',
-} as const;
+  | '/auth/google'
+  | '/auth/logout'
+  | '/auth/refresh';
 
 export function getGoogleRedirectURI(scope: 'readonly' | 'full'): string {
   const authUrl =
@@ -36,7 +26,7 @@ export function getGoogleRedirectURI(scope: 'readonly' | 'full'): string {
   return authUrl;
 }
 
-export function getBackendURL(endpoint: ApiEndpoint | AuthEndpoint): string {
+export function getBackendURL(endpoint: Endpoint): string {
   const apiUrl = import.meta.env.PUBLIC_API_URL;
 
   if (apiUrl === undefined || apiUrl === '') {

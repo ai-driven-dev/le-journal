@@ -1,7 +1,7 @@
 import { UserRole } from '@le-journal/shared-types';
 import { Injectable } from '@nestjs/common';
 
-import type { UserDomain } from '../domain/user.domain';
+import { UserDomain } from '../domain/user.domain';
 
 import type { Mapper } from 'src/presentation/mapper.interface';
 import { UserModel } from 'src/prisma/prisma.types';
@@ -15,7 +15,7 @@ export class UserMapper implements Mapper<UserDomain, UserModel> {
       throw new Error('Invalid user role');
     }
 
-    return {
+    return new UserDomain({
       id: user.id,
       email: user.email,
       name: user.name,
@@ -27,6 +27,22 @@ export class UserMapper implements Mapper<UserDomain, UserModel> {
       googleRefreshToken: user.google_refresh_token,
       googleScopes: user.google_scopes ?? [],
       role,
+    });
+  }
+
+  toPersistence(user: UserDomain): UserModel {
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      google_refresh_token: user.googleRefreshToken,
+      google_scopes: user.googleScopes,
+      avatar: user.avatar,
+      created_at: user.createdAt,
+      updated_at: user.updatedAt,
+      role: user.role,
+      onboarding_completed_at: user.onboardingCompletedAt ?? null,
+      onboarding_started_at: user.onboardingStartedAt ?? null,
     };
   }
 
