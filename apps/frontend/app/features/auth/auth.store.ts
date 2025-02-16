@@ -37,8 +37,6 @@ export class AuthStore {
 
         const data = await res.json();
 
-        console.log('[Auth] Refresh token response', data);
-
         if (data === null || !('accessToken' in data)) {
           throw new Error('Access token is null', { cause: res });
         }

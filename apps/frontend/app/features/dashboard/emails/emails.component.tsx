@@ -2,7 +2,6 @@ import type { Email } from '@le-journal/shared-types';
 import { Accordion } from '@radix-ui/react-accordion';
 import { observer } from 'mobx-react-lite';
 
-
 import { EmailRow } from './email-row.component';
 
 import { Skeleton } from '~/components/ui/skeleton';

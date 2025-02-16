@@ -3,7 +3,6 @@ import { Check, Clock, X } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 
-
 import type { NewsletterStatusDisplay } from './newsletter-subscriptions.type';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/components/ui/hover-card';
