@@ -285,21 +285,6 @@
         ]
       }
     },
-    "/auth/google/readonly": {
-      "get": {
-        "operationId": "AuthController_googleAuthReadonly",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "summary": "Afterwards Google OAuth login -- readonly scope",
-        "tags": [
-          "Authentication"
-        ]
-      }
-    },
     "/auth/google/callback/full": {
       "get": {
         "operationId": "AuthController_googleAuthCallbackFull",
@@ -310,21 +295,6 @@
           }
         },
         "summary": "Full scope Google OAuth callback",
-        "tags": [
-          "Authentication"
-        ]
-      }
-    },
-    "/auth/google/callback/readonly": {
-      "get": {
-        "operationId": "AuthController_googleAuthCallbackReadonly",
-        "parameters": [],
-        "responses": {
-          "302": {
-            "description": "Redirect to step 3 of onboarding"
-          }
-        },
-        "summary": "Readonly scope Google OAuth callback",
         "tags": [
           "Authentication"
         ]

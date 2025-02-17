@@ -1,7 +1,7 @@
 import type { User } from '@le-journal/shared-types';
 import { makeAutoObservable, runInAction } from 'mobx';
 
-import { getBackendURL, getGoogleRedirectURI, type Endpoint } from '~/lib/api-fetcher';
+import { getBackendURL, type Endpoint } from '~/lib/api-fetcher';
 import { clientFetch } from '~/lib/api-fetcher.client';
 
 export class AuthStore {
@@ -86,20 +86,10 @@ export class AuthStore {
     return res;
   }
 
-  async login(): Promise<void> {
-    window.location.href = getGoogleRedirectURI('readonly');
-  }
-
-  async register(): Promise<void> {
-    window.location.href = getGoogleRedirectURI('full');
-  }
-
   async logout(): Promise<void> {
     try {
-      runInAction(() => {
-        this.isLoading = true;
-        this.error = null;
-      });
+      this.isLoading = true;
+      this.error = null;
 
       await fetch(getBackendURL('/auth/logout'), {
         method: 'POST',

@@ -9,7 +9,6 @@ import { RedisModule } from '../redis/redis.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { GoogleStrategyFull } from './strategies/google-full.strategy';
-import { GoogleStrategyReadonly } from './strategies/google-readonly.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 import { UsersModule } from 'src/modules/users/users.module';
@@ -43,7 +42,6 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   providers: [
     AuthService,
     GoogleStrategyFull,
-    GoogleStrategyReadonly,
     JwtStrategy,
     // Le guard global qui applique partout la limite
     // {
