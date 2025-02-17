@@ -1,22 +1,19 @@
 import { observer } from 'mobx-react-lite';
 
-import { useAuth } from './auth.context';
 
 import { Button } from '~/components/ui/button';
+import { getGoogleRedirectURI } from '~/lib/api-fetcher';
 
-type AuthButtonProps = {
-  type: 'login' | 'register';
-};
+const ROUTE = getGoogleRedirectURI();
 
-export const GoogleInSign = observer(({ type }: AuthButtonProps): JSX.Element => {
-  const auth = useAuth();
-
-  const text = type === 'login' ? 'Se connecter avec Google' : "S'inscrire avec Google";
-  const onClick = type === 'login' ? auth.login : auth.register;
+export const GoogleInSign = observer((): JSX.Element => {
+  const onClick = (): void => {
+    window.location.href = ROUTE;
+  };
 
   return (
-    <Button onClick={onClick} className="w-full" variant="outline" disabled={auth.isLoading}>
-      {auth.isLoading ? 'Connecting...' : text}
+    <Button onClick={onClick} className="w-full" variant="outline">
+      Se connecter avec Google
     </Button>
   );
 });

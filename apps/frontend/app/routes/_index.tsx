@@ -26,7 +26,7 @@ export default observer(function Index(): React.ReactNode {
           </p>
 
           <div className="space-y-4">
-            <GoogleInSign type="register" />
+            <GoogleInSign />
             <div className="mt-4">
               <Link to="/dashboard" className="text-blue-600 hover:text-blue-700">
                 Accéder à mon tableau de bord →

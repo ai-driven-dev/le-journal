@@ -10,12 +10,10 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
-import { Profile } from 'passport-google-oauth20';
 
 import { GoogleAuthProfile } from './auth.dto';
 import { AuthService } from './auth.service';
 import { GoogleAuthGuardFull } from './guards/google-auth-full.guard';
-import { GoogleAuthGuardReadonly } from './guards/google-auth-readonly.guard';
 
 import { getEnv } from 'src/main.env';
 
@@ -35,32 +33,20 @@ export class AuthController {
   @UseGuards(GoogleAuthGuardFull)
   async googleAuthFull(): Promise<void> {}
 
-  @ApiOperation({ summary: 'Afterwards Google OAuth login -- readonly scope' })
-  @Get('google/readonly')
-  @UseGuards(GoogleAuthGuardReadonly)
-  async googleAuthReadonly(): Promise<void> {}
-
   @ApiOperation({ summary: 'Full scope Google OAuth callback' })
   @ApiResponse({ status: 302, description: 'Redirect to the onboarding' })
   @Get('google/callback/full')
   @UseGuards(GoogleAuthGuardFull)
   async googleAuthCallbackFull(@Req() req: Request, @Res() res: Response): Promise<void> {
-    await this.authService.handleGoogleAuth(req.user as unknown as GoogleAuthProfile, res);
+    const { user } = await this.authService.handleGoogleAuth(
+      req.user as unknown as GoogleAuthProfile,
+      res,
+    );
+    const onboardingRoute = getEnv('FRONTEND_URL') + '/onboarding';
+    const dashboardRoute = getEnv('FRONTEND_URL') + '/dashboard';
 
-    res.redirect(getEnv('FRONTEND_URL') + '/onboarding');
-  }
-
-  @ApiOperation({ summary: 'Readonly scope Google OAuth callback' })
-  @ApiResponse({ status: 302, description: 'Redirect to step 3 of onboarding' })
-  @Get('google/callback/readonly')
-  @UseGuards(GoogleAuthGuardReadonly)
-  async googleAuthCallbackReadonly(
-    @Req() req: Request & { user: Profile & { refreshToken: string } },
-    @Res() res: Response,
-  ): Promise<void> {
-    await this.authService.handleGoogleAuth(req.user as unknown as GoogleAuthProfile, res);
-
-    res.redirect(getEnv('FRONTEND_URL') + '/dashboard');
+    const route = user.onboardingCompletedAt ? dashboardRoute : onboardingRoute;
+    res.redirect(route);
   }
 
   @ApiOperation({ summary: 'Refresh access token' })

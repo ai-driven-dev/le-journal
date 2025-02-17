@@ -9,7 +9,7 @@ const Login = observer(() => {
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-bold tracking-tight">Connexion</h2>
         </div>
-        <GoogleInSign type="login" />
+        <GoogleInSign />
       </div>
     </div>
   );

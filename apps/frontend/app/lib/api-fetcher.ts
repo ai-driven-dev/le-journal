@@ -15,11 +15,8 @@ export type Endpoint =
   | '/auth/logout'
   | '/auth/refresh';
 
-export function getGoogleRedirectURI(scope: 'readonly' | 'full'): string {
-  const authUrl =
-    scope === 'readonly'
-      ? import.meta.env.GOOGLE_REDIRECT_URI_READONLY
-      : import.meta.env.GOOGLE_REDIRECT_URI_FULL;
+export function getGoogleRedirectURI(): string {
+  const authUrl = import.meta.env.GOOGLE_REDIRECT_URI_FULL;
 
   if (authUrl === undefined || authUrl === '') {
     throw new Error('GOOGLE_REDIRECT_URI environment variable is not set');
