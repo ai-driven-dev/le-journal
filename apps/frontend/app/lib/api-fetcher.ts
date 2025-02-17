@@ -9,7 +9,10 @@ export type Endpoint =
   | '/api/projects'
   | '/api/projects/create'
   | '/api/projects/prompt'
-  | '/api/projects/setup/label'
+  // Project setup
+  | '/api/project/setup/label'
+  | '/api/project/setup/filter'
+  | '/api/project/setup/test'
   // auth
   | '/auth/google'
   | '/auth/logout'
