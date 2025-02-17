@@ -2,13 +2,26 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { Project } from '@prisma/client';
 
 import { ProjectCreateDomain } from '../domain/project-create';
-import { ProjectRepository } from '../domain/project.repository.interface';
+import { FindByCondition, ProjectRepository } from '../domain/project.repository.interface';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class PrismaProjectRepository implements ProjectRepository {
   constructor(private readonly prisma: PrismaService) {}
+
+  async findBy(conditions: FindByCondition[]): Promise<Project[]> {
+    const where = conditions.reduce((acc, condition) => {
+      return {
+        ...acc,
+        [condition.key]: condition.value,
+      };
+    }, {});
+
+    return this.prisma.project.findMany({
+      where,
+    });
+  }
 
   async findByUserIdAndProjectNumber(
     userId: Project['user_id'],

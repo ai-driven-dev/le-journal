@@ -41,7 +41,7 @@ export class AuthController {
   async googleAuthReadonly(): Promise<void> {}
 
   @ApiOperation({ summary: 'Full scope Google OAuth callback' })
-  @ApiResponse({ status: 302, description: 'Redirect to step 2 of onboarding' })
+  @ApiResponse({ status: 302, description: 'Redirect to the onboarding' })
   @Get('google/callback/full')
   @UseGuards(GoogleAuthGuardFull)
   async googleAuthCallbackFull(@Req() req: Request, @Res() res: Response): Promise<void> {

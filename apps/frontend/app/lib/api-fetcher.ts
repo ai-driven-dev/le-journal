@@ -7,7 +7,9 @@ export type Endpoint =
   | '/api/newsletters/emails/search'
   // projects
   | '/api/projects'
+  | '/api/projects/create'
   | '/api/projects/prompt'
+  | '/api/projects/setup/label'
   // auth
   | '/auth/google'
   | '/auth/logout'

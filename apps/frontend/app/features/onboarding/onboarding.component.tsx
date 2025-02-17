@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 
+import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import { useGlobalStore } from '~/stores/root.provider';
 
@@ -13,14 +14,14 @@ export const Onboarding = observer(() => {
         <p>Configuration des permissions nécessaires.</p>
         <ul>
           <li>
-            Créez un nouveau label <code>Le Journal</code> dans votre boite mail.{' '}
+            Nouveau label <Badge>Le Journal</Badge>.
           </li>
-          <li>
-            Créer un filtre pour affecter vos emails à ce label <code>Le Journal</code>
-          </li>
-          <li>Redirigez les newsletters en dehors de la boîte de réception sur ce filtre.</li>
+          <li>Nouveau filtre pour trier vos newsletters.</li>
+          <li>Rediriger la boîte de réception vers le label.</li>
+          <li>Envoi d'un mail de test.</li>
         </ul>
-        <Button onClick={onboardingStore.configureGoogleAccount}>Configurer les permissions</Button>
+        <Button onClick={onboardingStore.createProject}>Créer le projet</Button>
+        <Button onClick={onboardingStore.setupCreateLabel}>Configurer le label</Button>
       </div>
     </div>
   );

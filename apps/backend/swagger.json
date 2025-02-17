@@ -58,6 +58,75 @@
         ]
       }
     },
+    "/api/projects/create": {
+      "post": {
+        "operationId": "ProjectsController_createProject",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectDomain"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a new project.",
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/projects/setup/label": {
+      "post": {
+        "operationId": "ProjectsController_createProjectFromEmail",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "example": "c123e456-789b-12d3-a456-426614174000"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectDomain"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a new project from an email.",
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
     "/api/projects": {
       "get": {
         "operationId": "ProjectsController_getProject",
@@ -89,7 +158,7 @@
             "bearer": []
           }
         ],
-        "summary": "Récupérer le projet de l'utilisateur",
+        "summary": "Get projects from connected user.",
         "tags": [
           "Projects"
         ]
@@ -126,7 +195,7 @@
             "bearer": []
           }
         ],
-        "summary": "Mettre à jour les instructions du prompt du projet",
+        "summary": "Update project's prompt instructions.",
         "tags": [
           "Projects"
         ]
@@ -237,7 +306,7 @@
         "parameters": [],
         "responses": {
           "302": {
-            "description": "Redirect to step 2 of onboarding"
+            "description": "Redirect to the onboarding"
           }
         },
         "summary": "Full scope Google OAuth callback",

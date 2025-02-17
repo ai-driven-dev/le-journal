@@ -46,6 +46,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       );
     }
 
-    return this.userMapper.toDomain(user);
+    return user;
   }
 }

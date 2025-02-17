@@ -7,14 +7,12 @@ import { UserMapper } from '../../presentation/user.mapper';
 
 import { GoogleAuthProfile } from 'src/infrastructure/auth/auth.dto';
 import { AppLogger } from 'src/infrastructure/logger/logger.service';
-import { CreateProjectUseCase } from 'src/modules/projects/application/create-project.use-case';
 
 @Injectable()
 export class CreateUserUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
-    private readonly createProjectUseCase: CreateProjectUseCase,
     private readonly userMapper: UserMapper,
     private readonly logger: AppLogger,
   ) {}
@@ -59,19 +57,6 @@ export class CreateUserUseCase {
         created_at: new Date(),
         updated_at: new Date(),
         onboarding_started_at: new Date(),
-      });
-
-      // From contact.alexsoyes@gmail.com
-      const emailParts = profile.email.split('@');
-      // To contact.alexsoyes+le-journal@gmail.com
-      const newsletterAlias = `${emailParts[0]}+le-journal@${emailParts[1]}`;
-
-      await this.createProjectUseCase.execute({
-        name: 'Default',
-        slug: 'default',
-        newsletterAlias,
-        projectNumber: 1,
-        userId: user.id,
       });
     }
 

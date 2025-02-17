@@ -122,11 +122,3 @@ export class AuthStore {
     }
   }
 }
-
-let authStore: AuthStore | null = null;
-
-if (authStore === null) {
-  authStore = new AuthStore();
-}
-
-export default authStore;

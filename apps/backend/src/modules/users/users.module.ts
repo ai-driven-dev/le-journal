@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 
 import { LoggerModule } from '../../infrastructure/logger/logger.module';
 import { PrismaModule } from '../../prisma/prisma.module';
-import { ProjectsModule } from '../projects/projects.module';
 
 import { CreateUserUseCase } from './application/use-cases/create-user.use-case';
 import { GetAllUsersUseCase } from './application/use-cases/get-all-users.use-case';
@@ -16,7 +15,7 @@ import { UsersController } from './presentation/users.controller';
 import { RedisModule } from 'src/infrastructure/redis/redis.module';
 
 @Module({
-  imports: [PrismaModule, LoggerModule, RedisModule, ProjectsModule],
+  imports: [PrismaModule, LoggerModule, RedisModule],
   controllers: [UsersController],
   providers: [
     GetAllUsersUseCase,
