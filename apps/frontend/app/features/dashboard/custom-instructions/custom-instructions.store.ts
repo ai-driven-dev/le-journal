@@ -55,8 +55,11 @@ export class CustomInstructionsStore implements CustomInstructions {
     try {
       verify(this.state);
 
+      const formData = new FormData(event.target as HTMLFormElement);
+      const data = Object.fromEntries(formData);
+
       const updatedState = await this.authStore
-        .fetchWithAuth('/api/projects/prompt', 'PUT', event)
+        .fetchWithAuth('/api/projects/prompt', 'PUT', data)
         .then((res) => res.json());
 
       this.load(updatedState);

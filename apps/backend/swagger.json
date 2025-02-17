@@ -188,14 +188,42 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Label already exists"
           }
         },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
         "summary": "Setup project label.",
+        "tags": [
+          "Project Setup"
+        ]
+      }
+    },
+    "/api/project/setup/filter": {
+      "post": {
+        "operationId": "ProjectSetupController_setupFilter",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Setup project filter",
+        "tags": [
+          "Project Setup"
+        ]
+      }
+    },
+    "/api/project/setup/test": {
+      "post": {
+        "operationId": "ProjectSetupController_sendTestEmail",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Send test email",
         "tags": [
           "Project Setup"
         ]

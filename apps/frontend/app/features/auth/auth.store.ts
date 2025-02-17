@@ -65,7 +65,7 @@ export class AuthStore {
   async fetchWithAuth(
     endpoint: Endpoint,
     method: 'GET' | 'PUT' | 'POST' | 'DELETE',
-    form?: React.FormEvent<HTMLFormElement>,
+    data?: Record<string, unknown>,
     searchParams?: Record<string, string>,
   ): Promise<Response> {
     if (this.accessToken === null) {
@@ -76,11 +76,11 @@ export class AuthStore {
       throw new Error('Access token is null');
     }
 
-    const res = await clientFetch(endpoint, method, this.accessToken, form, searchParams);
+    const res = await clientFetch(endpoint, method, this.accessToken, data, searchParams);
 
     if (res.status === 401) {
       await this.refreshAccessToken();
-      return await this.fetchWithAuth(endpoint, method, form, searchParams);
+      return await this.fetchWithAuth(endpoint, method, data, searchParams);
     }
 
     return res;

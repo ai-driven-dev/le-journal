@@ -3,6 +3,11 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { GoogleService } from '../../../infrastructure/google/google.service';
 import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
 
+import {
+  GoogleError,
+  LabelAlreadyExistsException,
+} from './exceptions/label-already-exists.exception';
+
 const LABEL_PREFIX = 'Le Journal';
 
 @Injectable()
@@ -24,16 +29,21 @@ export class SetupProjectLabelUseCase {
     }
 
     const project = projects[0];
+    const labelName = `${LABEL_PREFIX} - ${project.name}`;
 
-    const label = await this.googleService.createGmailLabel(
-      userId,
-      `${LABEL_PREFIX} - ${project.name}`,
-    );
+    try {
+      const label = await this.googleService.createGmailLabel(userId, labelName);
+      return label.id !== null;
+    } catch (error) {
+      if (error !== undefined && error !== null) {
+        const googleError = (error as unknown as { response: { data: { error: GoogleError } } })
+          .response.data.error as GoogleError;
 
-    if (label.id) {
-      return true;
+        if (googleError.code === 409) {
+          throw new LabelAlreadyExistsException(googleError);
+        }
+      }
+      throw error;
     }
-
-    return false;
   }
 }

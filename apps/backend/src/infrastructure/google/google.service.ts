@@ -61,21 +61,15 @@ export class GoogleService {
     this.oauth2Client.setCredentials({ access_token: accessToken });
 
     const gmail = google.gmail({ version: 'v1', auth: this.oauth2Client });
+    const response = await gmail.users.labels.create({
+      userId: 'me',
+      requestBody: {
+        name: labelName,
+        labelListVisibility: 'labelShow',
+        messageListVisibility: 'show',
+      },
+    });
 
-    try {
-      const response = await gmail.users.labels.create({
-        userId: 'me',
-        requestBody: {
-          name: labelName,
-          labelListVisibility: 'labelShow',
-          messageListVisibility: 'show',
-        },
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error('Erreur lors de la création du label Gmail:', error);
-      throw new InternalServerErrorException('Impossible de créer le label Gmail');
-    }
+    return response.data;
   }
 }

@@ -8,7 +8,7 @@ export async function clientFetch<T>(
   endpoint: Endpoint,
   method: 'GET' | 'PUT' | 'POST' | 'DELETE',
   accessToken?: string,
-  form?: React.FormEvent<HTMLFormElement>,
+  data?: Record<string, unknown>,
   searchParams?: Record<string, string>,
   options?: RequestInit,
 ): Promise<Response> {
@@ -22,9 +22,7 @@ export async function clientFetch<T>(
     ...options,
   };
 
-  if (form) {
-    const formData = new FormData(form.target as HTMLFormElement);
-    const data = Object.fromEntries(formData);
+  if (data) {
     init.body = JSON.stringify(data);
   }
 

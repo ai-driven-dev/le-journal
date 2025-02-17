@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { PrismaModule } from '../../prisma/prisma.module';
 
+import { CheckOnboardingGuard } from './application/check-onboarding.guard';
 import { CreateProjectUseCase } from './application/create-project.use-case';
 import { GetProjectUseCase } from './application/get-project.use-case';
 import { SetupProjectLabelUseCase } from './application/setup-project-label.use-case';
@@ -19,6 +20,7 @@ import { GoogleModule } from 'src/infrastructure/google/google.module';
   imports: [PrismaModule, GoogleModule],
   controllers: [ProjectsController, ProjectSetupController],
   providers: [
+    CheckOnboardingGuard,
     CreateProjectUseCase,
     SetupProjectLabelUseCase,
     GetProjectUseCase,
