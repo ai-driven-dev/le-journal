@@ -1,5 +1,5 @@
 ---
-date: 2025-02-17 06:42:50
+date: 2025-02-17 07:11:21
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1958,6 +1958,7 @@ export class ProjectType {
 ./apps/backend/src/modules/projects/infrastructure
 ./apps/backend/src/modules/projects/infrastructure/prisma-project.repository.ts
 ./apps/backend/src/modules/projects/presentation
+./apps/backend/src/modules/projects/presentation/project-setup.controller.ts
 ./apps/backend/src/modules/projects/presentation/project.mapper.ts
 ./apps/backend/src/modules/projects/presentation/projects.controller.ts
 ./apps/backend/src/modules/projects/projects.module.ts
@@ -2171,7 +2172,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-116 directories, 322 files
+116 directories, 323 files
 ```
 
-2025-02-17 06:42:50
+2025-02-17 07:11:21
