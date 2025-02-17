@@ -4,6 +4,11 @@ import type { ProjectCreateDomain } from './project-create';
 
 export const PROJECT_REPOSITORY = 'PROJECT_REPOSITORY';
 
+export type FindByCondition = {
+  key: keyof Project;
+  value: unknown;
+};
+
 export interface ProjectRepository {
   create(data: ProjectCreateDomain): Promise<Project>;
   findById(id: Project['id']): Promise<Project | null>;
@@ -13,5 +18,6 @@ export interface ProjectRepository {
     userId: Project['user_id'],
     projectNumber: Project['project_number'],
   ): Promise<Project[]>;
+  findBy(conditions: FindByCondition[]): Promise<Project[]>;
   update(id: Project['id'], data: Partial<Project>): Promise<Project>;
 }

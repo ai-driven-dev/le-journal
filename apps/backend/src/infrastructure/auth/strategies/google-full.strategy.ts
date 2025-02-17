@@ -10,7 +10,7 @@ const GOOGLE_SCOPES_FULL = [
   'email',
   'profile',
   'openid',
-  'https://www.googleapis.com/auth/gmail.modify',
+  'https://www.googleapis.com/auth/gmail.labels',
   'https://www.googleapis.com/auth/gmail.settings.basic',
 ];
 

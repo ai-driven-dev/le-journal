@@ -1,18 +1,32 @@
 import { BadRequestException, ConflictException, Inject, Injectable } from '@nestjs/common';
-import { Project } from '@prisma/client';
 import { validateSync } from 'class-validator';
 
-import { ProjectCreateDomain } from '../domain/project-create';
+import { ProjectDomain } from '../domain/project';
 import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
+import { ProjectMapper } from '../presentation/project.mapper';
 
 @Injectable()
 export class CreateProjectUseCase {
   constructor(
     @Inject(PROJECT_REPOSITORY)
     private readonly projectRepository: ProjectRepository,
+    private readonly projectMapper: ProjectMapper,
   ) {}
 
-  async execute(createProjectDto: ProjectCreateDomain): Promise<Project> {
+  async execute(userId: string, userEmail: string): Promise<ProjectDomain> {
+    // From contact.alexsoyes@gmail.com
+    const emailParts = userEmail.split('@');
+    // To contact.alexsoyes+le-journal@gmail.com
+    const newsletterAlias = `${emailParts[0]}+le-journal@${emailParts[1]}`;
+
+    const createProjectDto = {
+      name: 'Default',
+      slug: 'default',
+      newsletterAlias,
+      projectNumber: 1,
+      userId,
+    };
+
     const errors = validateSync(createProjectDto);
 
     if (errors.length > 0) {
@@ -28,13 +42,8 @@ export class CreateProjectUseCase {
       throw new ConflictException('Project with this slug already exists');
     }
 
-    // TODO: No mapper here, am I sure I want to create an other one?...
-    return this.projectRepository.create({
-      userId: createProjectDto.userId,
-      name: createProjectDto.name,
-      slug: createProjectDto.slug,
-      newsletterAlias: createProjectDto.newsletterAlias,
-      projectNumber: createProjectDto.projectNumber,
-    });
+    const projectCreated = await this.projectRepository.create(createProjectDto);
+
+    return this.projectMapper.toDomain(projectCreated, true);
   }
 }

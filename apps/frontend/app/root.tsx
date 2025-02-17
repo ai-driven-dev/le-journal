@@ -3,7 +3,6 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/reac
 import { observer } from 'mobx-react-lite';
 
 import { Toaster } from '~/components/ui/toaster';
-import { AuthProvider } from '~/features/auth/auth.context';
 
 import './tailwind.css';
 
@@ -38,7 +37,7 @@ export const Layout = observer(function Layout({
         <Links />
       </head>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        {children}
         <Toaster />
         <ScrollRestoration />
         <Scripts />
