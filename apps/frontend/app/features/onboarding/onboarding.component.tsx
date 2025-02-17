@@ -10,8 +10,9 @@ export const Onboarding = observer(() => {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold">Permissions</h2>
-        <p>Configuration des permissions nécessaires.</p>
+        <h2 className="text-xl font-semibold">Setup de votre projet</h2>
+        <p>Nous avons besoin de configurer votre projet via votre compte GMail.</p>
+
         <ul>
           <li>
             Nouveau label <Badge>Le Journal</Badge>.
