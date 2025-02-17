@@ -270,28 +270,13 @@
         ]
       }
     },
-    "/auth/google/full": {
-      "get": {
-        "operationId": "AuthController_googleAuthFull",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "summary": "Initial Google OAuth login -- full scope",
-        "tags": [
-          "Authentication"
-        ]
-      }
-    },
     "/auth/google/callback/full": {
       "get": {
         "operationId": "AuthController_googleAuthCallbackFull",
         "parameters": [],
         "responses": {
           "302": {
-            "description": "Redirect to the onboarding"
+            "description": "Redirects to /onboarding"
           }
         },
         "summary": "Full scope Google OAuth callback",
@@ -306,7 +291,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Successfully refreshed access token"
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "summary": "Refresh access token",
@@ -321,7 +309,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Successfully logged out"
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "summary": "Logout user",
