@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (request) => {
+        (request): string | null => {
           const token = request.headers.authorization?.split(' ')[1];
 
           if (token === null || token === undefined) {

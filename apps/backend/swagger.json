@@ -298,6 +298,21 @@
         ]
       }
     },
+    "/auth/google/full": {
+      "get": {
+        "operationId": "AuthController_googleAuthFull",
+        "parameters": [],
+        "responses": {
+          "302": {
+            "description": "Redirects to /onboarding"
+          }
+        },
+        "summary": "Full scope Google OAuth callback",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
     "/auth/google/callback/full": {
       "get": {
         "operationId": "AuthController_googleAuthCallbackFull",

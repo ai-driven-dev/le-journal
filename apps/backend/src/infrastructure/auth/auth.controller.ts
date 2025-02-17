@@ -32,6 +32,13 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @ApiRedirectResponse('Full scope Google OAuth callback', '/onboarding')
+  @Get('google/full')
+  @UseGuards(GoogleAuthGuardFull)
+  async googleAuthFull(): Promise<void> {
+    // This endpoint is used to redirect the user to the Google OAuth page
+  }
+
+  @ApiRedirectResponse('Full scope Google OAuth callback', '/onboarding')
   @Get('google/callback/full')
   @UseGuards(GoogleAuthGuardFull)
   async googleAuthCallbackFull(@Req() req: Request, @Res() res: Response): Promise<void> {
