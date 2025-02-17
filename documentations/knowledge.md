@@ -1,5 +1,5 @@
 ---
-date: 2025-02-16 14:21:48
+date: 2025-02-17 06:13:33
 ---
 
 # Project Specifications "Knowledge Base"
@@ -657,6 +657,7 @@ BREAKING CHANGE: new user database structure
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie-parser": "^1.4.7",
+    "googleapis": "^144.0.0",
     "nest-commander": "^3.16.0",
     "nest-winston": "^1.10.2",
     "passport": "^0.7.0",
@@ -1904,6 +1905,9 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/database/seeds.command.ts
 ./apps/backend/src/infrastructure/database/seeds.module.ts
 ./apps/backend/src/infrastructure/database/seeds.service.ts
+./apps/backend/src/infrastructure/google
+./apps/backend/src/infrastructure/google/google.module.ts
+./apps/backend/src/infrastructure/google/google.service.ts
 ./apps/backend/src/infrastructure/logger
 ./apps/backend/src/infrastructure/logger/logger.module.ts
 ./apps/backend/src/infrastructure/logger/logger.service.ts
@@ -1942,6 +1946,7 @@ export class ProjectType {
 ./apps/backend/src/modules/projects/application
 ./apps/backend/src/modules/projects/application/create-project.use-case.ts
 ./apps/backend/src/modules/projects/application/get-project.use-case.ts
+./apps/backend/src/modules/projects/application/setup-project-label.use-case.ts
 ./apps/backend/src/modules/projects/application/update-project-prompt.use-case.ts
 ./apps/backend/src/modules/projects/domain
 ./apps/backend/src/modules/projects/domain/can-update-prompt.service.ts
@@ -1957,8 +1962,6 @@ export class ProjectType {
 ./apps/backend/src/modules/projects/projects.module.ts
 ./apps/backend/src/modules/users
 ./apps/backend/src/modules/users/application
-./apps/backend/src/modules/users/application/dto
-./apps/backend/src/modules/users/application/dto/user.dto.ts
 ./apps/backend/src/modules/users/application/use-cases
 ./apps/backend/src/modules/users/application/use-cases/create-user.use-case.ts
 ./apps/backend/src/modules/users/application/use-cases/get-all-users.use-case.ts
@@ -2167,7 +2170,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-115 directories, 320 files
+115 directories, 322 files
 ```
 
-2025-02-16 14:21:48
+2025-02-17 06:13:33
