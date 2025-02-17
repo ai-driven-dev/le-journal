@@ -1,5 +1,5 @@
 ---
-date: 2025-02-17 06:13:33
+date: 2025-02-17 06:27:09
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1887,11 +1887,9 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/auth/decorators/get-user.decorator.ts
 ./apps/backend/src/infrastructure/auth/guards
 ./apps/backend/src/infrastructure/auth/guards/google-auth-full.guard.ts
-./apps/backend/src/infrastructure/auth/guards/google-auth-readonly.guard.ts
 ./apps/backend/src/infrastructure/auth/guards/jwt.guard.ts
 ./apps/backend/src/infrastructure/auth/strategies
 ./apps/backend/src/infrastructure/auth/strategies/google-full.strategy.ts
-./apps/backend/src/infrastructure/auth/strategies/google-readonly.strategy.ts
 ./apps/backend/src/infrastructure/auth/strategies/jwt.strategy.ts
 ./apps/backend/src/infrastructure/database
 ./apps/backend/src/infrastructure/database/seeds
@@ -2170,7 +2168,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-115 directories, 322 files
+115 directories, 320 files
 ```
 
-2025-02-17 06:13:33
+2025-02-17 06:27:09
