@@ -1,5 +1,5 @@
 ---
-date: 2025-02-17 07:11:21
+date: 2025-02-17 08:47:55
 ---
 
 # Project Specifications "Knowledge Base"
@@ -626,7 +626,7 @@ BREAKING CHANGE: new user database structure
     "start:dev": "nest start --debug --watch",
     "start:debug": "nest start --debug --watch --preserveWatchOutput --inspect-brk=0.0.0.0:9229",
     "start:prod": "node dist/main",
-    "dev": "nest start --watch",
+    "dev": "nest start --debug --watch --preserveWatchOutput --inspect-brk=0.0.0.0:9229",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "dotenv -e .env.test -- jest --config jest.config.ts --testPathIgnorePatterns=\"\\.integration\\.spec\\.ts$\"",
     "test:watch": "jest --config jest.config.ts --watch --coverage --testPathIgnorePatterns=\"\\.integration\\.spec\\.ts$\"",
@@ -1633,6 +1633,8 @@ Simplified code:
 
 Type safe code:
 - Always type function params and returns.
+- Never use `as` keyword.
+-
 
 Feature focus code:
 - Reflect business needs in the code.
@@ -1945,7 +1947,10 @@ export class ProjectType {
 ./apps/backend/src/modules/newsletter/presentation/newsletter.mapper.ts
 ./apps/backend/src/modules/projects
 ./apps/backend/src/modules/projects/application
+./apps/backend/src/modules/projects/application/check-onboarding.guard.ts
 ./apps/backend/src/modules/projects/application/create-project.use-case.ts
+./apps/backend/src/modules/projects/application/exceptions
+./apps/backend/src/modules/projects/application/exceptions/label-already-exists.exception.ts
 ./apps/backend/src/modules/projects/application/get-project.use-case.ts
 ./apps/backend/src/modules/projects/application/setup-project-label.use-case.ts
 ./apps/backend/src/modules/projects/application/update-project-prompt.use-case.ts
@@ -2172,7 +2177,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-116 directories, 323 files
+117 directories, 325 files
 ```
 
-2025-02-17 07:11:21
+2025-02-17 08:47:55
