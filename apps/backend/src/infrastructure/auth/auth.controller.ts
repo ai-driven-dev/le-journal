@@ -8,8 +8,11 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
+
+import { ApiAuthOperation } from '../http/api-data-response.decorator';
+import { ApiRedirectResponse } from '../http/api-redirection-response.decorator';
 
 import { GoogleAuthProfile } from './auth.dto';
 import { AuthService } from './auth.service';
@@ -28,13 +31,7 @@ import { getEnv } from 'src/main.env';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOperation({ summary: 'Initial Google OAuth login -- full scope' })
-  @Get('google/full')
-  @UseGuards(GoogleAuthGuardFull)
-  async googleAuthFull(): Promise<void> {}
-
-  @ApiOperation({ summary: 'Full scope Google OAuth callback' })
-  @ApiResponse({ status: 302, description: 'Redirect to the onboarding' })
+  @ApiRedirectResponse('Full scope Google OAuth callback', '/onboarding')
   @Get('google/callback/full')
   @UseGuards(GoogleAuthGuardFull)
   async googleAuthCallbackFull(@Req() req: Request, @Res() res: Response): Promise<void> {
@@ -49,11 +46,7 @@ export class AuthController {
     res.redirect(route);
   }
 
-  @ApiOperation({ summary: 'Refresh access token' })
-  @ApiResponse({
-    status: 200,
-    description: 'Successfully refreshed access token',
-  })
+  @ApiAuthOperation('Refresh access token')
   @Get('refresh')
   async refresh(@Req() req: Request, @Res() res: Response): Promise<void> {
     try {
@@ -75,8 +68,7 @@ export class AuthController {
     }
   }
 
-  @ApiOperation({ summary: 'Logout user' })
-  @ApiResponse({ status: 200, description: 'Successfully logged out' })
+  @ApiAuthOperation('Logout user')
   @Post('logout')
   async logout(@Res() res: Response): Promise<void> {
     await this.authService.invalidateRefreshToken(res);
