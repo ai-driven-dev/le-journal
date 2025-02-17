@@ -1,5 +1,5 @@
 ---
-date: 2025-02-17 06:27:09
+date: 2025-02-17 06:42:29
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1906,6 +1906,9 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/google
 ./apps/backend/src/infrastructure/google/google.module.ts
 ./apps/backend/src/infrastructure/google/google.service.ts
+./apps/backend/src/infrastructure/http
+./apps/backend/src/infrastructure/http/api-data-response.decorator.ts
+./apps/backend/src/infrastructure/http/api-redirection-response.decorator.ts
 ./apps/backend/src/infrastructure/logger
 ./apps/backend/src/infrastructure/logger/logger.module.ts
 ./apps/backend/src/infrastructure/logger/logger.service.ts
@@ -2168,7 +2171,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-115 directories, 320 files
+116 directories, 322 files
 ```
 
-2025-02-17 06:27:09
+2025-02-17 06:42:29
