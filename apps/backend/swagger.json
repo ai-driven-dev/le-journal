@@ -85,48 +85,6 @@
         ]
       }
     },
-    "/api/projects/setup/label": {
-      "post": {
-        "operationId": "ProjectsController_createProjectFromEmail",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "projectId": {
-                    "type": "string",
-                    "example": "c123e456-789b-12d3-a456-426614174000"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProjectDomain"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Create a new project from an email.",
-        "tags": [
-          "Projects"
-        ]
-      }
-    },
     "/api/projects": {
       "get": {
         "operationId": "ProjectsController_getProject",
@@ -198,6 +156,48 @@
         "summary": "Update project's prompt instructions.",
         "tags": [
           "Projects"
+        ]
+      }
+    },
+    "/api/project/setup/label": {
+      "post": {
+        "operationId": "ProjectSetupController_setupProjectLabel",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "example": "c123e456-789b-12d3-a456-426614174000"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Setup project label.",
+        "tags": [
+          "Project Setup"
         ]
       }
     },
