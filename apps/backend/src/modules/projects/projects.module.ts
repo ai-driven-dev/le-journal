@@ -10,6 +10,7 @@ import { UpdateProjectPromptUseCase } from './application/update-project-prompt.
 import { PromptUpdateService } from './domain/can-update-prompt.service';
 import { PROJECT_REPOSITORY } from './domain/project.repository.interface';
 import { PrismaProjectRepository } from './infrastructure/prisma-project.repository';
+import { CreateProjectMapper } from './presentation/create-project.mapper';
 import { ProjectSetupController } from './presentation/project-setup.controller';
 import { ProjectMapper } from './presentation/project.mapper';
 import { ProjectsController } from './presentation/projects.controller';
@@ -31,6 +32,7 @@ import { GoogleModule } from 'src/infrastructure/google/google.module';
       useClass: PrismaProjectRepository,
     },
     ProjectMapper,
+    CreateProjectMapper,
   ],
   exports: [CreateProjectUseCase, GetProjectUseCase, UpdateProjectPromptUseCase],
 })

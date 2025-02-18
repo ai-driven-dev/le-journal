@@ -2,48 +2,56 @@ import { BadRequestException, ConflictException, Inject, Injectable } from '@nes
 import { validateSync } from 'class-validator';
 
 import { ProjectDomain } from '../domain/project';
+import { ProjectCreateDomain } from '../domain/project-create';
 import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
-import { ProjectMapper } from '../presentation/project.mapper';
+
+interface CreateProjectCommand {
+  userId: string;
+  userEmail: string;
+}
 
 @Injectable()
 export class CreateProjectUseCase {
   constructor(
     @Inject(PROJECT_REPOSITORY)
     private readonly projectRepository: ProjectRepository,
-    private readonly projectMapper: ProjectMapper,
   ) {}
 
-  async execute(userId: string, userEmail: string): Promise<ProjectDomain> {
-    // From contact.alexsoyes@gmail.com
-    const emailParts = userEmail.split('@');
-    // To contact.alexsoyes+le-journal@gmail.com
-    const newsletterAlias = `${emailParts[0]}+le-journal@${emailParts[1]}`;
+  async execute(command: CreateProjectCommand): Promise<ProjectDomain> {
+    const projectCreateDomain = this.createInitialProject(command);
 
-    const createProjectDto = {
-      name: 'Default',
-      slug: 'default',
-      newsletterAlias,
-      projectNumber: 1,
-      userId,
-    };
-
-    const errors = validateSync(createProjectDto);
+    const errors = validateSync(projectCreateDomain);
 
     if (errors.length > 0) {
       throw new BadRequestException('Invalid project data', { cause: errors });
     }
 
     const existingProject = await this.projectRepository.findBySlug(
-      createProjectDto.userId,
-      createProjectDto.slug,
+      projectCreateDomain.userId,
+      projectCreateDomain.slug,
     );
 
     if (existingProject) {
       throw new ConflictException('Project with this slug already exists');
     }
 
-    const projectCreated = await this.projectRepository.create(createProjectDto);
+    return await this.projectRepository.create(projectCreateDomain);
+  }
 
-    return this.projectMapper.toDomain(projectCreated, true);
+  private createInitialProject(command: CreateProjectCommand): ProjectCreateDomain {
+    const { userId, userEmail } = command;
+
+    // Business logic for creating newsletter alias
+    const emailParts = userEmail.split('@');
+    const newsletterAlias = `${emailParts[0]}+le-journal@${emailParts[1]}`;
+
+    // Business logic for initial project values
+    return new ProjectCreateDomain({
+      name: 'Default',
+      slug: 'default',
+      newsletterAlias,
+      projectNumber: 1,
+      userId,
+    });
   }
 }

@@ -1,5 +1,6 @@
 import type { Project } from '@prisma/client';
 
+import type { ProjectDomain } from './project';
 import type { ProjectCreateDomain } from './project-create';
 
 export const PROJECT_REPOSITORY = 'PROJECT_REPOSITORY';
@@ -10,14 +11,14 @@ export type FindByCondition = {
 };
 
 export interface ProjectRepository {
-  create(data: ProjectCreateDomain): Promise<Project>;
-  findById(id: Project['id']): Promise<Project | null>;
-  findBySlug(user_id: Project['user_id'], slug: Project['slug']): Promise<Project | null>;
-  findByUserId(userId: Project['user_id']): Promise<Project[]>;
+  create(data: ProjectCreateDomain): Promise<ProjectDomain>;
+  findById(id: Project['id']): Promise<ProjectDomain | null>;
+  findBySlug(user_id: Project['user_id'], slug: Project['slug']): Promise<ProjectDomain | null>;
+  findByUserId(userId: Project['user_id']): Promise<ProjectDomain[]>;
   findByUserIdAndProjectNumber(
     userId: Project['user_id'],
     projectNumber: Project['project_number'],
-  ): Promise<Project[]>;
-  findBy(conditions: FindByCondition[]): Promise<Project[]>;
-  update(id: Project['id'], data: Partial<Project>): Promise<Project>;
+  ): Promise<ProjectDomain[]>;
+  findBy(conditions: FindByCondition[]): Promise<ProjectDomain[]>;
+  update(id: Project['id'], data: Partial<Project>): Promise<ProjectDomain>;
 }

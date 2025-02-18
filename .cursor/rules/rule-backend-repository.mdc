@@ -6,6 +6,8 @@ globs: apps/backend/**/*.ts
 - Always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
 - Type with `Model.Property` instead of primitive if possible (e.g. `email: string` -> `email: User['email']`).
 - Wrap db calls in Prisma Transactions if necessary.
+- A Repository returns only Domain objects, never DTOs or Prisma types.
+- Prisma types stay in Repositories, never leaving Infrastructure.
 
 Example usage in controller/use-case:
 ```typescript

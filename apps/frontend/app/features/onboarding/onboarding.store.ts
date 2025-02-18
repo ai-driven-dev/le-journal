@@ -11,7 +11,6 @@ export type StepState = 'PENDING' | 'IN_PROGRESS' | 'SUCCESS' | 'ALREADY_EXISTS'
 export interface OnboardingStep {
   state: StepState;
   label: string;
-  errorMessage?: string;
   message?: string;
   routeToCall: Endpoint;
   onSuccess?: (data: unknown) => void;
@@ -77,7 +76,6 @@ export class OnboardingStore implements Loadable<Project> {
       try {
         runInAction(() => {
           step.state = 'IN_PROGRESS';
-          step.errorMessage = undefined;
           step.message = undefined;
         });
 
@@ -115,8 +113,7 @@ export class OnboardingStore implements Loadable<Project> {
       } catch (error) {
         runInAction(() => {
           step.state = 'ERROR';
-          step.errorMessage = error instanceof Error ? error.message : 'An error occurred';
-          step.message = undefined;
+          step.message = error instanceof Error ? error.message : 'Une erreur est survenue';
           this.isProcessing = false;
         });
         return;

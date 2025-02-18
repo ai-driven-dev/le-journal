@@ -5,14 +5,12 @@ import { PromptUpdateService } from '../domain/can-update-prompt.service';
 import { ProjectDomain } from '../domain/project';
 import { ProjectUpdate } from '../domain/project-update';
 import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
-import { ProjectMapper } from '../presentation/project.mapper';
 
 @Injectable()
 export class UpdateProjectPromptUseCase {
   constructor(
     @Inject(PROJECT_REPOSITORY)
     private readonly projectRepository: ProjectRepository,
-    private readonly projectMapper: ProjectMapper,
     private readonly promptUpdateService: PromptUpdateService,
   ) {}
 
@@ -23,9 +21,7 @@ export class UpdateProjectPromptUseCase {
       throw new NotFoundException(`Project with id ${dto.id} not found`);
     }
 
-    const canUpdatePrompt = this.promptUpdateService.canUpdatePrompt(
-      projectModel.last_prompt_update,
-    );
+    const canUpdatePrompt = this.promptUpdateService.canUpdatePrompt(projectModel.lastPromptUpdate);
 
     if (!canUpdatePrompt) {
       throw new ForbiddenException(
@@ -38,6 +34,6 @@ export class UpdateProjectPromptUseCase {
       last_prompt_update: new Date(),
     });
 
-    return this.projectMapper.toDomain(updatedProjectModel, canUpdatePrompt);
+    return updatedProjectModel;
   }
 }

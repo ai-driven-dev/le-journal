@@ -6,7 +6,8 @@ globs: apps/backend/**/*.ts
 - Reflects bridge between domain, infrastructure (database) and presentation (controller).
 - Domain objects received are validated by `class-validator`.
 - Domain specific requirements can be checked here. 
-
+- A Use Case is the only layer handling Domain objects and business logic.
+  
 Example:
 ```typescript
 import { Inject, Injectable } from '@nestjs/common';

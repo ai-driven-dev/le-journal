@@ -5,8 +5,10 @@ globs: apps/backend/**/*.ts
 - `ValidationPipe` might no be necessary because `main.ts` uses `useGlobalPipes`.
 - Input is Domain object, output is Domain object too.
 - Call the use-cases which will handle domain logic.
+- Call the mapper to return DTOs.
 - Use domain mapper from current domain.
 - Use Swagger annotations the more you can to be details on API specs.
+- Controllers handle only DTOs for a clear, decoupled API.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript

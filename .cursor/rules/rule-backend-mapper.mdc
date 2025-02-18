@@ -7,6 +7,7 @@ globs: apps/backend/**/*.ts
 - Implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
 - Reassign every props (mandatory).
 - Return plain objects, no instances.
+- Mappers convert between DTOs, Domain objects, and Prisma types to prevent dependencies.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript
