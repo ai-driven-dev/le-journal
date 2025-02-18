@@ -63,6 +63,19 @@ export class OnboardingStore implements Loadable<Project> {
     return this.steps.every((step) => step.state === 'SUCCESS' || step.state === 'ALREADY_EXISTS');
   }
 
+  setMessage = (stepIndex: number, state: StepState, message: string): void => {
+    runInAction(() => {
+      if (stepIndex >= 0 && stepIndex < this.steps.length) {
+        this.steps[stepIndex].message = message;
+        this.steps[stepIndex].state = state;
+      }
+
+      if (state === 'ERROR') {
+        this.isProcessing = false;
+      }
+    });
+  };
+
   load = async (): Promise<void> => {
     if (this.isProcessing) return;
 
@@ -70,7 +83,9 @@ export class OnboardingStore implements Loadable<Project> {
       this.isProcessing = true;
     });
 
-    for (const step of this.steps) {
+    for (let i = 0; i < this.steps.length; i++) {
+      const step = this.steps[i];
+
       if (step.state === 'SUCCESS' || step.state === 'ALREADY_EXISTS') continue;
 
       try {
@@ -85,31 +100,32 @@ export class OnboardingStore implements Loadable<Project> {
         const response = await this.authStore.fetchWithAuth(step.routeToCall, 'POST', body);
         const data = await response.json();
 
-        runInAction(() => {
-          if (response.status === 409) {
-            step.state = 'ALREADY_EXISTS';
-            step.message = data.message;
-          } else {
-            step.state = 'SUCCESS';
-            switch (step.routeToCall) {
-              case '/api/projects/create':
-                step.message = 'Votre projet a été créé avec succès !';
-                break;
-              case '/api/project/setup/label':
-                step.message = 'Le label a été ajouté à votre projet !';
-                break;
-              case '/api/project/setup/filter':
-                step.message = 'Le filtre a été configuré avec succès !';
-                break;
-              case '/api/project/setup/test':
-                step.message = "L'email de test a été envoyé !";
-                break;
-            }
-            if (step.onSuccess) {
-              step.onSuccess(data);
-            }
+        if (response.status === 500) {
+          this.setMessage(i, 'ERROR', data.message);
+          return;
+        } else if (response.status === 409) {
+          this.setMessage(i, 'ALREADY_EXISTS', data.message);
+        } else if (response.status === 200 || response.status === 201) {
+          // todo api renvoie message ?
+          // this.setMessage(i, 'SUCCESS', data.message);
+          switch (step.routeToCall) {
+            case '/api/projects/create':
+              this.setMessage(i, 'SUCCESS', 'Votre projet a été créé avec succès !');
+              break;
+            case '/api/project/setup/label':
+              this.setMessage(i, 'SUCCESS', 'Le label a été ajouté à votre projet !');
+              break;
+            case '/api/project/setup/filter':
+              this.setMessage(i, 'SUCCESS', 'Le filtre a été configuré avec succès !');
+              break;
+            case '/api/project/setup/test':
+              this.setMessage(i, 'SUCCESS', "L'email de test a été envoyé !");
+              break;
           }
-        });
+          if (step.onSuccess) {
+            step.onSuccess(data);
+          }
+        }
       } catch (error) {
         runInAction(() => {
           step.state = 'ERROR';

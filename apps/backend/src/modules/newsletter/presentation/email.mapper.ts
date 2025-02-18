@@ -1,4 +1,4 @@
-import { EmailStatus } from '@le-journal/shared-types';
+import { Email, EmailStatus } from '@le-journal/shared-types';
 import { Injectable } from '@nestjs/common';
 
 import { ArticleModel, EmailModel } from '../../../prisma/prisma.types';
@@ -51,6 +51,17 @@ export class EmailMapper implements Mapper<EmailDomain, EmailModel> {
 
     return {
       ...emailModel,
+    };
+  }
+
+  toDTO(domain: EmailDomain): Email {
+    return {
+      id: domain.id,
+      subject: domain.subject,
+      content: domain.content,
+      receivedAt: domain.receivedAt,
+      status: domain.status,
+      articles: domain.articles.map((article) => this.articleMapper.toDTO(article)),
     };
   }
 }

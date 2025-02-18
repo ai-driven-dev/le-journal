@@ -1,10 +1,9 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Project } from '@prisma/client';
 
 import { ProjectDomain } from '../domain/project';
 import { ProjectCreateDomain } from '../domain/project-create';
 import { FindByCondition, ProjectRepository } from '../domain/project.repository.interface';
-import { CreateProjectMapper } from '../presentation/create-project.mapper';
 import { ProjectMapper } from '../presentation/project.mapper';
 
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -14,7 +13,7 @@ export class PrismaProjectRepository implements ProjectRepository {
   constructor(
     private readonly prisma: PrismaService,
     private readonly projectMapper: ProjectMapper,
-    private readonly createProjectMapper: CreateProjectMapper,
+    private readonly logger: Logger,
   ) {}
 
   async findBy(conditions: FindByCondition[]): Promise<ProjectDomain[]> {
@@ -48,11 +47,12 @@ export class PrismaProjectRepository implements ProjectRepository {
   }
 
   async create(data: ProjectCreateDomain): Promise<ProjectDomain> {
-    const existingProject = await this.findBySlug(data.userId, data.slug);
-
-    if (existingProject) {
-      throw new ConflictException('Project with this slug already exists');
-    }
+    this.logger.log('Creating project', this.constructor.name, {
+      name: data.name,
+      slug: data.slug,
+      userId: data.userId,
+      projectNumber: data.projectNumber,
+    });
 
     const project = await this.prisma.project.create({
       data: {
@@ -78,20 +78,17 @@ export class PrismaProjectRepository implements ProjectRepository {
     return project ? this.projectMapper.toDomain(project, true) : null;
   }
 
-  async findBySlug(
-    user_id: Project['user_id'],
-    slug: Project['slug'],
-  ): Promise<ProjectDomain | null> {
-    const project = await this.prisma.project.findUnique({
+  public async findSlugForUser(user_id: Project['user_id']): Promise<Project['slug'][]> {
+    const projects = await this.prisma.project.findMany({
+      select: {
+        slug: true,
+      },
       where: {
-        user_id_slug: {
-          user_id,
-          slug,
-        },
+        user_id,
       },
     });
 
-    return project ? this.projectMapper.toDomain(project, true) : null;
+    return projects.map((project) => project.slug);
   }
 
   async findByUserId(user_id: Project['user_id']): Promise<ProjectDomain[]> {

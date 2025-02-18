@@ -1,16 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { Newsletter } from '@prisma/client';
 
+import { NewsletterDomain } from '../domain/newsletter.domain';
 import { NewsletterRepository } from '../domain/newsletter.repository';
+import { NewsletterMapper } from '../presentation/newsletter.mapper';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class PrismaNewsletterRepository implements NewsletterRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly newsletterMapper: NewsletterMapper,
+  ) {}
 
-  async findManyByUserId(userId: string): Promise<Newsletter[]> {
-    return this.prisma.newsletter.findMany({
+  async findManyByUserId(userId: string): Promise<NewsletterDomain[]> {
+    const newsletters = await this.prisma.newsletter.findMany({
       where: {
         project: {
           user_id: userId,
@@ -20,5 +24,7 @@ export class PrismaNewsletterRepository implements NewsletterRepository {
         subscribed_at: 'asc',
       },
     });
+
+    return newsletters.map((newsletter) => this.newsletterMapper.toDomain(newsletter));
   }
 }

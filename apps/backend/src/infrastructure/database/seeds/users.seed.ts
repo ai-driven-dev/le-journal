@@ -10,10 +10,10 @@ export class UsersSeed {
     name: 'Standard User',
     role: 'REGULAR',
     google_id: '1234567891',
-    avatar: 'https://example.com/avatar.png',
-    google_refresh_token: '1234567891',
-    google_scopes: ['email', 'profile', 'openid'],
-    google_refresh_token_iv: '1234567891',
+    avatar: '',
+    google_scopes: [],
+    google_refresh_token: '',
+    google_refresh_token_iv: '',
   };
 
   private readonly adminUser: Prisma.UserCreateInput = {
@@ -21,10 +21,10 @@ export class UsersSeed {
     name: 'Admin Premium',
     role: 'ADMIN',
     google_id: '1234567892',
-    avatar: 'https://example.com/avatar.png',
-    google_refresh_token: '1234567892',
-    google_scopes: ['email', 'profile', 'openid'],
-    google_refresh_token_iv: '1234567892',
+    avatar: '',
+    google_scopes: [],
+    google_refresh_token: '',
+    google_refresh_token_iv: '',
   };
 
   private readonly premiumUser: Prisma.UserCreateInput = {
@@ -32,10 +32,10 @@ export class UsersSeed {
     name: 'Premium User',
     role: 'PREMIUM',
     google_id: '1234567893',
-    avatar: 'https://example.com/avatar.png',
-    google_refresh_token: '1234567893',
-    google_scopes: ['email', 'profile', 'openid'],
-    google_refresh_token_iv: '1234567893',
+    avatar: '',
+    google_scopes: [],
+    google_refresh_token: '',
+    google_refresh_token_iv: '',
   };
 
   async seed(

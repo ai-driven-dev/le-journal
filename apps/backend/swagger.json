@@ -110,7 +110,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Project"
+                    "$ref": "#/components/schemas/"
                   }
                 }
               }
@@ -247,17 +247,20 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "List of newsletter subscriptions retrieved successfully",
+            "description": "Opération réussie",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/NewsletterDomain"
+                    "$ref": "#/components/schemas/"
                   }
                 }
               }
             }
+          },
+          "401": {
+            "description": "Non autorisé"
           }
         },
         "security": [
@@ -265,7 +268,7 @@
             "bearer": []
           }
         ],
-        "summary": "Get all newsletter subscriptions",
+        "summary": "Récupère toutes les souscriptions aux newsletters",
         "tags": [
           "Newsletters"
         ]
@@ -286,17 +289,20 @@
         ],
         "responses": {
           "200": {
-            "description": "List of emails retrieved successfully",
+            "description": "Opération réussie",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/EmailDomain"
+                    "$ref": "#/components/schemas/"
                   }
                 }
               }
             }
+          },
+          "401": {
+            "description": "Non autorisé"
           }
         },
         "security": [
@@ -304,7 +310,7 @@
             "bearer": []
           }
         ],
-        "summary": "Get all newsletter emails",
+        "summary": "Récupère tous les emails (+articles) des newsletters.",
         "tags": [
           "Newsletters"
         ]
@@ -478,140 +484,6 @@
         "required": [
           "id",
           "promptInstruction"
-        ]
-      },
-      "NewsletterDomain": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The unique identifier of the newsletter subscription",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
-          "email": {
-            "type": "string",
-            "description": "The email address subscribed to the newsletter",
-            "example": "user@example.com"
-          },
-          "subscribedAt": {
-            "format": "date-time",
-            "type": "string",
-            "description": "The date when the user subscribed to the newsletter",
-            "example": "2024-02-08T20:00:00.000Z"
-          },
-          "subscriptionStatus": {
-            "type": "string",
-            "description": "The current status of the newsletter subscription",
-            "enum": [
-              "ACTIVE",
-              "IN_PROGRESS",
-              "PENDING",
-              "FAILED"
-            ],
-            "example": "PENDING"
-          }
-        },
-        "required": [
-          "id",
-          "email",
-          "subscribedAt",
-          "subscriptionStatus"
-        ]
-      },
-      "ArticleDomain": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique ID of the article",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
-          "subject": {
-            "type": "string",
-            "description": "Subject or main topic of the article",
-            "example": "Building Scalable Backend Services"
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the article content",
-            "example": "Learn the best practices for building enterprise-grade NestJS applications..."
-          },
-          "link": {
-            "type": "string",
-            "description": "URL to the full article",
-            "example": "https://example.com/article/nestjs-best-practices",
-            "nullable": true
-          },
-          "score": {
-            "type": "number",
-            "description": "Relevance score of the article (0-1)",
-            "example": 0.95
-          },
-          "extractedAt": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Date and time when the article was extracted",
-            "example": "2024-01-01T12:00:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "subject",
-          "description",
-          "link",
-          "score",
-          "extractedAt"
-        ]
-      },
-      "EmailDomain": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique email ID",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
-          "subject": {
-            "type": "string",
-            "description": "Email subject",
-            "example": "Newsletter #42 - Latest tech news"
-          },
-          "content": {
-            "type": "string",
-            "description": "Raw email content",
-            "example": "Email content in text format..."
-          },
-          "receivedAt": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Email received date",
-            "example": "2024-03-20T10:00:00Z"
-          },
-          "status": {
-            "type": "string",
-            "description": "Email processing status",
-            "enum": [
-              "RECEIVED",
-              "PROCESSED",
-              "FAILED"
-            ],
-            "example": "RECEIVED"
-          },
-          "articles": {
-            "description": "Articles associated with the email",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ArticleDomain"
-            }
-          }
-        },
-        "required": [
-          "id",
-          "subject",
-          "content",
-          "receivedAt",
-          "status",
-          "articles"
         ]
       }
     }

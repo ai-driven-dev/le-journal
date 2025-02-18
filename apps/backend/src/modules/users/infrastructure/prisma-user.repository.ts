@@ -47,10 +47,12 @@ export class PrismaUserRepository implements UserRepository {
       return null;
     }
 
-    user.google_refresh_token = this.cryptoService.decryptToken(
-      user.google_refresh_token,
-      user.google_refresh_token_iv,
-    );
+    if (user.google_refresh_token) {
+      user.google_refresh_token = this.cryptoService.decryptToken(
+        user.google_refresh_token,
+        user.google_refresh_token_iv,
+      );
+    }
 
     return user;
   }

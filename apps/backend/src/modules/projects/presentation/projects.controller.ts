@@ -42,8 +42,7 @@ export class ProjectsController {
 
   @Get()
   @ApiAuthOperation("Récupérer les projets de l'utilisateur connecté.", {
-    type: Project,
-    isArray: true,
+    type: [Project],
     query: { name: 'projectNumber', required: false, type: Number, default: 1 },
   })
   async getProject(

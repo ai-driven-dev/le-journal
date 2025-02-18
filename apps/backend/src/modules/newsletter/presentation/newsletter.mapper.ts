@@ -1,3 +1,4 @@
+import { Newsletter } from '@le-journal/shared-types';
 import { Injectable } from '@nestjs/common';
 
 import { Mapper } from '../../../presentation/mapper.interface';
@@ -22,6 +23,15 @@ export class NewsletterMapper implements Mapper<NewsletterDomain, NewsletterMode
       email: model.email,
       subscribedAt: model.subscribed_at,
       subscriptionStatus: model.subscription_status,
+    };
+  }
+
+  toDTO(domain: NewsletterDomain): Newsletter {
+    return {
+      id: domain.id,
+      email: domain.email,
+      subscribedAt: domain.subscribedAt,
+      subscriptionStatus: domain.subscriptionStatus,
     };
   }
 }

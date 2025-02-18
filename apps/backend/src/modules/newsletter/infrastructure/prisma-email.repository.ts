@@ -1,16 +1,20 @@
 import { Injectable } from '@nestjs/common';
 
-import { EmailModel } from '../../../prisma/prisma.types';
+import { EmailDomain } from '../domain/email.domain';
 import { EmailRepository } from '../domain/email.repository.interface';
+import { EmailMapper } from '../presentation/email.mapper';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class PrismaEmailRepository implements EmailRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly emailMapper: EmailMapper,
+  ) {}
 
-  async findAllByProjectId(projectId: string): Promise<EmailModel[]> {
-    return this.prisma.email.findMany({
+  async findAllByProjectId(projectId: string): Promise<EmailDomain[]> {
+    const emails = await this.prisma.email.findMany({
       where: {
         newsletter: {
           project_id: projectId,
@@ -21,5 +25,7 @@ export class PrismaEmailRepository implements EmailRepository {
       },
       orderBy: { received_at: 'desc' },
     });
+
+    return emails.map((email) => this.emailMapper.toDomain(email));
   }
 }

@@ -1,5 +1,5 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
 import { JwtAuthGuard } from '../../../infrastructure/auth/guards/jwt.guard';
@@ -12,6 +12,7 @@ import { EmailMapper } from './email.mapper';
 import { NewsletterMapper } from './newsletter.mapper';
 
 import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
+import { ApiAuthOperation } from 'src/infrastructure/http/api-data-response.decorator';
 
 @ApiTags('Newsletters')
 @Controller('api/newsletters')
@@ -26,27 +27,21 @@ export class NewsletterController {
   ) {}
 
   @Get('')
-  @ApiOperation({ summary: 'Get all newsletter subscriptions' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of newsletter subscriptions retrieved successfully',
+  @ApiAuthOperation('Récupère toutes les souscriptions aux newsletters', {
     type: [NewsletterDomain],
   })
   async getNewsletters(@GetUser() user: User): Promise<NewsletterDomain[]> {
     const newsletters = await this.getNewslettersUseCase.execute(user.id);
-    return newsletters.map((newsletter) => this.newsletterMapper.toDomain(newsletter));
+    return newsletters.map((newsletter) => this.newsletterMapper.toDTO(newsletter));
   }
 
   @Get('emails')
-  @ApiOperation({ summary: 'Get all newsletter emails' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of emails retrieved successfully',
+  @ApiAuthOperation('Récupère tous les emails (+articles) des newsletters.', {
     type: [EmailDomain],
   })
   async getAllEmails(@Query('projectId') projectId: string): Promise<EmailDomain[]> {
     const emails = await this.getEmailsUseCase.execute(projectId);
 
-    return emails.map((email) => this.emailMapper.toDomain(email));
+    return emails.map((email) => this.emailMapper.toDTO(email));
   }
 }

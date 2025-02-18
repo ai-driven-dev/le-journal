@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 
+import { EmailDomain } from '../domain/email.domain';
 import { EMAIL_REPOSITORY, EmailRepository } from '../domain/email.repository.interface';
-
-import { EmailModel } from 'src/prisma/prisma.types';
 
 @Injectable()
 export class GetEmailsUseCase {
@@ -11,7 +10,7 @@ export class GetEmailsUseCase {
     private readonly emailRepository: EmailRepository,
   ) {}
 
-  async execute(projectId: string): Promise<EmailModel[]> {
+  async execute(projectId: string): Promise<EmailDomain[]> {
     return this.emailRepository.findAllByProjectId(projectId);
   }
 }
