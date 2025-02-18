@@ -1,5 +1,5 @@
 ---
-date: 2025-02-18 08:11:13
+date: 2025-02-18 09:12:23
 ---
 
 # Project Specifications "Knowledge Base"
@@ -486,7 +486,7 @@ BREAKING CHANGE: new user database structure
   "scripts": {
     "document": "zsh ./documentations/knowledge.sh",
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "docker exec redis redis-cli FLUSHALL &&turbo run dev",
     "dev:docker": "docker-compose up --build -d --remove-orphans",
     "beautify": "pnpm run format:fix && pnpm run lint:fix",
     "lint": "eslint \"**/*.{ts,tsx}\"",
@@ -639,7 +639,7 @@ BREAKING CHANGE: new user database structure
     "prisma:studio": "prisma studio",
     "prisma:migrate": "prisma migrate dev && prisma migrate deploy && prisma generate",
     "prisma:reset": "dotenv -e .env -- prisma migrate reset --skip-seed --force",
-    "seed": "pnpm run prisma:reset && pnpm run build && ts-node src/main-cli.ts -- seed"
+    "seed": "pnpm run prisma:reset && ts-node src/main-cli.ts -- seed"
   },
   "dependencies": {
     "@le-journal/shared-types": "workspace:*",
@@ -2175,6 +2175,7 @@ export class ProjectType {
 ./packages/shared-types/src/index.ts
 ./packages/shared-types/src/newsletter.class.ts
 ./packages/shared-types/src/project-create.class.ts
+./packages/shared-types/src/project-update-instructions.class.ts
 ./packages/shared-types/src/project.class.ts
 ./packages/shared-types/src/user.class.ts
 ./packages/shared-types/tsconfig.json
@@ -2186,7 +2187,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-117 directories, 328 files
+117 directories, 329 files
 ```
 
-2025-02-18 08:11:14
+2025-02-18 09:12:23
