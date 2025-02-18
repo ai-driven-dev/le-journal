@@ -6,14 +6,18 @@ export function ApiAuthOperation(
   summary: string,
   options?: {
     type?: typeof ApiResponse.prototype.type;
-    isArray?: boolean;
     query?: ApiQueryOptions;
   },
 ): MethodDecorator {
-  const { type, isArray } = options ?? {};
+  const { type } = options ?? {};
 
   const responseDecorators = [
-    ApiResponse({ status: 200, description: 'Opération réussie', type, isArray }),
+    ApiResponse({
+      status: 200,
+      description: 'Opération réussie',
+      type,
+      isArray: Array.isArray(type),
+    }),
     ApiResponse({ status: 401, description: 'Non autorisé' }),
   ];
 

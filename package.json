@@ -11,7 +11,7 @@
   "scripts": {
     "document": "zsh ./documentations/knowledge.sh",
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "docker exec redis redis-cli FLUSHALL &&turbo run dev",
     "dev:docker": "docker-compose up --build -d --remove-orphans",
     "beautify": "pnpm run format:fix && pnpm run lint:fix",
     "lint": "eslint \"**/*.{ts,tsx}\"",

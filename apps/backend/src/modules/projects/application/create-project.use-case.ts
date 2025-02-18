@@ -26,13 +26,12 @@ export class CreateProjectUseCase {
       throw new BadRequestException('Invalid project data', { cause: errors });
     }
 
-    const existingProject = await this.projectRepository.findBySlug(
-      projectCreateDomain.userId,
-      projectCreateDomain.slug,
-    );
+    const userProjects = await this.projectRepository.findSlugForUser(projectCreateDomain.userId);
 
-    if (existingProject) {
-      throw new ConflictException('Project with this slug already exists');
+    if (userProjects.includes(projectCreateDomain.slug)) {
+      throw new ConflictException(
+        `Project ${projectCreateDomain.name} with slug ${projectCreateDomain.slug} already exists for user ${projectCreateDomain.userId}`,
+      );
     }
 
     return await this.projectRepository.create(projectCreateDomain);

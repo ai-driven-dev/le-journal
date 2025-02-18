@@ -1,7 +1,7 @@
-import type { Newsletter } from '@prisma/client';
+import type { NewsletterDomain } from './newsletter.domain';
 
 export const NEWSLETTER_REPOSITORY = 'NEWSLETTER_REPOSITORY';
 
 export interface NewsletterRepository {
-  findManyByUserId(userId: string): Promise<Newsletter[]>;
+  findManyByUserId(userId: string): Promise<NewsletterDomain[]>;
 }

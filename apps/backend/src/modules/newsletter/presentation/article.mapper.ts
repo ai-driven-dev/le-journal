@@ -1,3 +1,4 @@
+import { Article } from '@le-journal/shared-types';
 import { Injectable } from '@nestjs/common';
 
 import { ArticleDomain } from '../domain/article.domain';
@@ -26,6 +27,17 @@ export class ArticleMapper implements Mapper<ArticleDomain, ArticleModel> {
       url: domain.link,
       relevance_score: domain.score,
       extracted_at: domain.extractedAt,
+    };
+  }
+
+  toDTO(domain: ArticleDomain): Article {
+    return {
+      id: domain.id,
+      subject: domain.subject,
+      description: domain.description,
+      link: domain.link,
+      score: domain.score,
+      extractedAt: domain.extractedAt,
     };
   }
 }

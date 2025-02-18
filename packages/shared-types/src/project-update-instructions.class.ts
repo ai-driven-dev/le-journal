@@ -1,56 +1,22 @@
 import {
   IsBoolean,
   IsDate,
-  IsEmail,
   IsNotEmpty,
-  IsNumber,
-  IsOptional,
   IsString,
   Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
 
-export const PROJECT_MIN_LENGTH = 10;
-export const PROJECT_MAX_LENGTH = 200;
-export const PROJECT_VALIDATION = /^[^<>{}]*$/;
-export const PROMPT_UPDATE_DELAY_HOURS = 24;
+import { PROJECT_MAX_LENGTH, PROJECT_MIN_LENGTH, PROJECT_VALIDATION } from './project.class';
 
-export class Project {
+export class ProjectPromptInstructions {
   @IsString()
   @IsNotEmpty()
   id!: string;
 
   @IsString()
   @IsNotEmpty()
-  name!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  slug!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @IsEmail()
-  newsletterAlias!: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  projectNumber!: number;
-
-  @IsDate()
-  @IsNotEmpty()
-  createdAt!: string;
-
-  @IsDate()
-  @IsOptional()
-  lastPromptUpdate?: string;
-
-  @IsBoolean()
-  @IsNotEmpty()
-  canUpdatePrompt!: boolean;
-
-  @IsString()
   @MinLength(PROJECT_MIN_LENGTH, {
     message: `Prompt instruction must be at least ${PROJECT_MIN_LENGTH} characters long`,
   })
@@ -61,4 +27,10 @@ export class Project {
     message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
   })
   promptInstruction!: string;
+
+  @IsDate()
+  lastPromptUpdate?: Date | string;
+
+  @IsBoolean()
+  canUpdatePrompt?: boolean;
 }

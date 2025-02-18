@@ -6,4 +6,4 @@ export interface ProjectState {}
 
 export interface ProjectActions {}
 
-export interface ProjectStore extends Loadable<Project>, ProjectState, ProjectActions {}
+export interface ProjectAlias extends Loadable<Project>, ProjectState, ProjectActions {}
