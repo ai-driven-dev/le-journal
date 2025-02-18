@@ -1,5 +1,5 @@
 ---
-date: 2025-02-17 08:52:08
+date: 2025-02-18 08:11:13
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1046,8 +1046,10 @@ globs: apps/backend/**/*.ts
 - `ValidationPipe` might no be necessary because `main.ts` uses `useGlobalPipes`.
 - Input is Domain object, output is Domain object too.
 - Call the use-cases which will handle domain logic.
+- Call the mapper to return DTOs.
 - Use domain mapper from current domain.
 - Use Swagger annotations the more you can to be details on API specs.
+- Controllers handle only DTOs for a clear, decoupled API.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript
@@ -1178,6 +1180,7 @@ globs: apps/backend/**/*.ts
 - Implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
 - Reassign every props (mandatory).
 - Return plain objects, no instances.
+- Mappers convert between DTOs, Domain objects, and Prisma types to prevent dependencies.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript
@@ -1230,6 +1233,8 @@ globs: apps/backend/**/*.ts
 - Always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
 - Type with `Model.Property` instead of primitive if possible (e.g. `email: string` -> `email: User['email']`).
 - Wrap db calls in Prisma Transactions if necessary.
+- A Repository returns only Domain objects, never DTOs or Prisma types.
+- Prisma types stay in Repositories, never leaving Infrastructure.
 
 Example usage in controller/use-case:
 ```typescript
@@ -1356,6 +1361,7 @@ globs: apps/backend/**/*.ts
 - Reflects bridge between domain, infrastructure (database) and presentation (controller).
 - Domain objects received are validated by `class-validator`.
 - Domain specific requirements can be checked here.
+- A Use Case is the only layer handling Domain objects and business logic.
 
 Example:
 ```typescript
@@ -1909,6 +1915,7 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/google/google.module.ts
 ./apps/backend/src/infrastructure/google/google.service.ts
 ./apps/backend/src/infrastructure/http
+./apps/backend/src/infrastructure/http/api-data-property.decorator.ts
 ./apps/backend/src/infrastructure/http/api-data-response.decorator.ts
 ./apps/backend/src/infrastructure/http/api-redirection-response.decorator.ts
 ./apps/backend/src/infrastructure/logger
@@ -1963,6 +1970,7 @@ export class ProjectType {
 ./apps/backend/src/modules/projects/infrastructure
 ./apps/backend/src/modules/projects/infrastructure/prisma-project.repository.ts
 ./apps/backend/src/modules/projects/presentation
+./apps/backend/src/modules/projects/presentation/create-project.mapper.ts
 ./apps/backend/src/modules/projects/presentation/project-setup.controller.ts
 ./apps/backend/src/modules/projects/presentation/project.mapper.ts
 ./apps/backend/src/modules/projects/presentation/projects.controller.ts
@@ -2166,6 +2174,7 @@ export class ProjectType {
 ./packages/shared-types/src/email.class.ts
 ./packages/shared-types/src/index.ts
 ./packages/shared-types/src/newsletter.class.ts
+./packages/shared-types/src/project-create.class.ts
 ./packages/shared-types/src/project.class.ts
 ./packages/shared-types/src/user.class.ts
 ./packages/shared-types/tsconfig.json
@@ -2177,7 +2186,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-117 directories, 325 files
+117 directories, 328 files
 ```
 
-2025-02-17 08:52:08
+2025-02-18 08:11:14
