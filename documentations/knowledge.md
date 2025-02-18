@@ -1,5 +1,5 @@
 ---
-date: 2025-02-18 09:17:43
+date: 2025-02-18 09:28:43
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1224,6 +1224,20 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
 ```
 ````
 
+### .cursor/rules/rule-backend-refactor.mdc
+
+```mdc
+---
+description: Backend refactoring
+globs: apps/backend/**/*.ts
+---
+- A Repository returns only Domain objects, never DTOs or Prisma types.
+- A Use Case is the only layer handling Domain objects and business logic.
+- Mappers convert between DTOs, Domain objects, and Prisma types to prevent dependencies.
+- Prisma types stay in Repositories, never leaving Infrastructure.
+- Controllers handle only DTOs for a clear, decoupled API.
+```
+
 ### .cursor/rules/rule-backend-repository.mdc
 
 ````mdc
@@ -1750,6 +1764,7 @@ export class ProjectType {
 ./.cursor/rules/rule-backend-domain.mdc
 ./.cursor/rules/rule-backend-global.mdc
 ./.cursor/rules/rule-backend-mapper.mdc
+./.cursor/rules/rule-backend-refactor.mdc
 ./.cursor/rules/rule-backend-repository.mdc
 ./.cursor/rules/rule-backend-seed.mdc
 ./.cursor/rules/rule-backend-use-case.mdc
@@ -2190,7 +2205,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-117 directories, 330 files
+117 directories, 331 files
 ```
 
-2025-02-18 09:17:44
+2025-02-18 09:28:43

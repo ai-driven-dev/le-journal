@@ -153,6 +153,12 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
 }
 ```
 
+- A Repository returns only Domain objects, never DTOs or Prisma types.
+- A Use Case is the only layer handling Domain objects and business logic.
+- Mappers convert between DTOs, Domain objects, and Prisma types to prevent dependencies.
+- Prisma types stay in Repositories, never leaving Infrastructure.
+- Controllers handle only DTOs for a clear, decoupled API.
+
 - Repository implements its interface.
 - Always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
 - Type with `Model.Property` instead of primitive if possible (e.g. `email: string` -> `email: User['email']`).
