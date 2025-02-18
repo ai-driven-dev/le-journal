@@ -2,8 +2,6 @@ import type { LinkDescriptor, LinksFunction, MetaFunction } from '@remix-run/nod
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 import { observer } from 'mobx-react-lite';
 
-import { Toaster } from '~/components/ui/toaster';
-
 import './tailwind.css';
 
 export const meta: MetaFunction = (): ReturnType<MetaFunction> => {
@@ -38,7 +36,6 @@ export const Layout = observer(function Layout({
       </head>
       <body>
         {children}
-        <Toaster />
         <ScrollRestoration />
         <Scripts />
       </body>

@@ -1,5 +1,6 @@
 import type { Project } from '@le-journal/shared-types';
 import { makeAutoObservable, runInAction } from 'mobx';
+import { toast as sonnerToast } from 'sonner';
 
 import type { AuthStore } from '../auth/auth.store';
 
@@ -68,6 +69,9 @@ export class OnboardingStore implements Loadable<Project> {
       if (stepIndex >= 0 && stepIndex < this.steps.length) {
         this.steps[stepIndex].message = message;
         this.steps[stepIndex].state = state;
+        sonnerToast(message, {
+          description: 'Votre projet a été créé avec succès !',
+        });
       }
 
       if (state === 'ERROR') {

@@ -327,6 +327,9 @@ importers:
       mobx-react-lite:
         specifier: ^4.1.0
         version: 4.1.0(mobx@6.13.6)(react-dom@18.3.1)(react@18.3.1)
+      next-themes:
+        specifier: ^0.4.4
+        version: 0.4.4(react-dom@18.3.1)(react@18.3.1)
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -336,6 +339,9 @@ importers:
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
+      sonner:
+        specifier: ^1.7.4
+        version: 1.7.4(react-dom@18.3.1)(react@18.3.1)
       tailwind-merge:
         specifier: ^3.0.1
         version: 3.0.1
@@ -11576,7 +11582,7 @@ packages:
       semver: 7.7.1
       tapable: 2.2.1
       typescript: 5.7.3
-      webpack: 5.98.0(@swc/core@1.10.17)
+      webpack: 5.98.0
     dev: true
 
   /form-data-encoder@2.1.4:
@@ -15244,6 +15250,16 @@ packages:
       winston: 3.17.0
     dev: false
 
+  /next-themes@0.4.4(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-LDQ2qIOJF0VnuVrrMSMLrWGjRMkq+0mpgl6e0juCLqdJ+oo8Q84JRWT6Wh11VDQKkMMe+dVzDKLWs5n87T+PkQ==}
+    peerDependencies:
+      react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
   /node-abi@3.74.0:
     resolution: {integrity: sha512-c5XK0MjkGBrQPGYG24GBADZud0NCbznxNx0ZkS+ebUTrmV1qTDxPxSL8zEAPURXSbLRWVexxmP4986BziahL5w==}
     engines: {node: '>=10'}
@@ -17820,6 +17836,16 @@ packages:
       smart-buffer: 4.2.0
     dev: true
     optional: true
+
+  /sonner@1.7.4(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-DIS8z4PfJRbIyfVFDVnK9rO3eYDtse4Omcm6bt0oEr5/jtLgysmjuBl1frJ9E/EQZrFmKx2A8m/s5s9CRXIzhw==}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+      react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
 
   /sort-keys-length@1.0.1:
     resolution: {integrity: sha512-GRbEOUqCxemTAk/b32F2xa8wDTs+Z1QHOkbhJDQTvv/6G3ZkbJ+frYWsTcc7cBB3Fu4wy4XlLCuNtJuMn7Gsvw==}
