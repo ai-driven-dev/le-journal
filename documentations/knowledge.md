@@ -1,5 +1,5 @@
 ---
-date: 2025-02-18 09:12:23
+date: 2025-02-18 09:17:43
 ---
 
 # Project Specifications "Knowledge Base"
@@ -572,9 +572,11 @@ BREAKING CHANGE: new user database structure
     "lucide-react": "^0.475.0",
     "mobx": "^6.13.6",
     "mobx-react-lite": "^4.1.0",
+    "next-themes": "^0.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reflect-metadata": "^0.2.2",
+    "sonner": "^1.7.4",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2"
@@ -2031,6 +2033,7 @@ export class ProjectType {
 ./apps/frontend/app/components/ui/sheet.tsx
 ./apps/frontend/app/components/ui/sidebar.tsx
 ./apps/frontend/app/components/ui/skeleton.tsx
+./apps/frontend/app/components/ui/sonner.tsx
 ./apps/frontend/app/components/ui/table.tsx
 ./apps/frontend/app/components/ui/textarea.tsx
 ./apps/frontend/app/components/ui/toast.tsx
@@ -2187,7 +2190,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-117 directories, 329 files
+117 directories, 330 files
 ```
 
-2025-02-18 09:12:23
+2025-02-18 09:17:44
