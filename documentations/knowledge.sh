@@ -89,59 +89,98 @@ process_rules() {
     local rules_dir=".cursor/rules"
     local windsurfrules_file=".windsurfrules"
     local temp_rules="/tmp/rules_content.md"
+    local found_rules=false
     
-    log_info "Processing rules files..."
+    log_info "Checking for rules..."
     
-    # Create temporary file for rules content
-    echo "# Project rules" > "$temp_rules"
+    # Always start from PROJECT_ROOT
+    cd "$PROJECT_ROOT" || {
+        log_warning "Could not access project root, skipping rules processing"
+        return 0
+    }
+    
+    # Initialize temp_rules file if we can
+    if ! echo "# Project rules" > "$temp_rules" 2>/dev/null; then
+        log_warning "Could not create temporary rules file, skipping rules processing"
+        return 0
+    fi
     echo "" >> "$temp_rules"
     
-    # Process all .mdc files in rules directory
-    cd "$PROJECT_ROOT"
+    # Try to process rules from .cursor/rules if it exists
     if [ -d "$rules_dir" ]; then
-        for rule_file in "$rules_dir"/*.mdc; do
-            if [ -f "$rule_file" ]; then
-                local filename=$(basename "$rule_file")
-                log_info "Processing rule: $filename"
-                
-                # Extract content after frontmatter (skip lines between --- and ---)
-                awk '
-                    BEGIN { in_frontmatter=0; printed=0 }
-                    /^---$/ {
-                        if (in_frontmatter) {
-                            in_frontmatter=0
-                            next
-                        } else {
-                            in_frontmatter=1
-                            next
+        # Use find with error suppression
+        if find "$rules_dir" -name "*.mdc" -type f 2>/dev/null | grep -q .; then
+            log_info "Processing .mdc files from $rules_dir"
+            while IFS= read -r rule_file; do
+                if [ -f "$rule_file" ]; then
+                    local filename=$(basename "$rule_file")
+                    log_info "Processing rule: $filename"
+                    
+                    # Extract content after frontmatter
+                    awk '
+                        BEGIN { in_frontmatter=0; printed=0 }
+                        /^---$/ {
+                            if (in_frontmatter) {
+                                in_frontmatter=0
+                                next
+                            } else {
+                                in_frontmatter=1
+                                next
+                            }
                         }
-                    }
-                    !in_frontmatter && printed {
-                        print
-                    }
-                    !in_frontmatter && !printed {
-                        if (NF) {
+                        !in_frontmatter && printed {
                             print
-                            printed=1
                         }
-                    }
-                ' "$rule_file" >> "$temp_rules"
-                echo "" >> "$temp_rules"
-            fi
-        done
-        
-        # Update .windsurfrules file
-        if [ -f "$temp_rules" ]; then
-            cp "$temp_rules" "$windsurfrules_file"
-            log_success "Rules consolidated in $windsurfrules_file"
+                        !in_frontmatter && !printed {
+                            if (NF) {
+                                print
+                                printed=1
+                            }
+                        }
+                    ' "$rule_file" >> "$temp_rules" 2>/dev/null && found_rules=true
+                    echo "" >> "$temp_rules"
+                fi
+            done < <(find "$rules_dir" -name "*.mdc" -type f 2>/dev/null)
         else
-            log_error "Failed to generate rules content"
+            log_warning "No .mdc files found in $rules_dir"
         fi
     else
-        log_warning "Rules directory not found: $rules_dir"
+        log_warning "Rules directory '$rules_dir' not found"
     fi
     
-    cd "$SCRIPT_DIR"
+    # Check for existing .windsurfrules file
+    if [ -f "$windsurfrules_file" ]; then
+        log_info "Found existing .windsurfrules file"
+        if $found_rules; then
+            # Only try to update if we found new rules
+            if cp "$temp_rules" "$windsurfrules_file" 2>/dev/null; then
+                log_success "Rules consolidated in $windsurfrules_file"
+            else
+                log_warning "Could not update .windsurfrules file"
+            fi
+        else
+            log_info "Using existing .windsurfrules file (no new rules to process)"
+        fi
+    else
+        if $found_rules; then
+            if cp "$temp_rules" "$windsurfrules_file" 2>/dev/null; then
+                log_success "Created new .windsurfrules file"
+            else
+                log_warning "Could not create .windsurfrules file"
+            fi
+        else
+            log_warning "No rules found and no existing .windsurfrules file"
+        fi
+    fi
+    
+    # Cleanup
+    rm -f "$temp_rules" 2>/dev/null
+    
+    # Always return to SCRIPT_DIR
+    cd "$SCRIPT_DIR" 2>/dev/null || true
+    
+    # Always return success
+    return 0
 }
 
 # Script header
@@ -194,7 +233,11 @@ cd "$SCRIPT_DIR"
 
 # After processing specification files
 print_header "📋 Processing Rules"
-process_rules
+if [ -d "$PROJECT_ROOT/$rules_dir" ]; then
+    process_rules
+else
+    log_warning "Rules directory not found, skipping rules processing"
+fi
 
 # Step 3: Process additional files from knowledge.txt
 if [ ! -f "$KNOWLEDGE_LIST" ]; then
@@ -224,14 +267,19 @@ if [ -f "$KNOWLEDGE_LIST" ]; then
 fi
 
 # Add project structure at the end
-print_header "🌳 Project Structure"
-{
-    printf "\n### Project Structure\n\n"
-    printf "\`\`\`\`text\n"
-    cd "$PROJECT_ROOT" && aidd-tree "dist|build|coverage|archives|.DS_Store"
-    printf "\`\`\`\`\n\n"
-} >> "$OUTPUT_FILE"
-log_success "Project structure added successfully"
+if [ -d "$PROJECT_ROOT" ]; then
+    print_header "🌳 Project Structure"
+    {
+        printf "\n### Project Structure\n\n"
+        printf "````text\n"
+        cd "$PROJECT_ROOT" && tree -I "dist|build|coverage|archives|.DS_Store"
+        printf "````\n\n"
+    } >> "$OUTPUT_FILE"
+    log_success "Project structure added successfully"
+else
+    log_warning "Project root directory not found, skipping project structure"
+fi
+
 
 # Summary
 print_header "📊 Summary"
@@ -243,10 +291,18 @@ log_success "Documentation generated in: $OUTPUT_FILE"
 printf "\n%s\n" "$(date '+%Y-%m-%d %H:%M:%S')" >> "$OUTPUT_FILE"
 
 # Format the generated file with Prettier
-if command -v pnpm &> /dev/null; then
-    log_info "Formatting generated file with Prettier..."
-    cd "$PROJECT_ROOT" && pnpm prettier --write "$OUTPUT_FILE"
-    log_success "File formatted successfully"
+if [ -f "$OUTPUT_FILE" ]; then
+    if command -v pnpm &> /dev/null && ( [ -f "$PROJECT_ROOT/package.json" ] || [ -f "$SCRIPT_DIR/package.json" ] ); then
+        log_info "Formatting generated file with Prettier..."
+        if [ -f "$SCRIPT_DIR/package.json" ]; then
+            cd "$SCRIPT_DIR" && pnpm prettier --write "$OUTPUT_FILE"
+        else
+            cd "$PROJECT_ROOT" && pnpm prettier --write "$OUTPUT_FILE"
+        fi
+        log_success "File formatted successfully"
+    else
+        log_warning "pnpm not found or no package file exists, skipping formatting"
+    fi
 else
-    log_warning "pnpm not found, skipping formatting"
+    log_warning "Output file not found, skipping formatting"
 fi
