@@ -64,14 +64,17 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Opération réussie",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectDomain"
+                  "$ref": "#/components/schemas/Project"
                 }
               }
             }
+          },
+          "401": {
+            "description": "Non autorisé"
           }
         },
         "security": [
@@ -79,7 +82,7 @@
             "bearer": []
           }
         ],
-        "summary": "Create a new project.",
+        "summary": "Créer un nouveau projet.",
         "tags": [
           "Projects"
         ]
@@ -101,14 +104,20 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Opération réussie",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectDomain"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Project"
+                  }
                 }
               }
             }
+          },
+          "401": {
+            "description": "Non autorisé"
           }
         },
         "security": [
@@ -116,7 +125,7 @@
             "bearer": []
           }
         ],
-        "summary": "Get projects from connected user.",
+        "summary": "Récupérer les projets de l'utilisateur connecté.",
         "tags": [
           "Projects"
         ]
@@ -138,14 +147,17 @@
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "Opération réussie",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProjectUpdate"
+                  "$ref": "#/components/schemas/Project"
                 }
               }
             }
+          },
+          "401": {
+            "description": "Non autorisé"
           }
         },
         "security": [
@@ -153,7 +165,7 @@
             "bearer": []
           }
         ],
-        "summary": "Update project's prompt instructions.",
+        "summary": "Mise à jour des instructions de prompt pour un projet.",
         "tags": [
           "Projects"
         ]
@@ -334,10 +346,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Opération réussie"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Non autorisé"
           }
         },
         "summary": "Refresh access token",
@@ -352,10 +364,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Opération réussie"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Non autorisé"
           }
         },
         "summary": "Logout user",
@@ -445,67 +457,9 @@
           "avatar"
         ]
       },
-      "ProjectDomain": {
+      "Project": {
         "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "c123e456-789b-12d3-a456-426614174000",
-            "description": "ID du projet"
-          },
-          "name": {
-            "type": "string",
-            "example": "Mon super projet",
-            "description": "Nom du projet"
-          },
-          "slug": {
-            "type": "string",
-            "example": "mon-super-projet",
-            "description": "Slug du projet"
-          },
-          "newsletterAlias": {
-            "type": "string",
-            "example": "mon-alias",
-            "description": "Alias unique pour les newsletters"
-          },
-          "projectNumber": {
-            "type": "number",
-            "example": 1,
-            "description": "Numéro du projet"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string",
-            "example": "2024-02-08T12:00:00.000Z",
-            "description": "Date de création"
-          },
-          "promptInstruction": {
-            "type": "string",
-            "example": "Write a blog post about AI and its impact on society",
-            "description": "Instruction pour le projet"
-          },
-          "lastPromptUpdate": {
-            "format": "date-time",
-            "type": "string",
-            "example": "2024-02-08T12:00:00.000Z",
-            "description": "Date de la dernière mise à jour du prompt"
-          },
-          "canUpdatePrompt": {
-            "type": "boolean",
-            "example": true,
-            "description": "Indique si le prompt peut être mis à jour"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "newsletterAlias",
-          "projectNumber",
-          "createdAt",
-          "promptInstruction",
-          "canUpdatePrompt"
-        ]
+        "properties": {}
       },
       "ProjectUpdate": {
         "type": "object",

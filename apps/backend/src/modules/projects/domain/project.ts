@@ -1,52 +1,56 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
+import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProjectDomain {
-  // extends Project {
-  @ApiProperty({
-    example: 'c123e456-789b-12d3-a456-426614174000',
-    description: 'ID du projet',
-  })
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   id!: string;
 
-  @ApiProperty({ example: 'Mon super projet', description: 'Nom du projet' })
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   name!: string;
 
-  @Exclude()
-  @ApiProperty({ example: 'mon-super-projet', description: 'Slug du projet' })
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   slug!: string;
 
-  @ApiProperty({ example: 'mon-alias', description: 'Alias unique pour les newsletters' })
+  @ApiProperty()
+  @IsEmail()
+  @IsNotEmpty()
   newsletterAlias!: string;
 
-  @ApiProperty({ example: 1, description: 'Numéro du projet' })
+  @ApiProperty()
+  @IsNumber()
+  @IsNotEmpty()
   projectNumber!: number;
 
-  @ApiProperty({ example: '2024-02-08T12:00:00.000Z', description: 'Date de création' })
+  @ApiProperty()
+  @IsDate()
+  @IsNotEmpty()
   createdAt!: Date;
 
-  @ApiProperty({
-    example: 'Write a blog post about AI and its impact on society',
-    description: 'Instruction pour le projet',
-  })
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   promptInstruction!: string;
 
-  @ApiProperty({
-    example: '2024-02-08T12:00:00.000Z',
-    description: 'Date de la dernière mise à jour du prompt',
-    required: false,
-  })
+  @ApiProperty({ required: false })
+  @IsDate()
+  @IsOptional()
   lastPromptUpdate?: Date;
 
-  @ApiProperty({
-    example: true,
-    description: 'Indique si le prompt peut être mis à jour',
-  })
+  @ApiProperty()
   canUpdatePrompt!: boolean;
 
-  constructor(project: ProjectDomain) {
-    // super();
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  userId!: string;
 
+  constructor(project: ProjectDomain) {
     Object.assign(this, project);
   }
 }

@@ -1,10 +1,25 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import type { ApiQueryOptions } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 
-export function ApiAuthOperation(summary: string): MethodDecorator {
-  return applyDecorators(
-    ApiOperation({ summary }),
-    ApiResponse({ status: 200, description: 'Successful operation' }),
-    ApiResponse({ status: 401, description: 'Unauthorized' }),
-  );
+export function ApiAuthOperation(
+  summary: string,
+  options?: {
+    type?: typeof ApiResponse.prototype.type;
+    isArray?: boolean;
+    query?: ApiQueryOptions;
+  },
+): MethodDecorator {
+  const { type, isArray } = options ?? {};
+
+  const responseDecorators = [
+    ApiResponse({ status: 200, description: 'Opération réussie', type, isArray }),
+    ApiResponse({ status: 401, description: 'Non autorisé' }),
+  ];
+
+  if (options?.query !== undefined) {
+    responseDecorators.push(ApiQuery(options.query));
+  }
+
+  return applyDecorators(ApiOperation({ summary }), ...responseDecorators);
 }

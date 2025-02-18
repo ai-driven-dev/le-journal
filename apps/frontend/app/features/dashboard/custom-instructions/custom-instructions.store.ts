@@ -11,6 +11,7 @@ import { verify } from '~/lib/validator';
 export class CustomInstructionsStore implements CustomInstructions {
   authStore: AuthStore;
   state: ProjectPromptInstructions | null = null;
+  error: string | undefined;
 
   isDialogOpen = false;
   isLoading = true;
@@ -60,9 +61,28 @@ export class CustomInstructionsStore implements CustomInstructions {
 
       const updatedState = await this.authStore
         .fetchWithAuth('/api/projects/prompt', 'PUT', data)
-        .then((res) => res.json());
+        .then(async (res) => {
+          const data = await res.json();
+
+          if (!res.status.toString().startsWith('2')) {
+            this.error = res.statusText;
+
+            const message = Array.isArray(data.message) ? data.message.join('\n') : data.message;
+
+            toast({
+              variant: 'destructive',
+              title: 'Erreur',
+              description: message,
+            });
+            return;
+          }
+
+          return data;
+        });
 
       this.load(updatedState);
+
+      verify(this.state);
 
       toast({
         title: 'Instructions sauvegardées',
@@ -70,11 +90,6 @@ export class CustomInstructionsStore implements CustomInstructions {
       });
     } catch (error: unknown) {
       console.error(error);
-      toast({
-        variant: 'destructive',
-        title: 'Erreur',
-        description: 'Une erreur est survenue lors de la sauvegarde de vos préférences.',
-      });
       throw error;
     }
   };
@@ -98,13 +113,16 @@ export class CustomInstructionsStore implements CustomInstructions {
   };
 
   get instructionLength(): number {
-    return this.state?.promptInstruction.length ?? 0;
+    const prompt = this.state?.promptInstruction || '';
+
+    return prompt.length;
   }
 
   get canUpdatePrompt(): boolean {
     return this.state?.canUpdatePrompt ?? false;
   }
 
+  // todo backend
   get canUpdatePromptLabel(): string {
     if (this.canUpdatePrompt) {
       return "Aujourd'hui, vous pouvez modifier vos instructions.";

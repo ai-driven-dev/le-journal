@@ -1,15 +1,18 @@
+import { Project } from '@le-journal/shared-types';
 import { Body, Controller, Get, Post, Put, Query, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
 import { CreateProjectUseCase } from '../application/create-project.use-case';
 import { GetProjectUseCase } from '../application/get-project.use-case';
 import { UpdateProjectPromptUseCase } from '../application/update-project-prompt.use-case';
-import { ProjectDomain } from '../domain/project';
 import { ProjectUpdate } from '../domain/project-update';
+
+import { ProjectMapper } from './project.mapper';
 
 import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
 import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
+import { ApiAuthOperation } from 'src/infrastructure/http/api-data-response.decorator';
 import { UserDomain } from 'src/modules/users/domain/user.domain';
 
 @ApiTags('Projects')
@@ -21,33 +24,47 @@ export class ProjectsController {
     private readonly createProjectUseCase: CreateProjectUseCase,
     private readonly getProjectUseCase: GetProjectUseCase,
     private readonly updateProjectPromptUseCase: UpdateProjectPromptUseCase,
+    private readonly projectMapper: ProjectMapper,
   ) {}
 
   @Post('create')
-  @ApiOperation({ summary: 'Create a new project.' })
-  @ApiResponse({ status: 200, type: ProjectDomain })
-  async createProject(@GetUser() user: UserDomain): Promise<ProjectDomain> {
-    return await this.createProjectUseCase.execute(user.id, user.email);
+  @ApiAuthOperation('Créer un nouveau projet.', {
+    type: Project,
+  })
+  async createProject(@GetUser() user: UserDomain): Promise<Project> {
+    const projectDomain = await this.createProjectUseCase.execute({
+      userId: user.id,
+      userEmail: user.email,
+    });
+
+    return this.projectMapper.toDTO(projectDomain);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get projects from connected user.' })
-  @ApiQuery({ name: 'projectNumber', required: false, type: Number, default: 1 })
-  @ApiResponse({ status: 200, type: ProjectDomain })
+  @ApiAuthOperation("Récupérer les projets de l'utilisateur connecté.", {
+    type: Project,
+    isArray: true,
+    query: { name: 'projectNumber', required: false, type: Number, default: 1 },
+  })
   async getProject(
     @Query('projectNumber') projectNumber: number,
     @GetUser() user: User,
-  ): Promise<ProjectDomain[]> {
-    return await this.getProjectUseCase.execute(user.id, projectNumber);
+  ): Promise<Project[]> {
+    const projects = await this.getProjectUseCase.execute(user.id, projectNumber);
+
+    return projects.map((project) => this.projectMapper.toDTO(project));
   }
 
   @Put('prompt')
-  @ApiOperation({ summary: "Update project's prompt instructions." })
-  @ApiResponse({ status: 200, type: ProjectUpdate })
+  @ApiAuthOperation('Mise à jour des instructions de prompt pour un projet.', {
+    type: Project,
+  })
   async updateProjectPrompt(
     @Body()
     updateProjectPromptDto: ProjectUpdate,
-  ): Promise<ProjectDomain> {
-    return await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
+  ): Promise<Project> {
+    const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
+
+    return this.projectMapper.toDTO(project);
   }
 }

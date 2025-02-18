@@ -4,6 +4,13 @@ type FetchResponse<T> = Response & {
   data: T;
 };
 
+// to do type output error
+type FetchResponseError = {
+  statusCode: number;
+  error: string;
+  message: string[] | string;
+};
+
 export async function clientFetch<T>(
   endpoint: Endpoint,
   method: 'GET' | 'PUT' | 'POST' | 'DELETE',

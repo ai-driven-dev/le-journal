@@ -1,24 +1,34 @@
-import { Project } from '@le-journal/shared-types';
-import { ApiProperty, PickType } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class ProjectCreateDomain extends PickType(Project, [
-  'name',
-  'slug',
-  'newsletterAlias',
-  'projectNumber',
-]) {
-  @ApiProperty({ example: 'Mon super projet', description: 'Nom du projet' })
+import { ApiAuthProperty } from 'src/infrastructure/http/api-data-property.decorator';
+
+export class ProjectCreateDomain {
+  @ApiAuthProperty('name')
+  @IsString()
+  @IsNotEmpty()
   name!: string;
 
-  @ApiProperty({ example: 'mon-super-projet', description: 'Slug du projet' })
+  @ApiAuthProperty('slug')
+  @IsString()
+  @IsNotEmpty()
   slug!: string;
 
-  @ApiProperty({ example: 'user-123', description: 'ID du propriétaire du projet' })
+  @ApiAuthProperty('userId')
+  @IsString()
+  @IsNotEmpty()
   userId!: string;
 
-  @ApiProperty({ example: 'mon-alias', description: 'Alias unique pour les newsletters' })
+  @ApiAuthProperty('newsletterAlias')
+  @IsEmail()
+  @IsNotEmpty()
   newsletterAlias!: string;
 
-  @ApiProperty({ example: 1, description: 'Numéro du projet' })
+  @ApiAuthProperty('number')
+  @IsNumber()
+  @IsNotEmpty()
   projectNumber!: number;
+
+  constructor(project: ProjectCreateDomain) {
+    Object.assign(this, project);
+  }
 }

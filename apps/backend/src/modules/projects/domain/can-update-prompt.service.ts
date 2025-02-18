@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class PromptUpdateService {
-  canUpdatePrompt(lastPromptUpdate: Date | null): boolean {
-    if (lastPromptUpdate === null) {
+  canUpdatePrompt(lastPromptUpdate: Date | undefined): boolean {
+    if (lastPromptUpdate === undefined) {
       return true;
     }
 
