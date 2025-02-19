@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 16:21:28
+date: 2025-02-19 16:26:36
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1051,38 +1051,33 @@ description: Backend controllers and REST API
 globs: apps/backend/**/*.ts
 ---
 - `ValidationPipe` might no be necessary because `main.ts` uses `useGlobalPipes`.
-- Input is Domain object, output is Domain object too.
-- Call the use-cases which will handle domain logic.
-- Call the mapper to return DTOs.
-- Use domain mapper from current domain.
-- Use Swagger annotations the more you can to be details on API specs.
 - Controllers handle only DTOs for a clear, decoupled API.
 - Controllers call use-cases only, no service or repository calls.
-- Use [api-data-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-data-response.decorator.ts), [api-redirection-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-redirection-response.decorator.ts) instead of Swagger if possible.
+- Use [api-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-response.decorator.ts) and [api-response-redirect.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-response-redirect.decorator.ts)
 
-Example `projects/presentation/project.mapper.ts`:
+Example `presentation/controllers/projects.controller.ts`:
 ```typescript
 @ApiTags('Projects')
 @Controller('projects')
 export class ProjectsController {
-
   constructor(
-    private readonly updateProjectPromptUseCase: UpdateProjectPromptUseCase,
+    private readonly createProjectUseCase: CreateProjectUseCase,
     private readonly projectMapper: ProjectMapper,
   ) {}
 
-  @Put('prompt')
-  @ApiOperation({ summary: 'Update prompt instructions of a project.' })
-  @ApiResponse({ status: 200, type: ProjectUpdate })
-  async updateProjectPrompt(
-    @Body()
-    updateProjectPromptDto: ProjectUpdate,
-  ): Promise<ProjectUpdate> {
-    const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
+  @Post('create')
+  @ApiAuthOperation('Créer un nouveau projet.', {
+    type: Project,
+  })
+  @UseGuards(JwtAuthGuard, CheckOnboardingGuard)
+  async createProject(@GetUser() user: UserDomain): Promise<Project> {
+    const projectDomain = await this.createProjectUseCase.execute({
+      userId: user.id,
+      userEmail: user.email,
+    });
 
-    return this.projectMapper.toDomain(project);
+    return this.projectMapper.toDTO(projectDomain);
   }
-}
 ```
 ````
 
@@ -1093,55 +1088,47 @@ export class ProjectsController {
 description: Backend domain objects or DTOs
 globs: apps/backend/**/*.ts
 ---
-- Not ideal, but Domain Objects are used as DTOs to simplify.
-- Extends validated type (also with `class-validator`) only with current properties using `PickType`.
-- Properties use `!` because no constructor.
-- Language in english.
 - Use `class-validator` annotations if data needs to be validation backend only.
-- Use [api-data-property.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-data-property.decorator.ts) instead of `APIProperty` when possible for readability.
+- Use [api-domain-property.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-domain-property.decorator.ts)
 
 Example:
 ```typescript
-import { ProjectType } from '@le-journal/shared-types';
-import { ApiProperty, PickType } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
-
-const MIN_LENGTH = 10;
-const MAX_LENGTH = 200;
-const VALIDATION = /^[^<>{}]*$/;
-
-export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstruction']) {
-  @ApiProperty({
-    example: 'c123e456-789b-12d3-a456-426614174000',
-    description: 'Project ID',
-  })
-  id!: string;
-
-  @ApiProperty({
-    description: 'The instruction prompt for the project',
-    example: 'Write a blog post about AI and its impact on society',
-    minLength: MIN_LENGTH,
-    maxLength: MAX_LENGTH,
-  })
+export class ProjectCreateDomain {
+  @Property('name')
   @IsString()
   @IsNotEmpty()
-  @MinLength(MIN_LENGTH, {
-    message: `Prompt instruction must be at least ${MIN_LENGTH} characters long`,
-  })
-  @MaxLength(MAX_LENGTH, {
-    message: `Prompt instruction must be at most ${MAX_LENGTH} characters long`,
-  })
-  @Matches(VALIDATION, {
-    message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
-  })
-  promptInstruction!: string;
+  name!: string;
+
+  @Property('slug')
+  @IsString()
+  @IsNotEmpty()
+  slug!: string;
+
+  @Property('userId')
+  @IsString()
+  @IsNotEmpty()
+  userId!: string;
+
+  @Property('emailAlias')
+  @IsEmail()
+  @IsNotEmpty()
+  emailAlias!: string;
+
+  @Property('number')
+  @IsNumber()
+  @IsNotEmpty()
+  projectNumber!: number;
+
+  constructor(project: ProjectCreateDomain) {
+    Object.assign(this, project);
+  }
 }
 ```
 ````
 
 ### .cursor/rules/rule-backend-global.mdc
 
-````mdc
+```mdc
 ---
 description: Backend rules
 globs: apps/backend/**/*.ts
@@ -1153,28 +1140,7 @@ globs: apps/backend/**/*.ts
 - Create custom exceptions when domain specific.
 - Focus on domain logic.
 - Focus on DDD and Clean Architecture.
-
-Example structure `src/modules/projects`:
-```text
-├── application
-│   ├── create-project.use-case.ts
-│   ├── get-project.use-case.ts
-│   └── update-project-prompt.use-case.ts
-├── domain
-│   ├── project-create.ts
-│   ├── project-update.ts
-│   ├── project.repository.interface.ts
-│   └── project.ts
-├── infrastructure
-│   └── prisma-project.repository.ts
-├── presentation
-│   ├── project.mapper.ts
-│   └── projects.controller.ts
-└── projects.module.ts
 ```
-
-
-````
 
 ### .cursor/rules/rule-backend-mapper.mdc
 
@@ -1230,16 +1196,6 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
 ```
 ````
 
-### .cursor/rules/rule-backend-refactor.mdc
-
-```mdc
----
-description: Backend refactoring
-globs: apps/backend/**/*.ts
----
-
-```
-
 ### .cursor/rules/rule-backend-repository.mdc
 
 ````mdc
@@ -1253,7 +1209,6 @@ globs: apps/backend/**/*.ts
 - Wrap db calls in Prisma Transactions if necessary.
 - A Repository returns only Domain objects, never DTOs or Prisma types.
 - Prisma types stay in Repositories, never leaving Infrastructure.
-- A Repository returns only Domain objects, never DTOs or Prisma types.
 
 Example usage in controller/use-case:
 ```typescript
@@ -1769,7 +1724,6 @@ export class ProjectType {
 ./.cursor/rules/rule-backend-domain.mdc
 ./.cursor/rules/rule-backend-global.mdc
 ./.cursor/rules/rule-backend-mapper.mdc
-./.cursor/rules/rule-backend-refactor.mdc
 ./.cursor/rules/rule-backend-repository.mdc
 ./.cursor/rules/rule-backend-seed.mdc
 ./.cursor/rules/rule-backend-use-case.mdc
@@ -2236,7 +2190,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-128 directories, 346 files
+128 directories, 345 files
 ```
 
-2025-02-19 16:21:28
+2025-02-19 16:26:36
