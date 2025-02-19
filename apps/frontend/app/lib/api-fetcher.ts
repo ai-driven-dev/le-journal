@@ -7,6 +7,7 @@ export type Endpoint =
   | '/api/newsletters/emails/search'
   // projects
   | '/api/projects'
+  | '/api/projects/1'
   | '/api/projects/create'
   | '/api/projects/prompt'
   // Project setup

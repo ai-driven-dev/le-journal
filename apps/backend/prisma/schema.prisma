@@ -97,9 +97,10 @@ model Project {
   name           String
   slug           String
 
-  email_alias       String @unique @map("email_alias")
-  google_label_name String @map("google_label_name")
-  google_label_id   String @map("google_label_id")
+  email_alias       String  @unique @map("email_alias")
+  google_label_name String? @map("google_label_name")
+  google_label_id   String? @map("google_label_id")
+  google_filter_id  String? @map("google_filter_id")
 
   prompt_instruction String    @default("") @map("prompt_instruction") @db.Text
   last_prompt_update DateTime? @map("last_prompt_update")
@@ -113,6 +114,7 @@ model Project {
   @@unique([user_id, project_number])
   @@unique([user_id, slug])
   @@unique([user_id, name])
+  @@unique([user_id, google_filter_id])
   @@index([user_id])
   @@map("projects")
 }

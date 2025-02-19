@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Project } from '@prisma/client';
 
 import { ProjectDomain } from '../domain/project';
@@ -15,6 +15,18 @@ export class PrismaProjectRepository implements ProjectRepository {
     private readonly projectMapper: ProjectMapper,
     private readonly logger: Logger,
   ) {}
+
+  async findGoogleInfo(projectId: Project['id']): Promise<Project> {
+    const project = await this.prisma.project.findUnique({
+      where: { id: projectId },
+    });
+
+    if (!project) {
+      throw new NotFoundException(`Projet non trouvé avec l'identifiant ${projectId}`);
+    }
+
+    return project;
+  }
 
   async findBy(conditions: FindByCondition[]): Promise<ProjectDomain[]> {
     const where = conditions.reduce((acc, condition) => {

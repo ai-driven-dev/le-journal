@@ -6,6 +6,7 @@
   "scripts": {
     "build": "remix vite:build",
     "dev": "remix vite:dev --port=3000",
+    "dev:debug": "VITE_HMR=false remix vite:dev --force --port=3000",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

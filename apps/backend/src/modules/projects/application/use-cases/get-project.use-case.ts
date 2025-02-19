@@ -12,11 +12,17 @@ export class GetProjectUseCase {
     private readonly promptUpdateService: PromptUpdateService,
   ) {}
 
-  async execute(userId: string, projectNumber: number): Promise<ProjectDomain[]> {
-    const projects = await this.projectRepository.findByUserIdAndProjectNumber(
-      userId,
-      projectNumber,
-    );
+  async execute(userId: string, projectNumber?: number): Promise<ProjectDomain[]> {
+    let projects = [];
+
+    if (projectNumber) {
+      projects = await this.projectRepository.findBy([
+        { key: 'user_id', value: userId },
+        { key: 'project_number', value: projectNumber },
+      ]);
+    } else {
+      projects = await this.projectRepository.findBy([{ key: 'user_id', value: userId }]);
+    }
 
     if (projects.length === 0) {
       throw new NotFoundException('Project not found');

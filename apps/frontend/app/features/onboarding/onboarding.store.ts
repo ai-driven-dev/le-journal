@@ -14,7 +14,6 @@ export interface OnboardingStep {
   label: string;
   message?: string;
   routeToCall: Endpoint;
-  onSuccess?: (data: unknown) => void;
 }
 
 export class OnboardingStore implements Loadable<Project> {
@@ -27,13 +26,6 @@ export class OnboardingStore implements Loadable<Project> {
       state: 'PENDING',
       label: "Création d'un nouveau projet",
       routeToCall: '/api/projects/create',
-      onSuccess: (data: unknown): void => {
-        if (typeof data === 'object' && data !== null && 'id' in data) {
-          runInAction(() => {
-            this.state = data as Project;
-          });
-        }
-      },
     },
     {
       state: 'PENDING',
@@ -56,6 +48,25 @@ export class OnboardingStore implements Loadable<Project> {
     makeAutoObservable(this);
   }
 
+  checkProjectExists = async (): Promise<boolean> => {
+    const response = await this.authStore.fetchWithAuth('/api/projects/1', 'GET');
+
+    if (response.status !== 200) {
+      return false;
+    }
+
+    const data = await response.json();
+
+    if (data !== undefined) {
+      runInAction(() => {
+        this.state = data;
+      });
+      return true;
+    }
+
+    return false;
+  };
+
   get canProcess(): boolean {
     return !this.isProcessing;
   }
@@ -64,20 +75,20 @@ export class OnboardingStore implements Loadable<Project> {
     return this.steps.every((step) => step.state === 'SUCCESS' || step.state === 'ALREADY_EXISTS');
   }
 
-  setMessage = (stepIndex: number, state: StepState, message: string): void => {
+  setProject = (data: unknown): void => {
     runInAction(() => {
-      if (stepIndex >= 0 && stepIndex < this.steps.length) {
-        this.steps[stepIndex].message = message;
-        this.steps[stepIndex].state = state;
-        sonnerToast(message, {
-          description: 'Votre projet a été créé avec succès !',
-        });
-      }
-
-      if (state === 'ERROR') {
-        this.isProcessing = false;
-      }
+      this.state = data as Project;
     });
+  };
+
+  updateStep = (stepIndex: number, state: StepState, message?: string): void => {
+    this.steps[stepIndex].state = state;
+    this.steps[stepIndex].message = message;
+    if (message) sonnerToast(message);
+
+    if (state === 'ERROR') {
+      this.isProcessing = false;
+    }
   };
 
   load = async (): Promise<void> => {
@@ -90,51 +101,68 @@ export class OnboardingStore implements Loadable<Project> {
     for (let i = 0; i < this.steps.length; i++) {
       const step = this.steps[i];
 
-      if (step.state === 'SUCCESS' || step.state === 'ALREADY_EXISTS') continue;
+      if (i === 0) {
+        const projectExists = await this.checkProjectExists();
+        if (projectExists) {
+          runInAction(() => {
+            this.updateStep(i, 'ALREADY_EXISTS', 'Le projet existe déjà');
+          });
+          continue;
+        }
+      }
 
       try {
         runInAction(() => {
-          step.state = 'IN_PROGRESS';
-          step.message = undefined;
+          this.updateStep(i, 'IN_PROGRESS');
         });
 
-        const body =
-          step.routeToCall === '/api/projects/create' ? undefined : { projectId: this.state?.id };
+        const isProjectIdRequired =
+          step.routeToCall === '/api/project/setup/label' ||
+          step.routeToCall === '/api/project/setup/filter';
+
+        if (isProjectIdRequired && this.state?.id === undefined) {
+          throw new Error("Le projet n'est pas disponible");
+        }
+
+        const body = isProjectIdRequired ? { projectId: this.state?.id } : undefined;
 
         const response = await this.authStore.fetchWithAuth(step.routeToCall, 'POST', body);
         const data = await response.json();
 
-        if (response.status === 500) {
-          this.setMessage(i, 'ERROR', data.message);
+        if (response.status.toString().startsWith('5') || response.status === 400) {
+          runInAction(() => this.updateStep(i, 'ERROR', data.message));
           return;
         } else if (response.status === 409) {
-          this.setMessage(i, 'ALREADY_EXISTS', data.message);
+          runInAction(() => {
+            this.updateStep(i, 'ALREADY_EXISTS', data.message);
+          });
+          continue;
         } else if (response.status === 200 || response.status === 201) {
-          // todo api renvoie message ?
-          // this.setMessage(i, 'SUCCESS', data.message);
           switch (step.routeToCall) {
             case '/api/projects/create':
-              this.setMessage(i, 'SUCCESS', 'Votre projet a été créé avec succès !');
+              this.updateStep(i, 'SUCCESS', 'Votre projet a été créé avec succès !');
+              runInAction(() => {
+                this.setProject(data);
+              });
               break;
             case '/api/project/setup/label':
-              this.setMessage(i, 'SUCCESS', 'Le label a été ajouté à votre projet !');
+              this.updateStep(i, 'SUCCESS', 'Le label a été ajouté à votre projet !');
               break;
             case '/api/project/setup/filter':
-              this.setMessage(i, 'SUCCESS', 'Le filtre a été configuré avec succès !');
+              this.updateStep(i, 'SUCCESS', 'Le filtre a été configuré avec succès !');
               break;
             case '/api/project/setup/test':
-              this.setMessage(i, 'SUCCESS', "L'email de test a été envoyé !");
+              this.updateStep(i, 'SUCCESS', "L'email de test a été envoyé !");
               break;
-          }
-          if (step.onSuccess) {
-            step.onSuccess(data);
           }
         }
       } catch (error) {
         runInAction(() => {
-          step.state = 'ERROR';
-          step.message = error instanceof Error ? error.message : 'Une erreur est survenue';
-          this.isProcessing = false;
+          this.updateStep(
+            i,
+            'ERROR',
+            error instanceof Error ? error.message : 'Une erreur est survenue',
+          );
         });
         return;
       }

@@ -2,8 +2,3 @@
 description: Backend refactoring
 globs: apps/backend/**/*.ts
 ---
-- A Repository returns only Domain objects, never DTOs or Prisma types.
-- A Use Case is the only layer handling Domain objects and business logic.
-- Mappers convert between DTOs, Domain objects, and Prisma types to prevent dependencies.
-- Prisma types stay in Repositories, never leaving Infrastructure.
-- Controllers handle only DTOs for a clear, decoupled API.

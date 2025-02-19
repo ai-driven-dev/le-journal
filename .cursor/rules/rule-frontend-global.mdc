@@ -11,4 +11,3 @@ globs: apps/frontend/**
 - `ESLint` with flat config. 
 - Focus on accessibility (a11y) when generating HTML.
 - Use latest `tailwind` functionnalities (3.4+).
-- French language only in UI (labels, texts, placeholders...)

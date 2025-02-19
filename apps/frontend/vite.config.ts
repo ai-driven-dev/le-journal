@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
+    build: {
+      sourcemap: true,
+    },
     plugins: [
       remix({
         future: {

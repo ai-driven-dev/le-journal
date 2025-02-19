@@ -6,6 +6,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
   Matches,
   MaxLength,
   MinLength,
@@ -18,6 +19,7 @@ export const PROMPT_UPDATE_DELAY_HOURS = 24;
 
 export class Project {
   @IsString()
+  @IsUUID()
   @IsNotEmpty()
   id!: string;
 

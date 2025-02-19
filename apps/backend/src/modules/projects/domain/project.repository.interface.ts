@@ -19,6 +19,7 @@ export interface ProjectRepository {
     projectNumber: Project['project_number'],
   ): Promise<ProjectDomain[]>;
   findSlugForUser(user_id: Project['user_id']): Promise<Project['slug'][]>;
+  findGoogleInfo(projectId: Project['id']): Promise<Project>;
   findBy(conditions: FindByCondition[]): Promise<ProjectDomain[]>;
   update(id: Project['id'], data: Partial<Project>): Promise<ProjectDomain>;
 }
