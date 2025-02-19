@@ -5,4 +5,3 @@ export * from './project-create.class';
 export * from './project-update-instructions.class';
 export * from './project.class';
 export * from './user.class';
-

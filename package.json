@@ -14,7 +14,7 @@
     "dev": "docker exec redis redis-cli FLUSHALL &&turbo run dev",
     "dev:docker": "docker-compose up --build -d --remove-orphans",
     "beautify": "pnpm run format:fix && pnpm run lint:fix",
-    "lint": "eslint \"**/*.{ts,tsx}\" --debug",
+    "lint": "eslint \"**/*.{ts,tsx}\"",
     "lint:debug": "eslint \"**/*.{ts,tsx}\" --debug | tee | pbcopy",
     "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix --fix-type problem,suggestion,layout,directive",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
