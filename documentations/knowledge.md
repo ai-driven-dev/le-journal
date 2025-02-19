@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 08:00:13
+date: 2025-02-19 08:02:28
 ---
 
 # Project Specifications "Knowledge Base"
@@ -489,7 +489,7 @@ BREAKING CHANGE: new user database structure
     "dev": "docker exec redis redis-cli FLUSHALL &&turbo run dev",
     "dev:docker": "docker-compose up --build -d --remove-orphans",
     "beautify": "pnpm run format:fix && pnpm run lint:fix",
-    "lint": "eslint \"**/*.{ts,tsx}\" --debug",
+    "lint": "eslint \"**/*.{ts,tsx}\"",
     "lint:debug": "eslint \"**/*.{ts,tsx}\" --debug | tee | pbcopy",
     "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix --fix-type problem,suggestion,layout,directive",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
@@ -2213,4 +2213,4 @@ export class ProjectType {
 122 directories, 331 files
 ```
 
-2025-02-19 08:00:13
+2025-02-19 08:02:28
