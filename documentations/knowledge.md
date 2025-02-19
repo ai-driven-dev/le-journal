@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 20:14:32
+date: 2025-02-19 23:21:51
 ---
 
 # Project Specifications "Knowledge Base"
@@ -626,9 +626,10 @@ BREAKING CHANGE: new user database structure
     "start:debug": "nest start --debug --watch --preserveWatchOutput --inspect-brk=0.0.0.0:9229",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint:debug": "TIMING=1 pnpm eslint apps/ --debug",
     "test": "dotenv -e .env.test -- jest --config jest.config.ts --testPathIgnorePatterns=\"\\.integration\\.spec\\.ts$\"",
     "test:coverage": "pnpm test -- --coverage",
-    "test:watch": "pnpm test -- --watch",
+    "test:watch": "pnpm test -- --watch --watchAll",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --coverage",
     "test:ci": "dotenv -e .env.test -- prisma migrate reset --force && jest --config jest.config.ts --coverage --runInBand",
@@ -2328,4 +2329,4 @@ text
 
 315 directories, 288 files
 
-2025-02-19 20:14:32
+2025-02-19 23:21:51
