@@ -1,4 +1,0 @@
----
-description: Backend refactoring
-globs: apps/backend/**/*.ts
----
