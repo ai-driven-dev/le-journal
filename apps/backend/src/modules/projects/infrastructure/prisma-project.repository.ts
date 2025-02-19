@@ -21,7 +21,7 @@ export class PrismaProjectRepository implements ProjectRepository {
       where: { id: projectId },
     });
 
-    if (!project) {
+    if (project === null) {
       throw new NotFoundException(`Projet non trouvé avec l'identifiant ${projectId}`);
     }
 
@@ -78,6 +78,7 @@ export class PrismaProjectRepository implements ProjectRepository {
         prompt_instruction: '',
         google_label_name: '',
         google_label_id: '',
+        onboarding_started_at: new Date(),
       },
     });
 
@@ -89,7 +90,7 @@ export class PrismaProjectRepository implements ProjectRepository {
       where: { id },
     });
 
-    return project ? this.projectMapper.toDomain(project, true) : null;
+    return project !== null ? this.projectMapper.toDomain(project, true) : null;
   }
 
   public async findSlugForUser(user_id: Project['user_id']): Promise<Project['slug'][]> {

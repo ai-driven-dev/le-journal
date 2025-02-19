@@ -24,6 +24,6 @@
       "src/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "test/**/*", "prisma/**/*", "jest.config.ts"],
+  "include": ["src/**/*", "test/**/*", "prisma/**/*", "jest.config.ts", "src/*"],
   "exclude": ["node_modules", "dist"]
 }

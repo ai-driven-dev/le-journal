@@ -21,6 +21,10 @@ export const env = {
   // Logging
   ENABLE_LOGGING: process.env.ENABLE_LOGGING,
   LOG_LEVEL: process.env.LOG_LEVEL,
+
+  // Email
+  DEFAULT_SENDER: process.env.DEFAULT_SENDER,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
 } as const;
 
 const envKeys = Object.keys(env) as Array<keyof typeof env>;

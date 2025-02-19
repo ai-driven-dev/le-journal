@@ -7,9 +7,11 @@ import { EmailContent, EmailServiceRepository } from './email.types';
 @Injectable()
 export class EmailService implements EmailServiceRepository {
   private readonly resend: Resend;
-  private readonly logger = new Logger(EmailService.name);
 
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly logger: Logger,
+  ) {
     const apiKey = this.configService.get<string>('RESEND_API_KEY');
     if (!apiKey) {
       throw new Error('RESEND_API_KEY is not defined');
@@ -23,7 +25,7 @@ export class EmailService implements EmailServiceRepository {
 
       if (emailSent.error) {
         this.logger.error(
-          `Failed to send email: ${emailSent.error instanceof Error ? emailSent.error.message : 'Unknown error'}`,
+          `Failed to send email (${emailSent.error.name}): ${emailSent.error.message}`,
         );
         return false;
       }
