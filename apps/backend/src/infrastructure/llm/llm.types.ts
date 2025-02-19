@@ -1,6 +1,6 @@
 export interface LlmRequest {
   prompt: string;
-  systemPrompt?: string;
+  systemPrompt: string;
   temperature?: number;
   maxTokens?: number;
 }

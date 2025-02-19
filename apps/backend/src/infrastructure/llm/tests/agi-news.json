@@ -1,0 +1,67 @@
+{
+  "content": {
+    "articles": [
+      {
+        "title": "Experiment Shows 3D Techniques Enhance AI Video Consistency",
+        "link": "https://backdroptech.github.io/3d-to-video/",
+        "summary": "A new experiment demonstrates how incorporating 3D methods can significantly improve the consistency of AI-generated videos, paving the way for more stable and realistic outputs.",
+        "score": 0
+      },
+      {
+        "title": "Announcing the First-Ever LlamaCon on April 29",
+        "link": "https://x.com/i/status/1891969855043313945",
+        "summary": "The inaugural LlamaCon is set for April 29, bringing together AI enthusiasts to explore advancements in Llama-based models; additionally, Meta Connect is scheduled for September 17-18.",
+        "score": 0
+      },
+      {
+        "title": "Overcoming Challenges in High-Resolution Text-to-Video Generation",
+        "link": "https://x.com/i/status/1892179215631499459",
+        "summary": "Researchers propose efficient methods to tackle computational hurdles in generating high-resolution AI videos from text, enhancing visual quality without exorbitant costs.",
+        "score": 0
+      },
+      {
+        "title": "Sliding Tile Attention Speeds Up Video Generation in DiT Models",
+        "link": "https://x.com/i/status/1892179078368653341",
+        "summary": "Introducing Sliding Tile Attention (STA), a novel approach that reduces computational demands in Diffusion Transformer models, significantly accelerating AI-driven video generation.",
+        "score": 0
+      },
+      {
+        "title": "OREAL: Boosting LLMs' Mathematical Reasoning with Outcome-Based Rewards",
+        "link": "https://x.com/i/status/1892178925100413367",
+        "summary": "The new Outcome REward-based RL algorithm (OREAL) enhances LLMs' ability to solve complex math problems using only binary correctness feedback, advancing AI's problem-solving skills.",
+        "score": 0
+      },
+      {
+        "title": "Efficient Transformers for Long Contexts Using Top-K Token Selection",
+        "link": "https://x.com/i/status/1892178684473414061",
+        "summary": "A novel method reduces inference costs in transformers handling long contexts by attending only to the most important tokens, improving efficiency without sacrificing performance.",
+        "score": 0
+      },
+      {
+        "title": "EVEv2.0: Building Vision-Language Models Without Pre-Trained Encoders",
+        "link": "https://x.com/i/status/1892178341744054730",
+        "summary": "EVEv2.0 introduces an efficient way to develop Vision-Language Models from scratch, overcoming challenges in learning visual perception and minimizing vision-language interference.",
+        "score": 0
+      },
+      {
+        "title": "Enhancing LLM Code Generation for Low-Resource Programming Languages",
+        "link": "https://x.com/i/status/1892177949354295652",
+        "summary": "New strategies in in-context learning and fine-tuning boost LLM performance in code generation for low-resource languages, expanding AI's accessibility in software development.",
+        "score": 0
+      },
+      {
+        "title": "Embodied Red Teaming: Evaluating Robot Models for Safety and Diversity",
+        "link": "https://x.com/i/status/1892177699780567279",
+        "summary": "Introducing Embodied Red Teaming (ERT), a benchmark that tests language-conditioned robot models using diverse instructions and safety assessments to improve real-world applicability.",
+        "score": 0
+      },
+      {
+        "title": "Hugging Face Hub Expands with New Inference Providers Offering SoTA Models",
+        "link": "https://x.com/i/status/1891909914412433839",
+        "summary": "Hugging Face Hub welcomes Nebius AI Studio, Novita Labs, and Hyperbolic Labs, providing access to state-of-the-art Vision-Language Models, Text-to-Image models like Flux, and LLMs such as DeepSeek R1.",
+        "score": 0
+      }
+    ]
+  },
+  "usage": { "promptTokens": 1000, "completionTokens": 725, "totalTokens": 1725 }
+}

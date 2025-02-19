@@ -1,0 +1,128 @@
+Delivered-To: contact.alexsoyes+newsletter@gmail.com
+Received: by 2002:a05:7301:4b03:b0:15a:9bf8:43ba with SMTP id sc3csp4226458dyb;
+        Wed, 19 Feb 2025 06:06:01 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEPsUbelgAR+7CThVDD5XIi9RvjA0HHq5D55+l5D9I1GW0rRH2CJzUjIMN1vG6lreJD+rHQ
+X-Received: by 2002:a05:6512:33cd:b0:545:c7d:1784 with SMTP id 2adb3069b0e04-5452fea50dfmr6438142e87.43.1739973961188;
+        Wed, 19 Feb 2025 06:06:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1739973961; cv=none;
+        d=google.com; s=arc-20240605;
+        b=A/tTXMMwOUj69gc1aJsyBR0R6f84SY3+VaaQoeQL6DlRk5gw55aeVPA5jU4gqW+MC/
+         l7BzpYfpH9YRjfFlBwUOQXIgC+2865NI7tmgLf67GNZ1HBh0PW0n+ymkWcx0WE6r8UKP
+         ykZv+6sSGYVhrJU3T0O4BRMULXRgi8C9lBV4S8X0s35wb5BWmh3nLo8VchiMl3+jwHle
+         uDRbbCF66S0XuUQiS1Kv4x0LjW2EJgTzX9GQU3PCwC8nn9zXqVR/FauJiM+qyuF/KG6W
+         EPmY79m0fO9gE9uB4ehgIL281XYADgfNq4FLPOypxyhVxdWVSPtRNfuzEbb67Jihl+mz
+         uuiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=feedback-id:mime-version:date:content-transfer-encoding:message-id
+         :subject:to:from:dkim-signature:dkim-signature;
+        bh=t4YacF6BsxTMtpyXKnhjG5m1xWK8pga7Mx/dS3qHXMU=;
+        fh=9SwvkuFH19YhCwHImUsmLwFH0yqw+2d43Awz4Gbrx/c=;
+        b=f0pkEYn7QghLR0ng6Rq7RwFY5IolVSzTB9sdS/XTZEStjOk1Ofz/Zvi9VB/tA5JNJs
+         +bbPOreDtE14gf9iUFk9FcwgJ7KQwMv1JTsNjWDjgx7l4wyRtt3TBevX8lNWZ4qqN6i6
+         9x6B3cR6BmMAcIwM7eRvzYrLWWOLTQ6E+bZhdOh6TuP8Yxwi05lfoPCsD6A8tOVVFM6I
+         fAu0Y4DK6Z5unRz0uYvX00VsHd9bc1QaIlkKC1daN9kU4KtI3rw+V0c/T1L71Rp9t/qf
+         nlhqBzc9e/VNjSTKGr8CgRY1EFZfOq/NBCgxBGnFPlTSFnwwYjHzxMgQGXb3eQJVmSLx
+         XJ5Q==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@tryfirecrawl.com header.s=resend header.b=gUOyBarN;
+       dkim=pass header.i=@amazonses.com header.s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug header.b=G2EaETP8;
+       spf=pass (google.com: domain of 010001951e87a281-9c77bfb8-d5cc-48c5-be4a-8bb77576f8d3-000000@send.tryfirecrawl.com designates 54.240.9.1 as permitted sender) smtp.mailfrom=010001951e87a281-9c77bfb8-d5cc-48c5-be4a-8bb77576f8d3-000000@send.tryfirecrawl.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tryfirecrawl.com
+Return-Path: <010001951e87a281-9c77bfb8-d5cc-48c5-be4a-8bb77576f8d3-000000@send.tryfirecrawl.com>
+Received: from a9-1.smtp-out.amazonses.com (a9-1.smtp-out.amazonses.com. [54.240.9.1])
+        by mx.google.com with ESMTPS id 2adb3069b0e04-5461d138881si3268380e87.357.2025.02.19.06.06.00
+        for <contact.alexsoyes+newsletter@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Feb 2025 06:06:01 -0800 (PST)
+Received-SPF: pass (google.com: domain of 010001951e87a281-9c77bfb8-d5cc-48c5-be4a-8bb77576f8d3-000000@send.tryfirecrawl.com designates 54.240.9.1 as permitted sender) client-ip=54.240.9.1;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@tryfirecrawl.com header.s=resend header.b=gUOyBarN;
+       dkim=pass header.i=@amazonses.com header.s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug header.b=G2EaETP8;
+       spf=pass (google.com: domain of 010001951e87a281-9c77bfb8-d5cc-48c5-be4a-8bb77576f8d3-000000@send.tryfirecrawl.com designates 54.240.9.1 as permitted sender) smtp.mailfrom=010001951e87a281-9c77bfb8-d5cc-48c5-be4a-8bb77576f8d3-000000@send.tryfirecrawl.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tryfirecrawl.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend; d=tryfirecrawl.com; t=1739973960; h=From:To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type; bh=hZTXCLfCy4CSfsJBudTk9SwRb8Lr0MC7fFoZpIMjz88=; b=gUOyBarN6yt3Gsn03CQzcD2hWi28Fs5IhQ4jJKraYthjjTLX1ibQXlpMildTgnVa LN/9JFFvXpFfhVbB7AKjrxzG5/7qE1ZNAgtp/4No3jUZf+HsR1yhSG3ubI1mDu2Uy0P 12a1PGOi7EA3G01FQA0d4mnq1A9wZv8uX7rA8fgA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug; d=amazonses.com; t=1739973960; h=From:To:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID; bh=hZTXCLfCy4CSfsJBudTk9SwRb8Lr0MC7fFoZpIMjz88=; b=G2EaETP8ehdSk8zOMKrVL/07zx6zydHdfVLLFga9L/FogXrFLzPYEckBI/i10L3V XsvmXKVjUm2OAA27jxtXx4Dzz6fMYuqrPdOZ3tQzcJYXtvk7vLZibltkQllA62vfyKK dh4C5SoLL7QVhrB4S85lBL45vDwL6BVDABtcvJGs=
+From: Eric <eric@tryfirecrawl.com>
+To: contact.alexsoyes+newsletter@gmail.com
+Subject: AGI News – Your Quick Daily Roundup
+Message-ID: <010001951e87a281-9c77bfb8-d5cc-48c5-be4a-8bb77576f8d3-000000@email.amazonses.com>
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 19 Feb 2025 14:06:00 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Feedback-ID: ::1.us-east-1.epbACCJLarUaEI78XZoGREJ9LamRjxMH5pM2kZb64rA=:AmazonSES
+X-SES-Outgoing: 2025.02.19-54.240.9.1
+
+<html>
+<head>
+    <title>AGI News =E2=80=93 Your Quick Daily Roundup</title>
+</head>
+<body>
+    <h1>AGI News =E2=80=93 Your Quick Daily Roundup</h1>
+    <p>Stay ahead in the AI landscape with today's top stories, curated by =
+AI agents &amp; Firecrawl =F0=9F=94=A5.</p>
+    <h2>Top Stories</h2>
+
+    <h3><a href=3D"https://backdroptech.github.io/3d-to-video/">Experiment =
+Shows 3D Techniques Enhance AI Video Consistency</a></h3>
+    <p>A new experiment demonstrates how incorporating 3D methods can signi=
+ficantly improve the consistency of AI-generated videos, paving the way for=
+ more stable and realistic outputs.</p>
+
+    <h3><a href=3D"https://x.com/i/status/1891969855043313945">Announcing t=
+he First-Ever LlamaCon on April 29</a></h3>
+    <p>The inaugural LlamaCon is set for April 29, bringing together AI ent=
+husiasts to explore advancements in Llama-based models; additionally, Meta =
+Connect is scheduled for September 17-18.</p>
+
+    <h3><a href=3D"https://x.com/i/status/1892179215631499459">Overcoming C=
+hallenges in High-Resolution Text-to-Video Generation</a></h3>
+    <p>Researchers propose efficient methods to tackle computational hurdle=
+s in generating high-resolution AI videos from text, enhancing visual quali=
+ty without exorbitant costs.</p>
+
+    <h3><a href=3D"https://x.com/i/status/1892179078368653341">Sliding Tile=
+ Attention Speeds Up Video Generation in DiT Models</a></h3>
+    <p>Introducing Sliding Tile Attention (STA), a novel approach that redu=
+ces computational demands in Diffusion Transformer models, significantly ac=
+celerating AI-driven video generation.</p>
+
+    <h3><a href=3D"https://x.com/i/status/1892178925100413367">OREAL: Boost=
+ing LLMs' Mathematical Reasoning with Outcome-Based Rewards</a></h3>
+    <p>The new Outcome REward-based RL algorithm (OREAL) enhances LLMs' abi=
+lity to solve complex math problems using only binary correctness feedback,=
+ advancing AI's problem-solving skills.</p>
+
+    <h3><a href=3D"https://x.com/i/status/1892178684473414061">Efficient Tr=
+ansformers for Long Contexts Using Top-K Token Selection</a></h3>
+    <p>A novel method reduces inference costs in transformers handling long=
+ contexts by attending only to the most important tokens, improving efficie=
+ncy without sacrificing performance.</p>
+
+    <h3><a href=3D"https://x.com/i/status/1892178341744054730">EVEv2.0: Bui=
+lding Vision-Language Models Without Pre-Trained Encoders</a></h3>
+    <p>EVEv2.0 introduces an efficient way to develop Vision-Language Model=
+s from scratch, overcoming challenges in learning visual perception and min=
+imizing vision-language interference.</p>
+
+    <h3><a href=3D"https://x.com/i/status/1892177949354295652">Enhancing LL=
+M Code Generation for Low-Resource Programming Languages</a></h3>
+    <p>New strategies in in-context learning and fine-tuning boost LLM perf=
+ormance in code generation for low-resource languages, expanding AI's acces=
+sibility in software development.</p>
+
+    <h3><a href=3D"https://x.com/i/status/1892177699780567279">Embodied Red=
+ Teaming: Evaluating Robot Models for Safety and Diversity</a></h3>
+    <p>Introducing Embodied Red Teaming (ERT), a benchmark that tests langu=
+age-conditioned robot models using diverse instructions and safety assessme=
+nts to improve real-world applicability.</p>
+
+    <h3><a href=3D"https://x.com/i/status/1891909914412433839">Hugging Face=
+ Hub Expands with New Inference Providers Offering SoTA Models</a></h3>
+    <p>Hugging Face Hub welcomes Nebius AI Studio, Novita Labs, and Hyperbo=
+lic Labs, providing access to state-of-the-art Vision-Language Models, Text=
+-to-Image models like Flux, and LLMs such as DeepSeek R1.</p>
+</body>
+</html><br><br><a href=3D"https://www.aginews.io/api/unsubscribe?email=3Dco=
+ntact.alexsoyes+newsletter@gmail.com">Unsubscribe</a>

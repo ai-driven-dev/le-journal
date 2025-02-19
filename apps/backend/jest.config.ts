@@ -43,6 +43,7 @@ const config: Config = {
       statements: 80,
     },
   },
+  testTimeout: 30000,
 };
 
 export default config;
