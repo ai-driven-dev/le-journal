@@ -1,5 +1,5 @@
 ---
-date: 2025-02-18 09:28:43
+date: 2025-02-19 08:00:13
 ---
 
 # Project Specifications "Knowledge Base"
@@ -489,7 +489,8 @@ BREAKING CHANGE: new user database structure
     "dev": "docker exec redis redis-cli FLUSHALL &&turbo run dev",
     "dev:docker": "docker-compose up --build -d --remove-orphans",
     "beautify": "pnpm run format:fix && pnpm run lint:fix",
-    "lint": "eslint \"**/*.{ts,tsx}\"",
+    "lint": "eslint \"**/*.{ts,tsx}\" --debug",
+    "lint:debug": "eslint \"**/*.{ts,tsx}\" --debug | tee | pbcopy",
     "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix --fix-type problem,suggestion,layout,directive",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "format:fix": "prettier --write \"**/*.{ts,tsx,json,md}\"",
@@ -505,12 +506,11 @@ BREAKING CHANGE: new user database structure
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
     "@nestjs/cli": "^11.0.2",
-    "@rushstack/eslint-plugin-security": "^0.8.3",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^12.0.1",
-    "@typescript-eslint/eslint-plugin": "^8.23.0",
-    "@typescript-eslint/parser": "^8.23.0",
+    "@typescript-eslint/eslint-plugin": "^8.24.1",
+    "@typescript-eslint/parser": "^8.24.1",
     "dotenv-cli": "^8.0.0",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
@@ -1965,19 +1965,22 @@ export class ProjectType {
 ./apps/backend/src/modules/newsletter/infrastructure/prisma-newsletter.repository.ts
 ./apps/backend/src/modules/newsletter/newsletter.module.ts
 ./apps/backend/src/modules/newsletter/presentation
-./apps/backend/src/modules/newsletter/presentation/article.mapper.ts
-./apps/backend/src/modules/newsletter/presentation/email.mapper.ts
+./apps/backend/src/modules/newsletter/presentation/mappers
+./apps/backend/src/modules/newsletter/presentation/mappers/article.mapper.ts
+./apps/backend/src/modules/newsletter/presentation/mappers/email.mapper.ts
+./apps/backend/src/modules/newsletter/presentation/mappers/newsletter.mapper.ts
 ./apps/backend/src/modules/newsletter/presentation/newsletter.controller.ts
-./apps/backend/src/modules/newsletter/presentation/newsletter.mapper.ts
 ./apps/backend/src/modules/projects
 ./apps/backend/src/modules/projects/application
-./apps/backend/src/modules/projects/application/check-onboarding.guard.ts
-./apps/backend/src/modules/projects/application/create-project.use-case.ts
 ./apps/backend/src/modules/projects/application/exceptions
 ./apps/backend/src/modules/projects/application/exceptions/label-already-exists.exception.ts
-./apps/backend/src/modules/projects/application/get-project.use-case.ts
-./apps/backend/src/modules/projects/application/setup-project-label.use-case.ts
-./apps/backend/src/modules/projects/application/update-project-prompt.use-case.ts
+./apps/backend/src/modules/projects/application/guards
+./apps/backend/src/modules/projects/application/guards/check-onboarding.guard.ts
+./apps/backend/src/modules/projects/application/use-cases
+./apps/backend/src/modules/projects/application/use-cases/create-project.use-case.ts
+./apps/backend/src/modules/projects/application/use-cases/get-project.use-case.ts
+./apps/backend/src/modules/projects/application/use-cases/setup-project-label.use-case.ts
+./apps/backend/src/modules/projects/application/use-cases/update-project-prompt.use-case.ts
 ./apps/backend/src/modules/projects/domain
 ./apps/backend/src/modules/projects/domain/can-update-prompt.service.ts
 ./apps/backend/src/modules/projects/domain/project-create.ts
@@ -1987,10 +1990,12 @@ export class ProjectType {
 ./apps/backend/src/modules/projects/infrastructure
 ./apps/backend/src/modules/projects/infrastructure/prisma-project.repository.ts
 ./apps/backend/src/modules/projects/presentation
-./apps/backend/src/modules/projects/presentation/create-project.mapper.ts
-./apps/backend/src/modules/projects/presentation/project-setup.controller.ts
-./apps/backend/src/modules/projects/presentation/project.mapper.ts
-./apps/backend/src/modules/projects/presentation/projects.controller.ts
+./apps/backend/src/modules/projects/presentation/controllers
+./apps/backend/src/modules/projects/presentation/controllers/project-setup.controller.ts
+./apps/backend/src/modules/projects/presentation/controllers/projects.controller.ts
+./apps/backend/src/modules/projects/presentation/mappers
+./apps/backend/src/modules/projects/presentation/mappers/create-project.mapper.ts
+./apps/backend/src/modules/projects/presentation/mappers/project.mapper.ts
 ./apps/backend/src/modules/projects/projects.module.ts
 ./apps/backend/src/modules/users
 ./apps/backend/src/modules/users/application
@@ -2205,7 +2210,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-117 directories, 331 files
+122 directories, 331 files
 ```
 
-2025-02-18 09:28:43
+2025-02-19 08:00:13
