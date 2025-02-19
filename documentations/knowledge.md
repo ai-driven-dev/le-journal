@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 08:44:33
+date: 2025-02-19 11:01:28
 ---
 
 # Project Specifications "Knowledge Base"
@@ -544,6 +544,7 @@ BREAKING CHANGE: new user database structure
   "scripts": {
     "build": "remix vite:build",
     "dev": "remix vite:dev --port=3000",
+    "dev:debug": "VITE_HMR=false remix vite:dev --force --port=3000",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -626,10 +627,9 @@ BREAKING CHANGE: new user database structure
     "build": "prisma generate && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --debug --watch",
+    "dev": "nest start --debug --watch",
     "start:debug": "nest start --debug --watch --preserveWatchOutput --inspect-brk=0.0.0.0:9229",
     "start:prod": "node dist/main",
-    "dev": "nest start --debug --watch --preserveWatchOutput --inspect-brk=0.0.0.0:9229",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "dotenv -e .env.test -- jest --config jest.config.ts --testPathIgnorePatterns=\"\\.integration\\.spec\\.ts$\"",
     "test:watch": "jest --config jest.config.ts --watch --coverage --testPathIgnorePatterns=\"\\.integration\\.spec\\.ts$\"",
@@ -810,9 +810,10 @@ model Project {
   name           String
   slug           String
 
-  email_alias       String @unique @map("email_alias")
-  google_label_name String @map("google_label_name")
-  google_label_id   String @map("google_label_id")
+  email_alias       String  @unique @map("email_alias")
+  google_label_name String? @map("google_label_name")
+  google_label_id   String? @map("google_label_id")
+  google_filter_id  String? @map("google_filter_id")
 
   prompt_instruction String    @default("") @map("prompt_instruction") @db.Text
   last_prompt_update DateTime? @map("last_prompt_update")
@@ -826,6 +827,7 @@ model Project {
   @@unique([user_id, project_number])
   @@unique([user_id, slug])
   @@unique([user_id, name])
+  @@unique([user_id, google_filter_id])
   @@index([user_id])
   @@map("projects")
 }
@@ -1059,6 +1061,8 @@ globs: apps/backend/**/*.ts
 - Use domain mapper from current domain.
 - Use Swagger annotations the more you can to be details on API specs.
 - Controllers handle only DTOs for a clear, decoupled API.
+- Controllers call use-cases only, no service or repository calls.
+- Use [api-data-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-data-response.decorator.ts), [api-redirection-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-redirection-response.decorator.ts) instead of Swagger if possible.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript
@@ -1093,13 +1097,12 @@ export class ProjectsController {
 description: Backend domain objects or DTOs
 globs: apps/backend/**/*.ts
 ---
-- Use Swagger annotations (`APIProperty` at least, propose more if relevant).
 - Not ideal, but Domain Objects are used as DTOs to simplify.
 - Extends validated type (also with `class-validator`) only with current properties using `PickType`.
 - Properties use `!` because no constructor.
 - Language in english.
 - Use `class-validator` annotations if data needs to be validation backend only.
-- Use `@Exclude()` to protect sensitive fields.
+- Use [api-data-property.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-data-property.decorator.ts) instead of `APIProperty` when possible for readability.
 
 Example:
 ```typescript
@@ -1238,11 +1241,7 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
 description: Backend refactoring
 globs: apps/backend/**/*.ts
 ---
-- A Repository returns only Domain objects, never DTOs or Prisma types.
-- A Use Case is the only layer handling Domain objects and business logic.
-- Mappers convert between DTOs, Domain objects, and Prisma types to prevent dependencies.
-- Prisma types stay in Repositories, never leaving Infrastructure.
-- Controllers handle only DTOs for a clear, decoupled API.
+
 ```
 
 ### .cursor/rules/rule-backend-repository.mdc
@@ -1258,6 +1257,7 @@ globs: apps/backend/**/*.ts
 - Wrap db calls in Prisma Transactions if necessary.
 - A Repository returns only Domain objects, never DTOs or Prisma types.
 - Prisma types stay in Repositories, never leaving Infrastructure.
+- A Repository returns only Domain objects, never DTOs or Prisma types.
 
 Example usage in controller/use-case:
 ```typescript
@@ -1528,7 +1528,6 @@ globs: apps/frontend/**
 - `ESLint` with flat config.
 - Focus on accessibility (a11y) when generating HTML.
 - Use latest `tailwind` functionnalities (3.4+).
-- French language only in UI (labels, texts, placeholders...)
 ```
 
 ### .cursor/rules/rule-frontend-remix-loaders.mdc
@@ -1649,6 +1648,10 @@ export class CustomInstructionsStore implements CustomInstructions, Loadable<Pro
 description: Global : Code generation
 globs: **/*.ts, **/*.tsx
 ---
+Language:
+- French language in UI (labels, texts, placeholders...), Exceptions, API documentation...
+- English in code, logs etc.
+
 Sharing code:
 - Place shared data types in `packages/shared-types`.
 - One file per type, export everything from [index.ts](mdc:packages/shared-types/src/index.ts).
@@ -1663,7 +1666,6 @@ Simplified code:
 Type safe code:
 - Always type function params and returns.
 - Never use `as` keyword.
--
 
 Feature focus code:
 - Reflect business needs in the code.
@@ -1900,6 +1902,8 @@ export class ProjectType {
 ./apps/backend/prisma/migrations/20250215205921_mandatory_tokens/migration.sql
 ./apps/backend/prisma/migrations/20250219072849_google_label_and_id_for_project
 ./apps/backend/prisma/migrations/20250219072849_google_label_and_id_for_project/migration.sql
+./apps/backend/prisma/migrations/20250219080951_
+./apps/backend/prisma/migrations/20250219080951_/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/src
@@ -1988,6 +1992,7 @@ export class ProjectType {
 ./apps/backend/src/modules/projects/application/use-cases
 ./apps/backend/src/modules/projects/application/use-cases/create-project.use-case.ts
 ./apps/backend/src/modules/projects/application/use-cases/get-project.use-case.ts
+./apps/backend/src/modules/projects/application/use-cases/setup-filter.use-case.ts
 ./apps/backend/src/modules/projects/application/use-cases/setup-project-label.use-case.ts
 ./apps/backend/src/modules/projects/application/use-cases/update-project-prompt.use-case.ts
 ./apps/backend/src/modules/projects/domain
@@ -2005,6 +2010,7 @@ export class ProjectType {
 ./apps/backend/src/modules/projects/presentation/mappers
 ./apps/backend/src/modules/projects/presentation/mappers/create-project.mapper.ts
 ./apps/backend/src/modules/projects/presentation/mappers/project.mapper.ts
+./apps/backend/src/modules/projects/presentation/project-setup.dto.ts
 ./apps/backend/src/modules/projects/projects.module.ts
 ./apps/backend/src/modules/users
 ./apps/backend/src/modules/users/application
@@ -2204,6 +2210,7 @@ export class ProjectType {
 ./packages/shared-types/src
 ./packages/shared-types/src/article.class.ts
 ./packages/shared-types/src/email.class.ts
+./packages/shared-types/src/error.class.ts
 ./packages/shared-types/src/index.ts
 ./packages/shared-types/src/newsletter.class.ts
 ./packages/shared-types/src/project-create.class.ts
@@ -2219,7 +2226,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-123 directories, 332 files
+124 directories, 336 files
 ```
 
-2025-02-19 08:44:33
+2025-02-19 11:01:28
