@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 16:26:36
+date: 2025-02-19 16:36:15
 ---
 
 # Project Specifications "Knowledge Base"
@@ -1715,482 +1715,597 @@ export class ProjectType {
 
 ### Project Structure
 
-```text
+text
 .
-./.cursor
-./.cursor/rules
-./.cursor/rules/README.md
-./.cursor/rules/rule-backend-controller.mdc
-./.cursor/rules/rule-backend-domain.mdc
-./.cursor/rules/rule-backend-global.mdc
-./.cursor/rules/rule-backend-mapper.mdc
-./.cursor/rules/rule-backend-repository.mdc
-./.cursor/rules/rule-backend-seed.mdc
-./.cursor/rules/rule-backend-use-case.mdc
-./.cursor/rules/rule-frontend-component.mdc
-./.cursor/rules/rule-frontend-global.mdc
-./.cursor/rules/rule-frontend-remix-loaders.mdc
-./.cursor/rules/rule-frontend-store.mdc
-./.cursor/rules/rule-global-code-generation.mdc
-./.cursor/rules/rule-global-installation.mdc
-./.cursor/rules/rule-shared-types.mdc
-./.cursorignore
-./.env
-./.env.example
-./.github
-./.github/workflows
-./.github/workflows/codeql-analysis.yml
-./.github/workflows/pr-checks.yml
-./.github/workflows/release.yml
-./.github/workflows/renovate.yml
-./.gitignore
-./.husky
-./.husky/_
-./.husky/_/.gitignore
-./.husky/_/applypatch-msg
-./.husky/_/commit-msg
-./.husky/_/h
-./.husky/_/husky.sh
-./.husky/_/post-applypatch
-./.husky/_/post-checkout
-./.husky/_/post-commit
-./.husky/_/post-merge
-./.husky/_/post-rewrite
-./.husky/_/pre-applypatch
-./.husky/_/pre-auto-gc
-./.husky/_/pre-commit
-./.husky/_/pre-merge-commit
-./.husky/_/pre-push
-./.husky/_/pre-rebase
-./.husky/_/prepare-commit-msg
-./.husky/commit-msg
-./.husky/post-commit
-./.husky/pre-commit
-./.husky/pre-push
-./.prettierignore
-./.prettierrc
-./.releaserc.json
-./.vscode
-./.vscode/launch.json
-./.vscode/settings.json
-./.windsurfignore
-./.windsurfrules
-./CHANGELOG.md
-./README.md
-./apps
-./apps/backend
-./apps/backend/.env
-./apps/backend/.env.development
-./apps/backend/.env.example
-./apps/backend/.env.production
-./apps/backend/.env.test
-./apps/backend/.gitignore
-./apps/backend/README.md
-./apps/backend/jest.config.ts
-./apps/backend/logs
-./apps/backend/logs/debug.log
-./apps/backend/logs/error.log
-./apps/backend/nest-cli.json
-./apps/backend/package.json
-./apps/backend/prisma
-./apps/backend/prisma/generated
-./apps/backend/prisma/generated/client-test
-./apps/backend/prisma/migrations
-./apps/backend/prisma/migrations/20250204193843_init
-./apps/backend/prisma/migrations/20250204193843_init/migration.sql
-./apps/backend/prisma/migrations/20250208191633_rename_newsletter_and_add_prompt
-./apps/backend/prisma/migrations/20250208191633_rename_newsletter_and_add_prompt/migration.sql
-./apps/backend/prisma/migrations/20250208193239_update_schema_conventions
-./apps/backend/prisma/migrations/20250208193239_update_schema_conventions/migration.sql
-./apps/backend/prisma/migrations/20250208200622_remove_newsletter_name_and_url
-./apps/backend/prisma/migrations/20250208200622_remove_newsletter_name_and_url/migration.sql
-./apps/backend/prisma/migrations/20250208201853_simplify_newsletter_model
-./apps/backend/prisma/migrations/20250208201853_simplify_newsletter_model/migration.sql
-./apps/backend/prisma/migrations/20250208202356_rename_news_to_article
-./apps/backend/prisma/migrations/20250208202356_rename_news_to_article/migration.sql
-./apps/backend/prisma/migrations/20250208203304_add_newsletter_alias_to_project
-./apps/backend/prisma/migrations/20250208203304_add_newsletter_alias_to_project/migration.sql
-./apps/backend/prisma/migrations/20250209075042_add_subscription_status
-./apps/backend/prisma/migrations/20250209075042_add_subscription_status/migration.sql
-./apps/backend/prisma/migrations/20250209075753_subscription_status
-./apps/backend/prisma/migrations/20250209075753_subscription_status/migration.sql
-./apps/backend/prisma/migrations/20250209090123_
-./apps/backend/prisma/migrations/20250209090123_/migration.sql
-./apps/backend/prisma/migrations/20250209093206_
-./apps/backend/prisma/migrations/20250209093206_/migration.sql
-./apps/backend/prisma/migrations/20250209171456_add_project_to_newsletter
-./apps/backend/prisma/migrations/20250209171456_add_project_to_newsletter/migration.sql
-./apps/backend/prisma/migrations/20250211071055_empty_instructions_by_default
-./apps/backend/prisma/migrations/20250211071055_empty_instructions_by_default/migration.sql
-./apps/backend/prisma/migrations/20250211115308_
-./apps/backend/prisma/migrations/20250211115308_/migration.sql
-./apps/backend/prisma/migrations/20250211124226_google_auth_refresh_token
-./apps/backend/prisma/migrations/20250211124226_google_auth_refresh_token/migration.sql
-./apps/backend/prisma/migrations/20250212125601_articles_emails_structure
-./apps/backend/prisma/migrations/20250212125601_articles_emails_structure/migration.sql
-./apps/backend/prisma/migrations/20250213043722_optional_user_fields
-./apps/backend/prisma/migrations/20250213043722_optional_user_fields/migration.sql
-./apps/backend/prisma/migrations/20250213050058_user_roles
-./apps/backend/prisma/migrations/20250213050058_user_roles/migration.sql
-./apps/backend/prisma/migrations/20250213063132_no_link_between_user_and_newsletter
-./apps/backend/prisma/migrations/20250213063132_no_link_between_user_and_newsletter/migration.sql
-./apps/backend/prisma/migrations/20250213063411_remove_user_id_from_newsletter
-./apps/backend/prisma/migrations/20250213063411_remove_user_id_from_newsletter/migration.sql
-./apps/backend/prisma/migrations/20250213103910_add_last_prompt_update
-./apps/backend/prisma/migrations/20250213103910_add_last_prompt_update/migration.sql
-./apps/backend/prisma/migrations/20250214062015_google_auth_scopes
-./apps/backend/prisma/migrations/20250214062015_google_auth_scopes/migration.sql
-./apps/backend/prisma/migrations/20250214062237_rename_google_info_with_prefix
-./apps/backend/prisma/migrations/20250214062237_rename_google_info_with_prefix/migration.sql
-./apps/backend/prisma/migrations/20250214063158_scope_typo
-./apps/backend/prisma/migrations/20250214063158_scope_typo/migration.sql
-./apps/backend/prisma/migrations/20250214063239_onboarding_typo
-./apps/backend/prisma/migrations/20250214063239_onboarding_typo/migration.sql
-./apps/backend/prisma/migrations/20250215205640_google_refresh_token_iv
-./apps/backend/prisma/migrations/20250215205640_google_refresh_token_iv/migration.sql
-./apps/backend/prisma/migrations/20250215205921_mandatory_tokens
-./apps/backend/prisma/migrations/20250215205921_mandatory_tokens/migration.sql
-./apps/backend/prisma/migrations/20250219072849_google_label_and_id_for_project
-./apps/backend/prisma/migrations/20250219072849_google_label_and_id_for_project/migration.sql
-./apps/backend/prisma/migrations/20250219080951_
-./apps/backend/prisma/migrations/20250219080951_/migration.sql
-./apps/backend/prisma/migrations/20250219104638_onboarding_removed_from_user_belongs_to_project
-./apps/backend/prisma/migrations/20250219104638_onboarding_removed_from_user_belongs_to_project/migration.sql
-./apps/backend/prisma/migrations/migration_lock.toml
-./apps/backend/prisma/schema.prisma
-./apps/backend/src
-./apps/backend/src/app.controller.spec.ts
-./apps/backend/src/app.controller.ts
-./apps/backend/src/app.module.ts
-./apps/backend/src/app.service.ts
-./apps/backend/src/config
-./apps/backend/src/config/config.module.ts
-./apps/backend/src/infrastructure
-./apps/backend/src/infrastructure/auth
-./apps/backend/src/infrastructure/auth/auth.controller.ts
-./apps/backend/src/infrastructure/auth/auth.dto.ts
-./apps/backend/src/infrastructure/auth/auth.exceptions.ts
-./apps/backend/src/infrastructure/auth/auth.module.ts
-./apps/backend/src/infrastructure/auth/auth.service.ts
-./apps/backend/src/infrastructure/auth/auth.types.ts
-./apps/backend/src/infrastructure/auth/decorators
-./apps/backend/src/infrastructure/auth/decorators/get-user.decorator.ts
-./apps/backend/src/infrastructure/auth/guards
-./apps/backend/src/infrastructure/auth/guards/google-auth-full.guard.ts
-./apps/backend/src/infrastructure/auth/guards/jwt.guard.ts
-./apps/backend/src/infrastructure/auth/strategies
-./apps/backend/src/infrastructure/auth/strategies/google-full.strategy.ts
-./apps/backend/src/infrastructure/auth/strategies/jwt.strategy.ts
-./apps/backend/src/infrastructure/database
-./apps/backend/src/infrastructure/database/seeds
-./apps/backend/src/infrastructure/database/seeds/articles.seed.ts
-./apps/backend/src/infrastructure/database/seeds/emails.seed.ts
-./apps/backend/src/infrastructure/database/seeds/newsletters.seed.ts
-./apps/backend/src/infrastructure/database/seeds/projects.seed.ts
-./apps/backend/src/infrastructure/database/seeds/transactions.seed.ts
-./apps/backend/src/infrastructure/database/seeds/users.seed.ts
-./apps/backend/src/infrastructure/database/seeds.bootstrap.ts
-./apps/backend/src/infrastructure/database/seeds.command.ts
-./apps/backend/src/infrastructure/database/seeds.module.ts
-./apps/backend/src/infrastructure/database/seeds.service.ts
-./apps/backend/src/infrastructure/email
-./apps/backend/src/infrastructure/email/email.data.ts
-./apps/backend/src/infrastructure/email/email.module.ts
-./apps/backend/src/infrastructure/email/email.service.ts
-./apps/backend/src/infrastructure/email/email.types.ts
-./apps/backend/src/infrastructure/google
-./apps/backend/src/infrastructure/google/google.module.ts
-./apps/backend/src/infrastructure/google/google.service.ts
-./apps/backend/src/infrastructure/http
-./apps/backend/src/infrastructure/http/api-domain-property.decorator.ts
-./apps/backend/src/infrastructure/http/api-response-redirect.decorator.ts
-./apps/backend/src/infrastructure/http/api-response.decorator.ts
-./apps/backend/src/infrastructure/llm
-./apps/backend/src/infrastructure/llm/llm.module.ts
-./apps/backend/src/infrastructure/llm/llm.service.spec.ts
-./apps/backend/src/infrastructure/llm/llm.service.ts
-./apps/backend/src/infrastructure/llm/llm.types.ts
-./apps/backend/src/infrastructure/logger
-./apps/backend/src/infrastructure/logger/logger.module.ts
-./apps/backend/src/infrastructure/logger/logger.service.ts
-./apps/backend/src/infrastructure/redis
-./apps/backend/src/infrastructure/redis/redis.module.ts
-./apps/backend/src/infrastructure/redis/redis.repository.ts
-./apps/backend/src/infrastructure/redis/redis.service.ts
-./apps/backend/src/infrastructure/redis/redis.types.ts
-./apps/backend/src/infrastructure/redis/repositories
-./apps/backend/src/infrastructure/redis/repositories/user-token.repository.ts
-./apps/backend/src/infrastructure/redis/repositories/user.repository.ts
-./apps/backend/src/main-cli.ts
-./apps/backend/src/main.env.ts
-./apps/backend/src/main.ts
-./apps/backend/src/modules
-./apps/backend/src/modules/newsletter
-./apps/backend/src/modules/newsletter/application
-./apps/backend/src/modules/newsletter/application/get-emails.use-case.ts
-./apps/backend/src/modules/newsletter/application/get-newsletters.use-case.ts
-./apps/backend/src/modules/newsletter/domain
-./apps/backend/src/modules/newsletter/domain/article.domain.ts
-./apps/backend/src/modules/newsletter/domain/email.domain.ts
-./apps/backend/src/modules/newsletter/domain/email.repository.interface.ts
-./apps/backend/src/modules/newsletter/domain/newsletter.domain.ts
-./apps/backend/src/modules/newsletter/domain/newsletter.repository.ts
-./apps/backend/src/modules/newsletter/infrastructure
-./apps/backend/src/modules/newsletter/infrastructure/prisma-email.repository.ts
-./apps/backend/src/modules/newsletter/infrastructure/prisma-newsletter.repository.ts
-./apps/backend/src/modules/newsletter/newsletter.module.ts
-./apps/backend/src/modules/newsletter/presentation
-./apps/backend/src/modules/newsletter/presentation/mappers
-./apps/backend/src/modules/newsletter/presentation/mappers/article.mapper.ts
-./apps/backend/src/modules/newsletter/presentation/mappers/email.mapper.ts
-./apps/backend/src/modules/newsletter/presentation/mappers/newsletter.mapper.ts
-./apps/backend/src/modules/newsletter/presentation/newsletter.controller.ts
-./apps/backend/src/modules/projects
-./apps/backend/src/modules/projects/application
-./apps/backend/src/modules/projects/application/exceptions
-./apps/backend/src/modules/projects/application/exceptions/label-already-exists.exception.ts
-./apps/backend/src/modules/projects/application/guards
-./apps/backend/src/modules/projects/application/guards/check-onboarding.guard.ts
-./apps/backend/src/modules/projects/application/use-cases
-./apps/backend/src/modules/projects/application/use-cases/create-project.use-case.ts
-./apps/backend/src/modules/projects/application/use-cases/get-project.use-case.ts
-./apps/backend/src/modules/projects/application/use-cases/setup
-./apps/backend/src/modules/projects/application/use-cases/setup/setup-complete-onboarding.use-case.ts
-./apps/backend/src/modules/projects/application/use-cases/setup/setup-filter.use-case.ts
-./apps/backend/src/modules/projects/application/use-cases/setup/setup-project-label.use-case.ts
-./apps/backend/src/modules/projects/application/use-cases/setup/setup-test-email.use-case.ts
-./apps/backend/src/modules/projects/application/use-cases/update-project-prompt.use-case.ts
-./apps/backend/src/modules/projects/domain
-./apps/backend/src/modules/projects/domain/can-update-prompt.service.ts
-./apps/backend/src/modules/projects/domain/project-create.ts
-./apps/backend/src/modules/projects/domain/project-update.ts
-./apps/backend/src/modules/projects/domain/project.repository.interface.ts
-./apps/backend/src/modules/projects/domain/project.ts
-./apps/backend/src/modules/projects/infrastructure
-./apps/backend/src/modules/projects/infrastructure/prisma-project.repository.ts
-./apps/backend/src/modules/projects/presentation
-./apps/backend/src/modules/projects/presentation/controllers
-./apps/backend/src/modules/projects/presentation/controllers/project-setup.controller.ts
-./apps/backend/src/modules/projects/presentation/controllers/projects.controller.ts
-./apps/backend/src/modules/projects/presentation/mappers
-./apps/backend/src/modules/projects/presentation/mappers/create-project.mapper.ts
-./apps/backend/src/modules/projects/presentation/mappers/project.mapper.ts
-./apps/backend/src/modules/projects/presentation/project-setup.dto.ts
-./apps/backend/src/modules/projects/projects.module.ts
-./apps/backend/src/modules/users
-./apps/backend/src/modules/users/application
-./apps/backend/src/modules/users/application/use-cases
-./apps/backend/src/modules/users/application/use-cases/create-user.use-case.ts
-./apps/backend/src/modules/users/application/use-cases/get-all-users.use-case.ts
-./apps/backend/src/modules/users/application/use-cases/get-user-by-id.use-case.ts
-./apps/backend/src/modules/users/domain
-./apps/backend/src/modules/users/domain/user.domain.ts
-./apps/backend/src/modules/users/domain/user.repository.interface.ts
-./apps/backend/src/modules/users/infrastructure
-./apps/backend/src/modules/users/infrastructure/crypto.service.ts
-./apps/backend/src/modules/users/infrastructure/prisma-user.repository.ts
-./apps/backend/src/modules/users/presentation
-./apps/backend/src/modules/users/presentation/user.mapper.ts
-./apps/backend/src/modules/users/presentation/users.controller.ts
-./apps/backend/src/modules/users/users.module.ts
-./apps/backend/src/presentation
-./apps/backend/src/presentation/mapper.interface.ts
-./apps/backend/src/prisma
-./apps/backend/src/prisma/prisma.module.ts
-./apps/backend/src/prisma/prisma.service.ts
-./apps/backend/src/prisma/prisma.types.ts
-./apps/backend/swagger.json
-./apps/backend/test
-./apps/backend/test/app.e2e-spec.ts
-./apps/backend/test/jest-e2e.json
-./apps/backend/tsconfig.build.json
-./apps/backend/tsconfig.json
-./apps/frontend
-./apps/frontend/.dockerignore
-./apps/frontend/.env
-./apps/frontend/.env.example
-./apps/frontend/.gitignore
-./apps/frontend/Dockerfile
-./apps/frontend/README.md
-./apps/frontend/app
-./apps/frontend/app/components
-./apps/frontend/app/components/Layout.tsx
-./apps/frontend/app/components/error-boundary.tsx
-./apps/frontend/app/components/icons
-./apps/frontend/app/components/icons/link.tsx
-./apps/frontend/app/components/ui
-./apps/frontend/app/components/ui/accordion.tsx
-./apps/frontend/app/components/ui/badge.tsx
-./apps/frontend/app/components/ui/breadcrumb.tsx
-./apps/frontend/app/components/ui/button.tsx
-./apps/frontend/app/components/ui/card.tsx
-./apps/frontend/app/components/ui/dialog.tsx
-./apps/frontend/app/components/ui/drawer.tsx
-./apps/frontend/app/components/ui/dropdown-menu.tsx
-./apps/frontend/app/components/ui/hover-card.tsx
-./apps/frontend/app/components/ui/input.tsx
-./apps/frontend/app/components/ui/separator.tsx
-./apps/frontend/app/components/ui/sheet.tsx
-./apps/frontend/app/components/ui/sidebar.tsx
-./apps/frontend/app/components/ui/skeleton.tsx
-./apps/frontend/app/components/ui/sonner.tsx
-./apps/frontend/app/components/ui/table.tsx
-./apps/frontend/app/components/ui/textarea.tsx
-./apps/frontend/app/components/ui/toast.tsx
-./apps/frontend/app/components/ui/toaster.tsx
-./apps/frontend/app/components/ui/tooltip.tsx
-./apps/frontend/app/entry.client.tsx
-./apps/frontend/app/entry.server.tsx
-./apps/frontend/app/features
-./apps/frontend/app/features/auth
-./apps/frontend/app/features/auth/auth-button.component.tsx
-./apps/frontend/app/features/auth/auth.component.tsx
-./apps/frontend/app/features/auth/auth.context.tsx
-./apps/frontend/app/features/auth/auth.store.ts
-./apps/frontend/app/features/dashboard
-./apps/frontend/app/features/dashboard/custom-instructions
-./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions-confirmation.component.tsx
-./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.component.tsx
-./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.store.ts
-./apps/frontend/app/features/dashboard/custom-instructions/custom-instructions.type.ts
-./apps/frontend/app/features/dashboard/dashboard.component.tsx
-./apps/frontend/app/features/dashboard/dashboard.store.ts
-./apps/frontend/app/features/dashboard/emails
-./apps/frontend/app/features/dashboard/emails/articles
-./apps/frontend/app/features/dashboard/emails/articles/article-row.component.tsx
-./apps/frontend/app/features/dashboard/emails/email-row.component.tsx
-./apps/frontend/app/features/dashboard/emails/emails.component.tsx
-./apps/frontend/app/features/dashboard/emails/emails.store.ts
-./apps/frontend/app/features/dashboard/emails/emails.type.ts
-./apps/frontend/app/features/dashboard/header-profile
-./apps/frontend/app/features/dashboard/header-profile/header-profile.component.tsx
-./apps/frontend/app/features/dashboard/header-profile/header-profile.store.ts
-./apps/frontend/app/features/dashboard/header-profile/header-profile.type.ts
-./apps/frontend/app/features/dashboard/newsletter-subscriptions
-./apps/frontend/app/features/dashboard/newsletter-subscriptions/newsletter-subscriptions.component.tsx
-./apps/frontend/app/features/dashboard/newsletter-subscriptions/newsletter-subscriptions.store.ts
-./apps/frontend/app/features/dashboard/newsletter-subscriptions/newsletter-subscriptions.type.ts
-./apps/frontend/app/features/dashboard/project
-./apps/frontend/app/features/dashboard/project/project-alias.component.tsx
-./apps/frontend/app/features/dashboard/project/project-alias.store.ts
-./apps/frontend/app/features/dashboard/project/project-alias.type.ts
-./apps/frontend/app/features/dashboard/upgrade-banner
-./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.component.tsx
-./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.store.ts
-./apps/frontend/app/features/dashboard/upgrade-banner/upgrade-banner.type.ts
-./apps/frontend/app/features/onboarding
-./apps/frontend/app/features/onboarding/onboarding.component.tsx
-./apps/frontend/app/features/onboarding/onboarding.store.ts
-./apps/frontend/app/features/onboarding/onboarding.types.ts
-./apps/frontend/app/hooks
-./apps/frontend/app/hooks/use-mobile.tsx
-./apps/frontend/app/hooks/use-toast.ts
-./apps/frontend/app/interfaces
-./apps/frontend/app/interfaces/loadable.interface.ts
-./apps/frontend/app/lib
-./apps/frontend/app/lib/api-error.ts
-./apps/frontend/app/lib/api-fetcher.client.ts
-./apps/frontend/app/lib/api-fetcher.ts
-./apps/frontend/app/lib/utils.ts
-./apps/frontend/app/lib/validator.test.ts
-./apps/frontend/app/lib/validator.ts
-./apps/frontend/app/root.tsx
-./apps/frontend/app/routes
-./apps/frontend/app/routes/_index.tsx
-./apps/frontend/app/routes/admin.tsx
-./apps/frontend/app/routes/dashboard.$projectNumber.tsx
-./apps/frontend/app/routes/dashboard.tsx
-./apps/frontend/app/routes/login.tsx
-./apps/frontend/app/routes/onboarding._index.tsx
-./apps/frontend/app/routes/settings.tsx
-./apps/frontend/app/stores
-./apps/frontend/app/stores/root.provider.ts
-./apps/frontend/app/stores/root.store.ts
-./apps/frontend/app/tailwind.css
-./apps/frontend/app/tests
-./apps/frontend/app/tests/_index.test.tsx
-./apps/frontend/app/tests/root.test.tsx
-./apps/frontend/components.json
-./apps/frontend/mobx.config.ts
-./apps/frontend/package.json
-./apps/frontend/postcss.config.js
-./apps/frontend/public
-./apps/frontend/public/favicon.ico
-./apps/frontend/tailwind.config.ts
-./apps/frontend/test
-./apps/frontend/test/setup.ts
-./apps/frontend/test/test-utils.ts
-./apps/frontend/tsconfig.json
-./apps/frontend/vite.config.ts
-./apps/frontend/vitest.config.ts
-./commitlint.config.js
-./config.js
-./docker-compose.yml
-./documentations
-./documentations/_header.md
-./documentations/instructions
-./documentations/instructions/done
-./documentations/instructions/done/auth-google-live-gen.md
-./documentations/instructions/done/dashboard-to-api.md
-./documentations/instructions/done/database
-./documentations/instructions/done/database/generate-entities.md
-./documentations/instructions/done/database/generate-seed-untested.md
-./documentations/instructions/done/database/generated-seed.md
-./documentations/instructions/done/limite-prompt-update.md
-./documentations/instructions/done/setup
-./documentations/instructions/done/setup/dashboard-skeleton.md
-./documentations/instructions/done/setup/security-features.md
-./documentations/instructions/done/setup/setup-linter.md
-./documentations/instructions/done/setup/setup-monorepo.md
-./documentations/instructions/done/setup/setup-versionning.md
-./documentations/instructions/done/shared-knowledge-base.md
-./documentations/instructions/done/wireframe-en.md
-./documentations/instructions/done/wireframe-fr.md
-./documentations/instructions/in-progress
-./documentations/instructions/in-progress/.gitkeep
-./documentations/instructions/todo
-./documentations/instructions/todo/.gitkeep
-./documentations/instructions/todo/event-and-async.md
-./documentations/knowledge.md
-./documentations/knowledge.sh
-./documentations/knowledge.txt
-./documentations/libs
-./documentations/libs/remix-2.5-documentation.md
-./documentations/specifications
-./documentations/specifications/functional
-./documentations/specifications/functional/1-project-description.md
-./documentations/specifications/functional/2-main-features.md
-./documentations/specifications/functional/3-initial-scope.md
-./documentations/specifications/technical
-./documentations/specifications/technical/0-tech-choices.md
-./documentations/specifications/technical/1-commit.md
-./documentations/specifications/technical/2-semantic-versioning.md
-./documentations/specifications/technical/3-urls.md
-./eslint.config.js
-./package.json
-./packages
-./packages/shared-types
-./packages/shared-types/package.json
-./packages/shared-types/src
-./packages/shared-types/src/article.class.ts
-./packages/shared-types/src/email.class.ts
-./packages/shared-types/src/error.class.ts
-./packages/shared-types/src/index.ts
-./packages/shared-types/src/newsletter.class.ts
-./packages/shared-types/src/project-create.class.ts
-./packages/shared-types/src/project-update-instructions.class.ts
-./packages/shared-types/src/project.class.ts
-./packages/shared-types/src/user.class.ts
-./packages/shared-types/tsconfig.json
-./pnpm-lock.yaml
-./pnpm-workspace.yaml
-./scripts
-./scripts/git-hooks
-./scripts/git-hooks/validate-branch-name.sh
-./tsconfig.json
-./turbo.json
+├── CHANGELOG.md
+├── README.md
+├── apps
+│   ├── backend
+│   │   ├── README.md
+│   │   ├── jest.config.ts
+│   │   ├── logs
+│   │   │   ├── debug.log
+│   │   │   └── error.log
+│   │   ├── nest-cli.json
+│   │   ├── node*modules
+│   │   │   ├── @eslint
+│   │   │   │   ├── eslintrc -> ../../../../node_modules/.pnpm/@eslint+eslintrc@3.2.0/node_modules/@eslint/eslintrc
+│   │   │   │   └── js -> ../../../../node_modules/.pnpm/@eslint+js@9.20.0/node_modules/@eslint/js
+│   │   │   ├── @le-journal
+│   │   │   │   └── shared-types -> ../../../../packages/shared-types
+│   │   │   ├── @nestjs
+│   │   │   │   ├── cache-manager -> ../../../../node_modules/.pnpm/@nestjs+cache-manager@3.0.0*@nestjs+common@11.0.10_@nestjs+core@11.0.10_cache-manager@6.4.0_rxjs@7.8.1/node*modules/@nestjs/cache-manager
+│   │   │   │   ├── cli -> ../../../../node_modules/.pnpm/@nestjs+cli@11.0.4*@swc+cli@0.6.0_@swc+core@1.10.18_@types+node@22.13.4_esbuild@0.25.0/node*modules/@nestjs/cli
+│   │   │   │   ├── common -> ../../../../node_modules/.pnpm/@nestjs+common@11.0.10_class-transformer@0.5.1_class-validator@0.14.1_reflect-metadata@0.2.2_rxjs@7.8.1/node_modules/@nestjs/common
+│   │   │   │   ├── config -> ../../../../node_modules/.pnpm/@nestjs+config@4.0.0*@nestjs+common@11.0.10_rxjs@7.8.1/node*modules/@nestjs/config
+│   │   │   │   ├── core -> ../../../../node_modules/.pnpm/@nestjs+core@11.0.10*@nestjs+common@11.0.10_@nestjs+platform-express@11.0.10_reflect-metadata@0.2.2_rxjs@7.8.1/node*modules/@nestjs/core
+│   │   │   │   ├── jwt -> ../../../../node_modules/.pnpm/@nestjs+jwt@11.0.0*@nestjs+common@11.0.10/node*modules/@nestjs/jwt
+│   │   │   │   ├── mapped-types -> ../../../../node_modules/.pnpm/@nestjs+mapped-types@2.1.0*@nestjs+common@11.0.10_class-transformer@0.5.1_class-validator@0.14.1_reflect-metadata@0.2.2/node*modules/@nestjs/mapped-types
+│   │   │   │   ├── passport -> ../../../../node_modules/.pnpm/@nestjs+passport@11.0.5*@nestjs+common@11.0.10_passport@0.7.0/node*modules/@nestjs/passport
+│   │   │   │   ├── platform-express -> ../../../../node_modules/.pnpm/@nestjs+platform-express@11.0.10*@nestjs+common@11.0.10_@nestjs+core@11.0.10/node*modules/@nestjs/platform-express
+│   │   │   │   ├── schematics -> ../../../../node_modules/.pnpm/@nestjs+schematics@11.0.1_chokidar@4.0.3_typescript@5.7.3/node_modules/@nestjs/schematics
+│   │   │   │   ├── swagger -> ../../../../node_modules/.pnpm/@nestjs+swagger@11.0.3*@nestjs+common@11.0.10_@nestjs+core@11.0.10_class-transformer@0.5.1*cl_ik4pfpcdsjaaiixnm43ruiha7y/node_modules/@nestjs/swagger
+│   │   │   │   ├── testing -> ../../../../node_modules/.pnpm/@nestjs+testing@11.0.10*@nestjs+common@11.0.10_@nestjs+core@11.0.10_@nestjs+platform-express@11.0.10/node*modules/@nestjs/testing
+│   │   │   │   └── throttler -> ../../../../node_modules/.pnpm/@nestjs+throttler@6.4.0*@nestjs+common@11.0.10_@nestjs+core@11.0.10_reflect-metadata@0.2.2/node*modules/@nestjs/throttler
+│   │   │   ├── @prisma
+│   │   │   │   └── client -> ../../../../node_modules/.pnpm/@prisma+client@6.4.0_prisma@6.4.0_typescript@5.7.3/node_modules/@prisma/client
+│   │   │   ├── @swc
+│   │   │   │   ├── cli -> ../../../../node_modules/.pnpm/@swc+cli@0.6.0*@swc+core@1.10.18/node*modules/@swc/cli
+│   │   │   │   ├── core -> ../../../../node_modules/.pnpm/@swc+core@1.10.18/node_modules/@swc/core
+│   │   │   │   └── jest -> ../../../../node_modules/.pnpm/@swc+jest@0.2.37*@swc+core@1.10.18/node*modules/@swc/jest
+│   │   │   ├── @types
+│   │   │   │   ├── cookie-parser -> ../../../../node_modules/.pnpm/@types+cookie-parser@1.4.8*@types+express@5.0.0/node*modules/@types/cookie-parser
+│   │   │   │   ├── express -> ../../../../node_modules/.pnpm/@types+express@5.0.0/node_modules/@types/express
+│   │   │   │   ├── jest -> ../../../../node_modules/.pnpm/@types+jest@29.5.14/node_modules/@types/jest
+│   │   │   │   ├── node -> ../../../../node_modules/.pnpm/@types+node@22.13.4/node_modules/@types/node
+│   │   │   │   ├── passport-google-oauth20 -> ../../../../node_modules/.pnpm/@types+passport-google-oauth20@2.0.16/node_modules/@types/passport-google-oauth20
+│   │   │   │   ├── passport-jwt -> ../../../../node_modules/.pnpm/@types+passport-jwt@4.0.1/node_modules/@types/passport-jwt
+│   │   │   │   └── supertest -> ../../../../node_modules/.pnpm/@types+supertest@6.0.2/node_modules/@types/supertest
+│   │   │   ├── cache-manager -> ../../../node_modules/.pnpm/cache-manager@6.4.0/node_modules/cache-manager
+│   │   │   ├── class-transformer -> ../../../node_modules/.pnpm/class-transformer@0.5.1/node_modules/class-transformer
+│   │   │   ├── class-validator -> ../../../node_modules/.pnpm/class-validator@0.14.1/node_modules/class-validator
+│   │   │   ├── cookie-parser -> ../../../node_modules/.pnpm/cookie-parser@1.4.7/node_modules/cookie-parser
+│   │   │   ├── eslint -> ../../../node_modules/.pnpm/eslint@9.20.1/node_modules/eslint
+│   │   │   ├── eslint-config-prettier -> ../../../node_modules/.pnpm/eslint-config-prettier@10.0.1_eslint@9.20.1/node_modules/eslint-config-prettier
+│   │   │   ├── eslint-plugin-prettier -> ../../../node_modules/.pnpm/eslint-plugin-prettier@5.2.3_eslint-config-prettier@10.0.1_eslint@9.20.1_prettier@3.5.1/node_modules/eslint-plugin-prettier
+│   │   │   ├── globals -> ../../../node_modules/.pnpm/globals@15.15.0/node_modules/globals
+│   │   │   ├── googleapis -> ../../../node_modules/.pnpm/googleapis@144.0.0/node_modules/googleapis
+│   │   │   ├── ioredis -> ../../../node_modules/.pnpm/ioredis@5.5.0/node_modules/ioredis
+│   │   │   ├── jest -> ../../../node_modules/.pnpm/jest@29.7.0*@types+node@22.13.4_ts-node@10.9.2/node*modules/jest
+│   │   │   ├── meilisearch -> ../../../node_modules/.pnpm/meilisearch@0.48.2/node_modules/meilisearch
+│   │   │   ├── nest-commander -> ../../../node_modules/.pnpm/nest-commander@3.16.0*@nestjs+common@11.0.10_@nestjs+core@11.0.10_@types+inquirer@8.2.10_typescript@5.7.3/node*modules/nest-commander
+│   │   │   ├── nest-winston -> ../../../node_modules/.pnpm/nest-winston@1.10.2*@nestjs+common@11.0.10_winston@3.17.0/node*modules/nest-winston
+│   │   │   ├── passport -> ../../../node_modules/.pnpm/passport@0.7.0/node_modules/passport
+│   │   │   ├── passport-google-oauth20 -> ../../../node_modules/.pnpm/passport-google-oauth20@2.0.0/node_modules/passport-google-oauth20
+│   │   │   ├── passport-jwt -> ../../../node_modules/.pnpm/passport-jwt@4.0.1/node_modules/passport-jwt
+│   │   │   ├── prettier -> ../../../node_modules/.pnpm/prettier@3.5.1/node_modules/prettier
+│   │   │   ├── prisma -> ../../../node_modules/.pnpm/prisma@6.4.0_typescript@5.7.3/node_modules/prisma
+│   │   │   ├── reflect-metadata -> ../../../node_modules/.pnpm/reflect-metadata@0.2.2/node_modules/reflect-metadata
+│   │   │   ├── resend -> ../../../node_modules/.pnpm/resend@4.1.2_react-dom@18.3.1_react@18.3.1/node_modules/resend
+│   │   │   ├── rxjs -> ../../../node_modules/.pnpm/rxjs@7.8.1/node_modules/rxjs
+│   │   │   ├── source-map-support -> ../../../node_modules/.pnpm/source-map-support@0.5.21/node_modules/source-map-support
+│   │   │   ├── supertest -> ../../../node_modules/.pnpm/supertest@7.0.0/node_modules/supertest
+│   │   │   ├── ts-jest -> ../../../node_modules/.pnpm/ts-jest@29.2.5*@babel+core@7.26.9_esbuild@0.25.0_jest@29.7.0_typescript@5.7.3/node*modules/ts-jest
+│   │   │   ├── ts-loader -> ../../../node_modules/.pnpm/ts-loader@9.5.2_typescript@5.7.3_webpack@5.98.0/node_modules/ts-loader
+│   │   │   ├── ts-node -> ../../../node_modules/.pnpm/ts-node@10.9.2*@swc+core@1.10.18_@types+node@22.13.4_typescript@5.7.3/node*modules/ts-node
+│   │   │   ├── tsconfig-paths -> ../../../node_modules/.pnpm/tsconfig-paths@4.2.0/node_modules/tsconfig-paths
+│   │   │   ├── typescript -> ../../../node_modules/.pnpm/typescript@5.7.3/node_modules/typescript
+│   │   │   ├── typescript-eslint -> ../../../node_modules/.pnpm/typescript-eslint@8.24.1_eslint@9.20.1_typescript@5.7.3/node_modules/typescript-eslint
+│   │   │   └── winston -> ../../../node_modules/.pnpm/winston@3.17.0/node_modules/winston
+│   │   ├── package.json
+│   │   ├── prisma
+│   │   │   ├── generated
+│   │   │   │   └── client-test
+│   │   │   ├── migrations
+│   │   │   │   ├── 20250204193843_init
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250208191633_rename_newsletter_and_add_prompt
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250208193239_update_schema_conventions
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250208200622_remove_newsletter_name_and_url
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250208201853_simplify_newsletter_model
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250208202356_rename_news_to_article
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250208203304_add_newsletter_alias_to_project
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250209075042_add_subscription_status
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250209075753_subscription_status
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250209090123*
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250209093206*
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250209171456_add_project_to_newsletter
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250211071055_empty_instructions_by_default
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250211115308*
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250211124226*google_auth_refresh_token
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250212125601_articles_emails_structure
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250213043722_optional_user_fields
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250213050058_user_roles
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250213063132_no_link_between_user_and_newsletter
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250213063411_remove_user_id_from_newsletter
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250213103910_add_last_prompt_update
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250214062015_google_auth_scopes
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250214062237_rename_google_info_with_prefix
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250214063158_scope_typo
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250214063239_onboarding_typo
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250215205640_google_refresh_token_iv
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250215205921_mandatory_tokens
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250219072849_google_label_and_id_for_project
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250219080951*
+│   │   │   │   │   └── migration.sql
+│   │   │   │   ├── 20250219104638*onboarding_removed_from_user_belongs_to_project
+│   │   │   │   │   └── migration.sql
+│   │   │   │   └── migration_lock.toml
+│   │   │   └── schema.prisma
+│   │   ├── src
+│   │   │   ├── app.controller.spec.ts
+│   │   │   ├── app.controller.ts
+│   │   │   ├── app.module.ts
+│   │   │   ├── app.service.ts
+│   │   │   ├── config
+│   │   │   │   └── config.module.ts
+│   │   │   ├── infrastructure
+│   │   │   │   ├── auth
+│   │   │   │   │   ├── auth.controller.ts
+│   │   │   │   │   ├── auth.dto.ts
+│   │   │   │   │   ├── auth.exceptions.ts
+│   │   │   │   │   ├── auth.module.ts
+│   │   │   │   │   ├── auth.service.ts
+│   │   │   │   │   ├── auth.types.ts
+│   │   │   │   │   ├── decorators
+│   │   │   │   │   │   └── get-user.decorator.ts
+│   │   │   │   │   ├── guards
+│   │   │   │   │   │   ├── google-auth-full.guard.ts
+│   │   │   │   │   │   └── jwt.guard.ts
+│   │   │   │   │   └── strategies
+│   │   │   │   │   ├── google-full.strategy.ts
+│   │   │   │   │   └── jwt.strategy.ts
+│   │   │   │   ├── database
+│   │   │   │   │   ├── seeds
+│   │   │   │   │   │   ├── articles.seed.ts
+│   │   │   │   │   │   ├── emails.seed.ts
+│   │   │   │   │   │   ├── newsletters.seed.ts
+│   │   │   │   │   │   ├── projects.seed.ts
+│   │   │   │   │   │   ├── transactions.seed.ts
+│   │   │   │   │   │   └── users.seed.ts
+│   │   │   │   │   ├── seeds.bootstrap.ts
+│   │   │   │   │   ├── seeds.command.ts
+│   │   │   │   │   ├── seeds.module.ts
+│   │   │   │   │   └── seeds.service.ts
+│   │   │   │   ├── email
+│   │   │   │   │   ├── email.data.ts
+│   │   │   │   │   ├── email.module.ts
+│   │   │   │   │   ├── email.service.ts
+│   │   │   │   │   └── email.types.ts
+│   │   │   │   ├── google
+│   │   │   │   │   ├── google.module.ts
+│   │   │   │   │   └── google.service.ts
+│   │   │   │   ├── http
+│   │   │   │   │   ├── api-domain-property.decorator.ts
+│   │   │   │   │   ├── api-response-redirect.decorator.ts
+│   │   │   │   │   └── api-response.decorator.ts
+│   │   │   │   ├── llm
+│   │   │   │   │   ├── llm.module.ts
+│   │   │   │   │   ├── llm.service.spec.ts
+│   │   │   │   │   ├── llm.service.ts
+│   │   │   │   │   └── llm.types.ts
+│   │   │   │   ├── logger
+│   │   │   │   │   ├── logger.module.ts
+│   │   │   │   │   └── logger.service.ts
+│   │   │   │   └── redis
+│   │   │   │   ├── redis.module.ts
+│   │   │   │   ├── redis.repository.ts
+│   │   │   │   ├── redis.service.ts
+│   │   │   │   ├── redis.types.ts
+│   │   │   │   └── repositories
+│   │   │   │   ├── user-token.repository.ts
+│   │   │   │   └── user.repository.ts
+│   │   │   ├── main-cli.ts
+│   │   │   ├── main.env.ts
+│   │   │   ├── main.ts
+│   │   │   ├── modules
+│   │   │   │   ├── newsletter
+│   │   │   │   │   ├── application
+│   │   │   │   │   │   ├── get-emails.use-case.ts
+│   │   │   │   │   │   └── get-newsletters.use-case.ts
+│   │   │   │   │   ├── domain
+│   │   │   │   │   │   ├── article.domain.ts
+│   │   │   │   │   │   ├── email.domain.ts
+│   │   │   │   │   │   ├── email.repository.interface.ts
+│   │   │   │   │   │   ├── newsletter.domain.ts
+│   │   │   │   │   │   └── newsletter.repository.ts
+│   │   │   │   │   ├── infrastructure
+│   │   │   │   │   │   ├── prisma-email.repository.ts
+│   │   │   │   │   │   └── prisma-newsletter.repository.ts
+│   │   │   │   │   ├── newsletter.module.ts
+│   │   │   │   │   └── presentation
+│   │   │   │   │   ├── mappers
+│   │   │   │   │   │   ├── article.mapper.ts
+│   │   │   │   │   │   ├── email.mapper.ts
+│   │   │   │   │   │   └── newsletter.mapper.ts
+│   │   │   │   │   └── newsletter.controller.ts
+│   │   │   │   ├── projects
+│   │   │   │   │   ├── application
+│   │   │   │   │   │   ├── exceptions
+│   │   │   │   │   │   │   └── label-already-exists.exception.ts
+│   │   │   │   │   │   ├── guards
+│   │   │   │   │   │   │   └── check-onboarding.guard.ts
+│   │   │   │   │   │   └── use-cases
+│   │   │   │   │   │   ├── create-project.use-case.ts
+│   │   │   │   │   │   ├── get-project.use-case.ts
+│   │   │   │   │   │   ├── setup
+│   │   │   │   │   │   │   ├── setup-complete-onboarding.use-case.ts
+│   │   │   │   │   │   │   ├── setup-filter.use-case.ts
+│   │   │   │   │   │   │   ├── setup-project-label.use-case.ts
+│   │   │   │   │   │   │   └── setup-test-email.use-case.ts
+│   │   │   │   │   │   └── update-project-prompt.use-case.ts
+│   │   │   │   │   ├── domain
+│   │   │   │   │   │   ├── can-update-prompt.service.ts
+│   │   │   │   │   │   ├── project-create.ts
+│   │   │   │   │   │   ├── project-update.ts
+│   │   │   │   │   │   ├── project.repository.interface.ts
+│   │   │   │   │   │   └── project.ts
+│   │   │   │   │   ├── infrastructure
+│   │   │   │   │   │   └── prisma-project.repository.ts
+│   │   │   │   │   ├── presentation
+│   │   │   │   │   │   ├── controllers
+│   │   │   │   │   │   │   ├── project-setup.controller.ts
+│   │   │   │   │   │   │   └── projects.controller.ts
+│   │   │   │   │   │   ├── mappers
+│   │   │   │   │   │   │   ├── create-project.mapper.ts
+│   │   │   │   │   │   │   └── project.mapper.ts
+│   │   │   │   │   │   └── project-setup.dto.ts
+│   │   │   │   │   └── projects.module.ts
+│   │   │   │   └── users
+│   │   │   │   ├── application
+│   │   │   │   │   └── use-cases
+│   │   │   │   │   ├── create-user.use-case.ts
+│   │   │   │   │   ├── get-all-users.use-case.ts
+│   │   │   │   │   └── get-user-by-id.use-case.ts
+│   │   │   │   ├── domain
+│   │   │   │   │   ├── user.domain.ts
+│   │   │   │   │   └── user.repository.interface.ts
+│   │   │   │   ├── infrastructure
+│   │   │   │   │   ├── crypto.service.ts
+│   │   │   │   │   └── prisma-user.repository.ts
+│   │   │   │   ├── presentation
+│   │   │   │   │   ├── user.mapper.ts
+│   │   │   │   │   └── users.controller.ts
+│   │   │   │   └── users.module.ts
+│   │   │   ├── presentation
+│   │   │   │   └── mapper.interface.ts
+│   │   │   └── prisma
+│   │   │   ├── prisma.module.ts
+│   │   │   ├── prisma.service.ts
+│   │   │   └── prisma.types.ts
+│   │   ├── swagger.json
+│   │   ├── test
+│   │   │   ├── app.e2e-spec.ts
+│   │   │   └── jest-e2e.json
+│   │   ├── tsconfig.build.json
+│   │   └── tsconfig.json
+│   └── frontend
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── app
+│   │   ├── components
+│   │   │   ├── Layout.tsx
+│   │   │   ├── error-boundary.tsx
+│   │   │   ├── icons
+│   │   │   │   └── link.tsx
+│   │   │   └── ui
+│   │   │   ├── accordion.tsx
+│   │   │   ├── badge.tsx
+│   │   │   ├── breadcrumb.tsx
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── dialog.tsx
+│   │   │   ├── drawer.tsx
+│   │   │   ├── dropdown-menu.tsx
+│   │   │   ├── hover-card.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── separator.tsx
+│   │   │   ├── sheet.tsx
+│   │   │   ├── sidebar.tsx
+│   │   │   ├── skeleton.tsx
+│   │   │   ├── sonner.tsx
+│   │   │   ├── table.tsx
+│   │   │   ├── textarea.tsx
+│   │   │   ├── toast.tsx
+│   │   │   ├── toaster.tsx
+│   │   │   └── tooltip.tsx
+│   │   ├── entry.client.tsx
+│   │   ├── entry.server.tsx
+│   │   ├── features
+│   │   │   ├── auth
+│   │   │   │   ├── auth-button.component.tsx
+│   │   │   │   ├── auth.component.tsx
+│   │   │   │   ├── auth.context.tsx
+│   │   │   │   └── auth.store.ts
+│   │   │   ├── dashboard
+│   │   │   │   ├── custom-instructions
+│   │   │   │   │   ├── custom-instructions-confirmation.component.tsx
+│   │   │   │   │   ├── custom-instructions.component.tsx
+│   │   │   │   │   ├── custom-instructions.store.ts
+│   │   │   │   │   └── custom-instructions.type.ts
+│   │   │   │   ├── dashboard.component.tsx
+│   │   │   │   ├── dashboard.store.ts
+│   │   │   │   ├── emails
+│   │   │   │   │   ├── articles
+│   │   │   │   │   │   └── article-row.component.tsx
+│   │   │   │   │   ├── email-row.component.tsx
+│   │   │   │   │   ├── emails.component.tsx
+│   │   │   │   │   ├── emails.store.ts
+│   │   │   │   │   └── emails.type.ts
+│   │   │   │   ├── header-profile
+│   │   │   │   │   ├── header-profile.component.tsx
+│   │   │   │   │   ├── header-profile.store.ts
+│   │   │   │   │   └── header-profile.type.ts
+│   │   │   │   ├── newsletter-subscriptions
+│   │   │   │   │   ├── newsletter-subscriptions.component.tsx
+│   │   │   │   │   ├── newsletter-subscriptions.store.ts
+│   │   │   │   │   └── newsletter-subscriptions.type.ts
+│   │   │   │   ├── project
+│   │   │   │   │   ├── project-alias.component.tsx
+│   │   │   │   │   ├── project-alias.store.ts
+│   │   │   │   │   └── project-alias.type.ts
+│   │   │   │   └── upgrade-banner
+│   │   │   │   ├── upgrade-banner.component.tsx
+│   │   │   │   ├── upgrade-banner.store.ts
+│   │   │   │   └── upgrade-banner.type.ts
+│   │   │   └── onboarding
+│   │   │   ├── onboarding.component.tsx
+│   │   │   ├── onboarding.store.ts
+│   │   │   └── onboarding.types.ts
+│   │   ├── hooks
+│   │   │   ├── use-mobile.tsx
+│   │   │   └── use-toast.ts
+│   │   ├── interfaces
+│   │   │   └── loadable.interface.ts
+│   │   ├── lib
+│   │   │   ├── api-error.ts
+│   │   │   ├── api-fetcher.client.ts
+│   │   │   ├── api-fetcher.ts
+│   │   │   ├── utils.ts
+│   │   │   ├── validator.test.ts
+│   │   │   └── validator.ts
+│   │   ├── root.tsx
+│   │   ├── routes
+│   │   │   ├── \_index.tsx
+│   │   │   ├── admin.tsx
+│   │   │   ├── dashboard.$projectNumber.tsx
+│   │   │   ├── dashboard.tsx
+│   │   │   ├── login.tsx
+│   │   │   ├── onboarding.\_index.tsx
+│   │   │   └── settings.tsx
+│   │   ├── stores
+│   │   │   ├── root.provider.ts
+│   │   │   └── root.store.ts
+│   │   ├── tailwind.css
+│   │   └── tests
+│   │   ├── \_index.test.tsx
+│   │   └── root.test.tsx
+│   ├── components.json
+│   ├── mobx.config.ts
+│   ├── node_modules
+│   │   ├── @le-journal
+│   │   │   └── shared-types -> ../../../../packages/shared-types
+│   │   ├── @radix-ui
+│   │   │   ├── react-accordion -> ../../../../node_modules/.pnpm/@radix-ui+react-accordion@1.2.3*@types+react-dom@18.3.5_@types+react@18.3.18_react-dom@18.3.1_react@18.3.1/node*modules/@radix-ui/react-accordion
+│   │   │   ├── react-dialog -> ../../../../node_modules/.pnpm/@radix-ui+react-dialog@1.1.6*@types+react-dom@18.3.5_@types+react@18.3.18_react-dom@18.3.1_react@18.3.1/node*modules/@radix-ui/react-dialog
+│   │   │   ├── react-dropdown-menu -> ../../../../node_modules/.pnpm/@radix-ui+react-dropdown-menu@2.1.6*@types+react-dom@18.3.5_@types+react@18.3.18_react-dom@18.3.1_react@18.3.1/node*modules/@radix-ui/react-dropdown-menu
+│   │   │   ├── react-hover-card -> ../../../../node_modules/.pnpm/@radix-ui+react-hover-card@1.1.6*@types+react-dom@18.3.5_@types+react@18.3.18_react-dom@18.3.1_react@18.3.1/node*modules/@radix-ui/react-hover-card
+│   │   │   ├── react-separator -> ../../../../node_modules/.pnpm/@radix-ui+react-separator@1.1.2*@types+react-dom@18.3.5_@types+react@18.3.18_react-dom@18.3.1_react@18.3.1/node*modules/@radix-ui/react-separator
+│   │   │   ├── react-slot -> ../../../../node_modules/.pnpm/@radix-ui+react-slot@1.1.2*@types+react@18.3.18_react@18.3.1/node*modules/@radix-ui/react-slot
+│   │   │   ├── react-toast -> ../../../../node_modules/.pnpm/@radix-ui+react-toast@1.2.6*@types+react-dom@18.3.5_@types+react@18.3.18_react-dom@18.3.1_react@18.3.1/node*modules/@radix-ui/react-toast
+│   │   │   └── react-tooltip -> ../../../../node_modules/.pnpm/@radix-ui+react-tooltip@1.1.8*@types+react-dom@18.3.5_@types+react@18.3.18_react-dom@18.3.1_react@18.3.1/node*modules/@radix-ui/react-tooltip
+│   │   ├── @remix-run
+│   │   │   ├── dev -> ../../../../node_modules/.pnpm/@remix-run+dev@2.15.3*@remix-run+react@2.15.3_@remix-run+serve@2.15.3_@types+node@22.13.4_typescript@5.7.3_vite@5.4.14/node*modules/@remix-run/dev
+│   │   │   ├── node -> ../../../../node_modules/.pnpm/@remix-run+node@2.15.3_typescript@5.7.3/node_modules/@remix-run/node
+│   │   │   ├── react -> ../../../../node_modules/.pnpm/@remix-run+react@2.15.3_react-dom@18.3.1_react@18.3.1_typescript@5.7.3/node_modules/@remix-run/react
+│   │   │   ├── serve -> ../../../../node_modules/.pnpm/@remix-run+serve@2.15.3_typescript@5.7.3/node_modules/@remix-run/serve
+│   │   │   └── testing -> ../../../../node_modules/.pnpm/@remix-run+testing@2.15.3_react-dom@18.3.1_react@18.3.1_typescript@5.7.3/node_modules/@remix-run/testing
+│   │   ├── @testing-library
+│   │   │   └── react -> ../../../../node_modules/.pnpm/@testing-library+react@16.2.0*@testing-library+dom@10.4.0_@types+react-dom@18.3.5_@types+reac*6r4o6igkeog75amib2npbuiobq/node_modules/@testing-library/react
+│   │   ├── @types
+│   │   │   ├── react -> ../../../../node_modules/.pnpm/@types+react@18.3.18/node_modules/@types/react
+│   │   │   └── react-dom -> ../../../../node_modules/.pnpm/@types+react-dom@18.3.5*@types+react@18.3.18/node*modules/@types/react-dom
+│   │   ├── @typescript-eslint
+│   │   │   ├── eslint-plugin -> ../../../../node_modules/.pnpm/@typescript-eslint+eslint-plugin@6.21.0*@typescript-eslint+parser@6.21.0_eslint@8.57.1_typescript@5.7.3/node*modules/@typescript-eslint/eslint-plugin
+│   │   │   └── parser -> ../../../../node_modules/.pnpm/@typescript-eslint+parser@6.21.0_eslint@8.57.1_typescript@5.7.3/node_modules/@typescript-eslint/parser
+│   │   ├── autoprefixer -> ../../../node_modules/.pnpm/autoprefixer@10.4.20_postcss@8.5.2/node_modules/autoprefixer
+│   │   ├── class-transformer -> ../../../node_modules/.pnpm/class-transformer@0.5.1/node_modules/class-transformer
+│   │   ├── class-validator -> ../../../node_modules/.pnpm/class-validator@0.14.1/node_modules/class-validator
+│   │   ├── class-variance-authority -> ../../../node_modules/.pnpm/class-variance-authority@0.7.1/node_modules/class-variance-authority
+│   │   ├── clsx -> ../../../node_modules/.pnpm/clsx@2.1.1/node_modules/clsx
+│   │   ├── eslint -> ../../../node_modules/.pnpm/eslint@8.57.1/node_modules/eslint
+│   │   ├── eslint-import-resolver-typescript -> ../../../node_modules/.pnpm/eslint-import-resolver-typescript@3.8.2_eslint-plugin-import@2.31.0_eslint@8.57.1/node_modules/eslint-import-resolver-typescript
+│   │   ├── eslint-plugin-import -> ../../../node_modules/.pnpm/eslint-plugin-import@2.31.0*@typescript-eslint+parser@6.21.0_eslint-import-resolver-typescript@3.8.2_eslint@8.57.1/node*modules/eslint-plugin-import
+│   │   ├── eslint-plugin-jsx-a11y -> ../../../node_modules/.pnpm/eslint-plugin-jsx-a11y@6.10.2_eslint@8.57.1/node_modules/eslint-plugin-jsx-a11y
+│   │   ├── eslint-plugin-mobx -> ../../../node_modules/.pnpm/eslint-plugin-mobx@0.0.13_eslint@8.57.1/node_modules/eslint-plugin-mobx
+│   │   ├── eslint-plugin-react -> ../../../node_modules/.pnpm/eslint-plugin-react@7.37.4_eslint@8.57.1/node_modules/eslint-plugin-react
+│   │   ├── eslint-plugin-react-hooks -> ../../../node_modules/.pnpm/eslint-plugin-react-hooks@4.6.2_eslint@8.57.1/node_modules/eslint-plugin-react-hooks
+│   │   ├── happy-dom -> ../../../node_modules/.pnpm/happy-dom@17.1.1/node_modules/happy-dom
+│   │   ├── isbot -> ../../../node_modules/.pnpm/isbot@4.4.0/node_modules/isbot
+│   │   ├── lucide-react -> ../../../node_modules/.pnpm/lucide-react@0.475.0_react@18.3.1/node_modules/lucide-react
+│   │   ├── mobx -> ../../../node_modules/.pnpm/mobx@6.13.6/node_modules/mobx
+│   │   ├── mobx-react-lite -> ../../../node_modules/.pnpm/mobx-react-lite@4.1.0_mobx@6.13.6_react-dom@18.3.1_react@18.3.1/node_modules/mobx-react-lite
+│   │   ├── next-themes -> ../../../node_modules/.pnpm/next-themes@0.4.4_react-dom@18.3.1_react@18.3.1/node_modules/next-themes
+│   │   ├── postcss -> ../../../node_modules/.pnpm/postcss@8.5.2/node_modules/postcss
+│   │   ├── react -> ../../../node_modules/.pnpm/react@18.3.1/node_modules/react
+│   │   ├── react-dom -> ../../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom
+│   │   ├── reflect-metadata -> ../../../node_modules/.pnpm/reflect-metadata@0.2.2/node_modules/reflect-metadata
+│   │   ├── shadcn -> ../../../node_modules/.pnpm/shadcn@2.3.0_typescript@5.7.3/node_modules/shadcn
+│   │   ├── sonner -> ../../../node_modules/.pnpm/sonner@1.7.4_react-dom@18.3.1_react@18.3.1/node_modules/sonner
+│   │   ├── tailwind-merge -> ../../../node_modules/.pnpm/tailwind-merge@3.0.1/node_modules/tailwind-merge
+│   │   ├── tailwindcss -> ../../../node_modules/.pnpm/tailwindcss@3.4.17/node_modules/tailwindcss
+│   │   ├── tailwindcss-animate -> ../../../node_modules/.pnpm/tailwindcss-animate@1.0.7_tailwindcss@3.4.17/node_modules/tailwindcss-animate
+│   │   ├── typescript -> ../../../node_modules/.pnpm/typescript@5.7.3/node_modules/typescript
+│   │   ├── vaul -> ../../../node_modules/.pnpm/vaul@1.1.2*@types+react-dom@18.3.5_@types+react@18.3.18_react-dom@18.3.1_react@18.3.1/node*modules/vaul
+│   │   ├── vite -> ../../../node_modules/.pnpm/vite@5.4.14*@types+node@22.13.4/node*modules/vite
+│   │   ├── vite-tsconfig-paths -> ../../../node_modules/.pnpm/vite-tsconfig-paths@4.3.2_typescript@5.7.3_vite@5.4.14/node_modules/vite-tsconfig-paths
+│   │   └── vitest -> ../../../node_modules/.pnpm/vitest@3.0.6*@types+node@22.13.4_happy-dom@17.1.1/node*modules/vitest
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── public
+│   │   └── favicon.ico
+│   ├── tailwind.config.ts
+│   ├── test
+│   │   ├── setup.ts
+│   │   └── test-utils.ts
+│   ├── tsconfig.json
+│   ├── vite.config.ts
+│   └── vitest.config.ts
+├── commitlint.config.js
+├── config.js
+├── docker-compose.yml
+├── documentations
+│   ├── \_header.md
+│   ├── instructions
+│   │   ├── done
+│   │   │   ├── auth-google-live-gen.md
+│   │   │   ├── dashboard-to-api.md
+│   │   │   ├── database
+│   │   │   │   ├── generate-entities.md
+│   │   │   │   ├── generate-seed-untested.md
+│   │   │   │   └── generated-seed.md
+│   │   │   ├── limite-prompt-update.md
+│   │   │   ├── setup
+│   │   │   │   ├── dashboard-skeleton.md
+│   │   │   │   ├── security-features.md
+│   │   │   │   ├── setup-linter.md
+│   │   │   │   ├── setup-monorepo.md
+│   │   │   │   └── setup-versionning.md
+│   │   │   ├── shared-knowledge-base.md
+│   │   │   ├── wireframe-en.md
+│   │   │   └── wireframe-fr.md
+│   │   ├── in-progress
+│   │   └── todo
+│   │   └── event-and-async.md
+│   ├── knowledge.md
+│   ├── knowledge.sh
+│   ├── knowledge.txt
+│   ├── libs
+│   │   └── remix-2.5-documentation.md
+│   └── specifications
+│   ├── functional
+│   │   ├── 1-project-description.md
+│   │   ├── 2-main-features.md
+│   │   └── 3-initial-scope.md
+│   └── technical
+│   ├── 0-tech-choices.md
+│   ├── 1-commit.md
+│   ├── 2-semantic-versioning.md
+│   └── 3-urls.md
+├── eslint.config.js
+├── node_modules
+│   ├── @commitlint
+│   │   ├── cli -> ../.pnpm/@commitlint+cli@19.7.1*@types+node@22.13.4_typescript@5.7.3/node*modules/@commitlint/cli
+│   │   └── config-conventional -> ../.pnpm/@commitlint+config-conventional@19.7.1/node_modules/@commitlint/config-conventional
+│   ├── @eslint
+│   │   ├── config-array -> ../.pnpm/@eslint+config-array@0.19.2/node_modules/@eslint/config-array
+│   │   ├── core -> ../.pnpm/@eslint+core@0.11.0/node_modules/@eslint/core
+│   │   ├── eslintrc -> ../.pnpm/@eslint+eslintrc@3.2.0/node_modules/@eslint/eslintrc
+│   │   ├── js -> ../.pnpm/@eslint+js@9.20.0/node_modules/@eslint/js
+│   │   ├── object-schema -> ../.pnpm/@eslint+object-schema@2.1.6/node_modules/@eslint/object-schema
+│   │   └── plugin-kit -> ../.pnpm/@eslint+plugin-kit@0.2.6/node_modules/@eslint/plugin-kit
+│   ├── @eslint-community
+│   │   ├── eslint-utils -> ../.pnpm/@eslint-community+eslint-utils@4.4.1_eslint@8.57.1/node_modules/@eslint-community/eslint-utils
+│   │   └── regexpp -> ../.pnpm/@eslint-community+regexpp@4.12.1/node_modules/@eslint-community/regexpp
+│   ├── @nestjs
+│   │   └── cli -> ../.pnpm/@nestjs+cli@11.0.4*@types+node@22.13.4/node*modules/@nestjs/cli
+│   ├── @semantic-release
+│   │   ├── changelog -> ../.pnpm/@semantic-release+changelog@6.0.3_semantic-release@24.2.3/node_modules/@semantic-release/changelog
+│   │   ├── git -> ../.pnpm/@semantic-release+git@10.0.1_semantic-release@24.2.3/node_modules/@semantic-release/git
+│   │   └── npm -> ../.pnpm/@semantic-release+npm@12.0.1_semantic-release@24.2.3/node_modules/@semantic-release/npm
+│   ├── @types
+│   │   ├── eslint -> ../.pnpm/@types+eslint@9.6.1/node_modules/@types/eslint
+│   │   └── eslint-scope -> ../.pnpm/@types+eslint-scope@3.7.7/node_modules/@types/eslint-scope
+│   ├── @typescript-eslint
+│   │   ├── eslint-plugin -> ../.pnpm/@typescript-eslint+eslint-plugin@8.24.1*@typescript-eslint+parser@8.24.1_eslint@9.20.1_typescript@5.7.3/node*modules/@typescript-eslint/eslint-plugin
+│   │   ├── parser -> ../.pnpm/@typescript-eslint+parser@8.24.1_eslint@9.20.1_typescript@5.7.3/node_modules/@typescript-eslint/parser
+│   │   ├── scope-manager -> ../.pnpm/@typescript-eslint+scope-manager@6.21.0/node_modules/@typescript-eslint/scope-manager
+│   │   ├── type-utils -> ../.pnpm/@typescript-eslint+type-utils@6.21.0_eslint@8.57.1_typescript@5.7.3/node_modules/@typescript-eslint/type-utils
+│   │   ├── types -> ../.pnpm/@typescript-eslint+types@6.21.0/node_modules/@typescript-eslint/types
+│   │   ├── typescript-estree -> ../.pnpm/@typescript-eslint+typescript-estree@6.21.0_typescript@5.7.3/node_modules/@typescript-eslint/typescript-estree
+│   │   ├── utils -> ../.pnpm/@typescript-eslint+utils@6.21.0_eslint@8.57.1_typescript@5.7.3/node_modules/@typescript-eslint/utils
+│   │   └── visitor-keys -> ../.pnpm/@typescript-eslint+visitor-keys@6.21.0/node_modules/@typescript-eslint/visitor-keys
+│   ├── dotenv-cli -> .pnpm/dotenv-cli@8.0.0/node_modules/dotenv-cli
+│   ├── eslint -> .pnpm/eslint@9.20.1/node_modules/eslint
+│   ├── eslint-config-prettier -> .pnpm/eslint-config-prettier@10.0.1_eslint@9.20.1/node_modules/eslint-config-prettier
+│   ├── eslint-import-resolver-node -> .pnpm/eslint-import-resolver-node@0.3.9/node_modules/eslint-import-resolver-node
+│   ├── eslint-import-resolver-typescript -> .pnpm/eslint-import-resolver-typescript@3.8.2_eslint-plugin-import@2.31.0_eslint@9.20.1/node_modules/eslint-import-resolver-typescript
+│   ├── eslint-module-utils -> .pnpm/eslint-module-utils@2.12.0*@typescript-eslint+parser@6.21.0_eslint-import-resolver-node@0.3.9*hh6zreuzvewql5hvb3zwh67wn4/node_modules/eslint-module-utils
+│   ├── eslint-plugin-import -> .pnpm/eslint-plugin-import@2.31.0*@typescript-eslint+parser@8.24.1_eslint-import-resolver-typescript@3.8.2_eslint@9.20.1/node_modules/eslint-plugin-import
+│   ├── eslint-plugin-jsx-a11y -> .pnpm/eslint-plugin-jsx-a11y@6.10.2_eslint@9.20.1/node_modules/eslint-plugin-jsx-a11y
+│   ├── eslint-plugin-mobx -> .pnpm/eslint-plugin-mobx@0.0.13_eslint@9.20.1/node_modules/eslint-plugin-mobx
+│   ├── eslint-plugin-nestjs -> .pnpm/eslint-plugin-nestjs@1.2.3/node_modules/eslint-plugin-nestjs
+│   ├── eslint-plugin-prettier -> .pnpm/eslint-plugin-prettier@5.2.3_eslint-config-prettier@10.0.1_eslint@9.20.1_prettier@3.5.1/node_modules/eslint-plugin-prettier
+│   ├── eslint-plugin-react -> .pnpm/eslint-plugin-react@7.37.4_eslint@9.20.1/node_modules/eslint-plugin-react
+│   ├── eslint-plugin-react-hooks -> .pnpm/eslint-plugin-react-hooks@5.1.0_eslint@9.20.1/node_modules/eslint-plugin-react-hooks
+│   ├── eslint-plugin-security -> .pnpm/eslint-plugin-security@3.0.1/node_modules/eslint-plugin-security
+│   ├── eslint-scope -> .pnpm/eslint-scope@7.2.2/node_modules/eslint-scope
+│   ├── eslint-visitor-keys -> .pnpm/eslint-visitor-keys@3.4.3/node_modules/eslint-visitor-keys
+│   ├── globals -> .pnpm/globals@15.15.0/node_modules/globals
+│   ├── husky -> .pnpm/husky@9.1.7/node_modules/husky
+│   ├── prettier -> .pnpm/prettier@3.5.1/node_modules/prettier
+│   ├── prettier-linter-helpers -> .pnpm/prettier-linter-helpers@1.0.0/node_modules/prettier-linter-helpers
+│   ├── renovate -> .pnpm/renovate@39.175.2_typanion@3.14.0/node_modules/renovate
+│   ├── semantic-release -> .pnpm/semantic-release@24.2.3_typescript@5.7.3/node_modules/semantic-release
+│   ├── toml-eslint-parser -> .pnpm/toml-eslint-parser@0.10.0/node_modules/toml-eslint-parser
+│   ├── turbo -> .pnpm/turbo@2.4.2/node_modules/turbo
+│   └── typescript-eslint -> .pnpm/typescript-eslint@8.24.1_eslint@9.20.1_typescript@5.7.3/node_modules/typescript-eslint
+├── package.json
+├── packages
+│   └── shared-types
+│   ├── node_modules
+│   │   ├── class-transformer -> ../../../node_modules/.pnpm/class-transformer@0.5.1/node_modules/class-transformer
+│   │   ├── class-validator -> ../../../node_modules/.pnpm/class-validator@0.14.1/node_modules/class-validator
+│   │   ├── reflect-metadata -> ../../../node_modules/.pnpm/reflect-metadata@0.2.2/node_modules/reflect-metadata
+│   │   ├── tsup -> ../../../node_modules/.pnpm/tsup@8.3.6_typescript@5.7.3/node_modules/tsup
+│   │   └── typescript -> ../../../node_modules/.pnpm/typescript@5.7.3/node_modules/typescript
+│   ├── package.json
+│   ├── src
+│   │   ├── article.class.ts
+│   │   ├── email.class.ts
+│   │   ├── error.class.ts
+│   │   ├── index.ts
+│   │   ├── newsletter.class.ts
+│   │   ├── project-create.class.ts
+│   │   ├── project-update-instructions.class.ts
+│   │   ├── project.class.ts
+│   │   └── user.class.ts
+│   └── tsconfig.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── scripts
+│   └── git-hooks
+│   └── validate-branch-name.sh
+├── tsconfig.json
+└── turbo.json
 
-128 directories, 345 files
-```
+307 directories, 282 files
 
-2025-02-19 16:26:36
+2025-02-19 16:36:15

@@ -1,195 +1,57 @@
 # Project rules
 
-- `ValidationPipe` might no be necessary because `main.ts` uses `useGlobalPipes`.
-- Controllers handle only DTOs for a clear, decoupled API.
-- Controllers call use-cases only, no service or repository calls.
-- Use [api-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-response.decorator.ts) and [api-response-redirect.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-response-redirect.decorator.ts)
+- Mobile first.
+- Always use latest versions in [package.json](mdc:apps/frontend/package.json).
+- Remix only, no NextJS.
+- Root imports with `/~`.
+- Test with `Vitest`.
+- Use `Vite`, not `Webpack`.
+- `ESLint` with flat config. 
+- Focus on accessibility (a11y) when generating HTML.
+- Use latest `tailwind` functionnalities (3.4+).
 
-Example `presentation/controllers/projects.controller.ts`:
+- Most of the validation is done here with `class-validator`.
+- This type is used "as-is" in frontend.
+- This type is extended in backend's Domain models to ensure coherence.
+
+Example `packages/shared-types/src/project.type.ts`:
 ```typescript
-@ApiTags('Projects')
-@Controller('projects')
-export class ProjectsController {
-  constructor(
-    private readonly createProjectUseCase: CreateProjectUseCase,
-    private readonly projectMapper: ProjectMapper,
-  ) {}
+import { PickType } from '@nestjs/mapped-types';
+import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-  @Post('create')
-  @ApiAuthOperation('Créer un nouveau projet.', {
-    type: Project,
-  })
-  @UseGuards(JwtAuthGuard, CheckOnboardingGuard)
-  async createProject(@GetUser() user: UserDomain): Promise<Project> {
-    const projectDomain = await this.createProjectUseCase.execute({
-      userId: user.id,
-      userEmail: user.email,
-    });
+export class ProjectType {
+  @IsString()
+  @IsNotEmpty()
+  id!: string;
 
-    return this.projectMapper.toDTO(projectDomain);
-  }
-```
-
-- Use `class-validator` annotations if data needs to be validation backend only.
-- Use [api-domain-property.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-domain-property.decorator.ts) 
-
-Example:
-```typescript
-export class ProjectCreateDomain {
-  @Property('name')
   @IsString()
   @IsNotEmpty()
   name!: string;
 
-  @Property('slug')
   @IsString()
   @IsNotEmpty()
   slug!: string;
 
-  @Property('userId')
   @IsString()
   @IsNotEmpty()
   userId!: string;
 
-  @Property('emailAlias')
-  @IsEmail()
+  @IsString()
   @IsNotEmpty()
-  emailAlias!: string;
+  @IsEmail()
+  newsletterAlias!: string;
 
-  @Property('number')
   @IsNumber()
   @IsNotEmpty()
   projectNumber!: number;
 
-  constructor(project: ProjectCreateDomain) {
-    Object.assign(this, project);
-  }
+  @IsDate()
+  @IsNotEmpty()
+  createdAt!: Date;
+
+  @IsString()
+  promptInstruction!: string;
 }
-```
-
-- Libs: NestJS 11, RxJS 7.8, Node 22.
-- NestJS good pratices must be checked.
-- RxJS must be used at its best.
-- Throw exception early with meaning descriptions, names or params.
-- Create custom exceptions when domain specific.
-- Focus on domain logic.
-- Focus on DDD and Clean Architecture.
-
-- Use `NestJS` DI.
-- Use Prisma types from [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts).
-- Implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
-- Reassign every props (mandatory).
-- Return plain objects, no instances.
-- Mappers convert between DTOs, Domain objects, and Prisma types to prevent dependencies.
-
-Example `projects/presentation/project.mapper.ts`:
-```typescript
-import { Injectable } from '@nestjs/common';
-import { ProjectModel } from 'src/prisma/prisma.types';
-
-import { Project } from '../domain/project';
-
-import { Mapper } from 'src/presentation/mapper.interface';
-
-@Injectable()
-export class ProjectMapper implements Mapper<Project, ProjectModel> {
-  toModel(domain: Project): ProjectModel {
-    return {
-      id: domain.id,
-      name: domain.name,
-      slug: domain.slug,
-      newsletter_alias: domain.newsletterAlias,
-      project_number: domain.projectNumber,
-      created_at: domain.createdAt,
-      prompt_instruction: domain.promptInstruction,
-      user_id: domain.userId,
-    };
-  }
-
-  toDomain(model: ProjectModel): Project {
-    return {
-      id: model.id,
-      name: model.name,
-      slug: model.slug,
-      newsletterAlias: model.newsletter_alias,
-      projectNumber: model.project_number,
-      createdAt: model.created_at,
-      promptInstruction: model.prompt_instruction,
-      userId: model.user_id,
-    };
-  }
-}
-```
-
-- Repository implements its interface.
-- Always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
-- Type with `Model.Property` instead of primitive if possible (e.g. `email: string` -> `email: User['email']`).
-- Wrap db calls in Prisma Transactions if necessary.
-- A Repository returns only Domain objects, never DTOs or Prisma types.
-- Prisma types stay in Repositories, never leaving Infrastructure.
-
-Example usage in controller/use-case:
-```typescript
-constructor(
-  @Inject(USER_REPOSITORY)
-  private readonly userRepository: UserRepository,
-  private readonly userMapper: UserMapper,
-) {}
-```
-
-Example usage in modules:
-```typescript
-@Module({
-  imports: [PrismaModule],
-  controllers: [UsersController],
-  providers: [
-    GetAllUsersUseCase,
-    UserMapper,
-    {
-      provide: USER_REPOSITORY,
-      useClass: PrismaUserRepository,
-    },
-  ],
-  exports: [GetAllUsersUseCase, USER_REPOSITORY],
-})
-export class UsersModule {}
-```
-
-Example interface `features/users/domain/user.repository.interface.ts`:
-```typescript
-import type { User } from '@prisma/client';
-
-export const USER_REPOSITORY = 'USER_REPOSITORY';
-
-export interface UserRepository {
-  findByEmail(email: User['email']): Promise<User | null>;
-  findAll(): Promise<User[]>;
-}
-```
-
-Example integration `features/users/infrastructure/prisma-user.repository.ts`:
-```typescript
-import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
-
-import { PrismaService } from '../../../prisma/prisma.service';
-import { UserRepository } from '../domain/user.repository.interface';
-
-@Injectable()
-export class PrismaUserRepository implements UserRepository {
-  constructor(private readonly prisma: PrismaService) {}
-
-  async findByEmail(email: User['email']): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: { email },
-    });
-  }
-
-  async findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
-  }
-}
-
 ```
 
 - Calling repositories might no be necessary except to validate domain logic, most of the time use prisma client directly.
@@ -233,31 +95,51 @@ export class UsersSeed {
 }
 ```
 
-- Focus on domain logic and user action.
-- Reflects bridge between domain, infrastructure (database) and presentation (controller).
-- Domain objects received are validated by `class-validator`.
-- Domain specific requirements can be checked here. 
-- A Use Case is the only layer handling Domain objects and business logic.
-  
-Example:
-```typescript
-import { Inject, Injectable } from '@nestjs/common';
+- Loaders must be used in routes.
+- Return plain objects instead of `json()`.
 
-import { UserDomain } from '../../domain/user.domain';
-import { USER_REPOSITORY, UserRepository } from '../../domain/user.repository.interface';
-import { UserMapper } from '../../presentation/user.mapper';
+- Use `NestJS` DI.
+- Use Prisma types from [prisma.types.ts](mdc:apps/backend/src/prisma/prisma.types.ts).
+- Implements [mapper.interface.ts](mdc:apps/backend/src/presentation/mapper.interface.ts) with <Domain, Model>.
+- Reassign every props (mandatory).
+- Return plain objects, no instances.
+- Mappers convert between DTOs, Domain objects, and Prisma types to prevent dependencies.
+
+Example `projects/presentation/project.mapper.ts`:
+```typescript
+import { Injectable } from '@nestjs/common';
+import { ProjectModel } from 'src/prisma/prisma.types';
+
+import { Project } from '../domain/project';
+
+import { Mapper } from 'src/presentation/mapper.interface';
 
 @Injectable()
-export class GetAllUsersUseCase {
-  constructor(
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository,
-    private readonly userMapper: UserMapper,
-  ) {}
+export class ProjectMapper implements Mapper<Project, ProjectModel> {
+  toModel(domain: Project): ProjectModel {
+    return {
+      id: domain.id,
+      name: domain.name,
+      slug: domain.slug,
+      newsletter_alias: domain.newsletterAlias,
+      project_number: domain.projectNumber,
+      created_at: domain.createdAt,
+      prompt_instruction: domain.promptInstruction,
+      user_id: domain.userId,
+    };
+  }
 
-  async execute(): Promise<UserDomain[]> {
-    const users = await this.userRepository.findAll();
-    return users.map((user) => this.userMapper.toDomain(user));
+  toDomain(model: ProjectModel): Project {
+    return {
+      id: model.id,
+      name: model.name,
+      slug: model.slug,
+      newsletterAlias: model.newsletter_alias,
+      projectNumber: model.project_number,
+      createdAt: model.created_at,
+      promptInstruction: model.prompt_instruction,
+      userId: model.user_id,
+    };
   }
 }
 ```
@@ -356,18 +238,105 @@ CustomInstructions.displayName = 'CustomInstructions';
 
 ```
 
-- Mobile first.
-- Always use latest versions in [package.json](mdc:apps/frontend/package.json).
-- Remix only, no NextJS.
-- Root imports with `/~`.
-- Test with `Vitest`.
-- Use `Vite`, not `Webpack`.
-- `ESLint` with flat config. 
-- Focus on accessibility (a11y) when generating HTML.
-- Use latest `tailwind` functionnalities (3.4+).
+- Repository implements its interface.
+- Always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
+- Type with `Model.Property` instead of primitive if possible (e.g. `email: string` -> `email: User['email']`).
+- Wrap db calls in Prisma Transactions if necessary.
+- A Repository returns only Domain objects, never DTOs or Prisma types.
+- Prisma types stay in Repositories, never leaving Infrastructure.
 
-- Loaders must be used in routes.
-- Return plain objects instead of `json()`.
+Example usage in controller/use-case:
+```typescript
+constructor(
+  @Inject(USER_REPOSITORY)
+  private readonly userRepository: UserRepository,
+  private readonly userMapper: UserMapper,
+) {}
+```
+
+Example usage in modules:
+```typescript
+@Module({
+  imports: [PrismaModule],
+  controllers: [UsersController],
+  providers: [
+    GetAllUsersUseCase,
+    UserMapper,
+    {
+      provide: USER_REPOSITORY,
+      useClass: PrismaUserRepository,
+    },
+  ],
+  exports: [GetAllUsersUseCase, USER_REPOSITORY],
+})
+export class UsersModule {}
+```
+
+Example interface `features/users/domain/user.repository.interface.ts`:
+```typescript
+import type { User } from '@prisma/client';
+
+export const USER_REPOSITORY = 'USER_REPOSITORY';
+
+export interface UserRepository {
+  findByEmail(email: User['email']): Promise<User | null>;
+  findAll(): Promise<User[]>;
+}
+```
+
+Example integration `features/users/infrastructure/prisma-user.repository.ts`:
+```typescript
+import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
+
+import { PrismaService } from '../../../prisma/prisma.service';
+import { UserRepository } from '../domain/user.repository.interface';
+
+@Injectable()
+export class PrismaUserRepository implements UserRepository {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async findByEmail(email: User['email']): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.prisma.user.findMany();
+  }
+}
+
+```
+
+- Focus on domain logic and user action.
+- Reflects bridge between domain, infrastructure (database) and presentation (controller).
+- Domain objects received are validated by `class-validator`.
+- Domain specific requirements can be checked here. 
+- A Use Case is the only layer handling Domain objects and business logic.
+  
+Example:
+```typescript
+import { Inject, Injectable } from '@nestjs/common';
+
+import { UserDomain } from '../../domain/user.domain';
+import { USER_REPOSITORY, UserRepository } from '../../domain/user.repository.interface';
+import { UserMapper } from '../../presentation/user.mapper';
+
+@Injectable()
+export class GetAllUsersUseCase {
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
+    private readonly userMapper: UserMapper,
+  ) {}
+
+  async execute(): Promise<UserDomain[]> {
+    const users = await this.userRepository.findAll();
+    return users.map((user) => this.userMapper.toDomain(user));
+  }
+}
+```
 
 - Separate logic (store) from UI (component).
 - Avoid technical function (e.g. `setDialogOpen`), prefer user actions (`openDialog`, `closeDialog`).
@@ -461,6 +430,89 @@ export class CustomInstructionsStore implements CustomInstructions, Loadable<Pro
 }
 ```
 
+- Check all packages versions every time:
+  - root monorepo: [package.json](mdc:package.json)
+  - backend: [package.json](mdc:apps/backend/package.json)
+  - frontend: [package.json](mdc:apps/frontend/package.json)
+  - shared-types: [package.json](mdc:packages/shared-types/package.json)
+- Always ask before adding new packages.
+- Use `pnpm`, never `npm`.
+
+- `ValidationPipe` might no be necessary because `main.ts` uses `useGlobalPipes`.
+- Controllers handle only DTOs for a clear, decoupled API.
+- Controllers call use-cases only, no service or repository calls.
+- Use [api-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-response.decorator.ts) and [api-response-redirect.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-response-redirect.decorator.ts)
+
+Example `presentation/controllers/projects.controller.ts`:
+```typescript
+@ApiTags('Projects')
+@Controller('projects')
+export class ProjectsController {
+  constructor(
+    private readonly createProjectUseCase: CreateProjectUseCase,
+    private readonly projectMapper: ProjectMapper,
+  ) {}
+
+  @Post('create')
+  @ApiAuthOperation('Créer un nouveau projet.', {
+    type: Project,
+  })
+  @UseGuards(JwtAuthGuard, CheckOnboardingGuard)
+  async createProject(@GetUser() user: UserDomain): Promise<Project> {
+    const projectDomain = await this.createProjectUseCase.execute({
+      userId: user.id,
+      userEmail: user.email,
+    });
+
+    return this.projectMapper.toDTO(projectDomain);
+  }
+```
+
+- Use `class-validator` annotations if data needs to be validation backend only.
+- Use [api-domain-property.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-domain-property.decorator.ts) 
+
+Example:
+```typescript
+export class ProjectCreateDomain {
+  @Property('name')
+  @IsString()
+  @IsNotEmpty()
+  name!: string;
+
+  @Property('slug')
+  @IsString()
+  @IsNotEmpty()
+  slug!: string;
+
+  @Property('userId')
+  @IsString()
+  @IsNotEmpty()
+  userId!: string;
+
+  @Property('emailAlias')
+  @IsEmail()
+  @IsNotEmpty()
+  emailAlias!: string;
+
+  @Property('number')
+  @IsNumber()
+  @IsNotEmpty()
+  projectNumber!: number;
+
+  constructor(project: ProjectCreateDomain) {
+    Object.assign(this, project);
+  }
+}
+```
+
+- Libs: NestJS 11, RxJS 7.8, Node 22.
+- NestJS good pratices must be checked.
+- RxJS must be used at its best.
+- Throw exception early with meaning descriptions, names or params.
+- Create custom exceptions when domain specific.
+- Focus on domain logic.
+- Focus on DDD and Clean Architecture.
+
 Language:
 - French language in UI (labels, texts, placeholders...), Exceptions, API documentation...
 - English in code, logs etc.
@@ -505,56 +557,4 @@ Forbidden:
 Lint & Error
 - Follow `@typescript-eslint/strict-boolean-expressions` (avoid `if(!obj)`, prefer `if (obj === undefined)`).
 - Type errors with `catch(error: unknown | Error)`.
-
-- Check all packages versions every time:
-  - root monorepo: [package.json](mdc:package.json)
-  - backend: [package.json](mdc:apps/backend/package.json)
-  - frontend: [package.json](mdc:apps/frontend/package.json)
-  - shared-types: [package.json](mdc:packages/shared-types/package.json)
-- Always ask before adding new packages.
-- Use `pnpm`, never `npm`.
-
-- Most of the validation is done here with `class-validator`.
-- This type is used "as-is" in frontend.
-- This type is extended in backend's Domain models to ensure coherence.
-
-Example `packages/shared-types/src/project.type.ts`:
-```typescript
-import { PickType } from '@nestjs/mapped-types';
-import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
-
-export class ProjectType {
-  @IsString()
-  @IsNotEmpty()
-  id!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  name!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  slug!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  userId!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @IsEmail()
-  newsletterAlias!: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  projectNumber!: number;
-
-  @IsDate()
-  @IsNotEmpty()
-  createdAt!: Date;
-
-  @IsString()
-  promptInstruction!: string;
-}
-```
 
