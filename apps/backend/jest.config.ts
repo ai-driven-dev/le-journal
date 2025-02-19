@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import type { Config } from 'jest';
 
 const config: Config = {
@@ -27,10 +29,10 @@ const config: Config = {
     '^@/(.*)$': '<rootDir>/$1',
   },
   rootDir: 'src',
-  verbose: true,
+  verbose: false,
   maxWorkers: 1,
-  detectOpenHandles: true,
-  forceExit: true,
+  detectOpenHandles: false, // ✅ Prevents verbose open handle logs
+  forceExit: false, // ✅ Stops Jest from logging cleanup steps
   collectCoverage: false,
   coverageDirectory: '../coverage',
   coveragePathIgnorePatterns: ['src/prisma/prisma.types.ts'],

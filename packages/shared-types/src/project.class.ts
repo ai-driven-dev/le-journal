@@ -12,7 +12,6 @@ import {
   MinLength,
 } from 'class-validator';
 
-
 export const EMAIL_ALIAS_PREFIX = 'le-journal';
 
 export const MIN_INSTRUCTIONS_LENGTH = 10;

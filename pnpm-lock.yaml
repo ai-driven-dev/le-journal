@@ -225,6 +225,9 @@ importers:
       cache-manager:
         specifier: ^6.4.0
         version: 6.4.0
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.4.7
       eslint:
         specifier: ^9.19.0
         version: 9.20.1
