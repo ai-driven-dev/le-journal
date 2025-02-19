@@ -34,7 +34,16 @@ export default [
   // Source files configuration (common rules)
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.test.ts', '**/*.test.tsx', '**/prisma/*.ts'],
-    ignores: ['**/node_modules/**', '**/dist/**', '**/.react-router/**', '**/build/**'],
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.react-router/**',
+      '**/build/**',
+      '**/.turbo/**',
+      '**/coverage/**',
+      '**/logs/**',
+      '**/.cache/**',
+    ],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
