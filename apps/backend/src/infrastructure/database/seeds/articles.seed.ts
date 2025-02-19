@@ -18,7 +18,7 @@ export class ArticlesSeed {
     }
 
     const articlesData: Prisma.ArticleCreateInput[] = emails.map((email) => {
-      const baseUrl = 'https://lejournal.dev/articles/';
+      const baseUrl = 'https://le-journal.dev/articles/';
       const urlSlug = email.subject
         .toLowerCase()
         .replace(/\s+/g, '-')

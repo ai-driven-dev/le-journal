@@ -9,11 +9,11 @@ export enum UserRole {
 export class User {
   @IsString()
   @IsUUID()
-  id: string;
+  id!: string;
 
   @IsString()
   @IsEmail()
-  email: string;
+  email!: string;
 
   @IsString()
   @IsOptional()
@@ -24,12 +24,12 @@ export class User {
   avatar?: string;
 
   @IsDate()
-  createdAt: Date;
+  createdAt!: Date;
 
   @IsDate()
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @IsString()
   @IsEnum(UserRole)
-  role: UserRole;
+  role!: UserRole;
 }

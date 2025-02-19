@@ -12,6 +12,7 @@ import {
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
+import { CheckOnboardingGuard } from '../../application/guards/check-onboarding.guard';
 import { CreateProjectUseCase } from '../../application/use-cases/create-project.use-case';
 import { GetProjectUseCase } from '../../application/use-cases/get-project.use-case';
 import { UpdateProjectPromptUseCase } from '../../application/use-cases/update-project-prompt.use-case';
@@ -39,6 +40,7 @@ export class ProjectsController {
   @ApiAuthOperation('Créer un nouveau projet.', {
     type: Project,
   })
+  @UseGuards(JwtAuthGuard, CheckOnboardingGuard)
   async createProject(@GetUser() user: UserDomain): Promise<Project> {
     const projectDomain = await this.createProjectUseCase.execute({
       userId: user.id,

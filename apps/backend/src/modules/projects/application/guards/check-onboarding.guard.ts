@@ -1,3 +1,4 @@
+import { UserRole } from '@le-journal/shared-types';
 import { BadRequestException, CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 
 import { UserDomain } from '../../../users/domain/user.domain';
@@ -13,6 +14,10 @@ export class CheckOnboardingGuard implements CanActivate {
 
     if (user === null || user.id === null) {
       throw new BadRequestException('Utilisateur non authentifié');
+    }
+
+    if (user.role === UserRole.ADMIN) {
+      return true;
     }
 
     const project = await this.getProjectUseCase.execute(user.id);
