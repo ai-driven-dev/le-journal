@@ -14,12 +14,6 @@ import { NewsletterMapper } from './mappers/newsletter.mapper';
 import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
 import { ApiAuthOperation } from 'src/infrastructure/http/api-data-response.decorator';
 
-
-
-
-
-
-
 @ApiTags('Newsletters')
 @Controller('api/newsletters')
 @UseGuards(JwtAuthGuard)

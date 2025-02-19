@@ -23133,8 +23133,9 @@ That's pretty much all there is to it for styling with the tutorial. The rest is
     rgba(118, 15, 181, 1) 35%,
     rgba(58, 13, 85, 1) 100%
   );
-  --font-body: -apple-system, 'Segoe UI', Helvetica Neue, Helvetica, Roboto, Arial, sans-serif,
-    system-ui, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-body:
+    -apple-system, 'Segoe UI', Helvetica Neue, Helvetica, Roboto, Arial, sans-serif, system-ui,
+    'Apple Color Emoji', 'Segoe UI Emoji';
   --font-display: baloo, var(--font-body);
 }
 

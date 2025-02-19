@@ -3,7 +3,6 @@ import { Body, Controller, Get, Post, Put, Query, UseGuards } from '@nestjs/comm
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
-
 import { CreateProjectUseCase } from '../../application/use-cases/create-project.use-case';
 import { GetProjectUseCase } from '../../application/use-cases/get-project.use-case';
 import { UpdateProjectPromptUseCase } from '../../application/use-cases/update-project-prompt.use-case';

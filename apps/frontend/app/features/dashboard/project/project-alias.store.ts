@@ -29,4 +29,3 @@ export class ProjectAliasStore implements ProjectAlias {
     }
   };
 }
-
