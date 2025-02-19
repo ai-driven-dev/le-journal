@@ -86,7 +86,6 @@ export class ProjectsController {
     updateProjectPromptDto: ProjectUpdate,
     @GetUser() user: UserDomain,
   ): Promise<Project> {
-    console.log('updateProjectPromptDto', updateProjectPromptDto);
     const project = await this.updateProjectPromptUseCase.execute(user, updateProjectPromptDto);
 
     return this.projectMapper.toDTO(project);
