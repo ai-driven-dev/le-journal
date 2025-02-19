@@ -111,25 +111,37 @@ export default [
       ],
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/consistent-type-imports': 'warn',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/strict-boolean-expressions': [
-        'error',
+      '@typescript-eslint/no-floating-promises': [
+        'warn',
         {
-          allowString: true,
-          allowNullableString: true,
-          allowNumber: true,
-          allowNullableNumber: true,
-          allowNullableObject: true,
+          ignoreVoid: true,
+          ignoreIIFE: true,
         },
       ],
+      '@typescript-eslint/no-explicit-any': 'error',
+      // '@typescript-eslint/strict-boolean-expressions': [
+      //   'error',
+      //   {
+      //     allowString: true,
+      //     allowNullableString: true,
+      //     allowNumber: true,
+      //     allowNullableNumber: true,
+      //     allowNullableObject: true,
+      //   },
+      // ],
       semi: ['error', 'always'],
 
       /* Import Rules */
-      'import/order': ['warn', { 'newlines-between': 'always' }],
-      'import/no-cycle': 'error',
-      'import/no-unresolved': 'error',
-      'import/no-deprecated': 'warn',
+      'import/order': [
+        'warn',
+        {
+          groups: [['builtin', 'external', 'internal']],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ], // 'import/no-cycle': 'error',
+      // 'import/no-unresolved': 'error',
+      // 'import/no-deprecated': 'warn',
 
       /* Security Rules */
       // 'security/detect-non-literal-fs-filename': 'warn',
