@@ -12,10 +12,10 @@ import {
   MinLength,
 } from 'class-validator';
 
-export const PROJECT_MIN_LENGTH = 10;
-export const PROJECT_MAX_LENGTH = 200;
-export const PROJECT_VALIDATION = /^[^<>{}]*$/;
-export const PROMPT_UPDATE_DELAY_HOURS = 24;
+export const MIN_INSTRUCTIONS_LENGTH = 10;
+export const MAX_INSTRUCTIONS_LENGTH = 200;
+export const INSTRUCTIONS_VALIDATION_REGEX = /^[^<>{}]*$/;
+export const PROMPT_UPDATE_FREQUENCY = 24; // 24 hours
 
 export class Project {
   @IsString()
@@ -53,13 +53,13 @@ export class Project {
   canUpdatePrompt!: boolean;
 
   @IsString()
-  @MinLength(PROJECT_MIN_LENGTH, {
-    message: `L'instruction du prompt doit contenir au moins ${PROJECT_MIN_LENGTH} caractères`,
+  @MinLength(MIN_INSTRUCTIONS_LENGTH, {
+    message: `L'instruction du prompt doit contenir au moins ${MIN_INSTRUCTIONS_LENGTH} caractères`,
   })
-  @MaxLength(PROJECT_MAX_LENGTH, {
-    message: `L'instruction du prompt ne doit pas dépasser ${PROJECT_MAX_LENGTH} caractères`,
+  @MaxLength(MAX_INSTRUCTIONS_LENGTH, {
+    message: `L'instruction du prompt ne doit pas dépasser ${MAX_INSTRUCTIONS_LENGTH} caractères`,
   })
-  @Matches(PROJECT_VALIDATION, {
+  @Matches(INSTRUCTIONS_VALIDATION_REGEX, {
     message:
       "L'instruction du prompt ne peut pas contenir de balises HTML ou de caractères spéciaux comme < > { }",
   })

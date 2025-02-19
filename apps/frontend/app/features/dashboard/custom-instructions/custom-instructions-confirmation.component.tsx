@@ -26,21 +26,38 @@ export const CustomInstructionsConfirmation: FC<CustomInstructionsConfirmationPr
       formRef.current?.requestSubmit();
     };
 
-    const { isDialogOpen, isSubmitting, instructionLength, openDialog, closeDialog } = store;
+    const handleTriggerClick = (e: React.MouseEvent): void => {
+      e.preventDefault();
+      if (formRef.current) {
+        const isValid = formRef.current.checkValidity();
+        if (isValid) {
+          store.openDialog();
+        } else {
+          formRef.current.reportValidity();
+        }
+      }
+    };
+
+    const { isDialogOpen, isSubmitting, instructionLength, closeDialog } = store;
 
     return (
       <div className="flex flex-col justify-between">
         <span className="text-sm text-gray-500">{instructionLength}/200 tokens</span>
 
-        <Dialog open={isDialogOpen} onOpenChange={openDialog}>
+        <Dialog open={isDialogOpen} onOpenChange={closeDialog}>
           <DialogTrigger asChild>
-            <Button disabled={store.canUpdatePrompt === false}>Enregistrer</Button>
+            <Button disabled={store.canUpdatePrompt === false} onClick={handleTriggerClick}>
+              Enregistrer
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Confirmer la personnalisation</DialogTitle>
               <DialogDescription>
-                Êtes-vous sûr de vouloir enregistrer ces préférences de personnalisation ?
+                <p>Êtes-vous sûr de vouloir enregistrer ces préférences de personnalisation ?</p>
+                <p>Ne pouvez mettre à jour vos préférences qu'une seule fois par jour.</p>
+
+                {store.lastPromptUpdate}
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>

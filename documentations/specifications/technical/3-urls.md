@@ -8,12 +8,6 @@
 
 - `/` → **Landing Page** _(Présentation du service, inscription rapide)_
 - `/onboarding/` → Inscription de l’utilisateur sur la plateforme.
-  - `/onboarding/start` → Page d’accueil de l’onboarding (Bienvenue + Connexion Google).
-  - `/onboarding/permissions` → Demande des autorisations Gmail via OAuth.
-  - `/onboarding/setup` → Génération de l’alias email + Création du projet + Configuration automatique de Gmail (label + filtre).
-  - `/onboarding/finish` → Résumé des configurations (alias email affiché + bouton d’accès au Dashboard).
-- `/legal` → **Mentions légales**
-- `/auth/google/callback` → **Callback Google OAuth** _(Stockage des tokens après connexion)_
 
 ### 🔒 Privé (Accessible après connexion)
 
@@ -22,7 +16,7 @@
 
 ### ⚙️ Admin (Réservé aux administrateurs)
 
-- `/admin/:userSlug` → **Gestion de l’utilisateur spécifique**
+- `/admin/` → **Gestion des utilisateurs**
 
 ## Backend URLs
 

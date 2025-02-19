@@ -11,8 +11,8 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
 
-import { ApiAuthOperation } from '../http/api-data-response.decorator';
-import { ApiRedirectResponse } from '../http/api-redirection-response.decorator';
+import { ApiRedirectResponse } from '../http/api-response-redirect.decorator';
+import { ApiAuthOperation } from '../http/api-response.decorator';
 
 import { GoogleAuthProfile } from './auth.dto';
 import { AuthService } from './auth.service';

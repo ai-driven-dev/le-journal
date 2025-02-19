@@ -1,17 +1,17 @@
 import { Newsletter, NewsletterStatusType } from '@le-journal/shared-types';
 
-import { ApiAuthProperty } from 'src/infrastructure/http/api-data-property.decorator';
+import { Property } from 'src/infrastructure/http/api-domain-property.decorator';
 
 export class NewsletterDomain extends Newsletter {
-  @ApiAuthProperty('id')
+  @Property('id')
   id!: string;
 
-  @ApiAuthProperty('email')
+  @Property('email')
   email!: string;
 
-  @ApiAuthProperty('subscribedAt', 'Date de souscription')
+  @Property('subscribedAt', 'Date de souscription')
   subscribedAt!: Date;
 
-  @ApiAuthProperty('subscriptionStatus', 'Statut de la souscription')
+  @Property('subscriptionStatus', 'Statut de la souscription')
   subscriptionStatus!: NewsletterStatusType;
 }

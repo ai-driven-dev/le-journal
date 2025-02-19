@@ -2,13 +2,18 @@ import {
   IsBoolean,
   IsDate,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
 
-import { PROJECT_MAX_LENGTH, PROJECT_MIN_LENGTH, PROJECT_VALIDATION } from './project.class';
+import {
+  INSTRUCTIONS_VALIDATION_REGEX,
+  MAX_INSTRUCTIONS_LENGTH,
+  MIN_INSTRUCTIONS_LENGTH,
+} from './project.class';
 
 export class ProjectPromptInstructions {
   @IsString()
@@ -17,20 +22,22 @@ export class ProjectPromptInstructions {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(PROJECT_MIN_LENGTH, {
-    message: `Prompt instruction must be at least ${PROJECT_MIN_LENGTH} characters long`,
+  @MinLength(MIN_INSTRUCTIONS_LENGTH, {
+    message: `L'instruction du prompt doit contenir au moins ${MIN_INSTRUCTIONS_LENGTH} caractères`,
   })
-  @MaxLength(PROJECT_MAX_LENGTH, {
-    message: `Prompt instruction must be at most ${PROJECT_MAX_LENGTH} characters long`,
+  @MaxLength(MAX_INSTRUCTIONS_LENGTH, {
+    message: `L'instruction du prompt ne doit pas dépasser ${MAX_INSTRUCTIONS_LENGTH} caractères`,
   })
-  @Matches(PROJECT_VALIDATION, {
-    message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
+  @Matches(INSTRUCTIONS_VALIDATION_REGEX, {
+    message:
+      "L'instruction du prompt ne peut pas contenir de balises HTML ou de caractères spéciaux comme < > { }",
   })
   promptInstruction!: string;
 
   @IsDate()
-  lastPromptUpdate?: Date | string;
+  @IsOptional()
+  lastPromptUpdate?: string;
 
   @IsBoolean()
-  canUpdatePrompt?: boolean;
+  canUpdatePrompt!: boolean;
 }

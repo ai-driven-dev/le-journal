@@ -1,30 +1,17 @@
 import { ProjectPromptInstructions } from '@le-journal/shared-types';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsDate, IsOptional } from 'class-validator';
+
+import { Property } from 'src/infrastructure/http/api-domain-property.decorator';
 
 export class ProjectUpdate extends ProjectPromptInstructions {
-  @ApiProperty({
-    example: 'c123e456-789b-12d3-a456-426614174000',
-    description: 'Project ID',
-  })
+  @Property('id')
   id!: string;
 
-  @ApiProperty({
-    description: 'The instruction prompt for the project',
-    example: 'Write a blog post about AI and its impact on society',
-  })
+  @Property('promptInstruction', 'The instruction prompt for the project')
   promptInstruction!: string;
 
-  @IsBoolean()
+  @Property('canUpdatePrompt', 'Whether the prompt can be updated')
   canUpdatePrompt: boolean = false;
 
-  @IsOptional()
-  @IsDate()
-  lastPromptUpdate!: Date | string;
-
-  // TODO: Add external API security validation in the future
-  // This could include:
-  // - Content moderation
-  // - Profanity checks
-  // - Semantic analysis for malicious content
+  @Property('lastPromptUpdate', 'The last prompt update date')
+  lastPromptUpdate?: string;
 }
