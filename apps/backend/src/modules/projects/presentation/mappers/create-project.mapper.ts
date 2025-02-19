@@ -11,7 +11,7 @@ export class CreateProjectMapper {
     return {
       name: domain.name,
       slug: domain.slug,
-      newsletterAlias: domain.newsletterAlias,
+      emailAlias: domain.emailAlias,
       projectNumber: domain.projectNumber,
       userId: domain.userId,
     };
@@ -21,7 +21,7 @@ export class CreateProjectMapper {
     return new ProjectCreateDomain({
       name: dto.name,
       slug: dto.slug,
-      newsletterAlias: dto.newsletterAlias,
+      emailAlias: dto.emailAlias,
       projectNumber: dto.projectNumber,
       userId: dto.userId,
     });
@@ -31,11 +31,13 @@ export class CreateProjectMapper {
     return {
       name: domain.name,
       slug: domain.slug,
-      newsletter_alias: domain.newsletterAlias,
+      email_alias: domain.emailAlias,
       project_number: domain.projectNumber,
       created_at: new Date(),
       prompt_instruction: '',
       last_prompt_update: null,
+      google_label_name: '',
+      google_label_id: '',
     };
   }
 }

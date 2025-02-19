@@ -1,7 +1,15 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 
-type ApiPropertyKey = 'id' | 'name' | 'email' | 'slug' | 'userId' | 'newsletterAlias' | 'number';
+type ApiPropertyKey =
+  | 'id'
+  | 'name'
+  | 'email'
+  | 'slug'
+  | 'userId'
+  | 'emailAlias'
+  | 'number'
+  | 'createdAt';
 
 interface ApiPropertyField {
   example: string | number;
@@ -25,11 +33,15 @@ const propertyFields: Record<ApiPropertyKey, ApiPropertyField> = {
     example: 'project-alpha',
     description: 'Slug',
   },
+  createdAt: {
+    example: '2021-01-01T00:00:00.000Z',
+    description: 'Date de création',
+  },
   userId: {
     example: 'usr_b6a9ef32d8c2',
     description: 'ID du propriétaire',
   },
-  newsletterAlias: {
+  emailAlias: {
     example: 'newsletter+le-journal@ai-driven-dev.com',
     description: 'Alias unique pour les newsletters',
   },

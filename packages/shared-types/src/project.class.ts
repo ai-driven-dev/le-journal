@@ -32,7 +32,7 @@ export class Project {
   @IsString()
   @IsNotEmpty()
   @IsEmail()
-  newsletterAlias!: string;
+  emailAlias!: string;
 
   @IsNumber()
   @IsNotEmpty()
@@ -52,13 +52,18 @@ export class Project {
 
   @IsString()
   @MinLength(PROJECT_MIN_LENGTH, {
-    message: `Prompt instruction must be at least ${PROJECT_MIN_LENGTH} characters long`,
+    message: `L'instruction du prompt doit contenir au moins ${PROJECT_MIN_LENGTH} caractères`,
   })
   @MaxLength(PROJECT_MAX_LENGTH, {
-    message: `Prompt instruction must be at most ${PROJECT_MAX_LENGTH} characters long`,
+    message: `L'instruction du prompt ne doit pas dépasser ${PROJECT_MAX_LENGTH} caractères`,
   })
   @Matches(PROJECT_VALIDATION, {
-    message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
+    message:
+      "L'instruction du prompt ne peut pas contenir de balises HTML ou de caractères spéciaux comme < > { }",
   })
   promptInstruction!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  googleLabelName!: string;
 }

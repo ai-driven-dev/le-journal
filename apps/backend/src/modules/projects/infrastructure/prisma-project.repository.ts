@@ -58,12 +58,14 @@ export class PrismaProjectRepository implements ProjectRepository {
       data: {
         name: data.name,
         slug: data.slug,
-        newsletter_alias: data.newsletterAlias,
+        email_alias: data.emailAlias,
         project_number: data.projectNumber,
         user: {
           connect: { id: data.userId },
         },
         prompt_instruction: '',
+        google_label_name: '',
+        google_label_id: '',
       },
     });
 

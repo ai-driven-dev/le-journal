@@ -18,10 +18,10 @@ export class ProjectCreateDomain {
   @IsNotEmpty()
   userId!: string;
 
-  @ApiAuthProperty('newsletterAlias')
+  @ApiAuthProperty('emailAlias')
   @IsEmail()
   @IsNotEmpty()
-  newsletterAlias!: string;
+  emailAlias!: string;
 
   @ApiAuthProperty('number')
   @IsNumber()

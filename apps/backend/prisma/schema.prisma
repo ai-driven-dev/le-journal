@@ -64,112 +64,118 @@ enum UserRole {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  email      String   @unique
-  name       String
-  role       UserRole @default(REGULAR) @map("role")
-  avatar     String?
+  id     String   @id @default(uuid())
+  email  String   @unique
+  name   String
+  role   UserRole @default(REGULAR) @map("role")
+  avatar String?
 
-  google_id  String  @unique @map("google_id")
-  google_scopes String[] @map("google_scopes") @default([])
-  google_refresh_token String   @map("google_refresh_token")
-  google_refresh_token_iv String @map("google_refresh_token_iv")
-  
+  google_id               String   @unique @map("google_id")
+  google_scopes           String[] @default([]) @map("google_scopes")
+  google_refresh_token    String   @map("google_refresh_token")
+  google_refresh_token_iv String   @map("google_refresh_token_iv")
+
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
-  
-  onboarding_started_at DateTime? @map("onboarding_started_at")
+
+  onboarding_started_at   DateTime? @map("onboarding_started_at")
   onboarding_completed_at DateTime? @map("onboarding_completed_at")
 
   // Relations
   projects     Project[]
   transactions Transaction[]
 
-  @@map("users")
   @@index([email])
   @@index([google_id])
+  @@map("users")
 }
 
 model Project {
-  id                 String   @id @default(uuid())
-  user_id           String
-  project_number    Int
-  name              String
-  slug              String
-  newsletter_alias  String   @unique @map("newsletter_alias")
-  prompt_instruction String   @default("") @db.Text @map("prompt_instruction")
+  id             String @id @default(uuid())
+  user_id        String
+  project_number Int
+  name           String
+  slug           String
+
+  email_alias       String @unique @map("email_alias")
+  google_label_name String @map("google_label_name")
+  google_label_id   String @map("google_label_id")
+
+  prompt_instruction String    @default("") @map("prompt_instruction") @db.Text
   last_prompt_update DateTime? @map("last_prompt_update")
-  created_at        DateTime @default(now()) @map("created_at")
+  created_at         DateTime  @default(now()) @map("created_at")
 
-  user   User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  newsletters Newsletter[] 
+  user        User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  newsletters Newsletter[]
 
+  @@unique([user_id, google_label_name])
+  @@unique([user_id, google_label_id])
   @@unique([user_id, project_number])
   @@unique([user_id, slug])
   @@unique([user_id, name])
-  @@map("projects")
   @@index([user_id])
+  @@map("projects")
 }
 
 model Newsletter {
-  id           String   @id @default(uuid())
-  project_id  String
-  email       String
-  subscribed_at DateTime @default(now()) @map("subscribed_at")
+  id                  String             @id @default(uuid())
+  project_id          String
+  email               String
+  subscribed_at       DateTime           @default(now()) @map("subscribed_at")
   subscription_status SubscriptionStatus @default(ACTIVE) @map("subscription_status")
 
   project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
-  emails Email[]
+  emails  Email[]
 
-  @@map("newsletters")
   @@index([email])
+  @@map("newsletters")
 }
 
 model Email {
-  id           String      @id @default(uuid())
+  id            String      @id @default(uuid())
   newsletter_id String      @map("newsletter_id")
-  subject      String
-  raw_content  String      @db.Text @map("raw_content")
-  received_at  DateTime    @default(now()) @map("received_at")
-  status       EmailStatus
+  subject       String
+  raw_content   String      @map("raw_content") @db.Text
+  received_at   DateTime    @default(now()) @map("received_at")
+  status        EmailStatus
 
   newsletter Newsletter @relation(fields: [newsletter_id], references: [id], onDelete: Cascade)
   articles   Article[]
 
-  @@map("emails")
   @@index([newsletter_id])
   @@index([subject])
+  @@map("emails")
 }
 
 model Article {
-  id               String   @id @default(uuid())
-  email_id         String
-  title            String
-  description      String   @db.Text
-  url              String
+  id              String   @id @default(uuid())
+  email_id        String
+  title           String
+  description     String   @db.Text
+  url             String
   relevance_score Float    @map("relevance_score")
-  extracted_at     DateTime @default(now()) @map("extracted_at")
+  extracted_at    DateTime @default(now()) @map("extracted_at")
 
   email Email @relation(fields: [email_id], references: [id], onDelete: Cascade)
 
-  @@map("articles")
   @@index([email_id])
+  @@map("articles")
 }
 
 model Transaction {
   id                String        @id @default(uuid())
-  user_id          String?
+  user_id           String?
   stripe_payment_id String        @map("stripe_payment_id")
-  amount           Decimal
-  currency         String
-  status           PaymentStatus
-  payment_method   PaymentMethod  @map("payment_method")
-  payment_date     DateTime       @default(now()) @map("payment_date")
-  invoice_url      String        @map("invoice_url")
+  amount            Decimal
+  currency          String
+  status            PaymentStatus
+  payment_method    PaymentMethod @map("payment_method")
+  payment_date      DateTime      @default(now()) @map("payment_date")
+  invoice_url       String        @map("invoice_url")
 
   user User? @relation(fields: [user_id], references: [id], onDelete: SetNull)
 
-  @@map("transactions")
   @@index([user_id])
   @@index([stripe_payment_id])
+  @@map("transactions")
 }

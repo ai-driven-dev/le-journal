@@ -42,13 +42,13 @@ export class CreateProjectUseCase {
 
     // Business logic for creating newsletter alias
     const emailParts = userEmail.split('@');
-    const newsletterAlias = `${emailParts[0]}+le-journal@${emailParts[1]}`;
+    const emailAlias = `${emailParts[0]}+le-journal@${emailParts[1]}`;
 
     // Business logic for initial project values
     return new ProjectCreateDomain({
       name: 'Default',
       slug: 'default',
-      newsletterAlias,
+      emailAlias,
       projectNumber: 1,
       userId,
     });
