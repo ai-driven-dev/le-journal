@@ -2,18 +2,18 @@ import { Module } from '@nestjs/common';
 
 import { PrismaModule } from '../../prisma/prisma.module';
 
-import { CheckOnboardingGuard } from './application/check-onboarding.guard';
-import { CreateProjectUseCase } from './application/create-project.use-case';
-import { GetProjectUseCase } from './application/get-project.use-case';
-import { SetupProjectLabelUseCase } from './application/setup-project-label.use-case';
-import { UpdateProjectPromptUseCase } from './application/update-project-prompt.use-case';
+import { CheckOnboardingGuard } from './application/guards/check-onboarding.guard';
+import { CreateProjectUseCase } from './application/use-cases/create-project.use-case';
+import { GetProjectUseCase } from './application/use-cases/get-project.use-case';
+import { SetupProjectLabelUseCase } from './application/use-cases/setup-project-label.use-case';
+import { UpdateProjectPromptUseCase } from './application/use-cases/update-project-prompt.use-case';
 import { PromptUpdateService } from './domain/can-update-prompt.service';
 import { PROJECT_REPOSITORY } from './domain/project.repository.interface';
 import { PrismaProjectRepository } from './infrastructure/prisma-project.repository';
-import { CreateProjectMapper } from './presentation/create-project.mapper';
-import { ProjectSetupController } from './presentation/project-setup.controller';
-import { ProjectMapper } from './presentation/project.mapper';
-import { ProjectsController } from './presentation/projects.controller';
+import { ProjectSetupController } from './presentation/controllers/project-setup.controller';
+import { ProjectsController } from './presentation/controllers/projects.controller';
+import { CreateProjectMapper } from './presentation/mappers/create-project.mapper';
+import { ProjectMapper } from './presentation/mappers/project.mapper';
 
 import { GoogleModule } from 'src/infrastructure/google/google.module';
 

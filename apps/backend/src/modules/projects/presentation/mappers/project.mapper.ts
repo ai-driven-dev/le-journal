@@ -2,7 +2,7 @@ import { Project } from '@le-journal/shared-types';
 import { Injectable } from '@nestjs/common';
 import { Project as PrismaProject } from '@prisma/client';
 
-import { ProjectDomain } from '../domain/project';
+import { ProjectDomain } from '../../domain/project';
 
 import { Mapper } from 'src/presentation/mapper.interface';
 

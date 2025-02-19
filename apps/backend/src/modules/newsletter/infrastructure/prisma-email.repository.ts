@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { EmailDomain } from '../domain/email.domain';
 import { EmailRepository } from '../domain/email.repository.interface';
-import { EmailMapper } from '../presentation/email.mapper';
+import { EmailMapper } from '../presentation/mappers/email.mapper';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 

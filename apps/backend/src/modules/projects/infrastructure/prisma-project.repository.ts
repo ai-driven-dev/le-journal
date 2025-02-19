@@ -4,7 +4,7 @@ import { Project } from '@prisma/client';
 import { ProjectDomain } from '../domain/project';
 import { ProjectCreateDomain } from '../domain/project-create';
 import { FindByCondition, ProjectRepository } from '../domain/project.repository.interface';
-import { ProjectMapper } from '../presentation/project.mapper';
+import { ProjectMapper } from '../presentation/mappers/project.mapper';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 

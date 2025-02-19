@@ -1,9 +1,9 @@
 import { BadRequestException, ConflictException, Inject, Injectable } from '@nestjs/common';
 import { validateSync } from 'class-validator';
 
-import { ProjectDomain } from '../domain/project';
-import { ProjectCreateDomain } from '../domain/project-create';
-import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
+import { ProjectDomain } from '../../domain/project';
+import { ProjectCreateDomain } from '../../domain/project-create';
+import { PROJECT_REPOSITORY, ProjectRepository } from '../../domain/project.repository.interface';
 
 interface CreateProjectCommand {
   userId: string;

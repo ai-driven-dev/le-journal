@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { Auth, gmail_v1, google } from 'googleapis';
 
 import { getEnv } from 'src/main.env';
@@ -8,7 +8,10 @@ import { GetUserByIdUseCase } from 'src/modules/users/application/use-cases/get-
 export class GoogleService {
   private oauth2Client: Auth.OAuth2Client;
 
-  constructor(private readonly getUserByIdUseCase: GetUserByIdUseCase) {
+  constructor(
+    private readonly getUserByIdUseCase: GetUserByIdUseCase,
+    private readonly logger: Logger,
+  ) {
     this.oauth2Client = new google.auth.OAuth2(
       getEnv('GOOGLE_CLIENT_ID'),
       getEnv('GOOGLE_CLIENT_SECRET'),
@@ -40,7 +43,8 @@ export class GoogleService {
 
       // 🔍 Log des scopes du token
       const tokenInfo = await this.oauth2Client.getTokenInfo(token);
-      console.log('🔍 Google Access Token Info:', tokenInfo);
+
+      this.logger.log('🔍 Google Access Token Info:', tokenInfo);
 
       return token;
     } catch (error) {

@@ -1,10 +1,10 @@
 import { PROMPT_UPDATE_DELAY_HOURS } from '@le-journal/shared-types';
 import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 
-import { PromptUpdateService } from '../domain/can-update-prompt.service';
-import { ProjectDomain } from '../domain/project';
-import { ProjectUpdate } from '../domain/project-update';
-import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
+import { PromptUpdateService } from '../../domain/can-update-prompt.service';
+import { ProjectDomain } from '../../domain/project';
+import { ProjectUpdate } from '../../domain/project-update';
+import { PROJECT_REPOSITORY, ProjectRepository } from '../../domain/project.repository.interface';
 
 @Injectable()
 export class UpdateProjectPromptUseCase {

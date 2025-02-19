@@ -1,8 +1,8 @@
 import { Email, EmailStatus } from '@le-journal/shared-types';
 import { Injectable } from '@nestjs/common';
 
-import { ArticleModel, EmailModel } from '../../../prisma/prisma.types';
-import { EmailDomain } from '../domain/email.domain';
+import { ArticleModel, EmailModel } from '../../../../prisma/prisma.types';
+import { EmailDomain } from '../../domain/email.domain';
 
 import { ArticleMapper } from './article.mapper';
 

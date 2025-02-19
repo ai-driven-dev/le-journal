@@ -19,8 +19,11 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
     "strictBindCallApply": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "src/*": ["./src/*"]
+    }
   },
-  "include": ["src/**/*", "test/**/*", "prisma/**/*"],
+  "include": ["src/**/*", "test/**/*", "prisma/**/*", "jest.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

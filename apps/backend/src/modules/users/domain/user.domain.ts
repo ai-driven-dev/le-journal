@@ -55,6 +55,12 @@ export class UserDomain extends User {
   })
   avatar!: string;
 
+  @ApiProperty({
+    example: 'google-123',
+    description: "User's Google ID",
+  })
+  googleId!: string;
+
   constructor(user: UserDomain) {
     super();
     Object.assign(this, user);

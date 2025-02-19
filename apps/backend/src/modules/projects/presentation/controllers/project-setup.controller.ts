@@ -1,10 +1,10 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from '../../../infrastructure/auth/guards/jwt.guard';
-import { UserDomain } from '../../../modules/users/domain/user.domain';
-import { CheckOnboardingGuard } from '../application/check-onboarding.guard';
-import { SetupProjectLabelUseCase } from '../application/setup-project-label.use-case';
+import { JwtAuthGuard } from '../../../../infrastructure/auth/guards/jwt.guard';
+import { UserDomain } from '../../../users/domain/user.domain';
+import { CheckOnboardingGuard } from '../../application/guards/check-onboarding.guard';
+import { SetupProjectLabelUseCase } from '../../application/use-cases/setup-project-label.use-case';
 
 import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
 
@@ -38,7 +38,7 @@ export class ProjectSetupController {
   @Post('filter')
   @ApiOperation({ summary: 'Setup project filter' })
   @ApiResponse({ status: 200 })
-  async setupFilter(@Body() filterData: Record<string, unknown>): Promise<{ success: boolean }> {
+  async setupFilter(): Promise<{ success: boolean }> {
     // TODO: Implement filter setup logic
     return { success: true };
   }
@@ -46,7 +46,7 @@ export class ProjectSetupController {
   @Post('test')
   @ApiOperation({ summary: 'Send test email' })
   @ApiResponse({ status: 200 })
-  async sendTestEmail(@Body() emailData: Record<string, unknown>): Promise<{ success: boolean }> {
+  async sendTestEmail(): Promise<{ success: boolean }> {
     // TODO: Implement test email logic
     return { success: true };
   }

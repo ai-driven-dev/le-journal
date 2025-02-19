@@ -1,41 +1,25 @@
 import { Article } from '@le-journal/shared-types';
-import { ApiProperty } from '@nestjs/swagger';
+
+import { ApiAuthProperty } from 'src/infrastructure/http/api-data-property.decorator';
 
 export class ArticleDomain extends Article {
-  @ApiProperty({
-    description: 'Unique ID of the article',
-    example: '123e4567-e89b-12d3-a456-426614174000',
-  })
+  @ApiAuthProperty('id')
+  @ApiAuthProperty('id')
   id!: string;
 
-  @ApiProperty({
-    description: 'Subject or main topic of the article',
-    example: 'Building Scalable Backend Services',
-  })
+  @ApiAuthProperty('subject', "Sujet ou sujet principal de l'article")
   subject!: string;
 
-  @ApiProperty({
-    description: 'Description of the article content',
-    example: 'Learn the best practices for building enterprise-grade NestJS applications...',
-  })
+  @ApiAuthProperty('description', "Description du contenu de l'article")
   description!: string;
 
-  @ApiProperty({
-    description: 'URL to the full article',
-    example: 'https://example.com/article/nestjs-best-practices',
-    nullable: true,
-  })
+  @ApiAuthProperty('link', "URL vers l'article complet")
   link!: string;
 
-  @ApiProperty({
-    description: 'Relevance score of the article (0-1)',
-    example: 0.95,
-  })
+  @ApiAuthProperty('score', 'Relevance score of the article (0-1)')
+  @ApiAuthProperty('score', 'Relevance score of the article (0-1)')
   score!: number;
 
-  @ApiProperty({
-    description: 'Date and time when the article was extracted',
-    example: '2024-01-01T12:00:00Z',
-  })
+  @ApiAuthProperty('extractedAt', "Date et heure de l'extraction de l'article")
   extractedAt!: Date;
 }

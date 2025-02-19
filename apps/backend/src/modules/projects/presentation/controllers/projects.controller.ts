@@ -3,17 +3,17 @@ import { Body, Controller, Get, Post, Put, Query, UseGuards } from '@nestjs/comm
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
-import { CreateProjectUseCase } from '../application/create-project.use-case';
-import { GetProjectUseCase } from '../application/get-project.use-case';
-import { UpdateProjectPromptUseCase } from '../application/update-project-prompt.use-case';
-import { ProjectUpdate } from '../domain/project-update';
 
-import { ProjectMapper } from './project.mapper';
+import { CreateProjectUseCase } from '../../application/use-cases/create-project.use-case';
+import { GetProjectUseCase } from '../../application/use-cases/get-project.use-case';
+import { UpdateProjectPromptUseCase } from '../../application/use-cases/update-project-prompt.use-case';
+import { ProjectUpdate } from '../../domain/project-update';
+import { ProjectMapper } from '../mappers/project.mapper';
 
-import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
-import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
-import { ApiAuthOperation } from 'src/infrastructure/http/api-data-response.decorator';
 import { UserDomain } from 'src/modules/users/domain/user.domain';
+import { ApiAuthOperation } from 'src/infrastructure/http/api-data-response.decorator';
+import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
+import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
 
 @ApiTags('Projects')
 @Controller('api/projects')

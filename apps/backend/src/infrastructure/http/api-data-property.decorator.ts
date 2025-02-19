@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 
-type ApiPropertyKey = 'name' | 'slug' | 'userId' | 'newsletterAlias' | 'number';
+type ApiPropertyKey = 'id' | 'name' | 'email' | 'slug' | 'userId' | 'newsletterAlias' | 'number';
 
 interface ApiPropertyField {
   example: string | number;
@@ -9,9 +9,17 @@ interface ApiPropertyField {
 }
 
 const propertyFields: Record<ApiPropertyKey, ApiPropertyField> = {
+  id: {
+    example: '123e4567-e89b-12d3-a456-426614174000',
+    description: 'ID',
+  },
   name: {
     example: 'Project Alpha',
     description: 'Nom',
+  },
+  email: {
+    example: 'user@example.com',
+    description: 'Email',
   },
   slug: {
     example: 'project-alpha',
@@ -31,16 +39,20 @@ const propertyFields: Record<ApiPropertyKey, ApiPropertyField> = {
   },
 };
 
-export const ApiAuthProperty = (
-  key: ApiPropertyKey,
-  customDescription?: string,
-): PropertyDecorator => {
-  const propertyField = propertyFields[key];
+type PropertyKeys = keyof typeof propertyFields;
+
+export function ApiAuthProperty(key: PropertyKeys, customDescription?: string): PropertyDecorator;
+export function ApiAuthProperty(
+  key: Exclude<string, PropertyKeys>,
+  customDescription: string,
+): PropertyDecorator;
+export function ApiAuthProperty(key: string, customDescription?: string): PropertyDecorator {
+  const propertyField = propertyFields[key as PropertyKeys];
 
   return applyDecorators(
     ApiProperty({
-      ...propertyField,
-      description: customDescription ?? propertyField.description,
+      example: propertyField?.example ?? 'No example provided',
+      description: customDescription ?? propertyField?.description ?? 'No description provided',
     }),
   );
-};
+}

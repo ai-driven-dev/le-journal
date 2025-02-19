@@ -1,7 +1,7 @@
 import { Article } from '@le-journal/shared-types';
 import { Injectable } from '@nestjs/common';
 
-import { ArticleDomain } from '../domain/article.domain';
+import { ArticleDomain } from '../../domain/article.domain';
 
 import { Mapper } from 'src/presentation/mapper.interface';
 import { ArticleModel } from 'src/prisma/prisma.types';

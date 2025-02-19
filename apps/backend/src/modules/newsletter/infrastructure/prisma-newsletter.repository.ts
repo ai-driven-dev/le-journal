@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { NewsletterDomain } from '../domain/newsletter.domain';
 import { NewsletterRepository } from '../domain/newsletter.repository';
-import { NewsletterMapper } from '../presentation/newsletter.mapper';
+import { NewsletterMapper } from '../presentation/mappers/newsletter.mapper';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 

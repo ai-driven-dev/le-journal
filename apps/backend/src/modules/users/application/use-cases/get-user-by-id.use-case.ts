@@ -29,9 +29,8 @@ export class GetUserByIdUseCase {
 
     if (user) {
       this.logger.log(`User ${id} not found in cache, setting in cache`);
-      const userDomain = this.userMapper.toDomain(user);
-      await this.userCacheRepository.set(this.userMapper.toModel(userDomain));
-      return userDomain;
+      await this.userCacheRepository.set(this.userMapper.toModel(user));
+      return user;
     }
 
     return null;
