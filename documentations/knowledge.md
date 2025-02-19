@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 16:36:15
+date: 2025-02-19 19:23:06
 ---
 
 # Project Specifications "Knowledge Base"
@@ -652,19 +652,23 @@ BREAKING CHANGE: new user database structure
     "@types/cookie-parser": "^1.4.8",
     "@types/passport-google-oauth20": "^2.0.16",
     "@types/passport-jwt": "^4.0.1",
+    "cheerio": "^1.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie-parser": "^1.4.7",
     "googleapis": "^144.0.0",
+    "mailparser": "^3.7.2",
     "nest-commander": "^3.16.0",
     "nest-winston": "^1.10.2",
+    "openai": "^4.85.2",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "resend": "^4.1.2",
     "rxjs": "^7.8.1",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -680,6 +684,7 @@ BREAKING CHANGE: new user database structure
     "@swc/jest": "^0.2.37",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
+    "@types/mailparser": "^3.4.5",
     "@types/node": "^22.13.1",
     "@types/supertest": "^6.0.2",
     "cache-manager": "^6.4.0",
@@ -1757,11 +1762,13 @@ text
 │   │   │   │   ├── cookie-parser -> ../../../../node_modules/.pnpm/@types+cookie-parser@1.4.8*@types+express@5.0.0/node*modules/@types/cookie-parser
 │   │   │   │   ├── express -> ../../../../node_modules/.pnpm/@types+express@5.0.0/node_modules/@types/express
 │   │   │   │   ├── jest -> ../../../../node_modules/.pnpm/@types+jest@29.5.14/node_modules/@types/jest
+│   │   │   │   ├── mailparser -> ../../../../node_modules/.pnpm/@types+mailparser@3.4.5/node_modules/@types/mailparser
 │   │   │   │   ├── node -> ../../../../node_modules/.pnpm/@types+node@22.13.4/node_modules/@types/node
 │   │   │   │   ├── passport-google-oauth20 -> ../../../../node_modules/.pnpm/@types+passport-google-oauth20@2.0.16/node_modules/@types/passport-google-oauth20
 │   │   │   │   ├── passport-jwt -> ../../../../node_modules/.pnpm/@types+passport-jwt@4.0.1/node_modules/@types/passport-jwt
 │   │   │   │   └── supertest -> ../../../../node_modules/.pnpm/@types+supertest@6.0.2/node_modules/@types/supertest
 │   │   │   ├── cache-manager -> ../../../node_modules/.pnpm/cache-manager@6.4.0/node_modules/cache-manager
+│   │   │   ├── cheerio -> ../../../node_modules/.pnpm/cheerio@1.0.0/node_modules/cheerio
 │   │   │   ├── class-transformer -> ../../../node_modules/.pnpm/class-transformer@0.5.1/node_modules/class-transformer
 │   │   │   ├── class-validator -> ../../../node_modules/.pnpm/class-validator@0.14.1/node_modules/class-validator
 │   │   │   ├── cookie-parser -> ../../../node_modules/.pnpm/cookie-parser@1.4.7/node_modules/cookie-parser
@@ -1772,9 +1779,11 @@ text
 │   │   │   ├── googleapis -> ../../../node_modules/.pnpm/googleapis@144.0.0/node_modules/googleapis
 │   │   │   ├── ioredis -> ../../../node_modules/.pnpm/ioredis@5.5.0/node_modules/ioredis
 │   │   │   ├── jest -> ../../../node_modules/.pnpm/jest@29.7.0*@types+node@22.13.4_ts-node@10.9.2/node*modules/jest
+│   │   │   ├── mailparser -> ../../../node_modules/.pnpm/mailparser@3.7.2/node_modules/mailparser
 │   │   │   ├── meilisearch -> ../../../node_modules/.pnpm/meilisearch@0.48.2/node_modules/meilisearch
 │   │   │   ├── nest-commander -> ../../../node_modules/.pnpm/nest-commander@3.16.0*@nestjs+common@11.0.10_@nestjs+core@11.0.10_@types+inquirer@8.2.10_typescript@5.7.3/node*modules/nest-commander
 │   │   │   ├── nest-winston -> ../../../node_modules/.pnpm/nest-winston@1.10.2*@nestjs+common@11.0.10_winston@3.17.0/node*modules/nest-winston
+│   │   │   ├── openai -> ../../../node_modules/.pnpm/openai@4.85.2_zod@3.24.2/node_modules/openai
 │   │   │   ├── passport -> ../../../node_modules/.pnpm/passport@0.7.0/node_modules/passport
 │   │   │   ├── passport-google-oauth20 -> ../../../node_modules/.pnpm/passport-google-oauth20@2.0.0/node_modules/passport-google-oauth20
 │   │   │   ├── passport-jwt -> ../../../node_modules/.pnpm/passport-jwt@4.0.1/node_modules/passport-jwt
@@ -1791,7 +1800,8 @@ text
 │   │   │   ├── tsconfig-paths -> ../../../node_modules/.pnpm/tsconfig-paths@4.2.0/node_modules/tsconfig-paths
 │   │   │   ├── typescript -> ../../../node_modules/.pnpm/typescript@5.7.3/node_modules/typescript
 │   │   │   ├── typescript-eslint -> ../../../node_modules/.pnpm/typescript-eslint@8.24.1_eslint@9.20.1_typescript@5.7.3/node_modules/typescript-eslint
-│   │   │   └── winston -> ../../../node_modules/.pnpm/winston@3.17.0/node_modules/winston
+│   │   │   ├── winston -> ../../../node_modules/.pnpm/winston@3.17.0/node_modules/winston
+│   │   │   └── zod -> ../../../node_modules/.pnpm/zod@3.24.2/node_modules/zod
 │   │   ├── package.json
 │   │   ├── prisma
 │   │   │   ├── generated
@@ -1895,10 +1905,15 @@ text
 │   │   │   │   │   ├── seeds.module.ts
 │   │   │   │   │   └── seeds.service.ts
 │   │   │   │   ├── email
+│   │   │   │   │   ├── email-extract.service.ts
 │   │   │   │   │   ├── email.data.ts
 │   │   │   │   │   ├── email.module.ts
 │   │   │   │   │   ├── email.service.ts
-│   │   │   │   │   └── email.types.ts
+│   │   │   │   │   ├── email.types.ts
+│   │   │   │   │   └── tests
+│   │   │   │   │   ├── agi-news.fixtures.eml
+│   │   │   │   │   ├── email-extract.service.spec.ts
+│   │   │   │   │   └── tldr-ai.fixtures.eml
 │   │   │   │   ├── google
 │   │   │   │   │   ├── google.module.ts
 │   │   │   │   │   └── google.service.ts
@@ -1907,10 +1922,13 @@ text
 │   │   │   │   │   ├── api-response-redirect.decorator.ts
 │   │   │   │   │   └── api-response.decorator.ts
 │   │   │   │   ├── llm
+│   │   │   │   │   ├── llm.data.ts
 │   │   │   │   │   ├── llm.module.ts
 │   │   │   │   │   ├── llm.service.spec.ts
 │   │   │   │   │   ├── llm.service.ts
-│   │   │   │   │   └── llm.types.ts
+│   │   │   │   │   ├── llm.types.ts
+│   │   │   │   │   └── tests
+│   │   │   │   │   └── agi-news.json
 │   │   │   │   ├── logger
 │   │   │   │   │   ├── logger.module.ts
 │   │   │   │   │   └── logger.service.ts
@@ -2208,6 +2226,7 @@ text
 │   ├── knowledge.sh
 │   ├── knowledge.txt
 │   ├── libs
+│   │   ├── all.md
 │   │   └── remix-2.5-documentation.md
 │   └── specifications
 │   ├── functional
@@ -2306,6 +2325,6 @@ text
 ├── tsconfig.json
 └── turbo.json
 
-307 directories, 282 files
+314 directories, 289 files
 
-2025-02-19 16:36:15
+2025-02-19 19:23:06
