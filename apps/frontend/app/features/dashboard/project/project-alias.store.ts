@@ -21,7 +21,7 @@ export class ProjectAliasStore implements ProjectAlias {
       if (this.state === null) {
         throw new Error('No project selected');
       }
-      await navigator.clipboard.writeText(this.state.newsletterAlias);
+      await navigator.clipboard.writeText(this.state.emailAlias);
       // TODO: Ajouter une notification de succès
     } catch (error) {
       console.error('Erreur lors de la copie :', error);

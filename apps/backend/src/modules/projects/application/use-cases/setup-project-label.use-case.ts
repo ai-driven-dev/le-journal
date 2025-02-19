@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { GoogleService } from '../../../../infrastructure/google/google.service';
 import { PROJECT_REPOSITORY, ProjectRepository } from '../../domain/project.repository.interface';
@@ -32,7 +37,18 @@ export class SetupProjectLabelUseCase {
 
     try {
       const label = await this.googleService.createGmailLabel(userId, labelName);
-      return label.id !== null;
+      const labelId = label.id;
+
+      if (labelId === null) {
+        throw new InternalServerErrorException('Label ID is null');
+      }
+
+      await this.projectRepository.update(project.id, {
+        google_label_id: labelId,
+        google_label_name: labelName,
+      });
+
+      return true;
     } catch (error) {
       if (error !== undefined && error !== null) {
         const googleError = (error as unknown as { response: { data: { error: GoogleError } } })

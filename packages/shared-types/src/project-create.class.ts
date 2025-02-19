@@ -12,7 +12,7 @@ export class ProjectCreateDTO {
   @IsString()
   @IsNotEmpty()
   @IsEmail()
-  newsletterAlias!: string;
+  emailAlias!: string;
 
   @IsNumber()
   @IsNotEmpty()

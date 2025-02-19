@@ -23,7 +23,7 @@ export const ProjectEmailAlias: FC = observer(() => {
       <CardContent>
         <div className="flex items-center justify-between space-x-4">
           <code className="rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-            {store.state.newsletterAlias}
+            {store.state.emailAlias}
           </code>
         </div>
       </CardContent>
