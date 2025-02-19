@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 16:10:12
+date: 2025-02-19 16:21:28
 ---
 
 # Project Specifications "Knowledge Base"
@@ -627,8 +627,8 @@ BREAKING CHANGE: new user database structure
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "dotenv -e .env.test -- jest --config jest.config.ts --testPathIgnorePatterns=\"\\.integration\\.spec\\.ts$\"",
-    "test:watch": "jest --config jest.config.ts --watch --coverage --testPathIgnorePatterns=\"\\.integration\\.spec\\.ts$\"",
-    "test:cov": "jest --config jest.config.ts --coverage",
+    "test:coverage": "pnpm test -- --coverage",
+    "test:watch": "pnpm test -- --watch",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --coverage",
     "test:ci": "dotenv -e .env.test -- prisma migrate reset --force && jest --config jest.config.ts --coverage --runInBand",
@@ -1951,6 +1951,11 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/http/api-domain-property.decorator.ts
 ./apps/backend/src/infrastructure/http/api-response-redirect.decorator.ts
 ./apps/backend/src/infrastructure/http/api-response.decorator.ts
+./apps/backend/src/infrastructure/llm
+./apps/backend/src/infrastructure/llm/llm.module.ts
+./apps/backend/src/infrastructure/llm/llm.service.spec.ts
+./apps/backend/src/infrastructure/llm/llm.service.ts
+./apps/backend/src/infrastructure/llm/llm.types.ts
 ./apps/backend/src/infrastructure/logger
 ./apps/backend/src/infrastructure/logger/logger.module.ts
 ./apps/backend/src/infrastructure/logger/logger.service.ts
@@ -2231,7 +2236,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-127 directories, 342 files
+128 directories, 346 files
 ```
 
-2025-02-19 16:10:12
+2025-02-19 16:21:28
