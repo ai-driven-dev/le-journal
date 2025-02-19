@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 19:29:46
+date: 2025-02-19 20:14:32
 ---
 
 # Project Specifications "Knowledge Base"
@@ -688,6 +688,7 @@ BREAKING CHANGE: new user database structure
     "@types/node": "^22.13.1",
     "@types/supertest": "^6.0.2",
     "cache-manager": "^6.4.0",
+    "dotenv": "^16.4.7",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
@@ -1772,6 +1773,7 @@ text
 │   │   │   ├── class-transformer -> ../../../node_modules/.pnpm/class-transformer@0.5.1/node_modules/class-transformer
 │   │   │   ├── class-validator -> ../../../node_modules/.pnpm/class-validator@0.14.1/node_modules/class-validator
 │   │   │   ├── cookie-parser -> ../../../node_modules/.pnpm/cookie-parser@1.4.7/node_modules/cookie-parser
+│   │   │   ├── dotenv -> ../../../node_modules/.pnpm/dotenv@16.4.7/node_modules/dotenv
 │   │   │   ├── eslint -> ../../../node_modules/.pnpm/eslint@9.20.1/node_modules/eslint
 │   │   │   ├── eslint-config-prettier -> ../../../node_modules/.pnpm/eslint-config-prettier@10.0.1_eslint@9.20.1/node_modules/eslint-config-prettier
 │   │   │   ├── eslint-plugin-prettier -> ../../../node_modules/.pnpm/eslint-plugin-prettier@5.2.3_eslint-config-prettier@10.0.1_eslint@9.20.1_prettier@3.5.1/node_modules/eslint-plugin-prettier
@@ -2324,6 +2326,6 @@ text
 ├── tsconfig.json
 └── turbo.json
 
-314 directories, 288 files
+315 directories, 288 files
 
-2025-02-19 19:29:46
+2025-02-19 20:14:32
