@@ -8,6 +8,7 @@ globs: apps/backend/**/*.ts
 - Wrap db calls in Prisma Transactions if necessary.
 - A Repository returns only Domain objects, never DTOs or Prisma types.
 - Prisma types stay in Repositories, never leaving Infrastructure.
+- A Repository returns only Domain objects, never DTOs or Prisma types.
 
 Example usage in controller/use-case:
 ```typescript

@@ -18,7 +18,7 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       created_at: domain.createdAt,
       prompt_instruction: domain.promptInstruction,
       last_prompt_update: domain.lastPromptUpdate ? new Date(domain.lastPromptUpdate) : null,
-      google_label_name: domain.googleLabelName,
+      google_label_name: domain.googleLabelName ?? null,
     };
   }
 
@@ -33,7 +33,7 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       promptInstruction: model.prompt_instruction,
       lastPromptUpdate: model.last_prompt_update ? new Date(model.last_prompt_update) : undefined,
       canUpdatePrompt,
-      googleLabelName: model.google_label_name,
+      googleLabelName: model.google_label_name ?? undefined,
     });
   }
 
@@ -48,7 +48,7 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       promptInstruction: domain.promptInstruction,
       lastPromptUpdate: domain.lastPromptUpdate?.toISOString(),
       canUpdatePrompt: domain.canUpdatePrompt,
-      googleLabelName: domain.googleLabelName,
+      googleLabelName: domain.googleLabelName ?? '',
     };
   }
 
@@ -63,7 +63,7 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       promptInstruction: dto.promptInstruction,
       lastPromptUpdate: dto.lastPromptUpdate ? new Date(dto.lastPromptUpdate) : undefined,
       canUpdatePrompt: dto.canUpdatePrompt,
-      googleLabelName: dto.googleLabelName,
+      googleLabelName: dto.googleLabelName ?? '',
     });
   }
 }

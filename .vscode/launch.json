@@ -2,6 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
+      // --- EXISTANT BACKEND ---
       "type": "node",
       "request": "attach",
       "name": "Attach - PNPM Dev",
@@ -24,6 +25,30 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "cwd": "${workspaceFolder}/apps/backend"
+    },
+    {
+      "name": "Lancer et déboguer l'application Remix",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:debug"],
+      "cwd": "${workspaceFolder}/apps/frontend",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**"],
+      "resolveSourceMapLocations": ["${workspaceFolder}/apps/frontend/**", "!**/node_modules/**"],
+      "userDataDir": false,
+      "trace": "verbose"
+    },
+    {
+      "name": "Debug Frontend (Chrome - Remote)",
+      "type": "pwa-chrome",
+      "request": "attach",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}/apps/frontend/app",
+      "sourceMaps": true,
+      "trace": "verbose"
     }
   ]
 }

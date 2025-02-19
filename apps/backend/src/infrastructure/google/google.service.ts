@@ -65,6 +65,15 @@ export class GoogleService {
     this.oauth2Client.setCredentials({ access_token: accessToken });
 
     const gmail = google.gmail({ version: 'v1', auth: this.oauth2Client });
+
+    const existingLabels = await gmail.users.labels.list({ userId: 'me' });
+
+    const label = existingLabels.data.labels?.find((l) => l.name === labelName);
+    if (label) {
+      this.logger.log(`Label already exists: ${label.name} (ID: ${label.id})`);
+      return label;
+    }
+
     const response = await gmail.users.labels.create({
       userId: 'me',
       requestBody: {
@@ -72,6 +81,59 @@ export class GoogleService {
         labelListVisibility: 'labelShow',
         messageListVisibility: 'show',
       },
+    });
+
+    return response.data;
+  }
+
+  async createGmailFilter(params: {
+    userId: string;
+    criteria: { from: string };
+    labelId: string;
+  }): Promise<gmail_v1.Schema$Filter> {
+    const accessToken = await this.getAccessToken(params.userId);
+
+    if (!accessToken) {
+      throw new InternalServerErrorException("Impossible d'obtenir un access token");
+    }
+
+    this.oauth2Client.setCredentials({ access_token: accessToken });
+
+    this.logger.debug('Creating Gmail filter', {
+      userId: params.userId,
+      criteria: params.criteria,
+      labelId: params.labelId,
+    });
+
+    const gmail = google.gmail({ version: 'v1', auth: this.oauth2Client });
+
+    // Check if the filter already exists
+    const existingFilters = await gmail.users.settings.filters.list({ userId: 'me' });
+    const filter = existingFilters.data.filter?.find((f) => {
+      const fromMatch = f.criteria?.from === params.criteria.from;
+      const labelMatch = f.action?.addLabelIds?.includes(params.labelId);
+      return Boolean(fromMatch && labelMatch);
+    });
+
+    if (filter) {
+      this.logger.log(`Filter already exists: ${filter.id}`);
+      return filter;
+    }
+
+    // Create a new filter if it doesn't exist
+    const response = await gmail.users.settings.filters.create({
+      userId: 'me',
+      requestBody: {
+        criteria: params.criteria,
+        action: {
+          addLabelIds: [params.labelId],
+          removeLabelIds: ['INBOX'],
+        },
+      },
+    });
+
+    this.logger.debug('Gmail filter created', {
+      filterId: response.data.id,
     });
 
     return response.data;

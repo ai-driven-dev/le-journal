@@ -91,17 +91,7 @@
     "/api/projects": {
       "get": {
         "operationId": "ProjectsController_getProject",
-        "parameters": [
-          {
-            "name": "projectNumber",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "default": 1,
-              "type": "number"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Opération réussie",
@@ -126,6 +116,45 @@
           }
         ],
         "summary": "Récupérer les projets de l'utilisateur connecté.",
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/projects/{projectNumber}": {
+      "get": {
+        "operationId": "ProjectsController_getProjectByNumber",
+        "parameters": [
+          {
+            "name": "projectNumber",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non autorisé"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Récupérer un projet par son numéro.",
         "tags": [
           "Projects"
         ]
@@ -180,12 +209,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
-                  "projectId": {
-                    "type": "string",
-                    "example": "c123e456-789b-12d3-a456-426614174000"
-                  }
-                }
+                "$ref": "#/components/schemas/SetupProjectDto"
               }
             }
           }
@@ -215,9 +239,26 @@
       "post": {
         "operationId": "ProjectSetupController_setupFilter",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetupProjectDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           }
         },
         "summary": "Setup project filter",
@@ -491,6 +532,10 @@
           "id",
           "promptInstruction"
         ]
+      },
+      "SetupProjectDto": {
+        "type": "object",
+        "properties": {}
       }
     }
   }

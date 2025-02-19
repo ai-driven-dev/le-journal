@@ -38,6 +38,7 @@ export class CreateProjectMapper {
       last_prompt_update: null,
       google_label_name: '',
       google_label_id: '',
+      google_filter_id: '',
     };
   }
 }

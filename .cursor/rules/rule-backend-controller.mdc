@@ -9,6 +9,8 @@ globs: apps/backend/**/*.ts
 - Use domain mapper from current domain.
 - Use Swagger annotations the more you can to be details on API specs.
 - Controllers handle only DTOs for a clear, decoupled API.
+- Controllers call use-cases only, no service or repository calls.
+- Use [api-data-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-data-response.decorator.ts), [api-redirection-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-redirection-response.decorator.ts) instead of Swagger if possible.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript

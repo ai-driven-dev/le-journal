@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient, Project } from '@prisma/client';
 
+import { EMAIL_ALIAS_PREFIX } from 'src/modules/projects/application/use-cases/create-project.use-case';
+
 @Injectable()
 export class ProjectsSeed {
   private readonly adminEmail = process.env.ADMIN_EMAIL;
@@ -34,18 +36,18 @@ export class ProjectsSeed {
         email_alias: 'newsletter.standard@example.com',
         prompt_instruction: 'Default prompt instruction for standard project',
         user: { connect: { id: standardUser.id } },
-        google_label_name: 'Standard Label',
-        google_label_id: 'standard-label-id',
+        google_label_name: '',
+        google_label_id: '',
       },
       {
         project_number: 1,
         name: 'Default',
         slug: 'default',
-        email_alias: 'newsletter.admin@example.com',
+        email_alias: this.adminEmail.replace('@', `+${EMAIL_ALIAS_PREFIX}@`),
         prompt_instruction: 'Default prompt instruction for admin project',
         user: { connect: { id: adminUser.id } },
-        google_label_name: 'Admin Label',
-        google_label_id: 'admin-label-id',
+        google_label_name: '',
+        google_label_id: '',
       },
       {
         project_number: 1,
@@ -54,8 +56,8 @@ export class ProjectsSeed {
         email_alias: 'newsletter.premium@example.com',
         prompt_instruction: 'Default prompt instruction for premium project',
         user: { connect: { id: premiumUser.id } },
-        google_label_name: 'Premium Label',
-        google_label_id: 'premium-label-id',
+        google_label_name: '',
+        google_label_id: '',
       },
     ];
 

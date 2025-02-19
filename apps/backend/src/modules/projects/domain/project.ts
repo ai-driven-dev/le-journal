@@ -62,8 +62,8 @@ export class ProjectDomain {
 
   @ApiAuthProperty('googleLabelName', 'Nom du label Gmail créé pour le projet')
   @IsString()
-  @IsNotEmpty()
-  googleLabelName!: string;
+  @IsOptional()
+  googleLabelName?: string;
 
   constructor(project: ProjectDomain) {
     Object.assign(this, project);

@@ -10,6 +10,8 @@ interface CreateProjectCommand {
   userEmail: string;
 }
 
+export const EMAIL_ALIAS_PREFIX = 'le-journal';
+
 @Injectable()
 export class CreateProjectUseCase {
   constructor(
@@ -40,11 +42,9 @@ export class CreateProjectUseCase {
   private createInitialProject(command: CreateProjectCommand): ProjectCreateDomain {
     const { userId, userEmail } = command;
 
-    // Business logic for creating newsletter alias
     const emailParts = userEmail.split('@');
-    const emailAlias = `${emailParts[0]}+le-journal@${emailParts[1]}`;
+    const emailAlias = `${emailParts[0]}+${EMAIL_ALIAS_PREFIX}@${emailParts[1]}`;
 
-    // Business logic for initial project values
     return new ProjectCreateDomain({
       name: 'Default',
       slug: 'default',

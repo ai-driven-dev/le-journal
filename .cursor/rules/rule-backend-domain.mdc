@@ -2,13 +2,12 @@
 description: Backend domain objects or DTOs
 globs: apps/backend/**/*.ts
 ---
-- Use Swagger annotations (`APIProperty` at least, propose more if relevant).
 - Not ideal, but Domain Objects are used as DTOs to simplify.
 - Extends validated type (also with `class-validator`) only with current properties using `PickType`.
 - Properties use `!` because no constructor.
 - Language in english.
 - Use `class-validator` annotations if data needs to be validation backend only.
-- Use `@Exclude()` to protect sensitive fields.
+- Use [api-data-property.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-data-property.decorator.ts) instead of `APIProperty` when possible for readability.
 
 Example:
 ```typescript

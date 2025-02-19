@@ -1,6 +1,15 @@
 import { Project } from '@le-journal/shared-types';
-import { Body, Controller, Get, Post, Put, Query, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 
 import { CreateProjectUseCase } from '../../application/use-cases/create-project.use-case';
@@ -9,10 +18,10 @@ import { UpdateProjectPromptUseCase } from '../../application/use-cases/update-p
 import { ProjectUpdate } from '../../domain/project-update';
 import { ProjectMapper } from '../mappers/project.mapper';
 
-import { UserDomain } from 'src/modules/users/domain/user.domain';
-import { ApiAuthOperation } from 'src/infrastructure/http/api-data-response.decorator';
-import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
 import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
+import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
+import { ApiAuthOperation } from 'src/infrastructure/http/api-data-response.decorator';
+import { UserDomain } from 'src/modules/users/domain/user.domain';
 
 @ApiTags('Projects')
 @Controller('api/projects')
@@ -42,15 +51,29 @@ export class ProjectsController {
   @Get()
   @ApiAuthOperation("Récupérer les projets de l'utilisateur connecté.", {
     type: [Project],
-    query: { name: 'projectNumber', required: false, type: Number, default: 1 },
   })
-  async getProject(
-    @Query('projectNumber') projectNumber: number,
-    @GetUser() user: User,
-  ): Promise<Project[]> {
-    const projects = await this.getProjectUseCase.execute(user.id, projectNumber);
+  async getProject(@GetUser() user: User): Promise<Project[]> {
+    const projects = await this.getProjectUseCase.execute(user.id);
 
     return projects.map((project) => this.projectMapper.toDTO(project));
+  }
+
+  @Get(':projectNumber')
+  @ApiAuthOperation('Récupérer un projet par son numéro.', {
+    type: Project,
+  })
+  @ApiParam({ name: 'projectNumber', required: true, type: Number })
+  async getProjectByNumber(
+    @Param('projectNumber') projectNumber: number,
+    @GetUser() user: UserDomain,
+  ): Promise<Project> {
+    const projects = await this.getProjectUseCase.execute(user.id, projectNumber);
+
+    if (projects.length === 0) {
+      throw new NotFoundException(`Project with number ${projectNumber} not found`);
+    }
+
+    return this.projectMapper.toDTO(projects[0]);
   }
 
   @Put('prompt')

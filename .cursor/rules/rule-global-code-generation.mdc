@@ -2,6 +2,10 @@
 description: Global : Code generation
 globs: **/*.ts, **/*.tsx
 ---
+Language:
+- French language in UI (labels, texts, placeholders...), Exceptions, API documentation...
+- English in code, logs etc.
+
 Sharing code:
 - Place shared data types in `packages/shared-types`.
 - One file per type, export everything from [index.ts](mdc:packages/shared-types/src/index.ts).
@@ -16,7 +20,6 @@ Simplified code:
 Type safe code:
 - Always type function params and returns.
 - Never use `as` keyword.
-- 
 
 Feature focus code:
 - Reflect business needs in the code.
