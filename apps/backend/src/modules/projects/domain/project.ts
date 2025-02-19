@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsDate,
@@ -9,50 +8,50 @@ import {
   IsString,
 } from 'class-validator';
 
-import { ApiAuthProperty } from 'src/infrastructure/http/api-data-property.decorator';
+import { Property } from 'src/infrastructure/http/api-domain-property.decorator';
 
 export class ProjectDomain {
-  @ApiAuthProperty('id')
+  @Property('id')
   @IsString()
   @IsNotEmpty()
   id!: string;
 
-  @ApiAuthProperty('name')
+  @Property('name')
   @IsString()
   @IsNotEmpty()
   name!: string;
 
-  @ApiAuthProperty('slug')
+  @Property('slug')
   @IsString()
   @IsNotEmpty()
   slug!: string;
 
-  @ApiAuthProperty('emailAlias', 'Alias unique pour les newsletters')
+  @Property('emailAlias', 'Alias unique pour les newsletters')
   @IsEmail()
   @IsNotEmpty()
   emailAlias!: string;
 
-  @ApiAuthProperty('projectNumber', 'Numéro du projet')
+  @Property('projectNumber', 'Numéro du projet')
   @IsNumber()
   @IsNotEmpty()
   projectNumber!: number;
 
-  @ApiAuthProperty('createdAt')
+  @Property('createdAt')
   @IsDate()
   @IsNotEmpty()
   createdAt!: Date;
 
-  @ApiAuthProperty('promptInstruction', 'Instruction du prompt')
+  @Property('promptInstruction', 'Instruction du prompt')
   @IsString()
   @IsNotEmpty()
   promptInstruction!: string;
 
-  @ApiProperty({ required: false })
+  @Property('lastPromptUpdate', "Date de la dernière mise à jour de l'instruction du prompt")
   @IsDate()
   @IsOptional()
   lastPromptUpdate?: Date;
 
-  @ApiAuthProperty(
+  @Property(
     'canUpdatePrompt',
     "Indique si l'utilisateur peut mettre à jour l'instruction du prompt",
   )
@@ -60,23 +59,17 @@ export class ProjectDomain {
   @IsNotEmpty()
   canUpdatePrompt!: boolean;
 
-  @ApiAuthProperty('googleLabelName', 'Nom du label Gmail créé pour le projet')
+  @Property('googleLabelName', 'Nom du label Gmail créé pour le projet')
   @IsString()
   @IsOptional()
   googleLabelName?: string;
 
-  @ApiProperty({
-    example: '2024-02-08T12:00:00.000Z',
-    description: 'Onboarding started date',
-  })
+  @Property('onboardingStartedAt', "Date de début de l'onboarding")
   @IsDate()
   @IsOptional()
   onboardingStartedAt!: Date | null;
 
-  @ApiProperty({
-    example: '2024-02-09T14:30:00.000Z',
-    description: 'Onboarding completion date',
-  })
+  @Property('onboardingCompletedAt', "Date de fin de l'onboarding")
   @IsDate()
   @IsOptional()
   onboardingCompletedAt!: Date | null;

@@ -1,3 +1,4 @@
+import { MAX_INSTRUCTIONS_LENGTH, MIN_INSTRUCTIONS_LENGTH } from '@le-journal/shared-types';
 import { observer } from 'mobx-react-lite';
 import { useRef, type FC } from 'react';
 
@@ -54,6 +55,8 @@ export const CustomInstructions: FC = observer(() => {
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 store.changeInstruction(e.target.value)
               }
+              minLength={MIN_INSTRUCTIONS_LENGTH}
+              maxLength={MAX_INSTRUCTIONS_LENGTH}
               className="flex-1"
               placeholder="Entrez vos préférences de personnalisation..."
             />

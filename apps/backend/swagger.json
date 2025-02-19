@@ -463,44 +463,40 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "c123e456-789b-12d3-a456-426614174000",
-            "description": "User's ID"
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "description": "ID"
           },
           "email": {
             "type": "string",
-            "example": "john.doe@email.com",
+            "example": "user@example.com",
             "description": "User's email"
           },
           "role": {
             "type": "string",
-            "example": "ADMIN",
             "description": "User's role"
           },
           "name": {
             "type": "string",
-            "example": "John Doe",
+            "example": "Project Alpha",
             "description": "User's name"
           },
           "createdAt": {
             "format": "date-time",
             "type": "string",
-            "example": "2024-02-08T12:00:00.000Z",
+            "example": "2021-01-01T00:00:00.000Z",
             "description": "Creation date"
           },
           "updatedAt": {
             "format": "date-time",
             "type": "string",
-            "example": "2024-02-09T14:30:00.000Z",
             "description": "Last update date"
           },
           "avatar": {
             "type": "string",
-            "example": "https://example.com/avatar.png",
             "description": "User's avatar URL"
           },
           "googleId": {
             "type": "string",
-            "example": "google-123",
             "description": "User's Google ID"
           }
         },
@@ -524,18 +520,27 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "c123e456-789b-12d3-a456-426614174000",
-            "description": "Project ID"
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "description": "ID"
           },
           "promptInstruction": {
             "type": "string",
-            "description": "The instruction prompt for the project",
-            "example": "Write a blog post about AI and its impact on society"
+            "description": "The instruction prompt for the project"
+          },
+          "canUpdatePrompt": {
+            "type": "boolean",
+            "description": "Whether the prompt can be updated"
+          },
+          "lastPromptUpdate": {
+            "type": "string",
+            "description": "The last prompt update date"
           }
         },
         "required": [
           "id",
-          "promptInstruction"
+          "promptInstruction",
+          "canUpdatePrompt",
+          "lastPromptUpdate"
         ]
       },
       "SetupProjectDto": {

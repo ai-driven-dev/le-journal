@@ -1,47 +1,39 @@
 import { User, UserRole } from '@le-journal/shared-types';
-import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 
+import { Property } from 'src/infrastructure/http/api-domain-property.decorator';
+
 export class UserDomain extends User {
-  @ApiProperty({
-    example: 'c123e456-789b-12d3-a456-426614174000',
-    description: "User's ID",
-  })
+  @Property('id')
   id!: string;
 
-  @ApiProperty({ example: 'john.doe@email.com', description: "User's email" })
+  @Property('email', "User's email")
   email!: string;
 
-  @ApiProperty({ example: 'ADMIN', description: "User's role" })
+  @Property('role', "User's role")
   role!: UserRole;
 
-  @ApiProperty({ example: 'John Doe', description: "User's name" })
+  @Property('name', "User's name")
   name!: string;
 
-  @ApiProperty({ example: '2024-02-08T12:00:00.000Z', description: 'Creation date' })
+  @Property('createdAt', 'Creation date')
   createdAt!: Date;
 
-  @ApiProperty({ example: '2024-02-09T14:30:00.000Z', description: 'Last update date' })
+  @Property('updatedAt', 'Last update date')
   updatedAt!: Date;
 
+  // TODO rien à faire ici ça
   @Exclude()
-  @ApiHideProperty()
   googleRefreshToken!: string;
 
+  // TODO rien à faire ici ça
   @Exclude()
-  @ApiHideProperty()
   googleScopes!: string[];
 
-  @ApiProperty({
-    example: 'https://example.com/avatar.png',
-    description: "User's avatar URL",
-  })
+  @Property('avatar', "User's avatar URL")
   avatar!: string;
 
-  @ApiProperty({
-    example: 'google-123',
-    description: "User's Google ID",
-  })
+  @Property('googleId', "User's Google ID")
   googleId!: string;
 
   constructor(user: UserDomain) {

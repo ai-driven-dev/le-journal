@@ -58,7 +58,7 @@
 
 ### Security
 
-- Rate limiting (@nestjs/throttler) - "/auth/callback"
+- Rate limiting (@nestjs/throttler)
 - Prompt injection protection (to defined)
 
 ### Automation
@@ -69,6 +69,7 @@
 ### LLM
 
 - OpenAI GPT-4o with JSON output
+- Mistral
 
 ### Others
 

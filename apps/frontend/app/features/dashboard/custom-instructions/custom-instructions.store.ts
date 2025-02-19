@@ -28,9 +28,7 @@ export class CustomInstructionsStore implements CustomInstructions {
       this.state = {
         id: project.id,
         promptInstruction: project.promptInstruction,
-        lastPromptUpdate: isString(project.lastPromptUpdate)
-          ? new Date(project.lastPromptUpdate)
-          : undefined,
+        lastPromptUpdate: project.lastPromptUpdate,
         canUpdatePrompt: project.canUpdatePrompt,
       };
       this.isLoading = false;
@@ -122,12 +120,15 @@ export class CustomInstructionsStore implements CustomInstructions {
     return this.state?.canUpdatePrompt ?? false;
   }
 
-  // todo backend
   get canUpdatePromptLabel(): string {
     if (this.canUpdatePrompt) {
       return "Aujourd'hui, vous pouvez modifier vos instructions.";
     }
 
+    return 'Pas encore de modification';
+  }
+
+  get lastPromptUpdate(): string {
     if (this.state !== null && isString(this.state.lastPromptUpdate)) {
       const modifiedDate = new Date(this.state.lastPromptUpdate).toLocaleDateString();
       const modifiedTime = new Date(this.state.lastPromptUpdate).toLocaleTimeString([], {
@@ -138,6 +139,6 @@ export class CustomInstructionsStore implements CustomInstructions {
       return `Dernière modification le ${modifiedDate} à ${modifiedTime}.`;
     }
 
-    return 'Pas encore de modification';
+    return '';
   }
 }

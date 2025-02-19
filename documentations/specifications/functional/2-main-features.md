@@ -5,7 +5,7 @@
 1. **Utilisateur** :
    - Authentification via Google OAuth 2.0.
    - Création d’un label et d’un dossier par défaut via l’API Gmail.
-   - Configuration rapide avec un stepper pour ajouter des newsletters (alias et tutoriel visuel).
+   - Configuration rapide sur l'onboarding.
    - Mise à jour automatique des données utilisateur dans le tableau de bord avec récupération et traitement des newsletters.
    - Menu utilisateur avec options de déconnexion, révocation de compte Google, et gestion des paiements (accès au compte Stripe).
 2. **Administrateur** :

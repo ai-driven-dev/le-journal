@@ -10,7 +10,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
-import { User } from '@prisma/client';
 
 import { CheckOnboardingGuard } from '../../application/guards/check-onboarding.guard';
 import { CreateProjectUseCase } from '../../application/use-cases/create-project.use-case';
@@ -21,7 +20,7 @@ import { ProjectMapper } from '../mappers/project.mapper';
 
 import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
 import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt.guard';
-import { ApiAuthOperation } from 'src/infrastructure/http/api-data-response.decorator';
+import { ApiAuthOperation } from 'src/infrastructure/http/api-response.decorator';
 import { UserDomain } from 'src/modules/users/domain/user.domain';
 
 @ApiTags('Projects')
@@ -54,8 +53,8 @@ export class ProjectsController {
   @ApiAuthOperation("Récupérer les projets de l'utilisateur connecté.", {
     type: [Project],
   })
-  async getProject(@GetUser() user: User): Promise<Project[]> {
-    const projects = await this.getProjectUseCase.execute(user.id);
+  async getProject(@GetUser() user: UserDomain): Promise<Project[]> {
+    const projects = await this.getProjectUseCase.execute(user);
 
     return projects.map((project) => this.projectMapper.toDTO(project));
   }
@@ -69,7 +68,7 @@ export class ProjectsController {
     @Param('projectNumber') projectNumber: number,
     @GetUser() user: UserDomain,
   ): Promise<Project> {
-    const projects = await this.getProjectUseCase.execute(user.id, projectNumber);
+    const projects = await this.getProjectUseCase.execute(user, projectNumber);
 
     if (projects.length === 0) {
       throw new NotFoundException(`Project with number ${projectNumber} not found`);
@@ -85,8 +84,10 @@ export class ProjectsController {
   async updateProjectPrompt(
     @Body()
     updateProjectPromptDto: ProjectUpdate,
+    @GetUser() user: UserDomain,
   ): Promise<Project> {
-    const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
+    console.log('updateProjectPromptDto', updateProjectPromptDto);
+    const project = await this.updateProjectPromptUseCase.execute(user, updateProjectPromptDto);
 
     return this.projectMapper.toDTO(project);
   }

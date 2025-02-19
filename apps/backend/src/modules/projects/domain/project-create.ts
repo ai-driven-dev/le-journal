@@ -1,29 +1,29 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-import { ApiAuthProperty } from 'src/infrastructure/http/api-data-property.decorator';
+import { Property } from 'src/infrastructure/http/api-domain-property.decorator';
 
 export class ProjectCreateDomain {
-  @ApiAuthProperty('name')
+  @Property('name')
   @IsString()
   @IsNotEmpty()
   name!: string;
 
-  @ApiAuthProperty('slug')
+  @Property('slug')
   @IsString()
   @IsNotEmpty()
   slug!: string;
 
-  @ApiAuthProperty('userId')
+  @Property('userId')
   @IsString()
   @IsNotEmpty()
   userId!: string;
 
-  @ApiAuthProperty('emailAlias')
+  @Property('emailAlias')
   @IsEmail()
   @IsNotEmpty()
   emailAlias!: string;
 
-  @ApiAuthProperty('number')
+  @Property('number')
   @IsNumber()
   @IsNotEmpty()
   projectNumber!: number;

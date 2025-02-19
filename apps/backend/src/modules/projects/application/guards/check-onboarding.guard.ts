@@ -20,7 +20,7 @@ export class CheckOnboardingGuard implements CanActivate {
       return true;
     }
 
-    const project = await this.getProjectUseCase.execute(user.id);
+    const project = await this.getProjectUseCase.execute(user);
 
     if (project.length > 0 && project[0].onboardingCompletedAt) {
       throw new BadRequestException('Onboarding déjà complété');

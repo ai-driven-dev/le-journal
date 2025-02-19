@@ -1,10 +1,12 @@
-import { PROMPT_UPDATE_DELAY_HOURS } from '@le-journal/shared-types';
+import { PROMPT_UPDATE_FREQUENCY } from '@le-journal/shared-types';
 import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import { PromptUpdateService } from '../../domain/can-update-prompt.service';
 import { ProjectDomain } from '../../domain/project';
 import { ProjectUpdate } from '../../domain/project-update';
 import { PROJECT_REPOSITORY, ProjectRepository } from '../../domain/project.repository.interface';
+
+import { UserDomain } from 'src/modules/users/domain/user.domain';
 
 @Injectable()
 export class UpdateProjectPromptUseCase {
@@ -14,18 +16,21 @@ export class UpdateProjectPromptUseCase {
     private readonly promptUpdateService: PromptUpdateService,
   ) {}
 
-  async execute(dto: ProjectUpdate): Promise<ProjectDomain> {
+  async execute(user: UserDomain, dto: ProjectUpdate): Promise<ProjectDomain> {
     const projectModel = await this.projectRepository.findById(dto.id);
 
     if (projectModel === null) {
       throw new NotFoundException(`Project with id ${dto.id} not found`);
     }
 
-    const canUpdatePrompt = this.promptUpdateService.canUpdatePrompt(projectModel.lastPromptUpdate);
+    const canUpdatePrompt = this.promptUpdateService.canUpdatePrompt(
+      user.role,
+      projectModel.lastPromptUpdate,
+    );
 
     if (!canUpdatePrompt) {
       throw new ForbiddenException(
-        `You can only update your prompt once every ${PROMPT_UPDATE_DELAY_HOURS} hours. Please try again later.`,
+        `Vous ne pouvez modifier vos instructions qu'une fois toutes les ${PROMPT_UPDATE_FREQUENCY}h. Veuillez réessayer plus tard.`,
       );
     }
 
