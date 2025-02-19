@@ -39,5 +39,8 @@
   "cSpell.userWords": ["ai-driven-dev", "autofetch"],
 
   // Terminal
-  "terminal.integrated.scrollback": 10000
+  "terminal.integrated.scrollback": 10000,
+
+  // Git
+  "git.confirmSync": false
 }

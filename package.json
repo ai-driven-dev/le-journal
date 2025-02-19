@@ -23,9 +23,10 @@
     "test": "turbo run test",
     "update:deps": "pnpm up -r --latest && pnpm install && pnpm run check && pnpm outdated -r ",
     "prepare": "husky && husky install",
-    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm build && pnpm typecheck",
+    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm typecheck",
     "renovate": "dotenv -- renovate --dry-run",
-    "clean": "cd packages/shared-types && pnpm clean && pnpm build"
+    "clean": "pnpm run clean:remove && pnpm install && pnpm run build && pnpm run check",
+    "clean:remove": "rm -rf node_modules .turbo .eslintcache pnpm-lock.yaml && find . -name node_modules -type d -prune -exec rm -rf {} +"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
