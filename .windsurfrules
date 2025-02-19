@@ -7,6 +7,8 @@
 - Use domain mapper from current domain.
 - Use Swagger annotations the more you can to be details on API specs.
 - Controllers handle only DTOs for a clear, decoupled API.
+- Controllers call use-cases only, no service or repository calls.
+- Use [api-data-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-data-response.decorator.ts), [api-redirection-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-redirection-response.decorator.ts) instead of Swagger if possible.
 
 Example `projects/presentation/project.mapper.ts`:
 ```typescript
@@ -33,13 +35,12 @@ export class ProjectsController {
 }
 ```
 
-- Use Swagger annotations (`APIProperty` at least, propose more if relevant).
 - Not ideal, but Domain Objects are used as DTOs to simplify.
 - Extends validated type (also with `class-validator`) only with current properties using `PickType`.
 - Properties use `!` because no constructor.
 - Language in english.
 - Use `class-validator` annotations if data needs to be validation backend only.
-- Use `@Exclude()` to protect sensitive fields.
+- Use [api-data-property.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-data-property.decorator.ts) instead of `APIProperty` when possible for readability.
 
 Example:
 ```typescript
@@ -153,11 +154,6 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
 }
 ```
 
-- A Repository returns only Domain objects, never DTOs or Prisma types.
-- A Use Case is the only layer handling Domain objects and business logic.
-- Mappers convert between DTOs, Domain objects, and Prisma types to prevent dependencies.
-- Prisma types stay in Repositories, never leaving Infrastructure.
-- Controllers handle only DTOs for a clear, decoupled API.
 
 - Repository implements its interface.
 - Always export const with `KEY` that must be used in `controllers`, `use-cases` and `modules`.
@@ -165,6 +161,7 @@ export class ProjectMapper implements Mapper<Project, ProjectModel> {
 - Wrap db calls in Prisma Transactions if necessary.
 - A Repository returns only Domain objects, never DTOs or Prisma types.
 - Prisma types stay in Repositories, never leaving Infrastructure.
+- A Repository returns only Domain objects, never DTOs or Prisma types.
 
 Example usage in controller/use-case:
 ```typescript
@@ -403,7 +400,6 @@ CustomInstructions.displayName = 'CustomInstructions';
 - `ESLint` with flat config. 
 - Focus on accessibility (a11y) when generating HTML.
 - Use latest `tailwind` functionnalities (3.4+).
-- French language only in UI (labels, texts, placeholders...)
 
 - Loaders must be used in routes.
 - Return plain objects instead of `json()`.
@@ -500,6 +496,10 @@ export class CustomInstructionsStore implements CustomInstructions, Loadable<Pro
 }
 ```
 
+Language:
+- French language in UI (labels, texts, placeholders...), Exceptions, API documentation...
+- English in code, logs etc.
+
 Sharing code:
 - Place shared data types in `packages/shared-types`.
 - One file per type, export everything from [index.ts](mdc:packages/shared-types/src/index.ts).
@@ -514,7 +514,6 @@ Simplified code:
 Type safe code:
 - Always type function params and returns.
 - Never use `as` keyword.
-- 
 
 Feature focus code:
 - Reflect business needs in the code.
