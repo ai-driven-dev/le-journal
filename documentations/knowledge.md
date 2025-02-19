@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 11:01:28
+date: 2025-02-19 12:28:37
 ---
 
 # Project Specifications "Knowledge Base"
@@ -667,6 +667,7 @@ BREAKING CHANGE: new user database structure
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
+    "resend": "^4.1.2",
     "rxjs": "^7.8.1",
     "winston": "^3.17.0"
   },
@@ -791,9 +792,6 @@ model User {
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
 
-  onboarding_started_at   DateTime? @map("onboarding_started_at")
-  onboarding_completed_at DateTime? @map("onboarding_completed_at")
-
   // Relations
   projects     Project[]
   transactions Transaction[]
@@ -818,6 +816,9 @@ model Project {
   prompt_instruction String    @default("") @map("prompt_instruction") @db.Text
   last_prompt_update DateTime? @map("last_prompt_update")
   created_at         DateTime  @default(now()) @map("created_at")
+
+  onboarding_started_at   DateTime? @map("onboarding_started_at")
+  onboarding_completed_at DateTime? @map("onboarding_completed_at")
 
   user        User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
   newsletters Newsletter[]
@@ -1904,6 +1905,8 @@ export class ProjectType {
 ./apps/backend/prisma/migrations/20250219072849_google_label_and_id_for_project/migration.sql
 ./apps/backend/prisma/migrations/20250219080951_
 ./apps/backend/prisma/migrations/20250219080951_/migration.sql
+./apps/backend/prisma/migrations/20250219104638_onboarding_removed_from_user_belongs_to_project
+./apps/backend/prisma/migrations/20250219104638_onboarding_removed_from_user_belongs_to_project/migration.sql
 ./apps/backend/prisma/migrations/migration_lock.toml
 ./apps/backend/prisma/schema.prisma
 ./apps/backend/src
@@ -1941,6 +1944,11 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/database/seeds.command.ts
 ./apps/backend/src/infrastructure/database/seeds.module.ts
 ./apps/backend/src/infrastructure/database/seeds.service.ts
+./apps/backend/src/infrastructure/email
+./apps/backend/src/infrastructure/email/email.data.ts
+./apps/backend/src/infrastructure/email/email.module.ts
+./apps/backend/src/infrastructure/email/email.service.ts
+./apps/backend/src/infrastructure/email/email.types.ts
 ./apps/backend/src/infrastructure/google
 ./apps/backend/src/infrastructure/google/google.module.ts
 ./apps/backend/src/infrastructure/google/google.service.ts
@@ -1992,8 +2000,11 @@ export class ProjectType {
 ./apps/backend/src/modules/projects/application/use-cases
 ./apps/backend/src/modules/projects/application/use-cases/create-project.use-case.ts
 ./apps/backend/src/modules/projects/application/use-cases/get-project.use-case.ts
-./apps/backend/src/modules/projects/application/use-cases/setup-filter.use-case.ts
-./apps/backend/src/modules/projects/application/use-cases/setup-project-label.use-case.ts
+./apps/backend/src/modules/projects/application/use-cases/setup
+./apps/backend/src/modules/projects/application/use-cases/setup/setup-complete-onboarding.use-case.ts
+./apps/backend/src/modules/projects/application/use-cases/setup/setup-filter.use-case.ts
+./apps/backend/src/modules/projects/application/use-cases/setup/setup-project-label.use-case.ts
+./apps/backend/src/modules/projects/application/use-cases/setup/setup-test-email.use-case.ts
 ./apps/backend/src/modules/projects/application/use-cases/update-project-prompt.use-case.ts
 ./apps/backend/src/modules/projects/domain
 ./apps/backend/src/modules/projects/domain/can-update-prompt.service.ts
@@ -2226,7 +2237,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-124 directories, 336 files
+127 directories, 343 files
 ```
 
-2025-02-19 11:01:28
+2025-02-19 12:28:37
