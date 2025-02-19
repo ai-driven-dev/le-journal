@@ -111,6 +111,10 @@ export class OnboardingStore implements Loadable<Project> {
         }
       }
 
+      if (step.state !== 'PENDING' && step.state !== 'ERROR') {
+        continue;
+      }
+
       try {
         runInAction(() => {
           this.updateStep(i, 'IN_PROGRESS');
@@ -118,6 +122,7 @@ export class OnboardingStore implements Loadable<Project> {
 
         const isProjectIdRequired =
           step.routeToCall === '/api/project/setup/label' ||
+          step.routeToCall === '/api/project/setup/test' ||
           step.routeToCall === '/api/project/setup/filter';
 
         if (isProjectIdRequired && this.state?.id === undefined) {
@@ -127,9 +132,13 @@ export class OnboardingStore implements Loadable<Project> {
         const body = isProjectIdRequired ? { projectId: this.state?.id } : undefined;
 
         const response = await this.authStore.fetchWithAuth(step.routeToCall, 'POST', body);
+
         const data = await response.json();
 
         if (response.status.toString().startsWith('5') || response.status === 400) {
+          runInAction(() => this.updateStep(i, 'ERROR', data.message));
+          return;
+        } else if (response.status === 404 && i === 0) {
           runInAction(() => this.updateStep(i, 'ERROR', data.message));
           return;
         } else if (response.status === 409) {

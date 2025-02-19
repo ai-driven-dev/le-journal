@@ -1,22 +1,27 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 import { JwtAuthGuard } from '../../../../infrastructure/auth/guards/jwt.guard';
 import { UserDomain } from '../../../users/domain/user.domain';
 import { CheckOnboardingGuard } from '../../application/guards/check-onboarding.guard';
-import { SetupFilterUseCase } from '../../application/use-cases/setup-filter.use-case';
-import { SetupProjectLabelUseCase } from '../../application/use-cases/setup-project-label.use-case';
+import { CompleteOnboardingUseCase } from '../../application/use-cases/setup/setup-complete-onboarding.use-case';
+import { SetupFilterUseCase } from '../../application/use-cases/setup/setup-filter.use-case';
+import { SetupProjectLabelUseCase } from '../../application/use-cases/setup/setup-project-label.use-case';
+import { SetupTestEmailUseCase } from '../../application/use-cases/setup/setup-test-email.use-case';
 import { SetupProjectDto } from '../project-setup.dto';
 
 import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
 
 @ApiTags('Project Setup')
 @Controller('api/project/setup')
-@UseGuards(JwtAuthGuard, CheckOnboardingGuard)
+@UseGuards(JwtAuthGuard, CheckOnboardingGuard, ThrottlerGuard)
 export class ProjectSetupController {
   constructor(
     private readonly setupProjectLabelUseCase: SetupProjectLabelUseCase,
     private readonly setupFilterUseCase: SetupFilterUseCase,
+    private readonly setupSendTestEmailUseCase: SetupTestEmailUseCase,
+    private readonly setupCompleteOnboardingUseCase: CompleteOnboardingUseCase,
   ) {}
 
   @Post('label')
@@ -46,10 +51,21 @@ export class ProjectSetupController {
   }
 
   @Post('test')
-  @ApiOperation({ summary: 'Send test email' })
-  @ApiResponse({ status: 200 })
-  async sendTestEmail(): Promise<{ success: boolean }> {
-    // TODO: Implement test email logic
-    return { success: true };
+  @ApiOperation({ summary: 'Send test email and complete onboarding' })
+  @ApiResponse({ status: 200, type: Boolean })
+  @ApiBody({ type: SetupProjectDto })
+  async setupTestEmail(
+    @GetUser() user: UserDomain,
+    @Body() setupProjectDto: SetupProjectDto,
+  ): Promise<boolean> {
+    // Send test email
+    const emailSent = await this.setupSendTestEmailUseCase.execute(
+      user.id,
+      setupProjectDto.projectId,
+    );
+
+    await this.setupCompleteOnboardingUseCase.execute(setupProjectDto.projectId);
+
+    return emailSent;
   }
 }

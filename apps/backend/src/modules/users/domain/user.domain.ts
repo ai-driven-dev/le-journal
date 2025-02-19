@@ -1,7 +1,6 @@
 import { User, UserRole } from '@le-journal/shared-types';
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { IsDate, IsOptional } from 'class-validator';
 
 export class UserDomain extends User {
   @ApiProperty({
@@ -24,22 +23,6 @@ export class UserDomain extends User {
 
   @ApiProperty({ example: '2024-02-09T14:30:00.000Z', description: 'Last update date' })
   updatedAt!: Date;
-
-  @ApiProperty({
-    example: '2024-02-08T12:00:00.000Z',
-    description: 'Onboarding started date',
-  })
-  @IsDate()
-  @IsOptional()
-  onboardingStartedAt!: Date | null;
-
-  @ApiProperty({
-    example: '2024-02-09T14:30:00.000Z',
-    description: 'Onboarding completion date',
-  })
-  @IsDate()
-  @IsOptional()
-  onboardingCompletedAt!: Date | null;
 
   @Exclude()
   @ApiHideProperty()

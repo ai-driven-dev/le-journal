@@ -8,6 +8,10 @@
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
 
+  // Auto save
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
