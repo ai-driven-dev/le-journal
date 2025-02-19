@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 08:02:28
+date: 2025-02-19 08:22:33
 ---
 
 # Project Specifications "Knowledge Base"
@@ -498,9 +498,10 @@ BREAKING CHANGE: new user database structure
     "test": "turbo run test",
     "update:deps": "pnpm up -r --latest && pnpm install && pnpm run check && pnpm outdated -r ",
     "prepare": "husky && husky install",
-    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm build && pnpm typecheck",
+    "check": "pnpm run dev:docker && pnpm run lint && pnpm run format && pnpm typecheck",
     "renovate": "dotenv -- renovate --dry-run",
-    "clean": "cd packages/shared-types && pnpm clean && pnpm build"
+    "clean": "pnpm run clean:remove && pnpm install && pnpm run build && pnpm run check",
+    "clean:remove": "rm -rf node_modules .turbo .eslintcache pnpm-lock.yaml && find . -name node_modules -type d -prune -exec rm -rf {} +"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
@@ -622,7 +623,7 @@ BREAKING CHANGE: new user database structure
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "prisma generate && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --debug --watch",
@@ -636,7 +637,7 @@ BREAKING CHANGE: new user database structure
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --coverage",
     "test:ci": "dotenv -e .env.test -- prisma migrate reset --force && jest --config jest.config.ts --coverage --runInBand",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --strict --noEmit",
     "prisma": "prisma generate && prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "prisma:migrate": "prisma migrate dev && prisma migrate deploy && prisma generate",
@@ -2213,4 +2214,4 @@ export class ProjectType {
 122 directories, 331 files
 ```
 
-2025-02-19 08:02:28
+2025-02-19 08:22:33
