@@ -1,5 +1,5 @@
 ---
-date: 2025-02-19 15:00:08
+date: 2025-02-19 16:07:24
 ---
 
 # Project Specifications "Knowledge Base"
@@ -30,7 +30,7 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 1. **Utilisateur** :
    - Authentification via Google OAuth 2.0.
    - Création d’un label et d’un dossier par défaut via l’API Gmail.
-   - Configuration rapide avec un stepper pour ajouter des newsletters (alias et tutoriel visuel).
+   - Configuration rapide sur l'onboarding.
    - Mise à jour automatique des données utilisateur dans le tableau de bord avec récupération et traitement des newsletters.
    - Menu utilisateur avec options de déconnexion, révocation de compte Google, et gestion des paiements (accès au compte Stripe).
 2. **Administrateur** :
@@ -88,34 +88,34 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 **Fonctionnalités :**
 
 1. **Inscription et Onboarding :**
-   - Google OAuth 2.0.
-   - Création labels/filtres Gmail.
-   - Stepper configuration (alias, tutoriel).
+   - [x] Google OAuth 2.0
+   - [x] Création labels/filtres Gmail
+   - [x] Stepper configuration (alias, tutoriel)
 2. **Tableau de bord :**
-   - Newsletters reçues :
-     - Date, sujet, récapitulatif, statut, bouton HTML.
-     - Liste actualités (Curation IA) :
-       - Titre, description, URL, score pertinence.
-       - Vérification doublons, fusion si nécessaire.
-   - Liste newsletters :
-     - Indicateur validation, affichage grisé si non traitée.
-   - Filtre contenu (texte simple).
+   - [ ] Newsletters reçues :
+     - [ ] Date, sujet, récapitulatif, statut, bouton HTML
+     - [ ] Liste actualités (Curation IA) :
+       - [ ] Titre, description, URL, score pertinence
+       - [ ] Vérification doublons, fusion si nécessaire
+   - [ ] Liste newsletters :
+     - [ ] Indicateur validation, affichage grisé si non traitée
+   - [ ] Filtre contenu (texte simple)
 3. **Paiement :**
-   - Limite 2 newsletters gratuites.
-   - Upgrade : pop-in bénéfices, Stripe.
+   - [ ] Limite 2 newsletters gratuites
+   - [ ] Upgrade : pop-in bénéfices, Stripe
 4. **Header :**
-   - Lien dashboard, infos utilisateur, menu (déconnexion, suppression, mise à jour).
+   - [ ] Lien dashboard, infos utilisateur, menu (déconnexion, suppression, mise à jour)
 5. **Landing Page :**
-   - Bénéfices, visuel dashboard, CTA inscription.
-   - Footer légal.
+   - [ ] Bénéfices, visuel dashboard, CTA inscription
+   - [ ] Footer légal
 6. **Automatisation :**
-   - Cron nocturne emails.
-   - Validation auto confirmations.
-   - Alerte Discord en cas d'erreurs répétées.
+   - [ ] Cron nocturne emails
+   - [ ] Validation auto confirmations
+   - [ ] Alerte Discord en cas d'erreurs répétées
 7. **Personnalisation :**
-   - Champs extraction contenus spécifiques.
+   - [x] Champs extraction contenus spécifiques
 8. **Sécurité/RGPD :**
-   - Suppression données, gestion tokens, réduction scopes.
+   - [x] Suppression données, gestion tokens, réduction scopes
 
 ## Choix initial des technologies
 
@@ -177,7 +177,7 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 
 ### Security
 
-- Rate limiting (@nestjs/throttler) - "/auth/callback"
+- Rate limiting (@nestjs/throttler)
 - Prompt injection protection (to defined)
 
 ### Automation
@@ -188,6 +188,7 @@ Ainsi, un utilisateur peut suivre plusieurs newsletters et avoir uniquement les 
 ### LLM
 
 - OpenAI GPT-4o with JSON output
+- Mistral
 
 ### Others
 
@@ -441,12 +442,6 @@ BREAKING CHANGE: new user database structure
 
 - `/` → **Landing Page** _(Présentation du service, inscription rapide)_
 - `/onboarding/` → Inscription de l’utilisateur sur la plateforme.
-  - `/onboarding/start` → Page d’accueil de l’onboarding (Bienvenue + Connexion Google).
-  - `/onboarding/permissions` → Demande des autorisations Gmail via OAuth.
-  - `/onboarding/setup` → Génération de l’alias email + Création du projet + Configuration automatique de Gmail (label + filtre).
-  - `/onboarding/finish` → Résumé des configurations (alias email affiché + bouton d’accès au Dashboard).
-- `/legal` → **Mentions légales**
-- `/auth/google/callback` → **Callback Google OAuth** _(Stockage des tokens après connexion)_
 
 ### 🔒 Privé (Accessible après connexion)
 
@@ -455,7 +450,7 @@ BREAKING CHANGE: new user database structure
 
 ### ⚙️ Admin (Réservé aux administrateurs)
 
-- `/admin/:userSlug` → **Gestion de l’utilisateur spécifique**
+- `/admin/` → **Gestion des utilisateurs**
 
 ## Backend URLs
 
@@ -1953,9 +1948,9 @@ export class ProjectType {
 ./apps/backend/src/infrastructure/google/google.module.ts
 ./apps/backend/src/infrastructure/google/google.service.ts
 ./apps/backend/src/infrastructure/http
-./apps/backend/src/infrastructure/http/api-data-property.decorator.ts
-./apps/backend/src/infrastructure/http/api-data-response.decorator.ts
-./apps/backend/src/infrastructure/http/api-redirection-response.decorator.ts
+./apps/backend/src/infrastructure/http/api-domain-property.decorator.ts
+./apps/backend/src/infrastructure/http/api-response-redirect.decorator.ts
+./apps/backend/src/infrastructure/http/api-response.decorator.ts
 ./apps/backend/src/infrastructure/logger
 ./apps/backend/src/infrastructure/logger/logger.module.ts
 ./apps/backend/src/infrastructure/logger/logger.service.ts
@@ -2176,11 +2171,13 @@ export class ProjectType {
 ./documentations/_header.md
 ./documentations/instructions
 ./documentations/instructions/done
+./documentations/instructions/done/auth-google-live-gen.md
 ./documentations/instructions/done/dashboard-to-api.md
 ./documentations/instructions/done/database
 ./documentations/instructions/done/database/generate-entities.md
 ./documentations/instructions/done/database/generate-seed-untested.md
 ./documentations/instructions/done/database/generated-seed.md
+./documentations/instructions/done/limite-prompt-update.md
 ./documentations/instructions/done/setup
 ./documentations/instructions/done/setup/dashboard-skeleton.md
 ./documentations/instructions/done/setup/security-features.md
@@ -2192,9 +2189,6 @@ export class ProjectType {
 ./documentations/instructions/done/wireframe-fr.md
 ./documentations/instructions/in-progress
 ./documentations/instructions/in-progress/.gitkeep
-./documentations/instructions/in-progress/auth-google.md
-./documentations/instructions/in-progress/form-and-security.md
-./documentations/instructions/in-progress/limite-prompt-update.md
 ./documentations/instructions/todo
 ./documentations/instructions/todo/.gitkeep
 ./documentations/instructions/todo/event-and-async.md
@@ -2237,7 +2231,7 @@ export class ProjectType {
 ./tsconfig.json
 ./turbo.json
 
-127 directories, 343 files
+127 directories, 342 files
 ```
 
-2025-02-19 15:00:08
+2025-02-19 16:07:25
