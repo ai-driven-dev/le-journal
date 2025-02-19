@@ -2,47 +2,39 @@
 description: Backend domain objects or DTOs
 globs: apps/backend/**/*.ts
 ---
-- Not ideal, but Domain Objects are used as DTOs to simplify.
-- Extends validated type (also with `class-validator`) only with current properties using `PickType`.
-- Properties use `!` because no constructor.
-- Language in english.
 - Use `class-validator` annotations if data needs to be validation backend only.
-- Use [api-data-property.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-data-property.decorator.ts) instead of `APIProperty` when possible for readability.
+- Use [api-domain-property.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-domain-property.decorator.ts) 
 
 Example:
 ```typescript
-import { ProjectType } from '@le-journal/shared-types';
-import { ApiProperty, PickType } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
-
-const MIN_LENGTH = 10;
-const MAX_LENGTH = 200;
-const VALIDATION = /^[^<>{}]*$/;
-
-export class ProjectUpdate extends PickType(ProjectType, ['id', 'promptInstruction']) {
-  @ApiProperty({
-    example: 'c123e456-789b-12d3-a456-426614174000',
-    description: 'Project ID',
-  })
-  id!: string;
-
-  @ApiProperty({
-    description: 'The instruction prompt for the project',
-    example: 'Write a blog post about AI and its impact on society',
-    minLength: MIN_LENGTH,
-    maxLength: MAX_LENGTH,
-  })
+export class ProjectCreateDomain {
+  @Property('name')
   @IsString()
   @IsNotEmpty()
-  @MinLength(MIN_LENGTH, {
-    message: `Prompt instruction must be at least ${MIN_LENGTH} characters long`,
-  })
-  @MaxLength(MAX_LENGTH, {
-    message: `Prompt instruction must be at most ${MAX_LENGTH} characters long`,
-  })
-  @Matches(VALIDATION, {
-    message: 'Prompt instruction cannot contain HTML tags or special characters like < > { }',
-  })
-  promptInstruction!: string;
+  name!: string;
+
+  @Property('slug')
+  @IsString()
+  @IsNotEmpty()
+  slug!: string;
+
+  @Property('userId')
+  @IsString()
+  @IsNotEmpty()
+  userId!: string;
+
+  @Property('emailAlias')
+  @IsEmail()
+  @IsNotEmpty()
+  emailAlias!: string;
+
+  @Property('number')
+  @IsNumber()
+  @IsNotEmpty()
+  projectNumber!: number;
+
+  constructor(project: ProjectCreateDomain) {
+    Object.assign(this, project);
+  }
 }
 ```

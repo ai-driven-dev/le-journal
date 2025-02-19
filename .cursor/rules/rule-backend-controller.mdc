@@ -3,36 +3,31 @@ description: Backend controllers and REST API
 globs: apps/backend/**/*.ts
 ---
 - `ValidationPipe` might no be necessary because `main.ts` uses `useGlobalPipes`.
-- Input is Domain object, output is Domain object too.
-- Call the use-cases which will handle domain logic.
-- Call the mapper to return DTOs.
-- Use domain mapper from current domain.
-- Use Swagger annotations the more you can to be details on API specs.
 - Controllers handle only DTOs for a clear, decoupled API.
 - Controllers call use-cases only, no service or repository calls.
-- Use [api-data-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-data-response.decorator.ts), [api-redirection-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-redirection-response.decorator.ts) instead of Swagger if possible.
+- Use [api-response.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-response.decorator.ts) and [api-response-redirect.decorator.ts](mdc:apps/backend/src/infrastructure/http/api-response-redirect.decorator.ts)
 
-Example `projects/presentation/project.mapper.ts`:
+Example `presentation/controllers/projects.controller.ts`:
 ```typescript
 @ApiTags('Projects')
 @Controller('projects')
 export class ProjectsController {
-
   constructor(
-    private readonly updateProjectPromptUseCase: UpdateProjectPromptUseCase,
+    private readonly createProjectUseCase: CreateProjectUseCase,
     private readonly projectMapper: ProjectMapper,
   ) {}
 
-  @Put('prompt')
-  @ApiOperation({ summary: 'Update prompt instructions of a project.' })
-  @ApiResponse({ status: 200, type: ProjectUpdate })
-  async updateProjectPrompt(
-    @Body()
-    updateProjectPromptDto: ProjectUpdate,
-  ): Promise<ProjectUpdate> {
-    const project = await this.updateProjectPromptUseCase.execute(updateProjectPromptDto);
+  @Post('create')
+  @ApiAuthOperation('Créer un nouveau projet.', {
+    type: Project,
+  })
+  @UseGuards(JwtAuthGuard, CheckOnboardingGuard)
+  async createProject(@GetUser() user: UserDomain): Promise<Project> {
+    const projectDomain = await this.createProjectUseCase.execute({
+      userId: user.id,
+      userEmail: user.email,
+    });
 
-    return this.projectMapper.toDomain(project);
+    return this.projectMapper.toDTO(projectDomain);
   }
-}
 ```
