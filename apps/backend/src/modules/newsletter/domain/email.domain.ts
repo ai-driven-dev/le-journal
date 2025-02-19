@@ -6,7 +6,6 @@ import { Property } from 'src/infrastructure/http/api-domain-property.decorator'
 
 export class EmailDomain extends Email {
   @Property('id')
-  @Property('id')
   id!: string;
 
   @Property('subject', "Sujet de l'email")

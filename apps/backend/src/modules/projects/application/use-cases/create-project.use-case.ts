@@ -1,3 +1,4 @@
+import { EMAIL_ALIAS_PREFIX } from '@le-journal/shared-types';
 import { BadRequestException, ConflictException, Inject, Injectable } from '@nestjs/common';
 import { validateSync } from 'class-validator';
 
@@ -9,8 +10,6 @@ interface CreateProjectCommand {
   userId: string;
   userEmail: string;
 }
-
-export const EMAIL_ALIAS_PREFIX = 'le-journal';
 
 @Injectable()
 export class CreateProjectUseCase {

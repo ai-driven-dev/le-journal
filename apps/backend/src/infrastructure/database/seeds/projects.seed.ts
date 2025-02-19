@@ -1,8 +1,6 @@
+import { EMAIL_ALIAS_PREFIX } from '@le-journal/shared-types';
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient, Project } from '@prisma/client';
-
-import { EMAIL_ALIAS_PREFIX } from 'src/modules/projects/application/use-cases/create-project.use-case';
-
 @Injectable()
 export class ProjectsSeed {
   private readonly adminEmail = process.env.ADMIN_EMAIL;

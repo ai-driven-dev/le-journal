@@ -25,6 +25,9 @@ export const env = {
   // Email
   DEFAULT_SENDER: process.env.DEFAULT_SENDER,
   RESEND_API_KEY: process.env.RESEND_API_KEY,
+
+  // OpenAI
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
 } as const;
 
 const envKeys = Object.keys(env) as Array<keyof typeof env>;
