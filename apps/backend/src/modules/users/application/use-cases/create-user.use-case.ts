@@ -55,7 +55,6 @@ export class CreateUserUseCase {
         google_scopes: profile.scopes,
         created_at: new Date(),
         updated_at: new Date(),
-        onboarding_started_at: new Date(),
       });
     }
 

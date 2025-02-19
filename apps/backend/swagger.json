@@ -269,14 +269,31 @@
     },
     "/api/project/setup/test": {
       "post": {
-        "operationId": "ProjectSetupController_sendTestEmail",
+        "operationId": "ProjectSetupController_setupTestEmail",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetupProjectDto"
+              }
+            }
           }
         },
-        "summary": "Send test email",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Send test email and complete onboarding",
         "tags": [
           "Project Setup"
         ]
@@ -476,16 +493,6 @@
             "example": "2024-02-09T14:30:00.000Z",
             "description": "Last update date"
           },
-          "onboardingStartedAt": {
-            "type": "object",
-            "example": "2024-02-08T12:00:00.000Z",
-            "description": "Onboarding started date"
-          },
-          "onboardingCompletedAt": {
-            "type": "object",
-            "example": "2024-02-09T14:30:00.000Z",
-            "description": "Onboarding completion date"
-          },
           "avatar": {
             "type": "string",
             "example": "https://example.com/avatar.png",
@@ -504,8 +511,6 @@
           "name",
           "createdAt",
           "updatedAt",
-          "onboardingStartedAt",
-          "onboardingCompletedAt",
           "avatar",
           "googleId"
         ]

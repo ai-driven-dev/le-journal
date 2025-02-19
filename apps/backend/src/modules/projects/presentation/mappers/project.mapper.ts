@@ -19,6 +19,8 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       prompt_instruction: domain.promptInstruction,
       last_prompt_update: domain.lastPromptUpdate ? new Date(domain.lastPromptUpdate) : null,
       google_label_name: domain.googleLabelName ?? null,
+      onboarding_started_at: domain.onboardingStartedAt ?? null,
+      onboarding_completed_at: domain.onboardingCompletedAt ?? null,
     };
   }
 
@@ -34,6 +36,8 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       lastPromptUpdate: model.last_prompt_update ? new Date(model.last_prompt_update) : undefined,
       canUpdatePrompt,
       googleLabelName: model.google_label_name ?? undefined,
+      onboardingStartedAt: model.onboarding_started_at ?? null,
+      onboardingCompletedAt: model.onboarding_completed_at ?? null,
     });
   }
 
@@ -49,6 +53,8 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       lastPromptUpdate: domain.lastPromptUpdate?.toISOString(),
       canUpdatePrompt: domain.canUpdatePrompt,
       googleLabelName: domain.googleLabelName ?? '',
+      onboardingStartedAt: domain.onboardingStartedAt ?? null,
+      onboardingCompletedAt: domain.onboardingCompletedAt ?? null,
     };
   }
 
@@ -64,6 +70,8 @@ export class ProjectMapper implements Mapper<ProjectDomain, ProjectModel> {
       lastPromptUpdate: dto.lastPromptUpdate ? new Date(dto.lastPromptUpdate) : undefined,
       canUpdatePrompt: dto.canUpdatePrompt,
       googleLabelName: dto.googleLabelName ?? '',
+      onboardingStartedAt: dto.onboardingStartedAt ?? null,
+      onboardingCompletedAt: dto.onboardingCompletedAt ?? null,
     });
   }
 }

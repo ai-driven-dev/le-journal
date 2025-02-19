@@ -78,9 +78,6 @@ model User {
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @updatedAt @map("updated_at")
 
-  onboarding_started_at   DateTime? @map("onboarding_started_at")
-  onboarding_completed_at DateTime? @map("onboarding_completed_at")
-
   // Relations
   projects     Project[]
   transactions Transaction[]
@@ -105,6 +102,9 @@ model Project {
   prompt_instruction String    @default("") @map("prompt_instruction") @db.Text
   last_prompt_update DateTime? @map("last_prompt_update")
   created_at         DateTime  @default(now()) @map("created_at")
+
+  onboarding_started_at   DateTime? @map("onboarding_started_at")
+  onboarding_completed_at DateTime? @map("onboarding_completed_at")
 
   user        User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
   newsletters Newsletter[]

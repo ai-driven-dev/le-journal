@@ -68,4 +68,12 @@ export class Project {
   @IsString()
   @IsNotEmpty()
   googleLabelName!: string;
+
+  @IsDate()
+  @IsOptional()
+  onboardingStartedAt?: Date | null;
+
+  @IsDate()
+  @IsOptional()
+  onboardingCompletedAt?: Date | null;
 }

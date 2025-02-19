@@ -65,6 +65,22 @@ export class ProjectDomain {
   @IsOptional()
   googleLabelName?: string;
 
+  @ApiProperty({
+    example: '2024-02-08T12:00:00.000Z',
+    description: 'Onboarding started date',
+  })
+  @IsDate()
+  @IsOptional()
+  onboardingStartedAt!: Date | null;
+
+  @ApiProperty({
+    example: '2024-02-09T14:30:00.000Z',
+    description: 'Onboarding completion date',
+  })
+  @IsDate()
+  @IsOptional()
+  onboardingCompletedAt!: Date | null;
+
   constructor(project: ProjectDomain) {
     Object.assign(this, project);
   }

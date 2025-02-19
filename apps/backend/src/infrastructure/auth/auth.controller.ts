@@ -42,14 +42,9 @@ export class AuthController {
   @Get('google/callback/full')
   @UseGuards(GoogleAuthGuardFull)
   async googleAuthCallbackFull(@Req() req: Request, @Res() res: Response): Promise<void> {
-    const { user } = await this.authService.handleGoogleAuth(
-      req.user as unknown as GoogleAuthProfile,
-      res,
-    );
-    const onboardingRoute = getEnv('FRONTEND_URL') + '/onboarding';
-    const dashboardRoute = getEnv('FRONTEND_URL') + '/dashboard';
+    await this.authService.handleGoogleAuth(req.user as unknown as GoogleAuthProfile, res);
+    const route = getEnv('FRONTEND_URL') + '/onboarding';
 
-    const route = user.onboardingCompletedAt ? dashboardRoute : onboardingRoute;
     res.redirect(route);
   }
 

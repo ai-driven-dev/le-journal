@@ -6,8 +6,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
-import { GoogleService } from '../../../../infrastructure/google/google.service';
-import { PROJECT_REPOSITORY, ProjectRepository } from '../../domain/project.repository.interface';
+import { GoogleService } from '../../../../../infrastructure/google/google.service';
+import {
+  PROJECT_REPOSITORY,
+  ProjectRepository,
+} from '../../../domain/project.repository.interface';
 
 @Injectable()
 export class SetupFilterUseCase {

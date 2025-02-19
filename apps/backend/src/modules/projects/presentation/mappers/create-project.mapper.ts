@@ -39,6 +39,8 @@ export class CreateProjectMapper {
       google_label_name: '',
       google_label_id: '',
       google_filter_id: '',
+      onboarding_started_at: null,
+      onboarding_completed_at: null,
     };
   }
 }
