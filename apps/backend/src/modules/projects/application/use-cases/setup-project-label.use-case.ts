@@ -1,12 +1,11 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
-import { GoogleService } from '../../../infrastructure/google/google.service';
-import { PROJECT_REPOSITORY, ProjectRepository } from '../domain/project.repository.interface';
-
+import { GoogleService } from '../../../../infrastructure/google/google.service';
+import { PROJECT_REPOSITORY, ProjectRepository } from '../../domain/project.repository.interface';
 import {
   GoogleError,
   LabelAlreadyExistsException,
-} from './exceptions/label-already-exists.exception';
+} from '../exceptions/label-already-exists.exception';
 
 const LABEL_PREFIX = 'Le Journal';
 

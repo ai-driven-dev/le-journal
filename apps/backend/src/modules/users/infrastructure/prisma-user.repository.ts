@@ -36,7 +36,7 @@ export class PrismaUserRepository implements UserRepository {
   async findByEmailOrGoogleId(
     email: User['email'],
     google_id: User['google_id'],
-  ): Promise<User | null> {
+  ): Promise<UserDomain | null> {
     const user = await this.prisma.user.findFirst({
       where: {
         OR: [{ email }, { google_id }],
@@ -54,10 +54,10 @@ export class PrismaUserRepository implements UserRepository {
       );
     }
 
-    return user;
+    return this.userMapper.toDomain(user);
   }
 
-  async findById(id: User['id']): Promise<User | null> {
+  async findById(id: User['id']): Promise<UserDomain | null> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
@@ -71,10 +71,10 @@ export class PrismaUserRepository implements UserRepository {
       user.google_refresh_token_iv,
     );
 
-    return user;
+    return this.userMapper.toDomain(user);
   }
 
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
+  async createUser(data: Prisma.UserCreateInput): Promise<UserDomain> {
     const { iv, encryptedToken } = this.cryptoService.encryptToken(data.google_refresh_token);
 
     this.logger.log('Create a new user', {
@@ -85,16 +85,18 @@ export class PrismaUserRepository implements UserRepository {
       },
     });
 
-    return this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: {
         ...data,
         google_refresh_token: encryptedToken,
         google_refresh_token_iv: iv,
       },
     });
+
+    return this.userMapper.toDomain(user);
   }
 
-  async updateUser(userId: string, data: Prisma.UserUpdateInput): Promise<User> {
+  async updateUser(userId: string, data: Prisma.UserUpdateInput): Promise<UserDomain> {
     this.logger.log('Update a user', {
       service: 'PrismaUserRepository',
       method: 'updateUser',
@@ -129,11 +131,13 @@ export class PrismaUserRepository implements UserRepository {
       data.google_refresh_token_iv = iv;
     }
 
-    return this.prisma.user.update({
+    const user = await this.prisma.user.update({
       where: { id: userId },
       data: {
         ...data,
       },
     });
+
+    return this.userMapper.toDomain(user);
   }
 }

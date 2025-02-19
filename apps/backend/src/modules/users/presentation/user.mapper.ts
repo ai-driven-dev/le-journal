@@ -26,6 +26,7 @@ export class UserMapper implements Mapper<UserDomain, UserModel> {
       avatar: user.avatar ?? '',
       googleRefreshToken: user.google_refresh_token,
       googleScopes: user.google_scopes ?? [],
+      googleId: user.google_id,
       role,
     });
   }
@@ -43,6 +44,7 @@ export class UserMapper implements Mapper<UserDomain, UserModel> {
       role: user.role,
       onboarding_completed_at: user.onboardingCompletedAt ?? null,
       onboarding_started_at: user.onboardingStartedAt ?? null,
+      google_id: user.googleId,
     };
   }
 
@@ -59,6 +61,7 @@ export class UserMapper implements Mapper<UserDomain, UserModel> {
       role: user.role,
       onboarding_started_at: user.onboardingStartedAt ?? null,
       onboarding_completed_at: user.onboardingCompletedAt ?? null,
+      google_id: user.googleId,
     };
   }
 }

@@ -1,43 +1,26 @@
 import { Email, EmailStatus } from '@le-journal/shared-types';
-import { ApiProperty } from '@nestjs/swagger';
 
 import { ArticleDomain } from './article.domain';
 
+import { ApiAuthProperty } from 'src/infrastructure/http/api-data-property.decorator';
+
 export class EmailDomain extends Email {
-  @ApiProperty({
-    description: 'Unique email ID',
-    example: '123e4567-e89b-12d3-a456-426614174000',
-  })
+  @ApiAuthProperty('id')
+  @ApiAuthProperty('id')
   id!: string;
 
-  @ApiProperty({
-    description: 'Email subject',
-    example: 'Newsletter #42 - Latest tech news',
-  })
+  @ApiAuthProperty('subject', "Sujet de l'email")
   subject!: string;
 
-  @ApiProperty({
-    description: 'Raw email content',
-    example: 'Email content in text format...',
-  })
+  @ApiAuthProperty('content', "Contenu de l'email")
   content!: string;
 
-  @ApiProperty({
-    description: 'Email received date',
-    example: '2024-03-20T10:00:00Z',
-  })
+  @ApiAuthProperty('receivedAt', "Date de réception de l'email")
   receivedAt!: Date;
 
-  @ApiProperty({
-    description: 'Email processing status',
-    enum: EmailStatus,
-    example: 'RECEIVED',
-  })
+  @ApiAuthProperty('status', "Statut de l'email")
   status!: EmailStatus;
 
-  @ApiProperty({
-    description: 'Articles associated with the email',
-    type: [ArticleDomain],
-  })
+  @ApiAuthProperty('articles', "Articles associés à l'email")
   articles!: ArticleDomain[];
 }

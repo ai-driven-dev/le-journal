@@ -1,8 +1,8 @@
 import { Newsletter } from '@le-journal/shared-types';
 import { Injectable } from '@nestjs/common';
 
-import { Mapper } from '../../../presentation/mapper.interface';
-import { NewsletterDomain } from '../domain/newsletter.domain';
+import { Mapper } from '../../../../presentation/mapper.interface';
+import { NewsletterDomain } from '../../domain/newsletter.domain';
 
 import { NewsletterModel } from 'src/prisma/prisma.types';
 

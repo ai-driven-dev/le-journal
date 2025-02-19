@@ -5,7 +5,7 @@ type FetchResponse<T> = Response & {
 };
 
 // to do type output error
-type FetchResponseError = {
+export type FetchResponseError = {
   statusCode: number;
   error: string;
   message: string[] | string;

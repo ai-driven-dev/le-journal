@@ -2,7 +2,7 @@ import { applyDecorators } from '@nestjs/common';
 import type { ApiQueryOptions } from '@nestjs/swagger';
 import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 
-export function ApiAuthOperation(
+export const ApiAuthOperation = function ApiAuthOperation(
   summary: string,
   options?: {
     type?: typeof ApiResponse.prototype.type;
@@ -26,4 +26,4 @@ export function ApiAuthOperation(
   }
 
   return applyDecorators(ApiOperation({ summary }), ...responseDecorators);
-}
+};

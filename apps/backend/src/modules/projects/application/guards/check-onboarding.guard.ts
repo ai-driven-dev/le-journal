@@ -1,6 +1,6 @@
 import { BadRequestException, CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 
-import { UserDomain } from '../../users/domain/user.domain';
+import { UserDomain } from '../../../users/domain/user.domain';
 
 @Injectable()
 export class CheckOnboardingGuard implements CanActivate {

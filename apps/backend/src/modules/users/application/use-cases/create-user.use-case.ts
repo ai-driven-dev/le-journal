@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
 
 import { UserDomain } from '../../domain/user.domain';
 import { USER_REPOSITORY, UserRepository } from '../../domain/user.repository.interface';
@@ -23,7 +22,7 @@ export class CreateUserUseCase {
       profile.googleId,
     );
 
-    let user: User;
+    let user: UserDomain;
 
     if (existingUser) {
       this.logger.log('Update an existing user from Google profile callback.', {
@@ -60,6 +59,6 @@ export class CreateUserUseCase {
       });
     }
 
-    return this.userMapper.toDomain(user);
+    return user;
   }
 }

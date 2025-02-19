@@ -1,10 +1,13 @@
 {
-  "cSpell.words": ["alexsoyes", "nestjs", "Turborepo"],
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "explorer.confirmDragAndDrop": false,
+  // Editing closing tag on type
+  "editor.linkedEditing": true,
+
+  // Format on save
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always"
-  },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": true,
+
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -14,20 +17,27 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
+  // Format JSON
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "all",
-  "prettier.semi": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "json.format.enable": true,
 
-  "cursor.composer.collapsePaneInputBoxPills": true,
-  "markdown.extension.toc.levels": "2..6",
-  "workbench.editor.enablePreview": false,
-  "eslint.useFlatConfig": true,
-  "eslint.validate": ["javascript", "typescript"],
-  "eslint.format.enable": true,
-  "[prisma]": {
-    "editor.defaultFormatter": "Prisma.prisma"
-  }
+  // Enable auto formatting
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit",
+    "source.addMissingImports": "explicit"
+  },
+
+  // cSpell
+  "cSpell.language": "en,fr",
+  "cSpell.userWords": ["ai-driven-dev", "autofetch"],
+
+  // Terminal
+  "terminal.integrated.scrollback": 10000
 }

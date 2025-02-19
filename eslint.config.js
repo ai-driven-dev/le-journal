@@ -1,5 +1,6 @@
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
+import prettierConfig from 'eslint-config-prettier';
 import imp from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import mobx from 'eslint-plugin-mobx';
@@ -33,12 +34,7 @@ export default [
   // Source files configuration (common rules)
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.test.ts', '**/*.test.tsx', '**/prisma/*.ts'],
-    ignores: [
-      '**/vite.config.ts',
-      '**/tailwind.config.ts',
-      '**/react-router.config.ts',
-      '**/*.config.ts',
-    ],
+    ignores: ['**/node_modules/**', '**/dist/**', '**/.react-router/**', '**/build/**'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -51,7 +47,7 @@ export default [
         ecmaFeatures: {
           jsx: true,
         },
-        ecmaVersion: 2022,
+        ecmaVersion: 'latest',
         sourceType: 'module',
       },
       globals: {
@@ -92,6 +88,7 @@ export default [
       security,
     },
     rules: {
+      'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0, maxBOF: 0 }],
       'no-console': ['error', { allow: ['warn', 'error', 'info', 'debug'] }],
 
       /* TypeScript Rules */
@@ -180,4 +177,5 @@ export default [
       'nestjs/use-validation-pipe': 'off',
     },
   },
+  prettierConfig,
 ];

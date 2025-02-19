@@ -8,11 +8,17 @@ import { GetNewslettersUseCase } from '../application/get-newsletters.use-case';
 import { EmailDomain } from '../domain/email.domain';
 import { NewsletterDomain } from '../domain/newsletter.domain';
 
-import { EmailMapper } from './email.mapper';
-import { NewsletterMapper } from './newsletter.mapper';
+import { EmailMapper } from './mappers/email.mapper';
+import { NewsletterMapper } from './mappers/newsletter.mapper';
 
 import { GetUser } from 'src/infrastructure/auth/decorators/get-user.decorator';
 import { ApiAuthOperation } from 'src/infrastructure/http/api-data-response.decorator';
+
+
+
+
+
+
 
 @ApiTags('Newsletters')
 @Controller('api/newsletters')

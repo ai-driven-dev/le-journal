@@ -1,7 +1,7 @@
 import { ProjectCreateDTO } from '@le-journal/shared-types';
 import { Injectable } from '@nestjs/common';
 
-import { ProjectCreateDomain } from '../domain/project-create';
+import { ProjectCreateDomain } from '../../domain/project-create';
 
 import { ProjectCreateModel } from 'src/prisma/prisma.types';
 

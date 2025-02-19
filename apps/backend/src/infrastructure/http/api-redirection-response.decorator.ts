@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
-export function ApiRedirectResponse(
+export const ApiRedirectResponse = function ApiRedirectResponse(
   summary: string,
   redirectUrl: string,
   statusCode: number = 302,
@@ -10,4 +10,4 @@ export function ApiRedirectResponse(
     ApiOperation({ summary }),
     ApiResponse({ status: statusCode, description: `Redirects to ${redirectUrl}` }),
   );
-}
+};
